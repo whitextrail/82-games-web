@@ -1,0 +1,48 @@
+version: 2.1
+
+executors:
+  build-executor:
+    docker:
+      - image: circleci/node:10.15.3-browsers
+
+commands:
+  # Install project dependencies and cache for faster builds in the future
+  install-and-cache-deps:
+    parameters:
+      directory:
+        description: Directory path to run npm install (otherwise it will run in root)
+        type: string
+    steps:
+      # Restores the dependency cache if it already exists
+      - restore_cache:
+          key: dependency-cache-{{ checksum "<< parameters.directory >>/package.json" }}
+      - run:
+          name: install-npm-deps
+          command: cd << parameters.directory >> && npm install
+      - save_cache: # cache the deps
+          key: dependency-cache-{{ checksum "<< parameters.directory >>/package.json" }}
+          paths:
+            - << parameters.directory >>/node_modules
+
+jobs:
+  build:
+    executor: build-executor
+    working_directory: ~/82-games-web
+    environment:
+      CI: true
+    steps:
+      - checkout
+      - run:
+          name: install-npm
+          command: 'sudo npm install -g npm@latest'
+      - install-and-cache-deps:
+          directory: ~/82-games-web
+      - run:
+          name: build
+          command: npm run build
+      - run:
+          name: lint
+          command: npm run lint
+      - run:
+          name: test
+          command: npm test
