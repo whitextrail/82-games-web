@@ -6,6 +6,7 @@ import {
   Grid,
   Typography,
 } from '@material-ui/core';
+import Link from '../reusable/Link';
 
 const styles = {
   navLinkContainer: {
@@ -20,15 +21,15 @@ const styles = {
 const navLinks = [
   {
     text: 'Account',
-    path: '',
+    path: '/account',
   },
   {
     text: 'Leaderboard',
-    path: '',
+    path: '/leaderboard',
   },
   {
     text: 'Logout',
-    path: '',
+    path: '/logout',
   }
 ];
 
@@ -39,9 +40,11 @@ const Navigation = memo(() => {
       <Grid container wrap="nowrap" justify="flex-end" style={styles.navLinkContainer}>
         { navLinks.map((element) => (
           <Grid item xs={12} key={element.text}>
-            <Typography align="center" style={styles.navLink}>
-              { element.text }
-            </Typography>
+            <Link to={element.path}>
+              <Typography align="center" style={styles.navLink}>
+                { element.text }
+              </Typography>
+            </Link>
           </Grid>
         )) }
       </Grid>

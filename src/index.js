@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import * as Sentry from '@sentry/browser';
+import { BrowserRouter } from 'react-router-dom';
 import store from './state';
 import App from './components/presentational/App';
 import * as serviceWorker from './serviceWorker';
@@ -15,7 +16,9 @@ Sentry.init({
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </Provider>
 , document.getElementById('root'));
 
