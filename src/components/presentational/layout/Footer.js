@@ -7,6 +7,6 @@ const styles = {
   },
 }
 
-const Footer = memo(() => <Grid container component="footer" style={styles.body}></Grid>);
+const Footer = memo(() => <Grid container component="footer" style={styles.footer}></Grid>);
 
 export default Footer;
