@@ -14,9 +14,6 @@ const styles = {
   app: {
     height: '100%',
   },
-  content: {
-    padding: 10,
-  },
 };
 
 const App = memo(() => (
