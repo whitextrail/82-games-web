@@ -22,6 +22,9 @@ const theme = createMuiTheme({
       root: {
         height: '100%',
       },
+      container: {
+        flexWrap: 'nowrap',
+      }
     },
   },
 });

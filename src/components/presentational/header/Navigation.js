@@ -1,7 +1,5 @@
 import React, { memo } from 'react';
-import {
-  Brand,
-} from './';
+import { Brand } from './';
 import {
   Grid,
   Typography,
@@ -47,7 +45,7 @@ const navLinks = [
 ];
 
 const NavigationMobile = memo(() => (
-  <Grid container item xs={12} justify="space-around" alignItems="center">
+  <Grid container item xs={12} justify="space-between" alignItems="center">
     { navLinks.map((element) => (
       <Link to={element.path} key={element.text}>
         <IconButton>
@@ -59,15 +57,13 @@ const NavigationMobile = memo(() => (
 ));
 
 const NavigationDesktop = memo(() => (
-  <Grid container item sm={12} md={8} lg={6} justify="space-around" alignItems="center">
+  <Grid container item sm={12} md={8} lg={6} justify="space-between" alignItems="center">
     { navLinks.map((element) => (
-        <Link to={element.path} key={element.text}>
-          <Button size="large">
-            <Typography align="center" style={styles.navLinkText}>
-              { element.text }
-            </Typography>
-          </Button>
-        </Link>
+      <Link to={element.path} key={element.text}>
+        <Button size="large">
+          <Typography align="center" style={styles.navLinkText}>{ element.text }</Typography>
+        </Button>
+      </Link>
     )) }
   </Grid>
 ));
@@ -78,7 +74,7 @@ const Navigation = memo(() => {
 
   return (
     <Grid container>
-      <Grid container item xs={8} sm={6} alignItems="center">
+      <Grid item xs={8} sm={6}>
         <Brand />
       </Grid>
       <Grid container item xs={4} sm={6} justify="flex-end" alignItems="center">
