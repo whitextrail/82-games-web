@@ -5,16 +5,34 @@ import {
 import {
   Grid,
   Typography,
+  IconButton,
+  Button,
 } from '@material-ui/core';
-import Link from '../reusable/Link';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faUser,
+  faTrophy,
+  faSignOutAlt,
+} from '@fortawesome/free-solid-svg-icons';
+import { useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import {
+  Link,
+} from '../reusable';
 
 const styles = {
-  navLinkContainer: {
-    // TODO: Use media queries
-    width: 500,
+  navMobileContainer: {
+    height: '100%',
   },
-  navLink: {
+  navDesktopContainer: {
+    height: '100%',
+  },
+  navLinkText: {
     color: 'black',
+    fontSize: 12,
+  },
+  navLinkIcon: {
+    fontSize: 14,
   },
 };
 
@@ -22,31 +40,57 @@ const navLinks = [
   {
     text: 'Account',
     path: '/account',
+    icon: faUser,
   },
   {
     text: 'Leaderboard',
     path: '/leaderboard',
+    icon: faTrophy,
   },
   {
     text: 'Logout',
     path: '/logout',
+    icon: faSignOutAlt,
   }
 ];
 
+const NavigationMobile = memo(() => (
+  <Grid container item xs={12} justify="space-around" alignItems="center" style={styles.navMobileContainer}>
+    { navLinks.map((element) => (
+      <Link to={element.path} key={element.text}>
+        <IconButton>
+          <FontAwesomeIcon icon={element.icon} size="xs" style={styles.navLinkIcon} />
+        </IconButton>
+      </Link>
+    )) }
+  </Grid>
+));
+
+const NavigationDesktop = memo(() => (
+  <Grid container item sm={12} md={8} lg={6} justify="space-around" alignItems="center" style={styles.navDesktopContainer}>
+    { navLinks.map((element) => (
+        <Link to={element.path} key={element.text}>
+          <Button>
+            <Typography align="center" variant="body1" style={styles.navLinkText}>
+              { element.text }
+            </Typography>
+          </Button>
+        </Link>
+    )) }
+  </Grid>
+));
+
 const Navigation = memo(() => {
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up('sm'));
+
   return (
-    <Grid container wrap="nowrap">
-      <Brand />
-      <Grid container wrap="nowrap" justify="flex-end" style={styles.navLinkContainer}>
-        { navLinks.map((element) => (
-          <Grid item xs={12} key={element.text}>
-            <Link to={element.path}>
-              <Typography align="center" style={styles.navLink}>
-                { element.text }
-              </Typography>
-            </Link>
-          </Grid>
-        )) }
+    <Grid container style={{ height: '100%' }}>
+      <Grid container item xs={8} sm={6} alignItems="center">
+        <Brand />
+      </Grid>
+      <Grid container item xs={4} sm={6} justify="flex-end" alignItems="center">
+        { matches ? <NavigationDesktop /> : <NavigationMobile /> }
       </Grid>
     </Grid>
   );
