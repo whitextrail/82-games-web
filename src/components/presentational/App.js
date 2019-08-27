@@ -10,14 +10,8 @@ import {
 } from './layout';
 import { Navigation } from './header';
 
-const styles = {
-  app: {
-    height: '100%',
-  },
-};
-
 const App = memo(() => (
-  <Grid container direction="column" wrap="nowrap" style={styles.app}>
+  <Grid container direction="column" wrap="nowrap">
     <CssBaseline />
     <Header>
       <Navigation />

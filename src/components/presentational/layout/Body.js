@@ -3,7 +3,6 @@ import { Grid } from '@material-ui/core';
 
 const styles = {
   body: {
-    height: '100%',
     backgroundColor: 'white',
   }
 }
