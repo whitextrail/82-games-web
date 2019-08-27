@@ -14,6 +14,11 @@ import {
 import { Navigation } from './header';
 
 const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#E24E42',
+    },
+  },
   overrides: {
     MuiGrid: {
       root: {
@@ -22,6 +27,14 @@ const theme = createMuiTheme({
       container: {
         flexWrap: 'nowrap',
       }
+    },
+    MuiTypography: {
+      colorPrimary: {
+        color: '#FFF'
+      },
+      colorSecondary: {
+        color: '#333'
+      },
     },
   },
 });

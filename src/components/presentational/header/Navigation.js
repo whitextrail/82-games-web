@@ -17,11 +17,8 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { Link } from '../reusable';
 
 const styles = {
-  navLinkText: {
-    color: 'black',
-    fontSize: 12,
-  },
-  navLinkIcon: {
+  navLink: {
+    color: '#FFF',
     fontSize: 14,
   },
 };
@@ -45,11 +42,11 @@ const navLinks = [
 ];
 
 const NavigationMobile = memo(() => (
-  <Grid container item xs={12} justify="space-between" alignItems="center">
+  <Grid container item xs={10} justify="space-between" alignItems="center">
     { navLinks.map((element) => (
       <Link to={element.path} key={element.text}>
         <IconButton>
-          <FontAwesomeIcon icon={element.icon} size="xs" style={styles.navLinkIcon} />
+          <FontAwesomeIcon icon={element.icon} size="xs" style={styles.navLink} />
         </IconButton>
       </Link>
     )) }
@@ -61,14 +58,14 @@ const NavigationDesktop = memo(() => (
     { navLinks.map((element) => (
       <Link to={element.path} key={element.text}>
         <Button size="large">
-          <Typography align="center" style={styles.navLinkText}>{ element.text }</Typography>
+          <Typography align="center" color="primary" style={styles.navLink}>{ element.text }</Typography>
         </Button>
       </Link>
     )) }
   </Grid>
 ));
 
-const Navigation = memo(() => {
+const Navigation = memo((props) => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up('sm'));
 

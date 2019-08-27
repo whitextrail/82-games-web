@@ -3,13 +3,13 @@ import { Grid, Typography } from '@material-ui/core';
 
 const styles = {
   brand: {
-    color: 'black',
+    fontWeight: 500,
   },
-}
+};
 
 const Brand = memo(() => (
-  <Grid container item alignItems="center" style={styles.container}>
-    <Typography style={styles.brand}>82 GAMES</Typography>
+  <Grid container item alignItems="center">
+    <Typography color="primary" style={styles.brand}>82 GAMES</Typography>
   </Grid>
 ));
 
