@@ -16,9 +16,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import {
-  Link,
-} from '../reusable';
+import { Link } from '../reusable';
 
 const styles = {
   navMobileContainer: {
@@ -70,8 +68,8 @@ const NavigationDesktop = memo(() => (
   <Grid container item sm={12} md={8} lg={6} justify="space-around" alignItems="center" style={styles.navDesktopContainer}>
     { navLinks.map((element) => (
         <Link to={element.path} key={element.text}>
-          <Button>
-            <Typography align="center" variant="body1" style={styles.navLinkText}>
+          <Button size="large">
+            <Typography align="center" style={styles.navLinkText}>
               { element.text }
             </Typography>
           </Button>
