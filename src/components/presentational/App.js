@@ -3,6 +3,9 @@ import {
   Grid,
   CssBaseline,
 } from '@material-ui/core';
+import { BrowserRouter } from 'react-router-dom';
+import { createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
 import {
   Header,
   Body,
@@ -10,15 +13,32 @@ import {
 } from './layout';
 import { Navigation } from './header';
 
+const theme = createMuiTheme({
+  overrides: {
+    MuiGrid: {
+      root: {
+        height: '100%',
+      },
+      container: {
+        flexWrap: 'nowrap',
+      }
+    },
+  },
+});
+
 const App = memo(() => (
-  <Grid container direction="column" wrap="nowrap">
-    <CssBaseline />
-    <Header>
-      <Navigation />
-    </Header>
-    <Body />
-    <Footer />
-  </Grid>
+  <BrowserRouter>
+    <ThemeProvider theme={theme}>
+      <Grid container direction="column" wrap="nowrap">
+        <CssBaseline />
+        <Header>
+          <Navigation />
+        </Header>
+        <Body />
+        <Footer />
+      </Grid>
+    </ThemeProvider>
+  </BrowserRouter>
 ));
 
 export default App;
