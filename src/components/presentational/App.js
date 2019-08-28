@@ -1,8 +1,5 @@
 import React, { memo } from 'react';
-import {
-  Grid,
-  CssBaseline,
-} from '@material-ui/core';
+import { CssBaseline } from '@material-ui/core';
 import { BrowserRouter } from 'react-router-dom';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
@@ -42,14 +39,12 @@ const theme = createMuiTheme({
 const App = memo(() => (
   <BrowserRouter>
     <ThemeProvider theme={theme}>
-      <Grid container direction="column" wrap="nowrap">
-        <CssBaseline />
-        <Header>
-          <Navigation />
-        </Header>
-        <Body />
-        <Footer />
-      </Grid>
+      <CssBaseline />
+      <Header>
+        <Navigation />
+      </Header>
+      <Body />
+      <Footer />
     </ThemeProvider>
   </BrowserRouter>
 ));
