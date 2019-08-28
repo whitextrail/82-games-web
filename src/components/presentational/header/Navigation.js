@@ -1,5 +1,4 @@
 import React, { memo } from 'react';
-import { Brand } from './';
 import {
   Grid,
   Typography,
@@ -72,9 +71,11 @@ const Navigation = memo((props) => {
   return (
     <Grid container>
       <Grid item xs={8} sm={6}>
-        <Brand />
+        <Grid container alignItems="center">
+          <Typography>82 GAMES</Typography>
+        </Grid>
       </Grid>
-      <Grid container item xs={4} sm={6} justify="flex-end" alignItems="center">
+      <Grid item xs={4} sm={6} justify="flex-end" alignItems="center">
         { matches ? <NavigationDesktop /> : <NavigationMobile /> }
       </Grid>
     </Grid>
