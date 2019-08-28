@@ -9,11 +9,12 @@ import {
   Footer,
 } from './layout';
 import { Navigation } from './header';
+import { Games } from './body';
 
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: '#E24E42',
+      main: '#FF3B3F',
     },
   },
   overrides: {
@@ -33,6 +34,11 @@ const theme = createMuiTheme({
         color: '#333'
       },
     },
+    MuiButton: {
+      root: {
+        textTransform: 'none',
+      },
+    },
   },
 });
 
@@ -43,7 +49,9 @@ const App = memo(() => (
       <Header>
         <Navigation />
       </Header>
-      <Body />
+      <Body>
+        <Games />
+      </Body>
       <Footer />
     </ThemeProvider>
   </BrowserRouter>

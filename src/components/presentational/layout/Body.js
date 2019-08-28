@@ -1,12 +1,25 @@
 import React, { memo } from 'react';
-import { Grid } from '@material-ui/core';
+import {
+  Grid,
+  Paper,
+} from '@material-ui/core';
 
 const styles = {
-  body: {
-    backgroundColor: 'white',
-  }
+  container: {
+    height: '100vh',
+    backgroundColor: '#FF3B3F',
+  },
+  paper: {
+    height: '100%',
+    borderTopRightRadius: 16,
+    borderTopLeftRadius: 16,
+  },
 }
 
-const Body = memo(() => <Grid container style={styles.body}></Grid>);
+const Body = memo(({ children }) => (
+  <Grid style={styles.container}>
+    <Paper style={styles.paper}>{ children }</Paper>
+  </Grid>
+));
 
 export default Body;
