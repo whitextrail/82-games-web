@@ -17,18 +17,22 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { Link } from '../reusable';
 
 const styles = {
-  menuContainer: {
-    width: 45,
+  container: {
+    height: 56,
   },
-  navItem: {
+  navIcon: {
     color: '#FFF',
-  },
-  navMenu: {
     fontSize: 20,
   },
-  navLink: {
-    fontSize: 14,
+  menuTitleSpacing: {
+    marginRight: 4,
   },
+  navIconSpacing: {
+    marginRight: 8,
+  },
+  lastNavIconSpacing: {
+    marginRight: 4,
+  }
 };
 
 const navLinks = [
@@ -50,35 +54,27 @@ const navLinks = [
 ];
 
 const NavigationMobile = memo(() => (
-  <Grid container justify="space-around" alignItems="center">
-    { navLinks.map((element) => (
-      <Grid item key={element.text}>
-        <Grid container alignItems="center" justify="center">
-          <Link to={element.path}>
-            <IconButton>
-              <FontAwesomeIcon icon={element.icon} size="xs" style={{ ...styles.navItem, ...styles.navLink }} />
-            </IconButton>
-          </Link>
-        </Grid>
-      </Grid>
-    )) }
-  </Grid>
+  navLinks.map((element, index) => (
+    <Link to={element.path} key={element.text}>
+      <IconButton style={ (index === (navLinks.length - 1)) ? styles.lastNavIconSpacing : styles.navIconSpacing }>
+        <FontAwesomeIcon icon={element.icon} style={styles.navIcon} />
+      </IconButton>
+    </Link>
+  ))
 ));
 
 const NavigationDesktop = memo(() => (
-  <Grid container justify="flex-end" alignItems="center">
-    { navLinks.map((element) => (
-      <Grid item sm={4} md={3} lg={2} key={element.text}>
-        <Grid container justify="center" alignItems="center">
-          <Link to={element.path}>
-            <Button size="large">
-              <Typography align="center" color="primary" style={{ ...styles.navItem, ...styles.navLink }}>{ element.text }</Typography>
-            </Button>
-          </Link>
-        </Grid>
+  navLinks.map((element) => (
+    <Grid item sm={4} md={3} lg={2} key={element.text}>
+      <Grid container justify="center" alignItems="center">
+        <Link to={element.path}>
+          <Button style={styles.linkButton}>
+            <Typography align="center" color="primary">{ element.text }</Typography>
+          </Button>
+        </Link>
       </Grid>
-    )) }
-  </Grid>
+    </Grid>
+  ))
 ));
 
 const Navigation = memo(() => {
@@ -86,18 +82,14 @@ const Navigation = memo(() => {
   const matches = useMediaQuery(theme.breakpoints.up('sm'));
 
   return (
-    <Grid container alignItems="center">
-      <Grid item xs={8} sm={6}>
-        <Grid container alignItems="center">
-          <Grid container justify="center" alignItems="center" style={styles.menuContainer}>
-            <IconButton>
-              <FontAwesomeIcon icon={faBars} size="xs" style={{ ...styles.navItem, ...styles.navMenu }} />
-            </IconButton>
-          </Grid>
-          <Typography variant="h6">82 GAMES</Typography>
-        </Grid>
+    <Grid container style={styles.container}>
+      <Grid container alignItems="center">
+        <IconButton style={styles.menuTitleSpacing}>
+          <FontAwesomeIcon icon={faBars} style={styles.navIcon} />
+        </IconButton>
+        <Typography variant="h6">82 Games</Typography>
       </Grid>
-      <Grid item xs={4} sm={6}>
+      <Grid container justify="flex-end" alignItems="center">
         { matches ? <NavigationDesktop /> : <NavigationMobile /> }
       </Grid>
     </Grid>
