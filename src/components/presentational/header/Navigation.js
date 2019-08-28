@@ -7,6 +7,7 @@ import {
 } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
+  faBars,
   faUser,
   faTrophy,
   faSignOutAlt,
@@ -16,8 +17,16 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { Link } from '../reusable';
 
 const styles = {
-  navLink: {
+  menuContainer: {
+    width: 45,
+  },
+  navItem: {
     color: '#FFF',
+  },
+  navMenu: {
+    fontSize: 20,
+  },
+  navLink: {
     fontSize: 14,
   },
 };
@@ -41,41 +50,54 @@ const navLinks = [
 ];
 
 const NavigationMobile = memo(() => (
-  <Grid container item xs={10} justify="space-between" alignItems="center">
+  <Grid container justify="space-around" alignItems="center">
     { navLinks.map((element) => (
-      <Link to={element.path} key={element.text}>
-        <IconButton>
-          <FontAwesomeIcon icon={element.icon} size="xs" style={styles.navLink} />
-        </IconButton>
-      </Link>
+      <Grid item key={element.text}>
+        <Grid container alignItems="center" justify="center">
+          <Link to={element.path}>
+            <IconButton>
+              <FontAwesomeIcon icon={element.icon} size="xs" style={{ ...styles.navItem, ...styles.navLink }} />
+            </IconButton>
+          </Link>
+        </Grid>
+      </Grid>
     )) }
   </Grid>
 ));
 
 const NavigationDesktop = memo(() => (
-  <Grid container item sm={12} md={8} lg={6} justify="space-between" alignItems="center">
+  <Grid container justify="flex-end" alignItems="center">
     { navLinks.map((element) => (
-      <Link to={element.path} key={element.text}>
-        <Button size="large">
-          <Typography align="center" color="primary" style={styles.navLink}>{ element.text }</Typography>
-        </Button>
-      </Link>
+      <Grid item sm={4} md={3} lg={2} key={element.text}>
+        <Grid container justify="center" alignItems="center">
+          <Link to={element.path}>
+            <Button size="large">
+              <Typography align="center" color="primary" style={{ ...styles.navItem, ...styles.navLink }}>{ element.text }</Typography>
+            </Button>
+          </Link>
+        </Grid>
+      </Grid>
     )) }
   </Grid>
 ));
 
-const Navigation = memo((props) => {
+const Navigation = memo(() => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up('sm'));
 
   return (
-    <Grid container>
+    <Grid container alignItems="center">
       <Grid item xs={8} sm={6}>
         <Grid container alignItems="center">
-          <Typography>82 GAMES</Typography>
+          <Grid container justify="center" alignItems="center" style={styles.menuContainer}>
+            <IconButton>
+              <FontAwesomeIcon icon={faBars} size="xs" style={{ ...styles.navItem, ...styles.navMenu }} />
+            </IconButton>
+          </Grid>
+          <Typography variant="h6">82 GAMES</Typography>
         </Grid>
       </Grid>
-      <Grid item xs={4} sm={6} justify="flex-end" alignItems="center">
+      <Grid item xs={4} sm={6}>
         { matches ? <NavigationDesktop /> : <NavigationMobile /> }
       </Grid>
     </Grid>

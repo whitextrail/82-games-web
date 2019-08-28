@@ -14,7 +14,7 @@ const styles = {
 const Header = memo(({ children }) => (
   <Grid container component="header" alignContent="center">
     <AppBar position="static" color="primary" elevation={0}>
-      <Toolbar variant="dense" style={styles.toolbar}>{ children }</Toolbar>
+      <Toolbar disableGutters variant="dense" style={styles.toolbar}>{ children }</Toolbar>
     </AppBar>
   </Grid>
 ));
