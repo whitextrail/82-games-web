@@ -20,18 +20,22 @@ const styles = {
   container: {
     height: 56,
   },
-  navIcon: {
+  menuIcon: {
     color: '#FFF',
     fontSize: 20,
   },
+  navIcon: {
+    color: '#FFF',
+    fontSize: 18,
+  },
   menuTitleSpacing: {
-    marginRight: 4,
+    marginRight: 2,
   },
   navIconSpacing: {
-    marginRight: 8,
+    marginRight: 6,
   },
   lastNavIconSpacing: {
-    marginRight: 4,
+    marginRight: 2,
   }
 };
 
@@ -85,7 +89,7 @@ const Navigation = memo(() => {
     <Grid container style={styles.container}>
       <Grid container alignItems="center">
         <IconButton style={styles.menuTitleSpacing}>
-          <FontAwesomeIcon icon={faBars} style={styles.navIcon} />
+          <FontAwesomeIcon icon={faBars} style={styles.menuIcon} />
         </IconButton>
         <Typography variant="h6">82 Games</Typography>
       </Grid>
