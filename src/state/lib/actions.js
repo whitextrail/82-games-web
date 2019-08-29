@@ -1,5 +1,3 @@
-const { get } = require('lodash');
-
 // Outputs an action creator that can handle generic, success, and error cases
 const actionWrapper = ({ type }) => {
   const action = { type };
@@ -23,11 +21,4 @@ const actionWrapper = ({ type }) => {
   };
 };
 
-// Get the nested error object and return the errorMessage when available
-// Otherwise, use the specified default message
-const parseActionError = (error, defaultMessage) => get(error, ['response', 'data', 'error', 'message'], defaultMessage);
-
-module.exports = {
-  actionWrapper,
-  parseActionError,
-};
+export { actionWrapper };
