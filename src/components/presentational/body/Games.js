@@ -1,118 +1,65 @@
-import React, { memo, useState } from 'react';
+import React, { memo } from 'react';
 import {
   Grid,
-  Paper,
-  Typography,
   Button,
-  Breadcrumbs,
-  Menu,
-  MenuItem,
+  Avatar,
+  Card,
+  CardHeader,
+  CardContent,
 } from '@material-ui/core';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faChevronDown,
-} from '@fortawesome/free-solid-svg-icons';
+  GameFilter,
+  GameTime,
+  GameTeams,
+} from './games/';
+import avatar from '../../../assets/img/spencer_dinwiddie.png';
 
 const styles = {
-  titleContainer: {
-    height: 54,
+  gameFilterContainer: {
+    height: 55,
     borderTopRightRadius: 16,
     borderTopLeftRadius: 16,
     backgroundColor: '#EFEFEF',
   },
-  titlePaper: {
-    height: 48,
-    width: '100%',
-    paddingLeft: 16,
-    paddingTop: 8,
-    borderTopRightRadius: 16,
-    borderTopLeftRadius: 16,
-    borderBottomRightRadius: 0,
-    borderBottomLeftRadius: 0,
+  gamesContainer: {
+    height: '100%',
+    backgroundColor: '#EFEFEF',
   },
-  breadcrumbText: {
-    fontSize: 16,
-    color: '#333',
+  card: {
+    marginRight: 4,
+    marginLeft: 3,
+    borderRadius: 2,
   },
-  breadcrumbButton: {
-    paddingLeft: 0,
-    fontWeight: 400,
+  cardHeaderAction: {
+    color: '#FFF',
+    backgroundColor: '#FF3B3F',
   },
-  breadcrumbButtonIcon: {
-    marginLeft: 6,
-    fontSize: 14,
-  },
-  contentContainer: {
-    backgroundColor: '',
+  cardContent: {
+    height: 200,
+    padding: 0,
   },
 }
 
-const GamesMenu = memo(({
-  menuItems,
-  anchorEl,
-  closeMenu,
-  selectedMenuItemIndex,
-}) => (
-  <Menu
-    anchorEl={anchorEl}
-    keepMounted
-    open={Boolean(anchorEl)}
-    onClose={closeMenu}
-  >
-    {
-      menuItems.map((item, index) => (
-        <MenuItem
-          key={item}
-          dense
-          selected={selectedMenuItemIndex === index}
-          onClick={() => closeMenu(index)}
-        >
-          { item }
-        </MenuItem>
-      ))
-    }
-  </Menu>
-));
-
-const Games = memo(() => {
-  const menuItems = ['Previous', 'Current', 'Upcoming'];
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [selectedMenuItemIndex, setSelectedMenuItemIndex] = useState(1);
-
-  const openMenu = event => setAnchorEl(event.currentTarget);
-
-  const closeMenu = (menuIndex) => {
-    setSelectedMenuItemIndex(menuIndex);
-    setAnchorEl(null)
-  };
-
-  return (
-    <Grid container direction="column">
-      <Grid item style={styles.titleContainer}>
-        <Paper style={styles.titlePaper}>
-          <Breadcrumbs>
-            <Typography style={styles.breadcrumbText}>Games</Typography>
-            <Button
-              variant="text"
-              style={{ ...styles.breadcrumbButton, ...styles.breadcrumbText }}
-              onClick={openMenu}
-            >
-              { menuItems[selectedMenuItemIndex] }
-              <FontAwesomeIcon icon={faChevronDown} style={styles.breadcrumbButtonIcon} />
-            </Button>
-          </Breadcrumbs>
-          <GamesMenu
-            menuItems={menuItems}
-            anchorEl={anchorEl}
-            closeMenu={closeMenu}
-            selectedMenuItemIndex={selectedMenuItemIndex}
-          />
-        </Paper>
-      </Grid>
-      <Grid item xs={12} style={{ height: '100%', backgroundColor: '#EFEFEF' }}>
-      </Grid>
+const Games = memo(() => (
+  <Grid container direction="column">
+    <Grid item style={styles.gameFilterContainer}>
+      <GameFilter />
     </Grid>
-  );
-});
+    <Grid item xs={12} style={styles.gamesContainer}>
+      <Card style={styles.card}>
+        <CardHeader
+          avatar={<Avatar src={avatar} />}
+          action={<Button size="small" variant="contained" style={styles.cardHeaderAction}>JOIN</Button>}
+          title="Spencer Dinwiddie"
+          subheader="Point guard - Brooklyn"
+        />
+        <CardContent style={styles.cardContent}>
+          <GameTime />
+          <GameTeams />
+        </CardContent>
+      </Card>
+    </Grid>
+  </Grid>
+));
 
 export default Games;
