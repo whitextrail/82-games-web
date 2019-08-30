@@ -1,11 +1,13 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Grid } from '@material-ui/core';
 import { fetchTeams } from '../../state/actions/teams';
 import {
   fetchGamesByTeamId,
   filterGamesByStatusId,
 } from '../../state/actions/games';
-import Games from '../presentational/body/Games';
+import Games from '../presentational/body/games/Games';
+import GameStatusFilter from '../presentational/body/games/GameStatusFilter';
 
 class GamesContainer extends PureComponent {
   componentDidMount() {
@@ -22,13 +24,20 @@ class GamesContainer extends PureComponent {
     }
   }
 
-  render = () => (
-    <Games
-      teams={this.props.teams}
-      games={this.props.games}
-      filterGamesByStatusId={this.props.filterGamesByStatusId}
-    />
-  );
+  render = () => {
+    const { games } = this.props;
+
+    return (
+      <Grid container direction="column">
+        <GameStatusFilter
+          gameStatusesById={games.gameStatusesById}
+          selectedGameStatusId={games.selectedGameStatusId}
+          filterGamesByStatusId={this.props.filterGamesByStatusId}
+        />
+        <Games />
+      </Grid>
+    );
+  };
 }
 
 const mapStateToProps = ({ teams, games }) => ({
