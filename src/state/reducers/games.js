@@ -1,4 +1,7 @@
-import { FETCH_GAMES_BY_TEAM_ID } from '../actions/util/types';
+import {
+  FETCH_GAMES_BY_TEAM_ID,
+  FILTER_GAMES_BY_STATUS_ID,
+} from '../actions/util/types';
 import {
   evalStatusCases,
   initialStateDecorator,
@@ -9,6 +12,10 @@ const gamesState = initialStateDecorator({
   byId: {},
   allIds: [],
   selectedId: null,
+  gameStatusMenuAnchorEl: null,
+  gameStatusesById: ['Closed', 'Live', 'Open'],
+  gameStatusesAllIds: [0, 1, 2],
+  selectedGameStatusId: 1,
 });
 
 const fetchGamesByTeamIdReducer = (state, response) => {
@@ -25,11 +32,22 @@ const fetchGamesByTeamIdReducer = (state, response) => {
     };
   }
 
-  return state;
+  return {};
 };
 
-const typeReducer = (state, action) => {
+const filterGamesByStatusIdReducer = (state, response) => {
+  const { id } = response;
+
+  if (state.gameStatusesAllIds.includes(id)) {
+    return { selectedGameStatusId: id };
+  }
+
+  return {};
+}
+
+export default (state = gamesState, action) => {
   let updatedState = {};
+
   const {
     type,
     response,
@@ -41,6 +59,9 @@ const typeReducer = (state, action) => {
       case FETCH_GAMES_BY_TEAM_ID:
         updatedState = fetchGamesByTeamIdReducer(state, response);
         break;
+      case FILTER_GAMES_BY_STATUS_ID:
+        updatedState = filterGamesByStatusIdReducer(state, response);
+        break;
       default:
         return state;
     }
@@ -49,15 +70,4 @@ const typeReducer = (state, action) => {
   }
 
   return evalStatusCases(state, action, updatedState);
-};
-
-export default (state = gamesState, action) => {
-  const { type } = action;
-
-  switch (type) {
-    case FETCH_GAMES_BY_TEAM_ID:
-      return typeReducer(state, action);
-    default:
-      return state;
-  }
 };

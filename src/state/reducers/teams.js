@@ -28,8 +28,9 @@ const fetchTeamsReducer = (state, response) => {
   return state;
 };
 
-const typeReducer = (state, action) => {
+export default (state = teamsState, action) => {
   let updatedState = {};
+
   const {
     type,
     response,
@@ -49,15 +50,4 @@ const typeReducer = (state, action) => {
   }
 
   return evalStatusCases(state, action, updatedState);
-};
-
-export default (state = teamsState, action) => {
-  const { type } = action;
-
-  switch (type) {
-    case FETCH_TEAMS:
-      return typeReducer(state, action);
-    default:
-      return state;
-  }
 };
