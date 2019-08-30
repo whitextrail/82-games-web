@@ -18,7 +18,7 @@ const gamesState = initialStateDecorator({
   selectedGameStatusId: 1,
 });
 
-const fetchGamesByTeamIdReducer = (state, response) => {
+const fetchGamesByTeamIdReducer = (response) => {
   if (response.length) {
     const {
       entities: { games },
@@ -43,7 +43,7 @@ const filterGamesByStatusIdReducer = (state, response) => {
   }
 
   return {};
-}
+};
 
 export default (state = gamesState, action) => {
   let updatedState = {};
@@ -57,7 +57,7 @@ export default (state = gamesState, action) => {
   if (response) {
     switch (type) {
       case FETCH_GAMES_BY_TEAM_ID:
-        updatedState = fetchGamesByTeamIdReducer(state, response);
+        updatedState = fetchGamesByTeamIdReducer(response);
         break;
       case FILTER_GAMES_BY_STATUS_ID:
         updatedState = filterGamesByStatusIdReducer(state, response);

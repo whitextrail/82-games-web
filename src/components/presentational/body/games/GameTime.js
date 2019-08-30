@@ -16,8 +16,7 @@ const styles = {
   typography: {
     fontSize: 14,
   },
-}
-
+};
 
 const GameTime = memo(() => (
   <Grid container justify="center" style={styles.container}>

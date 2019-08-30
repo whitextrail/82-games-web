@@ -43,10 +43,9 @@ const styles = {
     height: 200,
     padding: 0,
   },
-}
+};
 
 const Games = memo(({
-  teams,
   games,
   filterGamesByStatusId,
 }) => {

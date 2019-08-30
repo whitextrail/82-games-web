@@ -18,7 +18,7 @@ class GamesContainer extends PureComponent {
     const { teams } = this.props;
 
     if (!prevProps.teams.selectedId && teams.selectedId) {
-      this.props.fetchGamesByTeamId(teams.selectedId)
+      this.props.fetchGamesByTeamId(teams.selectedId);
     }
   }
 

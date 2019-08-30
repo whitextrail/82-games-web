@@ -7,7 +7,7 @@ import apiEndpoints from './util/apiEndpoints';
 import { actionWrapper } from '../lib/actions';
 
 const fetchGamesByTeamIdActionCreator = actionWrapper({ type: FETCH_GAMES_BY_TEAM_ID });
-const filterGamesByStatusIdActionCreator = actionWrapper({ type: FILTER_GAMES_BY_STATUS_ID })
+const filterGamesByStatusIdActionCreator = actionWrapper({ type: FILTER_GAMES_BY_STATUS_ID });
 
 const fetchGamesByTeamId = (id) => (
   async (dispatch) => {

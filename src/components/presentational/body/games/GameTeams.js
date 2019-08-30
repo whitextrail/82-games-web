@@ -34,7 +34,7 @@ const teams = {
   indiana: {
     image: pacers,
   }
-}
+};
 
 const Team = memo(({
   name,

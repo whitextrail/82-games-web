@@ -15,7 +15,7 @@ const styles = {
     borderTopRightRadius: 16,
     borderTopLeftRadius: 16,
   },
-}
+};
 
 const Body = memo(({ children }) => (
   <Grid style={styles.container}>

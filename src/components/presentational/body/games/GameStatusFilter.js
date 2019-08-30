@@ -34,7 +34,7 @@ const styles = {
     marginLeft: 6,
     fontSize: 14,
   },
-}
+};
 
 const GameStatusFilter = memo(({
   gameStatusesById,
@@ -48,7 +48,7 @@ const GameStatusFilter = memo(({
   const closeMenu = (event) => {
     filterGamesByStatusId(event.currentTarget.value);
     setAnchorEl(null);
-  }
+  };
 
   return (
     <Paper style={styles.container}>
@@ -75,7 +75,7 @@ const GameStatusFilter = memo(({
         }) }
       </Menu>
     </Paper>
-  )
+  );
 });
 
 export default GameStatusFilter;
