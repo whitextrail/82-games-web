@@ -6,7 +6,7 @@ import {
   fetchGamesByTeamId,
   filterGamesByStatusId,
 } from '../../state/actions/games';
-import Games from '../presentational/body/games/Games';
+import GameList from '../presentational/body/games/GameList';
 import GameStatusFilter from '../presentational/body/games/GameStatusFilter';
 
 class GamesContainer extends PureComponent {
@@ -36,7 +36,7 @@ class GamesContainer extends PureComponent {
   };
 
   render = () => {
-    const { games } = this.props;
+    const { games, teams } = this.props;
 
     return (
       <Grid container direction="column">
@@ -47,7 +47,7 @@ class GamesContainer extends PureComponent {
           closeMenu={this.closeMenu}
           menuAnchorEl={this.state.menuAnchorEl}
         />
-        <Games />
+        <GameList games={games} teams={teams} />
       </Grid>
     );
   };

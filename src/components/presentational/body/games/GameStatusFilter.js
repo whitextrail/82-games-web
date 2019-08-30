@@ -2,9 +2,7 @@ import React, { memo } from 'react';
 import {
   Grid,
   Paper,
-  Typography,
   Button,
-  Breadcrumbs,
   Menu,
   MenuItem,
 } from '@material-ui/core';
@@ -32,11 +30,9 @@ const styles = {
     borderBottomRightRadius: 0,
     borderBottomLeftRadius: 0,
   },
-  breadcrumbText: {
-    fontSize: 16,
-    color: primaryTextColor,
-  },
   breadcrumbButton: {
+    color: primaryTextColor,
+    fontSize: 16,
     paddingLeft: 0,
     fontWeight: 400,
   },
@@ -55,17 +51,14 @@ const GameStatusFilter = memo(({
 }) => (
   <Grid item style={styles.container}>
     <Paper style={styles.paper}>
-      <Breadcrumbs>
-        <Typography style={styles.breadcrumbText}>Games</Typography>
-        <Button
-          variant="text"
-          style={{ ...styles.breadcrumbButton, ...styles.breadcrumbText, }}
-          onClick={openMenu}
-        >
-          { `Status: ${gameStatusesById[selectedGameStatusId]}` }
-          <FontAwesomeIcon icon={faChevronDown} style={styles.breadcrumbButtonIcon} />
-        </Button>
-      </Breadcrumbs>
+      <Button
+        variant="text"
+        style={styles.breadcrumbButton}
+        onClick={openMenu}
+      >
+        { `Status: ${gameStatusesById[selectedGameStatusId]}` }
+        <FontAwesomeIcon icon={faChevronDown} style={styles.breadcrumbButtonIcon} />
+      </Button>
       <Menu anchorEl={menuAnchorEl} open={!!menuAnchorEl} onClose={closeMenu}>
         { gameStatusesById.map((item, index) => {
           const isSelected = selectedGameStatusId === index;
