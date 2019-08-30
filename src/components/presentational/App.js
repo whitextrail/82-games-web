@@ -10,11 +10,12 @@ import {
 } from './layout';
 import { Navigation } from './header';
 import Games from '../container/Games';
+import { primaryColor } from '../../styles/constants';
 
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: '#FF3B3F',
+      main: primaryColor,
     },
   },
   overrides: {
@@ -25,14 +26,6 @@ const theme = createMuiTheme({
       container: {
         flexWrap: 'nowrap',
       }
-    },
-    MuiTypography: {
-      colorPrimary: {
-        color: '#FFF'
-      },
-      colorSecondary: {
-        color: '#333'
-      },
     },
     MuiButton: {
       root: {

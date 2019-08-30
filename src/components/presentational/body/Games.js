@@ -13,17 +13,22 @@ import {
   GameTeams,
 } from './games/';
 import avatar from '../../../assets/img/spencer_dinwiddie.png';
+import {
+  primaryColor,
+  secondaryColor,
+  secondaryTextColor,
+} from '../../../styles/constants';
 
 const styles = {
   gameFilterContainer: {
     height: 55,
     borderTopRightRadius: 16,
     borderTopLeftRadius: 16,
-    backgroundColor: '#EFEFEF',
+    backgroundColor: secondaryColor,
   },
   gamesContainer: {
     height: '100%',
-    backgroundColor: '#EFEFEF',
+    backgroundColor: secondaryColor,
   },
   card: {
     marginRight: 4,
@@ -31,8 +36,8 @@ const styles = {
     borderRadius: 2,
   },
   cardHeaderAction: {
-    color: '#FFF',
-    backgroundColor: '#FF3B3F',
+    color: secondaryTextColor,
+    backgroundColor: primaryColor,
   },
   cardContent: {
     height: 200,

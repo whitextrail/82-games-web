@@ -9,6 +9,7 @@ import {
 } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { primaryTextColor } from '../../../../styles/constants';
 
 const styles = {
   container: {
@@ -23,7 +24,7 @@ const styles = {
   },
   breadcrumbText: {
     fontSize: 16,
-    color: '#333',
+    color: primaryTextColor,
   },
   breadcrumbButton: {
     paddingLeft: 0,

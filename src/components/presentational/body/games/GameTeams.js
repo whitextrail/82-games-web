@@ -6,6 +6,7 @@ import {
 } from '@material-ui/core';
 import nets from '../../../../assets/img/nets.png';
 import pacers from '../../../../assets/img/pacers.png';
+import { primaryTextColor } from '../../../../styles/constants';
 
 const styles = {
   container: {
@@ -22,7 +23,7 @@ const styles = {
   },
   typography: {
     fontWeight: 500,
-    color: '#A9A9A9',
+    color: primaryTextColor,
   },
 };
 

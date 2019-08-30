@@ -3,11 +3,12 @@ import {
   Grid,
   Paper,
 } from '@material-ui/core';
+import { primaryColor } from '../../../styles/constants';
 
 const styles = {
   container: {
     height: '100vh',
-    backgroundColor: '#FF3B3F',
+    backgroundColor: primaryColor,
   },
   paper: {
     height: '100%',

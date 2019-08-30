@@ -15,17 +15,18 @@ import {
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { Link } from '../reusable';
+import { secondaryTextColor } from '../../../styles/constants';
 
 const styles = {
   container: {
     height: 56,
   },
   menuIcon: {
-    color: '#FFF',
+    color: secondaryTextColor,
     fontSize: 20,
   },
   navIcon: {
-    color: '#FFF',
+    color: secondaryTextColor,
     fontSize: 18,
   },
   menuTitleSpacing: {
