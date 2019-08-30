@@ -1,13 +1,19 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Grid } from '@material-ui/core';
 import { fetchTeams } from '../../state/actions/teams';
 import {
   fetchGamesByTeamId,
   filterGamesByStatusId,
 } from '../../state/actions/games';
-import Games from '../presentational/body/Games';
+import Games from '../presentational/body/games/Games';
+import GameStatusFilter from '../presentational/body/games/GameStatusFilter';
 
 class GamesContainer extends PureComponent {
+  state = {
+    menuAnchorEl: null,
+  }
+
   componentDidMount() {
     if (!this.props.teams.selectedId) {
       this.props.fetchTeams();
@@ -22,13 +28,29 @@ class GamesContainer extends PureComponent {
     }
   }
 
-  render = () => (
-    <Games
-      teams={this.props.teams}
-      games={this.props.games}
-      filterGamesByStatusId={this.props.filterGamesByStatusId}
-    />
-  );
+  openMenu = event => this.setState({ menuAnchorEl: event.currentTarget });
+
+  closeMenu = (event) => {
+    this.props.filterGamesByStatusId(event.currentTarget.value);
+    this.setState({ menuAnchorEl: null });
+  };
+
+  render = () => {
+    const { games } = this.props;
+
+    return (
+      <Grid container direction="column">
+        <GameStatusFilter
+          gameStatusesById={games.gameStatusesById}
+          selectedGameStatusId={games.selectedGameStatusId}
+          openMenu={this.openMenu}
+          closeMenu={this.closeMenu}
+          menuAnchorEl={this.state.menuAnchorEl}
+        />
+        <Games />
+      </Grid>
+    );
+  };
 }
 
 const mapStateToProps = ({ teams, games }) => ({

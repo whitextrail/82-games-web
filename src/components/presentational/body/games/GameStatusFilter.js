@@ -1,5 +1,6 @@
-import React, { memo, useState } from 'react';
+import React, { memo } from 'react';
 import {
+  Grid,
   Paper,
   Typography,
   Button,
@@ -9,10 +10,19 @@ import {
 } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
-import { primaryTextColor } from '../../../../styles/constants';
+import {
+  secondaryColor,
+  primaryTextColor,
+} from '../../../../styles/constants';
 
 const styles = {
   container: {
+    height: 55,
+    borderTopRightRadius: 16,
+    borderTopLeftRadius: 16,
+    backgroundColor: secondaryColor,
+  },
+  paper: {
     height: 48,
     width: '100%',
     paddingLeft: 16,
@@ -39,19 +49,12 @@ const styles = {
 const GameStatusFilter = memo(({
   gameStatusesById,
   selectedGameStatusId,
-  filterGamesByStatusId,
-}) => {
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  const openMenu = event => setAnchorEl(event.currentTarget);
-
-  const closeMenu = (event) => {
-    filterGamesByStatusId(event.currentTarget.value);
-    setAnchorEl(null);
-  };
-
-  return (
-    <Paper style={styles.container}>
+  openMenu,
+  closeMenu,
+  menuAnchorEl,
+}) => (
+  <Grid item style={styles.container}>
+    <Paper style={styles.paper}>
       <Breadcrumbs>
         <Typography style={styles.breadcrumbText}>Games</Typography>
         <Button
@@ -63,7 +66,7 @@ const GameStatusFilter = memo(({
           <FontAwesomeIcon icon={faChevronDown} style={styles.breadcrumbButtonIcon} />
         </Button>
       </Breadcrumbs>
-      <Menu anchorEl={anchorEl} open={!!anchorEl} onClose={closeMenu}>
+      <Menu anchorEl={menuAnchorEl} open={!!menuAnchorEl} onClose={closeMenu}>
         { gameStatusesById.map((item, index) => {
           const isSelected = selectedGameStatusId === index;
 
@@ -75,7 +78,7 @@ const GameStatusFilter = memo(({
         }) }
       </Menu>
     </Paper>
-  );
-});
+  </Grid>
+));
 
 export default GameStatusFilter;
