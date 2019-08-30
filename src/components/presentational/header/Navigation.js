@@ -1,5 +1,4 @@
 import React, { memo } from 'react';
-import { Brand } from './';
 import {
   Grid,
   Typography,
@@ -8,6 +7,7 @@ import {
 } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
+  faBars,
   faUser,
   faTrophy,
   faSignOutAlt,
@@ -15,12 +15,29 @@ import {
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { Link } from '../reusable';
+import { secondaryTextColor } from '../../../styles/constants';
 
 const styles = {
-  navLink: {
-    color: '#FFF',
-    fontSize: 14,
+  container: {
+    height: 56,
   },
+  menuIcon: {
+    color: secondaryTextColor,
+    fontSize: 20,
+  },
+  navIcon: {
+    color: secondaryTextColor,
+    fontSize: 18,
+  },
+  menuTitleSpacing: {
+    marginRight: 2,
+  },
+  navIconSpacing: {
+    marginRight: 6,
+  },
+  lastNavIconSpacing: {
+    marginRight: 2,
+  }
 };
 
 const navLinks = [
@@ -42,39 +59,42 @@ const navLinks = [
 ];
 
 const NavigationMobile = memo(() => (
-  <Grid container item xs={10} justify="space-between" alignItems="center">
-    { navLinks.map((element) => (
-      <Link to={element.path} key={element.text}>
-        <IconButton>
-          <FontAwesomeIcon icon={element.icon} size="xs" style={styles.navLink} />
-        </IconButton>
-      </Link>
-    )) }
-  </Grid>
+  navLinks.map((element, index) => (
+    <Link to={element.path} key={element.text}>
+      <IconButton style={ (index === (navLinks.length - 1)) ? styles.lastNavIconSpacing : styles.navIconSpacing }>
+        <FontAwesomeIcon icon={element.icon} style={styles.navIcon} />
+      </IconButton>
+    </Link>
+  ))
 ));
 
 const NavigationDesktop = memo(() => (
-  <Grid container item sm={12} md={8} lg={6} justify="space-between" alignItems="center">
-    { navLinks.map((element) => (
-      <Link to={element.path} key={element.text}>
-        <Button size="large">
-          <Typography align="center" color="primary" style={styles.navLink}>{ element.text }</Typography>
-        </Button>
-      </Link>
-    )) }
-  </Grid>
+  navLinks.map((element) => (
+    <Grid item sm={4} md={3} lg={2} key={element.text}>
+      <Grid container justify="center" alignItems="center">
+        <Link to={element.path}>
+          <Button style={styles.linkButton}>
+            <Typography align="center" color="primary">{ element.text }</Typography>
+          </Button>
+        </Link>
+      </Grid>
+    </Grid>
+  ))
 ));
 
-const Navigation = memo((props) => {
+const Navigation = memo(() => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up('sm'));
 
   return (
-    <Grid container>
-      <Grid item xs={8} sm={6}>
-        <Brand />
+    <Grid container style={styles.container}>
+      <Grid container alignItems="center">
+        <IconButton style={styles.menuTitleSpacing}>
+          <FontAwesomeIcon icon={faBars} style={styles.menuIcon} />
+        </IconButton>
+        <Typography variant="h6">82 Games</Typography>
       </Grid>
-      <Grid container item xs={4} sm={6} justify="flex-end" alignItems="center">
+      <Grid container justify="flex-end" alignItems="center">
         { matches ? <NavigationDesktop /> : <NavigationMobile /> }
       </Grid>
     </Grid>

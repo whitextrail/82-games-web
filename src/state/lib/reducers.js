@@ -48,7 +48,7 @@ const evalStatusCases = (state, action, updatedState) => {
   }
 };
 
-module.exports = {
+export {
   initialStateDecorator,
   evalStatusCases,
 };
