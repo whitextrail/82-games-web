@@ -2,10 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import * as Sentry from '@sentry/browser';
+import { BrowserRouter } from 'react-router-dom';
+import { ThemeProvider } from '@material-ui/styles';
 import store from './state';
 import App from './components/presentational/App';
 import * as serviceWorker from './serviceWorker';
 import { SENTRY_DSN } from './config';
+import { theme } from './styles/constants';
 import 'typeface-roboto';
 
 Sentry.init({
@@ -14,9 +17,13 @@ Sentry.init({
 });
 
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>
+  <BrowserRouter>
+    <ThemeProvider theme={theme}>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </ThemeProvider>
+  </BrowserRouter>
 , document.getElementById('root'));
 
 // Learn more about service workers: https://bit.ly/CRA-PWA
