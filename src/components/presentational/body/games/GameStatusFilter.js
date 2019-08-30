@@ -8,9 +8,7 @@ import {
   MenuItem,
 } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faChevronDown,
-} from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 const styles = {
   container: {
@@ -37,17 +35,19 @@ const styles = {
   },
 }
 
-const GameFilter = memo(() => {
-  const menuItems = ['Previous', 'Current', 'Upcoming'];
+const GameStatusFilter = memo(({
+  gameStatusesById,
+  selectedGameStatusId,
+  filterGamesByStatusId,
+}) => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [selectedMenuItemIndex, setSelectedMenuItemIndex] = useState(1);
 
   const openMenu = event => setAnchorEl(event.currentTarget);
 
-  const closeMenu = (menuIndex) => {
-    setSelectedMenuItemIndex(menuIndex);
-    setAnchorEl(null)
-  };
+  const closeMenu = (event) => {
+    filterGamesByStatusId(event.currentTarget.value);
+    setAnchorEl(null);
+  }
 
   return (
     <Paper style={styles.container}>
@@ -55,27 +55,26 @@ const GameFilter = memo(() => {
         <Typography style={styles.breadcrumbText}>Games</Typography>
         <Button
           variant="text"
-          style={{ ...styles.breadcrumbButton, ...styles.breadcrumbText }}
+          style={{ ...styles.breadcrumbButton, ...styles.breadcrumbText, }}
           onClick={openMenu}
         >
-          { menuItems[selectedMenuItemIndex] }
+          { `Status: ${gameStatusesById[selectedGameStatusId]}` }
           <FontAwesomeIcon icon={faChevronDown} style={styles.breadcrumbButtonIcon} />
         </Button>
       </Breadcrumbs>
       <Menu anchorEl={anchorEl} open={!!anchorEl} onClose={closeMenu}>
-        { menuItems.map((item, index) => (
-          <MenuItem
-            key={item}
-            dense
-            selected={selectedMenuItemIndex === index}
-            onClick={() => closeMenu(index)}
-          >
-            { item }
-          </MenuItem>
-        )) }
+        { gameStatusesById.map((item, index) => {
+          const isSelected = selectedGameStatusId === index;
+
+          return (
+            <MenuItem dense key={item} selected={isSelected} value={index} onClick={closeMenu}>
+              { item }
+            </MenuItem>
+          );
+        }) }
       </Menu>
     </Paper>
   )
 });
 
-export default GameFilter;
+export default GameStatusFilter;

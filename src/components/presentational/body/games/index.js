@@ -1,9 +1,9 @@
-import GameFilter from './GameFilter';
+import GameStatusFilter from './GameStatusFilter';
 import GameTime from './GameTime';
 import GameTeams from './GameTeams';
 
 export {
-  GameFilter,
+  GameStatusFilter,
   GameTime,
   GameTeams
 };

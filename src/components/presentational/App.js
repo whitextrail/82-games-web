@@ -9,7 +9,7 @@ import {
   Footer,
 } from './layout';
 import { Navigation } from './header';
-import { Games } from './body';
+import Games from '../container/Games';
 
 const theme = createMuiTheme({
   palette: {

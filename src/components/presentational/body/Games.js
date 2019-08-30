@@ -8,7 +8,7 @@ import {
   CardContent,
 } from '@material-ui/core';
 import {
-  GameFilter,
+  GameStatusFilter,
   GameTime,
   GameTeams,
 } from './games/';
@@ -40,26 +40,36 @@ const styles = {
   },
 }
 
-const Games = memo(() => (
-  <Grid container direction="column">
-    <Grid item style={styles.gameFilterContainer}>
-      <GameFilter />
-    </Grid>
-    <Grid item xs={12} style={styles.gamesContainer}>
-      <Card style={styles.card}>
-        <CardHeader
-          avatar={<Avatar src={avatar} />}
-          action={<Button size="small" variant="contained" style={styles.cardHeaderAction}>JOIN</Button>}
-          title="Spencer Dinwiddie"
-          subheader="Point guard - Brooklyn"
+const Games = memo(({
+  teams,
+  games,
+  filterGamesByStatusId,
+}) => {
+  return (
+    <Grid container direction="column">
+      <Grid item style={styles.gameFilterContainer}>
+        <GameStatusFilter
+          gameStatusesById={games.gameStatusesById}
+          selectedGameStatusId={games.selectedGameStatusId}
+          filterGamesByStatusId={filterGamesByStatusId}
         />
-        <CardContent style={styles.cardContent}>
-          <GameTime />
-          <GameTeams />
-        </CardContent>
-      </Card>
+      </Grid>
+      <Grid item xs={12} style={styles.gamesContainer}>
+        <Card style={styles.card}>
+          <CardHeader
+            avatar={<Avatar src={avatar} />}
+            action={<Button size="small" variant="contained" style={styles.cardHeaderAction}>JOIN</Button>}
+            title="Spencer Dinwiddie"
+            subheader="Point guard"
+          />
+          <CardContent style={styles.cardContent}>
+            <GameTime />
+            <GameTeams />
+          </CardContent>
+        </Card>
+      </Grid>
     </Grid>
-  </Grid>
-));
+  );
+});
 
 export default Games;
