@@ -12,7 +12,7 @@ import GameStatusFilter from '../presentational/body/games/GameStatusFilter';
 
 class GamesContainer extends PureComponent {
   state = {
-    menuAnchorEl: null,
+    statusFilterMenuAnchorEl: null,
   }
 
   componentDidMount() {
@@ -34,11 +34,11 @@ class GamesContainer extends PureComponent {
     }
   }
 
-  openMenu = event => this.setState({ menuAnchorEl: event.currentTarget });
+  openStatusFilterMenu = event => this.setState({ statusFilterMenuAnchorEl: event.currentTarget });
 
-  closeMenu = (event) => {
+  closeStatusFilterMenu = (event) => {
     this.props.filterGamesByStatusId(event.currentTarget.value);
-    this.setState({ menuAnchorEl: null });
+    this.setState({ statusFilterMenuAnchorEl: null });
   };
 
   render = () => {
@@ -50,9 +50,9 @@ class GamesContainer extends PureComponent {
         <GameStatusFilter
           allStatuses={games.allStatuses}
           statusIndex={games.statusIndex}
-          openMenu={this.openMenu}
-          closeMenu={this.closeMenu}
-          menuAnchorEl={this.state.menuAnchorEl}
+          openStatusFilterMenu={this.openStatusFilterMenu}
+          closeStatusFilterMenu={this.closeStatusFilterMenu}
+          statusFilterMenuAnchorEl={this.state.statusFilterMenuAnchorEl}
         />
         <GameList status={status} games={games.byStatus[status]} teams={teams} />
       </Grid>

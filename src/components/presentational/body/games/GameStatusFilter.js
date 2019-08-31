@@ -45,26 +45,26 @@ const styles = {
 const GameStatusFilter = memo(({
   allStatuses,
   statusIndex,
-  openMenu,
-  closeMenu,
-  menuAnchorEl,
+  openStatusFilterMenu,
+  closeStatusFilterMenu,
+  statusFilterMenuAnchorEl,
 }) => (
   <Grid item style={styles.container}>
     <Paper style={styles.paper}>
       <Button
         variant="text"
         style={styles.breadcrumbButton}
-        onClick={openMenu}
+        onClick={openStatusFilterMenu}
       >
         { `Status: ${allStatuses[statusIndex]}` }
         <FontAwesomeIcon icon={faChevronDown} style={styles.breadcrumbButtonIcon} />
       </Button>
-      <Menu anchorEl={menuAnchorEl} open={!!menuAnchorEl} onClose={closeMenu}>
+      <Menu anchorEl={statusFilterMenuAnchorEl} open={!!statusFilterMenuAnchorEl} onClose={closeStatusFilterMenu}>
         { allStatuses.map((item, index) => {
           const isSelected = statusIndex === index;
 
           return (
-            <MenuItem dense key={item} selected={isSelected} value={index} onClick={closeMenu}>
+            <MenuItem dense key={item} selected={isSelected} value={index} onClick={closeStatusFilterMenu}>
               { item }
             </MenuItem>
           );
