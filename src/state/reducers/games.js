@@ -1,21 +1,24 @@
 import {
   FETCH_GAMES_BY_TEAM_ID,
   FILTER_GAMES_BY_STATUS_ID,
+  SEGMENT_GAMES_BY_STATUS,
 } from '../actions/util/types';
 import {
   evalStatusCases,
   initialStateDecorator,
 } from '../lib/reducers';
-import { normalizeGameList } from '../lib/games';
+import {
+  normalizeGameList,
+  segmentGamesByStatus,
+} from '../lib/games';
 
 const gamesState = initialStateDecorator({
   byId: {},
   allIds: [],
   selectedId: null,
-  gameStatusMenuAnchorEl: null,
-  gameStatusesById: ['Closed', 'Live', 'Open'],
-  gameStatusesAllIds: [0, 1, 2],
-  selectedGameStatusId: 1,
+  byStatus: {},
+  allStatuses: ['Closed', 'Live', 'Open'],
+  statusIndex: 1,
 });
 
 const fetchGamesByTeamIdReducer = (response) => {
@@ -38,8 +41,16 @@ const fetchGamesByTeamIdReducer = (response) => {
 const filterGamesByStatusIdReducer = (state, response) => {
   const { id } = response;
 
-  if (state.gameStatusesAllIds.includes(id)) {
-    return { selectedGameStatusId: id };
+  if (id < state.allStatuses.length) {
+    return { statusIndex: id };
+  }
+
+  return {};
+};
+
+const segmentGamesByStatusReducer = (state, response) => {
+  if (response) {
+    return { byStatus: segmentGamesByStatus(state.byId) };
   }
 
   return {};
@@ -61,6 +72,9 @@ export default (state = gamesState, action) => {
         break;
       case FILTER_GAMES_BY_STATUS_ID:
         updatedState = filterGamesByStatusIdReducer(state, response);
+        break;
+      case SEGMENT_GAMES_BY_STATUS:
+        updatedState = segmentGamesByStatusReducer(state, response);
         break;
       default:
         return state;
