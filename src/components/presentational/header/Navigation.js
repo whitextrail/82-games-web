@@ -4,6 +4,13 @@ import {
   Typography,
   IconButton,
   Button,
+  Collapse,
+  Slide,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Divider,
 } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -11,12 +18,14 @@ import {
   faUser,
   faTrophy,
   faSignOutAlt,
+  faTimes,
 } from '@fortawesome/free-solid-svg-icons';
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { Link } from '../reusable';
 import {
   secondaryTextColor,
+  primaryColor,
 } from '../../../styles/constants';
 
 const styles = {
@@ -25,43 +34,92 @@ const styles = {
   },
   menuIcon: {
     color: secondaryTextColor,
-    fontSize: 20,
+    fontSize: 24,
+  },
+  menuIconButton: {
+    marginLeft: 6,
+    marginRight: 12,
   },
   navIcon: {
     color: secondaryTextColor,
     fontSize: 18,
-  },
-  menuTitleSpacing: {
-    marginRight: 2,
   },
   navIconSpacing: {
     marginRight: 6,
   },
   lastNavIconSpacing: {
     marginRight: 2,
-  }
+  },
+  navMenu: {
+    height: '86.6vh',
+    backgroundColor: primaryColor,
+  },
+  navMenuList: {
+    padding: 18,
+    height: 40,
+    marginBottom: 12,
+  },
+  navMenuListItemIcon: {
+    minWidth: 0,
+    width: 18,
+    height: 18,
+    marginRight: 24,
+  },
+  navMenuDivider: {
+    marginTop: 24,
+    marginBottom: 20,
+  },
 };
 
-const navLinks = [
-  {
-    text: 'Account',
-    path: '/account',
-    icon: faUser,
-  },
-  {
-    text: 'Leaderboard',
-    path: '/leaderboard',
-    icon: faTrophy,
-  },
-  {
-    text: 'Logout',
-    path: '/logout',
-    icon: faSignOutAlt,
-  }
-];
+const navLinks = {
+  primary: [
+    {
+      text: 'Account',
+      path: '/account',
+      icon: faUser,
+    },
+    {
+      text: 'Leaderboard',
+      path: '/leaderboard',
+      icon: faTrophy,
+    },
+    {
+      text: 'Logout',
+      path: '/logout',
+      icon: faSignOutAlt,
+    }
+  ],
+  secondary: [
+    {
+      text: 'About Us',
+      path: '/about',
+      icon: faUser,
+    },
+    {
+      text: 'Our Team',
+      path: '/team',
+      icon: faTrophy,
+    },
+    {
+      text: 'Contact',
+      path: '/contact',
+      icon: faSignOutAlt,
+    },
+    {
+      text: 'Terms of Service',
+      path: '/terms',
+      icon: faSignOutAlt,
+    },
+    {
+      text: 'Privacy Policy',
+      path: '/privacy',
+      icon: faSignOutAlt,
+    }
+  ],
+};
 
 const NavigationMobile = memo(() => (
-  navLinks.map((element, index) => (
+  navLinks.primary.map((element, index) => (
     <Link to={element.path} key={element.text}>
       <IconButton style={ (index === (navLinks.length - 1)) ? styles.lastNavIconSpacing : styles.navIconSpacing }>
         <FontAwesomeIcon icon={element.icon} style={styles.navIcon} />
@@ -71,7 +129,7 @@ const NavigationMobile = memo(() => (
 ));
 
 const NavigationDesktop = memo(() => (
-  navLinks.map((element) => (
+  navLinks.primary.map((element) => (
     <Grid item sm={4} md={3} lg={2} key={element.text}>
       <Grid container justify="center" alignItems="center">
         <Link to={element.path}>
@@ -84,24 +142,50 @@ const NavigationDesktop = memo(() => (
   ))
 ));
 
-const Navigation = memo(() => {
+const Navigation = memo(({
+  toggleNavigationMenuOpenStateAction,
+  navigationMenuOpenState,
+}) => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up('sm'));
+  const menuIcon = navigationMenuOpenState ? faTimes : faBars;
 
   return (
     <Grid container direction="column">
-      <Grid item xs={12} style={styles.navContainer}>
-        <Grid container>
-          <Grid container justify="flex-start" alignItems="center">
-            <IconButton style={styles.menuTitleSpacing}>
-              <FontAwesomeIcon icon={faBars} style={styles.menuIcon} />
-            </IconButton>
-            <Typography variant="h6">82 Games</Typography>
-          </Grid>
+      <Grid container item xs={12} style={styles.navContainer}>
+        <Grid container justify="flex-start" alignItems="center">
+          <IconButton style={styles.menuIconButton} onClick={toggleNavigationMenuOpenStateAction}>
+            <FontAwesomeIcon icon={menuIcon} style={styles.menuIcon} />
+          </IconButton>
+          <Typography variant="h6">82 Games</Typography>
+        </Grid>
+        <Slide direction="down" in={!navigationMenuOpenState}>
           <Grid container justify="flex-end" alignItems="center">
             { matches ? <NavigationDesktop /> : <NavigationMobile /> }
           </Grid>
-        </Grid>
+        </Slide>
+      </Grid>
+      <Grid item xs={12}>
+        <Collapse in={navigationMenuOpenState} timeout={{ enter: 500, exit: 100 }}>
+          <List component="nav" disablePadding style={styles.navMenu}>
+            { navLinks.primary.map((element, index) => (
+              <ListItem alignItems="center" key={index} button disableGutters style={styles.navMenuList}>
+                <ListItemIcon style={styles.navMenuListItemIcon}>
+                  <Grid container justify="center">
+                    <FontAwesomeIcon icon={element.icon} style={styles.navIcon} />
+                  </Grid>
+                </ListItemIcon>
+                <ListItemText primary={element.text} />
+              </ListItem>
+            )) }
+            <Divider style={styles.navMenuDivider} />
+            { navLinks.secondary.map((element, index) => (
+              <ListItem alignItems="center" disableGutters style={styles.navMenuList} key={index}>
+                <ListItemText primary={element.text} />
+              </ListItem>
+            )) }
+          </List>
+        </Collapse>
       </Grid>
     </Grid>
   );

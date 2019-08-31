@@ -5,7 +5,7 @@ import {
   Body,
   Footer,
 } from './layout';
-import { Navigation } from './header';
+import Navigation from '../container/Navigation';
 import Games from '../container/Games';
 
 const App = memo(() => (
