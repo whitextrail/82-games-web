@@ -15,10 +15,12 @@ import {
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { Link } from '../reusable';
-import { secondaryTextColor } from '../../../styles/constants';
+import {
+  secondaryTextColor,
+} from '../../../styles/constants';
 
 const styles = {
-  container: {
+  navContainer: {
     height: 56,
   },
   menuIcon: {
@@ -87,15 +89,19 @@ const Navigation = memo(() => {
   const matches = useMediaQuery(theme.breakpoints.up('sm'));
 
   return (
-    <Grid container style={styles.container}>
-      <Grid container alignItems="center">
-        <IconButton style={styles.menuTitleSpacing}>
-          <FontAwesomeIcon icon={faBars} style={styles.menuIcon} />
-        </IconButton>
-        <Typography variant="h6">82 Games</Typography>
-      </Grid>
-      <Grid container justify="flex-end" alignItems="center">
-        { matches ? <NavigationDesktop /> : <NavigationMobile /> }
+    <Grid container direction="column">
+      <Grid item xs={12} style={styles.navContainer}>
+        <Grid container>
+          <Grid container justify="flex-start" alignItems="center">
+            <IconButton style={styles.menuTitleSpacing}>
+              <FontAwesomeIcon icon={faBars} style={styles.menuIcon} />
+            </IconButton>
+            <Typography variant="h6">82 Games</Typography>
+          </Grid>
+          <Grid container justify="flex-end" alignItems="center">
+            { matches ? <NavigationDesktop /> : <NavigationMobile /> }
+          </Grid>
+        </Grid>
       </Grid>
     </Grid>
   );
