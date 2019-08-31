@@ -2,9 +2,7 @@ import React, { memo } from 'react';
 import {
   Grid,
   Paper,
-  Typography,
   Button,
-  Breadcrumbs,
   Menu,
   MenuItem,
 } from '@material-ui/core';
@@ -17,13 +15,13 @@ import {
 
 const styles = {
   container: {
-    height: 55,
+    height: 66,
     borderTopRightRadius: 16,
     borderTopLeftRadius: 16,
     backgroundColor: secondaryColor,
   },
   paper: {
-    height: 48,
+    height: 56,
     width: '100%',
     paddingLeft: 16,
     paddingTop: 8,
@@ -32,11 +30,9 @@ const styles = {
     borderBottomRightRadius: 0,
     borderBottomLeftRadius: 0,
   },
-  breadcrumbText: {
-    fontSize: 16,
-    color: primaryTextColor,
-  },
   breadcrumbButton: {
+    color: primaryTextColor,
+    fontSize: 16,
     paddingLeft: 0,
     fontWeight: 400,
   },
@@ -47,28 +43,25 @@ const styles = {
 };
 
 const GameStatusFilter = memo(({
-  gameStatusesById,
-  selectedGameStatusId,
+  allStatuses,
+  statusIndex,
   openMenu,
   closeMenu,
   menuAnchorEl,
 }) => (
   <Grid item style={styles.container}>
     <Paper style={styles.paper}>
-      <Breadcrumbs>
-        <Typography style={styles.breadcrumbText}>Games</Typography>
-        <Button
-          variant="text"
-          style={{ ...styles.breadcrumbButton, ...styles.breadcrumbText, }}
-          onClick={openMenu}
-        >
-          { `Status: ${gameStatusesById[selectedGameStatusId]}` }
-          <FontAwesomeIcon icon={faChevronDown} style={styles.breadcrumbButtonIcon} />
-        </Button>
-      </Breadcrumbs>
+      <Button
+        variant="text"
+        style={styles.breadcrumbButton}
+        onClick={openMenu}
+      >
+        { `Status: ${allStatuses[statusIndex]}` }
+        <FontAwesomeIcon icon={faChevronDown} style={styles.breadcrumbButtonIcon} />
+      </Button>
       <Menu anchorEl={menuAnchorEl} open={!!menuAnchorEl} onClose={closeMenu}>
-        { gameStatusesById.map((item, index) => {
-          const isSelected = selectedGameStatusId === index;
+        { allStatuses.map((item, index) => {
+          const isSelected = statusIndex === index;
 
           return (
             <MenuItem dense key={item} selected={isSelected} value={index} onClick={closeMenu}>
