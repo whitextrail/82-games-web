@@ -15,13 +15,13 @@ import {
 
 const styles = {
   container: {
-    height: 58,
+    height: 66,
     borderTopRightRadius: 16,
     borderTopLeftRadius: 16,
     backgroundColor: secondaryColor,
   },
   paper: {
-    height: 48,
+    height: 56,
     width: '100%',
     paddingLeft: 16,
     paddingTop: 8,
