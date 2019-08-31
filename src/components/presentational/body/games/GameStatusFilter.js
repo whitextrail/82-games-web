@@ -15,7 +15,7 @@ import {
 
 const styles = {
   container: {
-    height: 55,
+    height: 58,
     borderTopRightRadius: 16,
     borderTopLeftRadius: 16,
     backgroundColor: secondaryColor,
@@ -43,8 +43,8 @@ const styles = {
 };
 
 const GameStatusFilter = memo(({
-  gameStatusesById,
-  selectedGameStatusId,
+  allStatuses,
+  statusIndex,
   openMenu,
   closeMenu,
   menuAnchorEl,
@@ -56,12 +56,12 @@ const GameStatusFilter = memo(({
         style={styles.breadcrumbButton}
         onClick={openMenu}
       >
-        { `Status: ${gameStatusesById[selectedGameStatusId]}` }
+        { `Status: ${allStatuses[statusIndex]}` }
         <FontAwesomeIcon icon={faChevronDown} style={styles.breadcrumbButtonIcon} />
       </Button>
       <Menu anchorEl={menuAnchorEl} open={!!menuAnchorEl} onClose={closeMenu}>
-        { gameStatusesById.map((item, index) => {
-          const isSelected = selectedGameStatusId === index;
+        { allStatuses.map((item, index) => {
+          const isSelected = statusIndex === index;
 
           return (
             <MenuItem dense key={item} selected={isSelected} value={index} onClick={closeMenu}>

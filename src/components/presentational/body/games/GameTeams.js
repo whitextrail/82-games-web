@@ -10,7 +10,7 @@ import { primaryTextColor } from '../../../../styles/constants';
 
 const styles = {
   container: {
-    height: '80%',
+    height: '75%',
   },
   teamImage: {
     marginTop: 5,

@@ -9,6 +9,7 @@ import {
   List,
   ListItem,
   ListSubheader,
+  Typography,
 } from '@material-ui/core';
 import GameDetails from './GameDetails';
 import GameTeams from './GameTeams';
@@ -37,39 +38,50 @@ const styles = {
     paddingBottom: 4,
   },
   card: {
-    marginRight: 4,
-    marginLeft: 3,
+    marginRight: 5,
+    marginLeft: 5,
     borderRadius: 2,
     width: '100%',
   },
   cardHeaderAction: {
+    marginTop: 7,
+    marginRight: 5,
     color: secondaryTextColor,
     backgroundColor: primaryColor,
   },
   cardContent: {
-    height: 225,
+    height: 240,
     padding: 0,
   },
+  noGamesFoundContainer: {
+    marginTop: 20,
+  },
 };
+
+const NoGamesFound = memo(() => (
+  <Grid container justify="center" style={styles.noGamesFoundContainer}>
+    <Typography align="center">No games found.</Typography>
+  </Grid>
+));
 
 const ListChildren = memo(({
   games,
   teamsById,
 }) => (
-  games.allIds.map((gameId) => {
-    const {
-      homeTeamId,
-      awayTeamId,
-      dateTime,
-      arena,
-    } = games.byId[gameId];
+  games.map(({
+    id,
+    homeTeamId,
+    awayTeamId,
+    localGameDateTime,
+    arena,
+  }) => {
     const { name: homeTeamName } = teamsById[homeTeamId];
     const { name: awayTeamName } = teamsById[awayTeamId];
 
     return (
-      <Fragment key={gameId}>
-        <ListSubheader>{`Game ${gameId} - ${homeTeamName} vs. ${awayTeamName}`}</ListSubheader>
-        <ListItem disableGutters style={styles.listItem} key={gameId}>
+      <Fragment key={id}>
+        <ListSubheader>{`Game ${id} - ${homeTeamName} vs. ${awayTeamName}`}</ListSubheader>
+        <ListItem disableGutters style={styles.listItem} key={id}>
           <Card style={styles.card}>
             <CardHeader
               avatar={<Avatar src={avatar} />}
@@ -78,7 +90,7 @@ const ListChildren = memo(({
               subheader="0 PTS - 0 STL - 0 AST"
             />
             <CardContent style={styles.cardContent}>
-              <GameDetails dateTime={dateTime} arena={arena} />
+              <GameDetails localGameDateTime={localGameDateTime} arena={arena} />
               <GameTeams />
             </CardContent>
           </Card>
@@ -88,14 +100,12 @@ const ListChildren = memo(({
   }))
 );
 
-const Games = memo(({ games, teams }) => {
-  return (
-    <Grid item xs={12} style={styles.container}>
-      <List disablePadding style={styles.list} subheader={<li />}>
-        <ListChildren games={games} teamsById={teams.byId} />
-      </List>
-    </Grid>
-  );
-});
+const Games = memo(({ games, teams }) => (
+  <Grid item xs={12} style={styles.container}>
+    <List disablePadding style={styles.list} subheader={<li />}>
+      { games.length ? <ListChildren games={games} teamsById={teams.byId} /> : <NoGamesFound /> }
+    </List>
+  </Grid>
+));
 
 export default Games;
