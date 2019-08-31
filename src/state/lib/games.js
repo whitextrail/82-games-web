@@ -31,8 +31,8 @@ const segmentGamesByStatus = gamesById => (
     return {
       ...accumulator,
       Closed: [
-        ...accumulator.Closed,
         value,
+        ...accumulator.Closed,
       ]
     };
   }, {

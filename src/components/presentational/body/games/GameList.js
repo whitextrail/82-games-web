@@ -11,6 +11,7 @@ import {
   ListSubheader,
   Typography,
 } from '@material-ui/core';
+import moment from 'moment-timezone';
 import GameDetails from './GameDetails';
 import GameTeams from './GameTeams';
 import avatar from '../../../../assets/img/spencer_dinwiddie.png';
@@ -72,15 +73,17 @@ const ListChildren = memo(({
     id,
     homeTeamId,
     awayTeamId,
+    dateTime,
     localGameDateTime,
     arena,
   }) => {
     const { name: homeTeamName } = teamsById[homeTeamId];
     const { name: awayTeamName } = teamsById[awayTeamId];
+    const seasonYearRange = `S${moment(dateTime).format('YYYY')}-${moment(dateTime).add(1, 'y').format('YY')}`;
 
     return (
       <Fragment key={id}>
-        <ListSubheader>{`Game ${id} - ${homeTeamName} vs. ${awayTeamName}`}</ListSubheader>
+        <ListSubheader>{`Game ${id} (${seasonYearRange}) - ${homeTeamName} vs. ${awayTeamName}`}</ListSubheader>
         <ListItem disableGutters style={styles.listItem} key={id}>
           <Card style={styles.card}>
             <CardHeader
