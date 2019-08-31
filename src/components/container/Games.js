@@ -45,7 +45,7 @@ class GamesContainer extends PureComponent {
     const { games, teams } = this.props;
     const status = games.allStatuses[games.statusIndex];
 
-    return Object.keys(games.byStatus).length && (
+    return Object.keys(games.byStatus).length ? (
       <Grid container direction="column">
         <GameStatusFilter
           allStatuses={games.allStatuses}
@@ -56,7 +56,7 @@ class GamesContainer extends PureComponent {
         />
         <GameList status={status} games={games.byStatus[status]} teams={teams} />
       </Grid>
-    );
+    ) : <Grid />;
   };
 }
 
