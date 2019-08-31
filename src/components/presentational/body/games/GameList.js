@@ -19,6 +19,7 @@ import {
   primaryColor,
   secondaryColor,
   secondaryTextColor,
+  primaryTextColor,
 } from '../../../../styles/constants';
 
 const styles = {
@@ -44,11 +45,21 @@ const styles = {
     borderRadius: 2,
     width: '100%',
   },
-  cardHeaderAction: {
+  actionButton: {
     marginTop: 7,
     marginRight: 5,
+  },
+  closedGameActionButton: {
+    color: primaryTextColor,
+    backgroundColor: secondaryColor,
+  },
+  openGameActionButton: {
     color: secondaryTextColor,
     backgroundColor: primaryColor,
+  },
+  liveGameActionButton: {
+    color: secondaryTextColor,
+    backgroundColor: '#01d727',
   },
   cardContent: {
     height: 240,
@@ -65,7 +76,48 @@ const NoGamesFound = memo(() => (
   </Grid>
 ));
 
+const GameActionButton = memo(({ status }) => {
+  const {
+    actionButton,
+    closedGameActionButton,
+    liveGameActionButton,
+    openGameActionButton,
+  } = styles;
+
+  let buttonText = '';
+  let buttonStyle = {};
+
+  switch (status) {
+    case 'Closed':
+      buttonText = 'SEE RESULTS';
+      buttonStyle = {
+        ...actionButton,
+        ...closedGameActionButton,
+      };
+      break;
+    case 'Live':
+      buttonText = 'VIEW FEED';
+      buttonStyle = {
+        ...actionButton,
+        ...liveGameActionButton,
+      };
+      break;
+    case 'Open':
+      buttonText = 'PREDICT STATS';
+      buttonStyle = {
+        ...actionButton,
+        ...openGameActionButton,
+      };
+      break;
+    default:
+      return null;
+  }
+
+  return <Button size="small" variant="contained" style={buttonStyle}>{buttonText}</Button>;
+});
+
 const ListChildren = memo(({
+  status,
   games,
   teamsById,
 }) => (
@@ -88,7 +140,7 @@ const ListChildren = memo(({
           <Card style={styles.card}>
             <CardHeader
               avatar={<Avatar src={avatar} />}
-              action={<Button size="small" variant="contained" style={styles.cardHeaderAction}>JOIN</Button>}
+              action={<GameActionButton status={status} />}
               title="Spencer Dinwiddie"
               subheader="0 PTS - 0 STL - 0 AST"
             />
@@ -103,10 +155,14 @@ const ListChildren = memo(({
   }))
 );
 
-const Games = memo(({ games, teams }) => (
+const Games = memo(({
+  status,
+  games,
+  teams,
+}) => (
   <Grid item xs={12} style={styles.container}>
     <List disablePadding style={styles.list} subheader={<li />}>
-      { games.length ? <ListChildren games={games} teamsById={teams.byId} /> : <NoGamesFound /> }
+      { games.length ? <ListChildren status={status} games={games} teamsById={teams.byId} /> : <NoGamesFound /> }
     </List>
   </Grid>
 ));

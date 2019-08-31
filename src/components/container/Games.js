@@ -54,7 +54,7 @@ class GamesContainer extends PureComponent {
           closeMenu={this.closeMenu}
           menuAnchorEl={this.state.menuAnchorEl}
         />
-        <GameList games={games.byStatus[status]} teams={teams} />
+        <GameList status={status} games={games.byStatus[status]} teams={teams} />
       </Grid>
     );
   };
