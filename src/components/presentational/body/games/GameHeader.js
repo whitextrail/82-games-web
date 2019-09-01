@@ -25,7 +25,7 @@ const styles = {
     borderBottomLeftRadius: 0,
   },
   textContainer: {
-    marginLeft: 20,
+    paddingLeft: 20,
   },
   text: {
     color: primaryTextColor,
