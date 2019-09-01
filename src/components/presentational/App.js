@@ -5,14 +5,14 @@ import {
   Body,
   Footer,
 } from './layout';
-import Navigation from '../container/Navigation';
+import Nav from '../container/Nav';
 import Games from '../container/Games';
 
 const App = memo(() => (
   <Fragment>
     <CssBaseline />
     <Header>
-      <Navigation />
+      <Nav />
     </Header>
     <Body>
       <Games />

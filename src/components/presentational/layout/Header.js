@@ -1,13 +1,8 @@
 import React, { memo } from 'react';
 import {
-  AppBar,
-  Toolbar,
+  Grid,
 } from '@material-ui/core';
 
-const Header = memo(({ children }) => (
-  <AppBar position="static" color="primary" elevation={0}>
-    <Toolbar disableGutters>{ children }</Toolbar>
-  </AppBar>
-));
+const Header = memo(({ children }) => <Grid container>{ children }</Grid>);
 
 export default Header;

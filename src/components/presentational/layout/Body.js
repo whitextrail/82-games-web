@@ -1,14 +1,11 @@
 import React, { memo } from 'react';
-import {
-  Grid,
-  Paper,
-} from '@material-ui/core';
-import { primaryColor } from '../../../styles/constants';
+import { Grid } from '@material-ui/core';
+import { secondaryColor } from '../../../styles/constants';
 
 const styles = {
   container: {
     height: '100vh',
-    backgroundColor: primaryColor,
+    backgroundColor: secondaryColor,
   },
   paper: {
     height: '100%',
@@ -19,7 +16,7 @@ const styles = {
 
 const Body = memo(({ children }) => (
   <Grid style={styles.container}>
-    <Paper style={styles.paper}>{ children }</Paper>
+    { children }
   </Grid>
 ));
 

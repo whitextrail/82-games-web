@@ -8,7 +8,6 @@ import {
   segmentGamesByStatus,
 } from '../../state/actions/games';
 import GameList from '../presentational/body/games/GameList';
-import GameStatusFilter from '../presentational/body/games/GameStatusFilter';
 
 class GamesContainer extends PureComponent {
   state = {
@@ -46,16 +45,7 @@ class GamesContainer extends PureComponent {
     const status = games.allStatuses[games.statusIndex];
 
     return Object.keys(games.byStatus).length ? (
-      <Grid container direction="column">
-        <GameStatusFilter
-          allStatuses={games.allStatuses}
-          statusIndex={games.statusIndex}
-          openStatusFilterMenu={this.openStatusFilterMenu}
-          closeStatusFilterMenu={this.closeStatusFilterMenu}
-          statusFilterMenuAnchorEl={this.state.statusFilterMenuAnchorEl}
-        />
-        <GameList status={status} games={games.byStatus[status]} teams={teams} />
-      </Grid>
+      <GameList status={status} games={games.byStatus[status]} teams={teams} />
     ) : <Grid />;
   };
 }
