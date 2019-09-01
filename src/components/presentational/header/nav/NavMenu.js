@@ -1,5 +1,4 @@
 import React, { memo } from 'react';
-import { forEach } from 'lodash';
 import {
   Grid,
   Collapse,
@@ -50,18 +49,24 @@ const styles = {
   },
 };
 
-const NavMenuListItems = ({ byId }) => {
+const NavMenuListItems = ({
+  byId,
+  allIds,
+  selectedId,
+}) => {
   let hasIcons = true;
 
   const menuItems = [];
 
-  forEach(byId, (menuItem, id) => {
+  allIds.forEach((id) => {
+    const menuItem = byId[id];
     const listItemProps = {
       key: id,
       style: styles.navMenuListItem,
       button: true,
       disableGutters: true,
       alignItems: 'center',
+      selected: id === selectedId,
     };
 
     if (hasIcons && !menuItem.hasIcon) {
@@ -90,11 +95,12 @@ const NavMenu = memo(({
   byId,
   allIds,
   isOpen,
+  selectedId,
 }) => (
   <Grid item xs={12}>
     <Collapse in={isOpen}>
       <List disablePadding style={styles.navMenu}>
-        <NavMenuListItems byId={byId} allIds={allIds} />
+        <NavMenuListItems byId={byId} allIds={allIds} selectedId={selectedId} />
       </List>
     </Collapse>
   </Grid>

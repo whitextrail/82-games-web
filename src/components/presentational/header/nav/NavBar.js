@@ -4,16 +4,14 @@ import {
   Toolbar,
   Grid,
   IconButton,
-  Slide,
   Typography,
 } from '@material-ui/core';
 import {
   MenuSharp,
   CloseSharp,
-  StopSharp,
-  PlayArrowSharp,
 } from '@material-ui/icons';
 import { secondaryTextColor } from '../../../../styles/constants';
+import Games from '../../../functional/contextualNavigation/Games';
 
 const styles = {
   navContainer: {
@@ -28,17 +26,15 @@ const styles = {
     marginLeft: 6,
     marginRight: 12,
   },
+  title: {
+    fontSize: 22,
+    fontWeight: 500,
+  },
   contextualNavIcon: {
     color: secondaryTextColor,
     fontSize: 18,
   },
 };
-
-// const contextualNavIcons = {
-//   games: (
-
-//   ),
-// };
 
 const NavBar = memo(({
   toggleNavMenu,
@@ -48,6 +44,7 @@ const NavBar = memo(({
   const menuIcon = isOpen
     ? <CloseSharp style={styles.menuIcon} color="secondary" />
     : <MenuSharp style={styles.menuIcon} color="secondary" />;
+  const menuTitle = isOpen ? '82 GAMES' : title;
 
   return (
     <AppBar position="static" color="primary" elevation={0}>
@@ -57,18 +54,9 @@ const NavBar = memo(({
             <IconButton style={styles.menuIconButton} onClick={toggleNavMenu}>
               {menuIcon}
             </IconButton>
-            <Typography variant="h6">{title}</Typography>
+            <Typography style={styles.title}>{menuTitle}</Typography>
           </Grid>
-          <Slide direction="down" in={!isOpen}>
-            <Grid container justify="flex-end" alignItems="center">
-              <IconButton size="small" style={{ marginRight: 12 }}>
-                <StopSharp style={{ fontSize: 24 }} color="secondary" />
-              </IconButton>
-              <IconButton size="small" style={{ marginRight: 13 }}>
-                <PlayArrowSharp style={{ fontSize: 24 }} color="secondary" />
-              </IconButton>
-            </Grid>
-          </Slide>
+          <Games isOpen={isOpen} />
         </Grid>
       </Toolbar>
     </AppBar>
