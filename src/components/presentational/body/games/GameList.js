@@ -128,14 +128,19 @@ const ListChildren = memo(({
     dateTime,
     localGameDateTime,
     arena,
-  }) => {
+  },
+) => {
     const { name: homeTeamName } = teamsById[homeTeamId];
     const { name: awayTeamName } = teamsById[awayTeamId];
     const seasonYearRange = `S${moment(dateTime).format('YYYY')}-${moment(dateTime).add(1, 'y').format('YY')}`;
 
+    // We can't rely on id since there are now games from last season as well
+    // Temporary "hacky" fix since we should discuss whether there should be an actual column
+    const gameNumber = id > 82 ? (id - 82) : id;
+
     return (
       <Fragment key={id}>
-        <ListSubheader>{`Game ${id} (${seasonYearRange}) - ${homeTeamName} vs. ${awayTeamName}`}</ListSubheader>
+        <ListSubheader>{`Game ${gameNumber} (${seasonYearRange}) - ${homeTeamName} vs. ${awayTeamName}`}</ListSubheader>
         <ListItem disableGutters style={styles.listItem} key={id}>
           <Card style={styles.card}>
             <CardHeader
