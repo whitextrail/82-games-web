@@ -12,14 +12,14 @@ import {
   ListItemText,
   Divider,
 } from '@material-ui/core';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faBars,
-  faUser,
-  faTrophy,
-  faSignOutAlt,
-  faTimes,
-} from '@fortawesome/free-solid-svg-icons';
+  MenuSharp,
+  CloseSharp,
+  LocalPlaySharp,
+  PersonSharp,
+  EqualizerSharp,
+  ExitToAppSharp,
+} from '@material-ui/icons';
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { Link } from '../reusable';
@@ -42,7 +42,7 @@ const styles = {
   },
   navIcon: {
     color: secondaryTextColor,
-    fontSize: 18,
+    fontSize: 24,
   },
   navIconSpacing: {
     marginRight: 6,
@@ -61,8 +61,8 @@ const styles = {
   },
   navMenuListItemIcon: {
     minWidth: 0,
-    width: 18,
-    height: 18,
+    width: 24,
+    height: 24,
     marginRight: 24,
   },
   navMenuDivider: {
@@ -74,46 +74,46 @@ const styles = {
 const navLinks = {
   primary: [
     {
+      text: 'Games',
+      path: '/games',
+      icon: <LocalPlaySharp color="secondary" />,
+    },
+    {
       text: 'Account',
       path: '/account',
-      icon: faUser,
+      icon: <PersonSharp color="secondary" />,
     },
     {
       text: 'Leaderboard',
       path: '/leaderboard',
-      icon: faTrophy,
+      icon: <EqualizerSharp color="secondary" />,
     },
     {
       text: 'Logout',
       path: '/logout',
-      icon: faSignOutAlt,
+      icon: <ExitToAppSharp color="secondary" />,
     }
   ],
   secondary: [
     {
       text: 'About Us',
       path: '/about',
-      icon: faUser,
     },
     {
       text: 'Our Team',
       path: '/team',
-      icon: faTrophy,
     },
     {
       text: 'Contact',
       path: '/contact',
-      icon: faSignOutAlt,
     },
     {
       text: 'Terms of Service',
       path: '/terms',
-      icon: faSignOutAlt,
     },
     {
       text: 'Privacy Policy',
       path: '/privacy',
-      icon: faSignOutAlt,
     }
   ],
 };
@@ -122,7 +122,7 @@ const NavigationMobile = memo(() => (
   navLinks.primary.map((element, index) => (
     <Link to={element.path} key={element.text}>
       <IconButton style={ (index === (navLinks.length - 1)) ? styles.lastNavIconSpacing : styles.navIconSpacing }>
-        <FontAwesomeIcon icon={element.icon} style={styles.navIcon} />
+        {element.icon}
       </IconButton>
     </Link>
   ))
@@ -148,14 +148,14 @@ const Navigation = memo(({
 }) => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up('sm'));
-  const menuIcon = navigationMenuOpenState ? faTimes : faBars;
+  const menuIcon = navigationMenuOpenState ? <CloseSharp color="secondary" /> : <MenuSharp color="secondary" />;
 
   return (
     <Grid container direction="column">
       <Grid container item xs={12} style={styles.navContainer}>
         <Grid container justify="flex-start" alignItems="center">
           <IconButton style={styles.menuIconButton} onClick={toggleNavigationMenuOpenStateAction}>
-            <FontAwesomeIcon icon={menuIcon} style={styles.menuIcon} />
+            {menuIcon}
           </IconButton>
           <Typography variant="h6">82 Games</Typography>
         </Grid>
@@ -171,8 +171,8 @@ const Navigation = memo(({
             { navLinks.primary.map((element, index) => (
               <ListItem alignItems="center" key={index} button disableGutters style={styles.navMenuList}>
                 <ListItemIcon style={styles.navMenuListItemIcon}>
-                  <Grid container justify="center">
-                    <FontAwesomeIcon icon={element.icon} style={styles.navIcon} />
+                  <Grid container justify="center" alignItems="center">
+                    {element.icon}
                   </Grid>
                 </ListItemIcon>
                 <ListItemText primary={element.text} />

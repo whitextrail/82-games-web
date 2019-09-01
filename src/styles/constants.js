@@ -10,6 +10,9 @@ const theme = createMuiTheme({
     primary: {
       main: primaryColor,
     },
+    secondary: {
+      main: secondaryTextColor,
+    },
   },
   overrides: {
     MuiGrid: {
@@ -24,6 +27,9 @@ const theme = createMuiTheme({
       root: {
         textTransform: 'none',
       },
+    },
+    MuiIcon: {
+
     },
   },
 });
