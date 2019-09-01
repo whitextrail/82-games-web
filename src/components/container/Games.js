@@ -7,17 +7,12 @@ import {
 import { fetchTeams } from '../../state/actions/teams';
 import {
   fetchGamesByTeamId,
-  filterGamesByStatusId,
   segmentGamesByStatus,
 } from '../../state/actions/games';
 import GameHeader from '../presentational/body/games/GameHeader';
 import GameList from '../presentational/body/games/GameList';
 
 class GamesContainer extends PureComponent {
-  state = {
-    statusFilterMenuAnchorEl: null,
-  }
-
   componentDidMount() {
     if (!this.props.teams.selectedId) {
       this.props.fetchTeams();
@@ -40,9 +35,10 @@ class GamesContainer extends PureComponent {
   render = () => {
     const { games, teams } = this.props;
     const status = games.allStatuses[games.statusIndex];
+    const hasGamesByStatus = !!Object.keys(games.byStatus).length;
 
-    return Object.keys(games.byStatus).length ? (
-      <Slide in={!!Object.keys(games.byStatus).length} direction="up">
+    return hasGamesByStatus ? (
+      <Slide in={hasGamesByStatus} direction="up">
         <Grid container direction="column">
           <GameHeader status={status} />
           <GameList status={status} games={games.byStatus[status]} teams={teams} />
@@ -60,6 +56,5 @@ const mapStateToProps = ({ teams, games }) => ({
 export default connect(mapStateToProps, {
   fetchTeams,
   fetchGamesByTeamId,
-  filterGamesByStatusId,
   segmentGamesByStatus,
 })(GamesContainer);
