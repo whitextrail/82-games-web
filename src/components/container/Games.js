@@ -1,12 +1,16 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Grid } from '@material-ui/core';
+import {
+  Grid,
+  Slide,
+} from '@material-ui/core';
 import { fetchTeams } from '../../state/actions/teams';
 import {
   fetchGamesByTeamId,
   filterGamesByStatusId,
   segmentGamesByStatus,
 } from '../../state/actions/games';
+import GameHeader from '../presentational/body/games/GameHeader';
 import GameList from '../presentational/body/games/GameList';
 
 class GamesContainer extends PureComponent {
@@ -33,19 +37,17 @@ class GamesContainer extends PureComponent {
     }
   }
 
-  openStatusFilterMenu = event => this.setState({ statusFilterMenuAnchorEl: event.currentTarget });
-
-  closeStatusFilterMenu = (event) => {
-    this.props.filterGamesByStatusId(event.currentTarget.value);
-    this.setState({ statusFilterMenuAnchorEl: null });
-  };
-
   render = () => {
     const { games, teams } = this.props;
     const status = games.allStatuses[games.statusIndex];
 
     return Object.keys(games.byStatus).length ? (
-      <GameList status={status} games={games.byStatus[status]} teams={teams} />
+      <Slide in={!!Object.keys(games.byStatus).length} direction="up">
+        <Grid container direction="column">
+          <GameHeader status={status} />
+          <GameList status={status} games={games.byStatus[status]} teams={teams} />
+        </Grid>
+      </Slide>
     ) : <Grid />;
   };
 }

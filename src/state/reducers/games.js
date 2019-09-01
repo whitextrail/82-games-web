@@ -17,7 +17,7 @@ const gamesState = initialStateDecorator({
   allIds: [],
   selectedId: null,
   byStatus: {},
-  allStatuses: ['Closed', 'Live', 'Open'],
+  allStatuses: ['Previous', 'Live', 'Upcoming'],
   statusIndex: 2,
 });
 

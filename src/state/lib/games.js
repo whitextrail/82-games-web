@@ -16,13 +16,13 @@ const normalizeGameList = data => normalize(data, gameListSchema);
 const segmentGamesByStatus = gamesById => (
   reduce(gamesById, (accumulator, value) => {
     // Check whether the current time is before the game's date/time
-    const isOpen = moment().isBefore(moment(value.dateTime));
+    const isUpcoming = moment().isBefore(moment(value.dateTime));
 
-    if (isOpen) {
+    if (isUpcoming) {
       return {
         ...accumulator,
-        Open: [
-          ...accumulator.Open,
+        Upcoming: [
+          ...accumulator.Upcoming,
           value,
         ]
       };
@@ -30,15 +30,15 @@ const segmentGamesByStatus = gamesById => (
 
     return {
       ...accumulator,
-      Closed: [
+      Previous: [
         value,
-        ...accumulator.Closed,
+        ...accumulator.Previous,
       ]
     };
   }, {
-    Closed: [],
+    Previous: [],
     Live: [],
-    Open: [],
+    Upcoming: [],
   })
 );
 

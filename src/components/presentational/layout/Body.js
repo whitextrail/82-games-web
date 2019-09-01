@@ -1,16 +1,11 @@
 import React, { memo } from 'react';
 import { Grid } from '@material-ui/core';
-import { secondaryColor } from '../../../styles/constants';
+import { primaryColor } from '../../../styles/constants';
 
 const styles = {
   container: {
     height: '100vh',
-    backgroundColor: secondaryColor,
-  },
-  paper: {
-    height: '100%',
-    borderTopRightRadius: 16,
-    borderTopLeftRadius: 16,
+    backgroundColor: primaryColor,
   },
 };
 
