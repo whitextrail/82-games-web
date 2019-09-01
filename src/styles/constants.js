@@ -28,9 +28,6 @@ const theme = createMuiTheme({
         textTransform: 'none',
       },
     },
-    MuiIcon: {
-
-    },
   },
 });
 

@@ -30,10 +30,6 @@ const styles = {
     fontSize: 22,
     fontWeight: 500,
   },
-  contextualNavIcon: {
-    color: secondaryTextColor,
-    fontSize: 18,
-  },
 };
 
 const NavBar = memo(({
