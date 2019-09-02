@@ -7,7 +7,7 @@ import { primaryColor } from '../../../styles/constants';
 
 const styles = {
   container: {
-    height: '100vh',
+    height: window.innerHeight - 56,
     backgroundColor: primaryColor,
   },
 };

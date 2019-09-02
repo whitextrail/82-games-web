@@ -9,13 +9,19 @@ import {
 import {
   ReplaySharp,
   PlayCircleOutlineSharp,
-  FastForwardSharp
+  FastForwardSharp,
 } from '@material-ui/icons';
 import {
   primaryColor,
   secondaryColor,
   primaryTextColor,
 } from '../../../../styles/constants';
+
+const tabIcons = {
+  'Previous': <ReplaySharp />,
+  'Live': <PlayCircleOutlineSharp />,
+  'Upcoming': <FastForwardSharp />,
+};
 
 const styles = {
   container: {
@@ -37,21 +43,31 @@ const styles = {
 
 const GameHeader = memo(({
   selectedStatusId,
+  allStatusIds,
   navMenuIsOpen,
+  filterGamesByStatusId,
 }) => (
   <Slide in={!!selectedStatusId && !navMenuIsOpen} direction="down">
     <Grid container justify="center" alignItems="flex-start" style={styles.container}>
       <Paper square style={styles.paper}>
         <Tabs
-          value="Live"
+          value={selectedStatusId}
           indicatorColor="secondary"
           textColor="secondary"
           variant="fullWidth"
           style={{ height: '100%' }}
+          onChange={(evt, value) => filterGamesByStatusId(value)}
         >
-          <Tab icon={<ReplaySharp />} label="Previous" value="Previous" onClick={null} />
-          <Tab icon={<PlayCircleOutlineSharp />} label="Live" value="Live" onClick={null} />
-          <Tab icon={<FastForwardSharp />} label="Upcoming" value="Upcoming" onClick={null} />
+          {
+            allStatusIds.map(statusId => (
+              <Tab
+                key={statusId}
+                icon={tabIcons[statusId]}
+                label={statusId}
+                value={statusId}
+              />
+            ))
+          }
         </Tabs>
       </Paper>
     </Grid>

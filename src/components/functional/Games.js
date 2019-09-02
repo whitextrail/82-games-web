@@ -7,13 +7,20 @@ import GameList from '../presentational/body/games/GameList';
 const GamesContainer = memo(({
   games: {
     byStatusId,
+    allStatusIds,
     selectedStatusId,
   },
   teams,
   navMenuIsOpen,
+  filterGamesByStatusId,
 }) =>(
   <Grid container direction="column">
-    <GameHeader selectedStatusId={selectedStatusId} navMenuIsOpen={navMenuIsOpen} />
+    <GameHeader
+      selectedStatusId={selectedStatusId}
+      allStatusIds={allStatusIds}
+      navMenuIsOpen={navMenuIsOpen}
+      filterGamesByStatusId={filterGamesByStatusId}
+    />
     <GameList
       games={byStatusId[selectedStatusId]}
       teams={teams}

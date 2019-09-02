@@ -8,6 +8,7 @@ import {
   setNavState,
   fetchTeams,
   fetchGamesByTeamId,
+  filterGamesByStatusId,
 } from '../../state/actions';
 import {
   Header,
@@ -54,6 +55,7 @@ class App extends PureComponent {
       nav,
       teams,
       games,
+      filterGamesByStatusIdAction,
     } = this.props;
     const {
       selectedId: navSelectedId,
@@ -77,7 +79,14 @@ class App extends PureComponent {
           <Nav {...nav} />
         </Header>
         <Body navMenuIsOpen={isOpen}>
-          { showProgress ? <Progress /> : <Games teams={teams} games={games} /> }
+          { showProgress ? <Progress /> : (
+            <Games
+              teams={teams}
+              games={games}
+              navMenuIsOpen={isOpen}
+              filterGamesByStatusId={filterGamesByStatusIdAction}
+            />
+          ) }
         </Body>
         <Footer />
       </Fragment>
@@ -99,4 +108,5 @@ export default connect(mapStateToProps, {
   setNavStateAction: setNavState,
   fetchTeamsAction: fetchTeams,
   fetchGamesByTeamIdAction: fetchGamesByTeamId,
+  filterGamesByStatusIdAction: filterGamesByStatusId,
 })(App);
