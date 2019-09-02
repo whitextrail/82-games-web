@@ -24,8 +24,12 @@ const fetchGamesByTeamId = (id = 1) => (
 );
 
 const filterGamesByStatusId = statusIndex => (
-  dispatch => dispatch(filterGamesByStatusIdActionCreator({ response: { statusIndex } })
-));
+  (dispatch) => {
+    dispatch(filterGamesByStatusIdActionCreator());
+
+    setTimeout(() => dispatch(filterGamesByStatusIdActionCreator({ response: { statusIndex } })), 1000);
+  }
+);
 
 export {
   fetchGamesByTeamId,
