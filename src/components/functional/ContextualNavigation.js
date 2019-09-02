@@ -11,7 +11,7 @@ const ContextualNavigation = memo(({
   isOpen,
   selectedId,
 }) => (
-  <Slide direction="down" in={!isOpen} timeout={500}>
+  <Slide direction="down" in={!isOpen}>
     <Grid>
       {
         // This is being wrapped in a Grid component due to an issue

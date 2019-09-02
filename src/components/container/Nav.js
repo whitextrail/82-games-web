@@ -1,20 +1,11 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Grid } from '@material-ui/core';
-import {
-  setNavState,
-  toggleNavMenu,
-} from '../../state/actions/nav';
+import { toggleNavMenu } from '../../state/actions/nav';
 import NavBar from '../presentational/header/nav/NavBar';
 import NavMenu from '../presentational/header/nav/NavMenu';
 
 class NavContainer extends PureComponent {
-  constructor(props) {
-    super(props);
-
-    props.setNavState();
-  }
-
   render = () => {
     const {
       isOpen,
@@ -45,6 +36,5 @@ class NavContainer extends PureComponent {
 const mapStateToProps = ({ nav }) => ({ nav });
 
 export default connect(mapStateToProps, {
-  setNavState,
   toggleNavMenu,
 })(NavContainer);

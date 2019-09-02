@@ -5,7 +5,7 @@ import * as Sentry from '@sentry/browser';
 import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from '@material-ui/styles';
 import store from './state';
-import App from './components/presentational/App';
+import App from './components/container/App';
 import * as serviceWorker from './serviceWorker';
 import { SENTRY_DSN } from './config';
 import { theme } from './styles/constants';
