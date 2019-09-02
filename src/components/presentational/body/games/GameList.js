@@ -10,6 +10,7 @@ import {
   ListItem,
   ListSubheader,
   Typography,
+  Slide,
 } from '@material-ui/core';
 import moment from 'moment-timezone';
 import GameDetails from './GameDetails';
@@ -140,7 +141,9 @@ const ListChildren = memo(({
 
     return (
       <Fragment key={id}>
-        <ListSubheader>{`Game ${gameNumber} (${seasonYearRange}) - ${homeTeamName} vs. ${awayTeamName}`}</ListSubheader>
+        <ListSubheader disableSticky>
+          {`Game ${gameNumber} (${seasonYearRange}) - ${homeTeamName} vs. ${awayTeamName}`}
+        </ListSubheader>
         <ListItem disableGutters style={styles.listItem} key={id}>
           <Card style={styles.card}>
             <CardHeader
@@ -160,16 +163,23 @@ const ListChildren = memo(({
   }))
 );
 
-const Games = memo(({
-  status,
+const GameList = memo(({
   games,
   teams,
+  selectedStatusId,
+  navMenuIsOpen,
 }) => (
-  <Grid item xs={12} style={styles.container}>
-    <List disablePadding style={styles.list} subheader={<li />}>
-      { games.length ? <ListChildren status={status} games={games} teamsById={teams.byId} /> : <NoGamesFound /> }
-    </List>
-  </Grid>
+  <Slide in={!!selectedStatusId && !navMenuIsOpen} direction="up">
+    <Grid item xs={12} style={styles.container}>
+      <List disablePadding style={styles.list} subheader={<li />}>
+        {
+          games.length
+            ? <ListChildren selectedStatusId={selectedStatusId} games={games} teamsById={teams.byId} />
+            : <NoGamesFound />
+        }
+      </List>
+    </Grid>
+  </Slide>
 ));
 
-export default Games;
+export default GameList;

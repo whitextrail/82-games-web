@@ -1,9 +1,6 @@
-import React, { memo, Fragment } from 'react';
+import React, { memo } from 'react';
 import { connect } from 'react-redux';
-import {
-  Grid,
-  Slide,
-} from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import GameHeader from '../presentational/body/games/GameHeader';
 import GameList from '../presentational/body/games/GameList';
 
@@ -13,17 +10,17 @@ const GamesContainer = memo(({
     selectedStatusId,
   },
   teams,
-}) => (
-  selectedStatusId
-    ? (
-      <Slide in={!!selectedStatusId} direction="up">
-        <Grid container direction="column">
-          <GameHeader status={selectedStatusId} />
-          <GameList status={selectedStatusId} games={byStatusId[selectedStatusId]} teams={teams} />
-        </Grid>
-      </Slide>
-    )
-    : <Fragment />
+  navMenuIsOpen,
+}) =>(
+  <Grid container direction="column">
+    <GameHeader selectedStatusId={selectedStatusId} navMenuIsOpen={navMenuIsOpen} />
+    <GameList
+      games={byStatusId[selectedStatusId]}
+      teams={teams}
+      selectedStatusId={selectedStatusId}
+      navMenuIsOpen={navMenuIsOpen}
+    />
+  </Grid>
 ));
 
 const mapStateToProps = ({ teams, games }) => ({
