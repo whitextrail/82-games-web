@@ -17,8 +17,8 @@ const gamesState = initialStateDecorator({
   allIds: [],
   selectedId: null,
   byStatus: {},
-  allStatuses: ['Closed', 'Live', 'Open'],
-  statusIndex: 1,
+  allStatuses: ['Previous', 'Live', 'Upcoming'],
+  statusIndex: 2,
 });
 
 const fetchGamesByTeamIdReducer = (response) => {
