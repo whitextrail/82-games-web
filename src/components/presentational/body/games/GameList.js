@@ -88,7 +88,7 @@ const GameActionButton = memo(({ status }) => {
   let buttonStyle = {};
 
   switch (status) {
-    case 'Closed':
+    case 'Previous':
       buttonText = 'SEE RESULTS';
       buttonStyle = {
         ...actionButton,
@@ -102,7 +102,7 @@ const GameActionButton = memo(({ status }) => {
         ...liveGameActionButton,
       };
       break;
-    case 'Open':
+    case 'Upcoming':
       buttonText = 'PREDICT STATS';
       buttonStyle = {
         ...actionButton,
