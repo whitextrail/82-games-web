@@ -1,10 +1,12 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Grid } from '@material-ui/core';
 import {
   setNavState,
   toggleNavMenu,
 } from '../../state/actions/nav';
-import Nav from '../presentational/header/Nav';
+import NavBar from '../presentational/header/nav/NavBar';
+import NavMenu from '../presentational/header/nav/NavMenu';
 
 class NavContainer extends PureComponent {
   constructor(props) {
@@ -22,13 +24,19 @@ class NavContainer extends PureComponent {
     } = this.props.nav;
 
     return selectedId && (
-      <Nav
-        toggleNavMenu={this.props.toggleNavMenu}
-        isOpen={isOpen}
-        byId={byId}
-        allIds={allIds}
-        selectedId={selectedId}
-      />
+      <Grid container direction="column">
+        <NavBar
+          toggleNavMenu={toggleNavMenu}
+          isOpen={isOpen}
+          title={byId[selectedId].text}
+        />
+        <NavMenu
+          byId={byId}
+          selectedId={selectedId}
+          isOpen={isOpen}
+          allIds={allIds}
+        />
+      </Grid>
     );
   }
 };
