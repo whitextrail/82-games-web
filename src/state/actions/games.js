@@ -23,7 +23,9 @@ const fetchGamesByTeamId = (id) => (
   }
 );
 
-const filterGamesByStatusId = id => dispatch => dispatch(filterGamesByStatusIdActionCreator({ response: { id } }));
+const filterGamesByStatusId = statusIndex => (
+  dispatch => dispatch(filterGamesByStatusIdActionCreator({ response: { statusIndex } })
+));
 
 export {
   fetchGamesByTeamId,

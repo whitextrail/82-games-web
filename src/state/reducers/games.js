@@ -38,10 +38,10 @@ const fetchGamesByTeamIdReducer = (state, { response }) => {
 };
 
 const filterGamesByStatusIdReducer = (state, { response }) => {
-  const { id } = response;
+  const statusId = state.allStatusIds[response.statusIndex];
 
   return {
-    statusIndex: id < state.allStatusIds.length ? id : state.statusIndex,
+    selectedStatusId: statusId || state.selectedStatusId,
   };
 };
 
