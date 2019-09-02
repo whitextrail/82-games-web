@@ -97,13 +97,11 @@ const NavMenu = memo(({
   isOpen,
   selectedId,
 }) => (
-  <Grid item xs={12}>
-    <Collapse in={isOpen}>
-      <List disablePadding style={styles.navMenu}>
-        <NavMenuListItems byId={byId} allIds={allIds} selectedId={selectedId} />
-      </List>
-    </Collapse>
-  </Grid>
+  <Collapse in={isOpen}>
+    <List disablePadding style={styles.navMenu}>
+      <NavMenuListItems byId={byId} allIds={allIds} selectedId={selectedId} />
+    </List>
+  </Collapse>
 ));
 
 export default NavMenu;
