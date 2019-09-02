@@ -57,6 +57,7 @@ class App extends PureComponent {
     } = this.props;
     const {
       selectedId: navSelectedId,
+      isOpen,
     } = nav;
     const {
       selectedId: teamsSelectedId,
@@ -75,7 +76,7 @@ class App extends PureComponent {
         <Header>
           <Nav {...nav} />
         </Header>
-        <Body>
+        <Body navMenuIsOpen={isOpen}>
           { showProgress ? <Progress /> : <Games teams={teams} games={games} /> }
         </Body>
         <Footer />

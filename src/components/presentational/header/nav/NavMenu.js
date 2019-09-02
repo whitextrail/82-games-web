@@ -28,7 +28,7 @@ const navIcons = {
 
 const styles = {
   navMenu: {
-    height: '86.6vh',
+    height: window.innerHeight - 56,
     backgroundColor: primaryColor,
   },
   navMenuListItem: {
@@ -98,7 +98,7 @@ const NavMenu = memo(({
   selectedId,
 }) => (
   <Collapse in={isOpen}>
-    <List disablePadding style={styles.navMenu}>
+    <List style={styles.navMenu}>
       <NavMenuListItems byId={byId} allIds={allIds} selectedId={selectedId} />
     </List>
   </Collapse>
