@@ -10,7 +10,20 @@ const gameSchema = new schema.Entity('games', {}, {
 });
 const gameListSchema = new schema.Array(gameSchema);
 
-const normalizeGameList = data => normalize(data, gameListSchema);
+const normalizeGameList = data => {
+  const {
+    entities,
+    result,
+  } = normalize(data, gameListSchema);
+
+  return {
+    entities: {
+      ...entities,
+      gamesByStatus: segmentGamesByStatus(entities.games),
+    },
+    result,
+  };
+};
 
 // TODO: Differentiate between "closed" and "live" games
 const segmentGamesByStatus = gamesById => (
@@ -36,9 +49,9 @@ const segmentGamesByStatus = gamesById => (
       ]
     };
   }, {
-    Previous: [],
-    Live: [],
     Upcoming: [],
+    Live: [],
+    Previous: [],
   })
 );
 

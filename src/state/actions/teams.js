@@ -15,13 +15,8 @@ const fetchTeams = () => (
       const { data } = await get(`${apiEndpoints.fetchTeams}`);
 
       return dispatch(fetchTeamsActionCreator({ response: data }));
-    } catch (error) {
-      return dispatch(fetchTeamsActionCreator({
-        error: {
-          errorCode: error.code,
-          errorMessage: error.message,
-        },
-      }));
+    } catch ({ response: error }) {
+      return dispatch(fetchTeamsActionCreator({ error }));
     }
   }
 );

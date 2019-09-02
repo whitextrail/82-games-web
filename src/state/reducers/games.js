@@ -1,87 +1,59 @@
 import {
   FETCH_GAMES_BY_TEAM_ID,
   FILTER_GAMES_BY_STATUS_ID,
-  SEGMENT_GAMES_BY_STATUS,
 } from '../actions/util/types';
 import {
-  evalStatusCases,
+  evalActionPayload,
   initialStateDecorator,
 } from '../lib/reducers';
-import {
-  normalizeGameList,
-  segmentGamesByStatus,
-} from '../lib/games';
+import { normalizeGameList } from '../lib/games';
 
 const gamesState = initialStateDecorator({
   byId: {},
   allIds: [],
   selectedId: null,
-  byStatus: {},
-  allStatuses: ['Previous', 'Live', 'Upcoming'],
-  statusIndex: 2,
+  byStatusId: {},
+  allStatusIds: [],
+  selectedStatusId: null,
 });
 
-const fetchGamesByTeamIdReducer = (response) => {
-  if (response.length) {
-    const {
-      entities: { games },
-      result,
-    } = normalizeGameList(response);
+const fetchGamesByTeamIdReducer = (state, { response }) => {
+  const {
+    entities: {
+      games,
+      gamesByStatus,
+    },
+    result,
+  } = normalizeGameList(response);
+  const gamesByStatusKeys = Object.keys(gamesByStatus);
 
-    return {
-      byId: { ...games },
-      allIds: Object.keys(games),
-      selectedId: result[0],
-    };
-  }
-
-  return {};
+  return {
+    byId: games,
+    allIds: result,
+    selectedId: result[0],
+    byStatusId: gamesByStatus,
+    allStatusIds: gamesByStatusKeys,
+    selectedStatusId: gamesByStatusKeys[0],
+  };
 };
 
-const filterGamesByStatusIdReducer = (state, response) => {
-  const { id } = response;
+const filterGamesByStatusIdReducer = (state, { response }) => {
+  const statusId = state.allStatusIds[response.statusIndex];
 
-  if (id < state.allStatuses.length) {
-    return { statusIndex: id };
-  }
-
-  return {};
-};
-
-const segmentGamesByStatusReducer = (state, response) => {
-  if (response) {
-    return { byStatus: segmentGamesByStatus(state.byId) };
-  }
-
-  return {};
+  return {
+    selectedStatusId: statusId || state.selectedStatusId,
+  };
 };
 
 export default (state = gamesState, action) => {
-  let updatedState = {};
+  const { type } = action;
 
-  const {
-    type,
-    response,
-    error,
-  } = action;
-
-  if (response) {
-    switch (type) {
-      case FETCH_GAMES_BY_TEAM_ID:
-        updatedState = fetchGamesByTeamIdReducer(response);
-        break;
-      case FILTER_GAMES_BY_STATUS_ID:
-        updatedState = filterGamesByStatusIdReducer(state, response);
-        break;
-      case SEGMENT_GAMES_BY_STATUS:
-        updatedState = segmentGamesByStatusReducer(state, response);
-        break;
-      default:
-        return state;
-    }
-  } else if (error) {
-    updatedState = { ...error };
+  switch (type) {
+    case FETCH_GAMES_BY_TEAM_ID:
+      return evalActionPayload(state, action, fetchGamesByTeamIdReducer);
+    case FILTER_GAMES_BY_STATUS_ID:
+      return evalActionPayload(state, action, filterGamesByStatusIdReducer);
+    default:
+      return state;
   }
-
-  return evalStatusCases(state, action, updatedState);
 };

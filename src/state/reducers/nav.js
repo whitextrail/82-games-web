@@ -3,7 +3,7 @@ import {
   TOGGLE_NAV_MENU,
 } from '../actions/util/types';
 import {
-  evalStatusCases,
+  evalActionPayload,
   initialStateDecorator,
 } from '../lib/reducers';
 import { navList } from '../lib/nav';
@@ -25,25 +25,19 @@ const setNavStateReducer = () => {
   };
 };
 
-const toggleNavMenuReducer = ({ isOpen }) => ({
-  isOpen: !isOpen,
+const toggleNavMenuReducer = (state) => ({
+  isOpen: !state.isOpen,
 });
 
 export default (state = navState, action) => {
-  let updatedState = {};
-
   const { type } = action;
 
   switch (type) {
     case SET_NAV_STATE:
-      updatedState = setNavStateReducer();
-      break;
+      return evalActionPayload(state, action, setNavStateReducer);
     case TOGGLE_NAV_MENU:
-      updatedState = toggleNavMenuReducer(state);
-      break;
+      return evalActionPayload(state, action, toggleNavMenuReducer);
     default:
       return state;
   }
-
-  return evalStatusCases(state, action, updatedState);
 };

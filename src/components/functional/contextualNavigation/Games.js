@@ -20,8 +20,8 @@ const styles = {
 
 const GameNav = memo(({
   games: {
-    allStatuses,
-    statusIndex,
+    allStatusIds,
+    selectedStatusId,
   },
   filterGamesByStatusId: filterGamesByStatusIdAction,
 }) => {
@@ -41,15 +41,17 @@ const GameNav = memo(({
         <VisibilitySharp style={styles.icon} color="secondary" />
       </IconButton>
       <Menu anchorEl={anchorEl} open={!!anchorEl} onClose={closeStatusFilterMenu}>
-        { allStatuses.map((item, index) => {
-          const isSelected = statusIndex === index;
-
-          return (
-            <MenuItem dense key={item} selected={isSelected} value={index} onClick={closeStatusFilterMenu}>
-              {item}
+        { allStatusIds.map((status, index) => (
+            <MenuItem
+              key={status}
+              dense
+              selected={selectedStatusId === status}
+              onClick={closeStatusFilterMenu}
+              value={index}
+            >
+              {status}
             </MenuItem>
-          );
-        }) }
+        )) }
       </Menu>
     </Grid>
   );

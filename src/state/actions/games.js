@@ -2,14 +2,12 @@ import { get } from 'axios';
 import {
   FETCH_GAMES_BY_TEAM_ID,
   FILTER_GAMES_BY_STATUS_ID,
-  SEGMENT_GAMES_BY_STATUS,
 } from './util/types';
 import apiEndpoints from './util/apiEndpoints';
 import { actionWrapper } from '../lib/actions';
 
 const fetchGamesByTeamIdActionCreator = actionWrapper({ type: FETCH_GAMES_BY_TEAM_ID });
 const filterGamesByStatusIdActionCreator = actionWrapper({ type: FILTER_GAMES_BY_STATUS_ID });
-const segmentGamesByStatusActionCreator = actionWrapper({ type: SEGMENT_GAMES_BY_STATUS });
 
 const fetchGamesByTeamId = (id) => (
   async (dispatch) => {
@@ -19,23 +17,17 @@ const fetchGamesByTeamId = (id) => (
       const { data } = await get(`${apiEndpoints.fetchGamesByTeamId}/${id}`);
 
       return dispatch(fetchGamesByTeamIdActionCreator({ response: data }));
-    } catch (error) {
-      return dispatch(fetchGamesByTeamIdActionCreator({
-        error: {
-          errorCode: error.code,
-          errorMessage: error.message,
-        },
-      }));
+    } catch ({ response: error }) {
+      return dispatch(fetchGamesByTeamIdActionCreator({ error }));
     }
   }
 );
 
-const filterGamesByStatusId = id => dispatch => dispatch(filterGamesByStatusIdActionCreator({ response: { id } }));
-
-const segmentGamesByStatus = () => dispatch => dispatch(segmentGamesByStatusActionCreator({ response: {} }));
+const filterGamesByStatusId = statusIndex => (
+  dispatch => dispatch(filterGamesByStatusIdActionCreator({ response: { statusIndex } })
+));
 
 export {
   fetchGamesByTeamId,
   filterGamesByStatusId,
-  segmentGamesByStatus,
 };
