@@ -77,7 +77,7 @@ const NoGamesFound = memo(() => (
   </Grid>
 ));
 
-const GameActionButton = memo(({ status }) => {
+const GameActionButton = memo(({ selectedStatusId }) => {
   const {
     actionButton,
     closedGameActionButton,
@@ -88,7 +88,7 @@ const GameActionButton = memo(({ status }) => {
   let buttonText = '';
   let buttonStyle = {};
 
-  switch (status) {
+  switch (selectedStatusId) {
     case 'Previous':
       buttonText = 'SEE RESULTS';
       buttonStyle = {
@@ -118,7 +118,7 @@ const GameActionButton = memo(({ status }) => {
 });
 
 const ListChildren = memo(({
-  status,
+  selectedStatusId,
   games,
   teamsById,
 }) => (
@@ -129,8 +129,7 @@ const ListChildren = memo(({
     dateTime,
     localGameDateTime,
     arena,
-  },
-) => {
+  }) => {
     const { name: homeTeamName } = teamsById[homeTeamId];
     const { name: awayTeamName } = teamsById[awayTeamId];
     const seasonYearRange = `S${moment(dateTime).format('YYYY')}-${moment(dateTime).add(1, 'y').format('YY')}`;
@@ -148,7 +147,7 @@ const ListChildren = memo(({
           <Card style={styles.card}>
             <CardHeader
               avatar={<Avatar src={avatar} />}
-              action={<GameActionButton status={status} />}
+              action={<GameActionButton selectedStatusId={selectedStatusId} />}
               title="Spencer Dinwiddie"
               subheader="0 PTS - 0 STL - 0 AST"
             />
