@@ -132,10 +132,11 @@ const ListChildren = memo(({
   }) => {
     const { name: homeTeamName } = teamsById[homeTeamId];
     const { name: awayTeamName } = teamsById[awayTeamId];
-    const seasonYearRange = `S${moment(dateTime).format('YYYY')}-${moment(dateTime).add(1, 'y').format('YY')}`;
 
-    // We can't rely on id since there are now games from last season as well
-    // Temporary "hacky" fix since we should discuss whether there should be an actual column
+    // Temporary patch until the "season yearly range" lookup table is complete
+    const isLastSeason = moment(dateTime).isBefore('2019-04-11T00:00:00.001Z');
+    const seasonYearRange = isLastSeason ? 'S2018-19' : 'S2019-20';
+
     const gameNumber = id > 82 ? (id - 82) : id;
 
     return (
