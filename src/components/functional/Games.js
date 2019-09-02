@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { memo, Fragment } from 'react';
 import { connect } from 'react-redux';
 import {
   Grid,
@@ -7,26 +7,24 @@ import {
 import GameHeader from '../presentational/body/games/GameHeader';
 import GameList from '../presentational/body/games/GameList';
 
-class GamesContainer extends PureComponent {
-  render = () => {
-    const {
-      games: {
-        byStatusId,
-        selectedStatusId,
-      },
-      teams,
-    } = this.props;
-
-    return selectedStatusId ? (
+const GamesContainer = memo(({
+  games: {
+    byStatusId,
+    selectedStatusId,
+  },
+  teams,
+}) => (
+  selectedStatusId
+    ? (
       <Slide in={!!selectedStatusId} direction="up">
         <Grid container direction="column">
           <GameHeader status={selectedStatusId} />
           <GameList status={selectedStatusId} games={byStatusId[selectedStatusId]} teams={teams} />
         </Grid>
       </Slide>
-    ) : <Grid />;
-  };
-}
+    )
+    : <Fragment />
+));
 
 const mapStateToProps = ({ teams, games }) => ({
   teams,

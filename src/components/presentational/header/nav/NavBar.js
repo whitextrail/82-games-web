@@ -11,7 +11,7 @@ import {
   CloseSharp,
 } from '@material-ui/icons';
 import { secondaryTextColor } from '../../../../styles/constants';
-import ContextualNavigation from '../../../functional/ContextualNavigation';
+import ContextualNavigation from '../../ContextualNavigation';
 
 const styles = {
   navContainer: {

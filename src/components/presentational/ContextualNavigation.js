@@ -1,7 +1,7 @@
 
 import React, { memo } from 'react';
 import { Slide, Grid } from '@material-ui/core';
-import Games from './contextualNavigation/Games';
+import Games from '../functional/contextualNavigation/Games';
 
 const contextNavs = {
   games: <Games />

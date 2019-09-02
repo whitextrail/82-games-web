@@ -14,8 +14,8 @@ import {
   Body,
   Footer,
 } from '../presentational/layout';
-import Nav from './Nav';
-import Games from './Games';
+import Nav from '../functional/Nav';
+import Games from '../functional/Games';
 import Progress from '../presentational/reusable/Progress';
 
 class App extends PureComponent {
