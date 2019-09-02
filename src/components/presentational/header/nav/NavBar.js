@@ -11,7 +11,7 @@ import {
   CloseSharp,
 } from '@material-ui/icons';
 import { secondaryTextColor } from '../../../../styles/constants';
-import Games from '../../../functional/contextualNavigation/Games';
+import ContextualNavigation from '../../../functional/ContextualNavigation';
 
 const styles = {
   navContainer: {
@@ -36,6 +36,7 @@ const NavBar = memo(({
   toggleNavMenu,
   isOpen,
   title,
+  selectedId,
 }) => {
   const menuIcon = isOpen
     ? <CloseSharp style={styles.menuIcon} color="secondary" />
@@ -44,16 +45,14 @@ const NavBar = memo(({
 
   return (
     <AppBar position="static" color="primary" elevation={0}>
-      <Toolbar disableGutters>
-        <Grid container item xs={12} alignItems="center" style={styles.navContainer}>
-          <Grid container justify="flex-start" alignItems="center">
-            <IconButton style={styles.menuIconButton} onClick={toggleNavMenu}>
-              {menuIcon}
-            </IconButton>
-            <Typography style={styles.title}>{menuTitle}</Typography>
-          </Grid>
-          <Games isOpen={isOpen} />
+      <Toolbar disableGutters style={styles.navContainer}>
+        <Grid container justify="flex-start" alignItems="center">
+          <IconButton style={styles.menuIconButton} onClick={toggleNavMenu}>
+            {menuIcon}
+          </IconButton>
+          <Typography style={styles.title}>{menuTitle}</Typography>
         </Grid>
+        <ContextualNavigation isOpen={isOpen} selectedId={selectedId} />
       </Toolbar>
     </AppBar>
   );

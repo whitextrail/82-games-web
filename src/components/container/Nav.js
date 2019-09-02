@@ -26,9 +26,10 @@ class NavContainer extends PureComponent {
     return selectedId && (
       <Grid container direction="column">
         <NavBar
-          toggleNavMenu={toggleNavMenu}
+          toggleNavMenu={this.props.toggleNavMenu}
           isOpen={isOpen}
           title={byId[selectedId].text}
+          selectedId={selectedId}
         />
         <NavMenu
           byId={byId}

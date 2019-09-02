@@ -2,7 +2,6 @@ import React, { memo, useState } from 'react';
 import {
   Grid,
   IconButton,
-  Slide,
   Menu,
   MenuItem,
 } from '@material-ui/core';
@@ -20,7 +19,6 @@ const styles = {
 };
 
 const GameNav = memo(({
-  isOpen,
   games: {
     allStatuses,
     statusIndex,
@@ -38,30 +36,26 @@ const GameNav = memo(({
   };
 
   return (
-    <Slide direction="down" in={!isOpen} timeout={500}>
-      <Grid container justify="flex-end" alignItems="center">
-        <IconButton size="small" style={styles.iconButton} onClick={openStatusFilterMenu}>
-          <VisibilitySharp style={styles.icon} color="secondary" />
-        </IconButton>
-        <Menu anchorEl={anchorEl} open={!!anchorEl} onClose={closeStatusFilterMenu}>
-          { allStatuses.map((item, index) => {
-            const isSelected = statusIndex === index;
+    <Grid container justify="flex-end" alignItems="center">
+      <IconButton size="small" style={styles.iconButton} onClick={openStatusFilterMenu}>
+        <VisibilitySharp style={styles.icon} color="secondary" />
+      </IconButton>
+      <Menu anchorEl={anchorEl} open={!!anchorEl} onClose={closeStatusFilterMenu}>
+        { allStatuses.map((item, index) => {
+          const isSelected = statusIndex === index;
 
-            return (
-              <MenuItem dense key={item} selected={isSelected} value={index} onClick={closeStatusFilterMenu}>
-                {item}
-              </MenuItem>
-            );
-          }) }
-        </Menu>
-      </Grid>
-    </Slide>
+          return (
+            <MenuItem dense key={item} selected={isSelected} value={index} onClick={closeStatusFilterMenu}>
+              {item}
+            </MenuItem>
+          );
+        }) }
+      </Menu>
+    </Grid>
   );
 });
 
-const mapStateToProps = ({ games }) => ({
-  games
-});
+const mapStateToProps = ({ games }) => ({ games });
 
 export default connect(mapStateToProps, {
   filterGamesByStatusId,
