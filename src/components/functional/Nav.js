@@ -10,10 +10,11 @@ const NavContainer = memo(({
   byId,
   allIds,
   selectedId,
+  toggleNavMenu,
 }) => selectedId && (
   <Grid container direction="column">
     <NavBar
-      toggleNavMenu={this.props.toggleNavMenu}
+      toggleNavMenu={toggleNavMenu}
       isOpen={isOpen}
       title={byId[selectedId].text}
       selectedId={selectedId}

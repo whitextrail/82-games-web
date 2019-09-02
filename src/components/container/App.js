@@ -51,18 +51,21 @@ class App extends PureComponent {
 
   render = () => {
     const {
-      nav: {
-        selectedId: navSelectedId,
-      },
-      teams: {
-        selectedId: teamsSelectedId,
-        inProgress: teamsInProgress,
-      },
-      games: {
-        selectedId: gamesSelectedId,
-        inProgress: gamesInProgress,
-      },
+      nav,
+      teams,
+      games,
     } = this.props;
+    const {
+      selectedId: navSelectedId,
+    } = nav;
+    const {
+      selectedId: teamsSelectedId,
+      inProgress: teamsInProgress,
+    } = teams;
+    const {
+      selectedId: gamesSelectedId,
+      inProgress: gamesInProgress,
+    } = games;
     const initialStateLoaded = !!(navSelectedId && teamsSelectedId && gamesSelectedId);
     const showProgress = !initialStateLoaded || (teamsInProgress || gamesInProgress);
 
@@ -70,10 +73,10 @@ class App extends PureComponent {
       <Fragment>
         <CssBaseline />
         <Header>
-          <Nav />
+          <Nav {...nav} />
         </Header>
         <Body>
-          { showProgress ? <Progress /> : <Games /> }
+          { showProgress ? <Progress /> : <Games teams={teams} games={games} /> }
         </Body>
         <Footer />
       </Fragment>
