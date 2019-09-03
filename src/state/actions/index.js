@@ -3,6 +3,10 @@ import {
   toggleNavMenu,
 } from './nav';
 import {
+  authenticateUser,
+  logOutUser,
+} from './user';
+import {
   fetchTeams,
 } from './teams';
 import {
@@ -13,6 +17,8 @@ import {
 export {
   setNavState,
   toggleNavMenu,
+  authenticateUser,
+  logOutUser,
   fetchGamesByTeamId,
   filterGamesByStatusId,
   fetchTeams,
