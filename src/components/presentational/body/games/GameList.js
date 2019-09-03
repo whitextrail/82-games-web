@@ -10,7 +10,6 @@ import {
   ListItem,
   ListSubheader,
   Typography,
-  Slide,
 } from '@material-ui/core';
 import moment from 'moment-timezone';
 import GameDetails from './GameDetails';
@@ -26,12 +25,10 @@ import {
 const styles = {
   container: {
     height: '100%',
-    backgroundColor: secondaryColor,
     overflow: 'hidden',
   },
   list: {
     width: '100%',
-    backgroundColor: secondaryColor,
     position: 'relative',
     overflow: 'auto',
     maxHeight: '100%',
@@ -41,9 +38,9 @@ const styles = {
     paddingBottom: 4,
   },
   card: {
-    marginRight: 5,
-    marginLeft: 5,
-    borderRadius: 2,
+    marginRight: 10,
+    marginLeft: 10,
+    borderRadius: 3,
     width: '100%',
   },
   actionButton: {
@@ -167,19 +164,16 @@ const GameList = memo(({
   games,
   teams,
   selectedStatusId,
-  navMenuIsOpen,
 }) => (
-  <Slide in={!!selectedStatusId && !navMenuIsOpen} direction="up">
-    <Grid item xs={12} style={styles.container}>
-      <List disablePadding style={styles.list} subheader={<li />}>
-        {
-          games.length
-            ? <ListChildren selectedStatusId={selectedStatusId} games={games} teamsById={teams.byId} />
-            : <NoGamesFound />
-        }
-      </List>
-    </Grid>
-  </Slide>
+  <Grid item xs={12} style={styles.container}>
+    <List disablePadding style={styles.list} subheader={<li />}>
+      {
+        games.length
+          ? <ListChildren selectedStatusId={selectedStatusId} games={games} teamsById={teams.byId} />
+          : <NoGamesFound />
+      }
+    </List>
+  </Grid>
 ));
 
 export default GameList;

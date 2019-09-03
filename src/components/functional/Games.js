@@ -3,30 +3,31 @@ import { connect } from 'react-redux';
 import { Grid } from '@material-ui/core';
 import GameHeader from '../presentational/body/games/GameHeader';
 import GameList from '../presentational/body/games/GameList';
+import Progress from '../presentational/reusable/Progress';
 
 const GamesContainer = memo(({
   games: {
     byStatusId,
     allStatusIds,
     selectedStatusId,
+    inProgress,
   },
   teams,
-  navMenuIsOpen,
   filterGamesByStatusId,
 }) =>(
   <Grid container direction="column">
     <GameHeader
       selectedStatusId={selectedStatusId}
       allStatusIds={allStatusIds}
-      navMenuIsOpen={navMenuIsOpen}
+      inProgress={inProgress}
       filterGamesByStatusId={filterGamesByStatusId}
     />
-    <GameList
-      games={byStatusId[selectedStatusId]}
-      teams={teams}
-      selectedStatusId={selectedStatusId}
-      navMenuIsOpen={navMenuIsOpen}
-    />
+    { inProgress ? <Progress /> : (
+      <GameList
+        games={byStatusId[selectedStatusId]}
+        teams={teams}
+        selectedStatusId={selectedStatusId}
+      /> ) }
   </Grid>
 ));
 

@@ -1,10 +1,8 @@
 import React, { memo } from 'react';
 import {
-  Grid,
   Paper,
   Tabs,
   Tab,
-  Slide,
 } from '@material-ui/core';
 import {
   ReplaySharp,
@@ -13,7 +11,6 @@ import {
 } from '@material-ui/icons';
 import {
   primaryColor,
-  secondaryColor,
   primaryTextColor,
 } from '../../../../styles/constants';
 
@@ -24,10 +21,6 @@ const tabIcons = {
 };
 
 const styles = {
-  container: {
-    height: 82,
-    backgroundColor: secondaryColor,
-  },
   paper: {
     height: 72,
     paddingRight: 7.5,
@@ -44,34 +37,28 @@ const styles = {
 const GameHeader = memo(({
   selectedStatusId,
   allStatusIds,
-  navMenuIsOpen,
   filterGamesByStatusId,
+  inProgress,
 }) => (
-  <Slide in={!!selectedStatusId && !navMenuIsOpen} direction="down">
-    <Grid container justify="center" alignItems="flex-start" style={styles.container}>
-      <Paper square style={styles.paper}>
-        <Tabs
-          value={selectedStatusId}
-          indicatorColor="secondary"
-          textColor="secondary"
-          variant="fullWidth"
-          style={{ height: '100%' }}
-          onChange={(evt, value) => filterGamesByStatusId(value)}
-        >
-          {
-            allStatusIds.map(statusId => (
-              <Tab
-                key={statusId}
-                icon={tabIcons[statusId]}
-                label={statusId}
-                value={statusId}
-              />
-            ))
-          }
-        </Tabs>
-      </Paper>
-    </Grid>
-  </Slide>
+  <Paper square style={styles.paper}>
+    <Tabs
+      value={selectedStatusId}
+      indicatorColor={inProgress ? "primary" : "secondary"}
+      textColor="secondary"
+      variant="fullWidth"
+      style={{ height: '100%' }}
+      onChange={(evt, value) => filterGamesByStatusId(value)}
+    >
+      { allStatusIds.map(statusId => (
+        <Tab
+          key={statusId}
+          icon={tabIcons[statusId]}
+          label={statusId}
+          value={statusId}
+        />
+      )) }
+    </Tabs>
+  </Paper>
 ));
 
 export default GameHeader;

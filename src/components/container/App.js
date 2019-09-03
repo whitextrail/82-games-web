@@ -58,19 +58,12 @@ class App extends PureComponent {
       filterGamesByStatusIdAction,
     } = this.props;
     const {
-      selectedId: navSelectedId,
       isOpen,
+      selectedId: navSelectedId,
     } = nav;
-    const {
-      selectedId: teamsSelectedId,
-      inProgress: teamsInProgress,
-    } = teams;
-    const {
-      selectedId: gamesSelectedId,
-      inProgress: gamesInProgress,
-    } = games;
+    const { selectedId: teamsSelectedId } = teams;
+    const { selectedId: gamesSelectedId } = games;
     const initialStateLoaded = !!(navSelectedId && teamsSelectedId && gamesSelectedId);
-    const showProgress = !initialStateLoaded || (teamsInProgress || gamesInProgress);
 
     return (
       <Fragment>
@@ -79,7 +72,7 @@ class App extends PureComponent {
           <Nav {...nav} />
         </Header>
         <Body navMenuIsOpen={isOpen}>
-          { showProgress ? <Progress /> : (
+          { !initialStateLoaded ? <Progress /> : (
             <Games
               teams={teams}
               games={games}

@@ -28,6 +28,7 @@ const styles = {
   title: {
     fontSize: 22,
     fontWeight: 500,
+    fontFamily: 'Source Sans Pro',
   },
 };
 
