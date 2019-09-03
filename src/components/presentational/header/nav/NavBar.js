@@ -25,11 +25,6 @@ const styles = {
     marginLeft: 6,
     marginRight: 12,
   },
-  title: {
-    fontSize: 22,
-    fontWeight: 500,
-    fontFamily: 'Source Sans Pro',
-  },
 };
 
 const NavBar = memo(({
@@ -49,7 +44,7 @@ const NavBar = memo(({
           <IconButton style={styles.menuIconButton} onClick={toggleNavMenu}>
             {menuIcon}
           </IconButton>
-          <Typography style={styles.title}>{menuTitle}</Typography>
+          <Typography variant="h6">{menuTitle}</Typography>
         </Grid>
       </Toolbar>
     </AppBar>

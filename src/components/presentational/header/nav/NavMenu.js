@@ -44,8 +44,8 @@ const styles = {
     marginRight: 24,
   },
   navMenuDivider: {
-    marginTop: 24,
-    marginBottom: 20,
+    marginTop: 20,
+    marginBottom: 16,
   },
 };
 

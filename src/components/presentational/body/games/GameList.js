@@ -15,12 +15,6 @@ import moment from 'moment-timezone';
 import GameDetails from './GameDetails';
 import GameTeams from './GameTeams';
 import avatar from '../../../../assets/img/spencer_dinwiddie.png';
-import {
-  primaryColor,
-  secondaryColor,
-  secondaryTextColor,
-  primaryTextColor,
-} from '../../../../styles/constants';
 
 const styles = {
   container: {
@@ -43,25 +37,13 @@ const styles = {
     borderRadius: 3,
     width: '100%',
   },
-  actionButton: {
-    marginTop: 7,
-    marginRight: 5,
-  },
-  closedGameActionButton: {
-    color: primaryTextColor,
-    backgroundColor: secondaryColor,
-  },
-  openGameActionButton: {
-    color: secondaryTextColor,
-    backgroundColor: primaryColor,
-  },
-  liveGameActionButton: {
-    color: secondaryTextColor,
-    backgroundColor: '#01d727',
-  },
   cardContent: {
     height: 240,
     padding: 0,
+  },
+  actionButton: {
+    marginTop: 5,
+    marginRight: 5,
   },
   noGamesFoundContainer: {
     marginTop: 20,
@@ -70,48 +52,47 @@ const styles = {
 
 const NoGamesFound = memo(() => (
   <Grid container justify="center" style={styles.noGamesFoundContainer}>
-    <Typography align="center">No games found.</Typography>
+    <Typography variant="h6" align="center">No games found.</Typography>
   </Grid>
 ));
 
 const GameActionButton = memo(({ selectedStatusId }) => {
-  const {
-    actionButton,
-    closedGameActionButton,
-    liveGameActionButton,
-    openGameActionButton,
-  } = styles;
-
   let buttonText = '';
-  let buttonStyle = {};
+  let buttonProps = {
+    size: 'small',
+    style: { ...styles.actionButton },
+  };
 
   switch (selectedStatusId) {
     case 'Previous':
-      buttonText = 'SEE RESULTS';
-      buttonStyle = {
-        ...actionButton,
-        ...closedGameActionButton,
+      buttonText = 'RESULTS';
+      buttonProps = {
+        ...buttonProps,
+        variant: 'contained',
+        color: 'secondary',
       };
       break;
     case 'Live':
-      buttonText = 'VIEW FEED';
-      buttonStyle = {
-        ...actionButton,
-        ...liveGameActionButton,
+      buttonText = 'FEED';
+      buttonProps = {
+        ...buttonProps,
+        variant: 'outlined',
+        color: 'primary',
       };
       break;
     case 'Upcoming':
-      buttonText = 'PREDICT STATS';
-      buttonStyle = {
-        ...actionButton,
-        ...openGameActionButton,
+      buttonText = 'PREDICT';
+      buttonProps = {
+        ...buttonProps,
+        variant: 'contained',
+        color: 'primary',
       };
       break;
     default:
       return null;
   }
 
-  return <Button size="small" variant="contained" style={buttonStyle}>{buttonText}</Button>;
+  return <Button {...buttonProps}>{buttonText}</Button>;
 });
 
 const ListChildren = memo(({

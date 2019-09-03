@@ -14,6 +14,21 @@ const theme = createMuiTheme({
       main: secondaryTextColor,
     },
   },
+  typography: {
+    h6: {
+      fontFamily: ['Cabin', 'sans-serif'],
+      fontSize: 18,
+      fontWeight: 600,
+    },
+    body1: {
+      fontFamily: ['Raleway', 'sans-serif'],
+      fontSize: 16,
+    },
+    body2: {
+      fontFamily: ['Raleway', 'sans-serif'],
+      fontSize: 14,
+    }
+  },
   overrides: {
     MuiGrid: {
       root: {
@@ -26,7 +41,57 @@ const theme = createMuiTheme({
     MuiButton: {
       root: {
         textTransform: 'none',
+        fontFamily: ['Cabin', 'sans-serif'],
+        fontSize: 14,
       },
+      textPrimary: {
+        color: '#FFF',
+        fontWeight: 'bold',
+      },
+      textSecondary: {
+        color: '#333',
+      },
+      containedPrimary: {
+        backgroundColor: primaryColor,
+      },
+      containedSecondary: {
+        backgroundColor: secondaryColor,
+      }
+    },
+    MuiTypography: {
+      h6: {
+        fontFamily: ['Cabin', 'sans-serif'],
+        fontSize: 20,
+        fontWeight: 600,
+      },
+      body1: {
+        fontFamily: ['Raleway', 'sans-serif'],
+        fontSize: 18,
+      },
+      body2: {
+        fontFamily: ['Raleway', 'sans-serif'],
+        fontSize: 14,
+      }
+    },
+    MuiListSubheader: {
+      root: {
+        fontFamily: ['Raleway', 'sans-serif'],
+        fontSize: 14,
+        fontWeight: 'bold',
+      },
+    },
+    MuiListItemText: {
+      root: {
+        fontFamily: ['Cabin', 'sans-serif'],
+        fontSize: 14,
+      },
+    },
+    MuiTab: {
+      wrapper: {
+        fontFamily: ['Cabin', 'sans-serif'],
+        fontSize: 14,
+        fontWeight: 'bold',
+      }
     },
   },
 });

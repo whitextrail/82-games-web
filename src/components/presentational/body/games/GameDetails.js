@@ -3,7 +3,6 @@ import {
   Grid,
   Typography,
 } from '@material-ui/core';
-import { primaryTextColor } from '../../../../styles/constants';
 
 const styles = {
   container: {
@@ -14,11 +13,7 @@ const styles = {
     borderTop: '1px solid #EFEFEF',
     borderBottom: '1px solid #EFEFEF',
     paddingTop: 7,
-    paddingBottom: 7
-  },
-  typography: {
-    fontSize: 14,
-    color: primaryTextColor,
+    paddingBottom: 7,
   },
 };
 
@@ -27,9 +22,9 @@ const GameDetails = memo(({
   arena,
 }) => (
   <Grid container alignItems="center" direction="column" style={styles.container}>
-    <Grid style={styles.textContainer}>
-      <Typography align="center" style={styles.typography}>{localGameDateTime}</Typography>
-      <Typography align="center" style={styles.typography}>{arena}</Typography>
+    <Grid container justify="space-between" style={styles.textContainer} direction="column">
+      <Typography variant="body2" align="center">{localGameDateTime}</Typography>
+      <Typography variant="body2" align="center">{arena}</Typography>
     </Grid>
   </Grid>
 ));
