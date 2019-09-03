@@ -1,4 +1,6 @@
 import React, { memo } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import {
   Grid,
   Collapse,
@@ -14,6 +16,9 @@ import {
   EqualizerSharp,
   ExitToAppSharp,
 } from '@material-ui/icons';
+import { logOutUser } from '../../../../state/actions';
+import { authorize } from '../../../../util/auth';
+import { authenticationStates } from '../../../../util/constants';
 import {
   primaryColor,
   secondaryTextColor,
@@ -22,6 +27,7 @@ import {
 const navIcons = {
   games: <LocalPlaySharp color="secondary" />,
   account: <PersonSharp color="secondary" />,
+  authenticate: <PersonSharp color="secondary" />,
   leaderboard: <EqualizerSharp color="secondary" />,
   logout: <ExitToAppSharp color="secondary" />,
 };
@@ -53,39 +59,59 @@ const NavMenuListItems = ({
   byId,
   allIds,
   selectedId,
+  logOutUserAction,
+  authState,
 }) => {
+  // Pre-defined custom actions on some menu items
+  const navActions = {
+    authenticate: () => authorize(), // Redirect to Auth0 login page
+    logout: () => logOutUserAction(), // Clear user state
+  };
+
   let hasIcons = true;
 
   const menuItems = [];
 
   allIds.forEach((id) => {
     const menuItem = byId[id];
-    const listItemProps = {
-      key: id,
-      style: styles.navMenuListItem,
-      button: true,
-      disableGutters: true,
-      alignItems: 'center',
-      selected: id === selectedId,
-    };
+    const { authenticationState } = menuItem;
+    let showItem = true;
 
-    if (hasIcons && !menuItem.hasIcon) {
-      hasIcons = false;
-      menuItems.push(<Divider key="navMenuItemDivider" style={styles.navMenuDivider} />);
+    // If the authentication state check exists for this item, confirm if the current user auth state matches it
+    if (authenticationState && authenticationState !== authState) {
+      showItem = false;
     }
 
-    menuItems.push((
-      <ListItem {...listItemProps}>
-        { hasIcons && (
-          <ListItemIcon style={styles.navMenuListItemIcon}>
-            <Grid container justify="center" alignItems="center">
-              {navIcons[id]}
-            </Grid>
-          </ListItemIcon>
-        ) }
-        <ListItemText primary={menuItem.text} />
-      </ListItem>
-    ));
+    if (showItem) {
+      const menuAction = (navActions[id] ? { onClick: () => navActions[id]() } : {});
+      const listItemProps = {
+        key: id,
+        style: styles.navMenuListItem,
+        button: true,
+        disableGutters: true,
+        alignItems: 'center',
+        selected: id === selectedId,
+        ...menuAction,
+      };
+  
+      if (hasIcons && !menuItem.hasIcon) {
+        hasIcons = false;
+        menuItems.push(<Divider key="navMenuItemDivider" style={styles.navMenuDivider} />);
+      }
+  
+      menuItems.push((
+        <ListItem {...listItemProps}>
+          { hasIcons && (
+            <ListItemIcon style={styles.navMenuListItemIcon}>
+              <Grid container justify="center" alignItems="center">
+                {navIcons[id]}
+              </Grid>
+            </ListItemIcon>
+          ) }
+          <ListItemText primary={menuItem.text} />
+        </ListItem>
+      ));
+    }
   });
 
   return menuItems;
@@ -96,12 +122,28 @@ const NavMenu = memo(({
   allIds,
   isOpen,
   selectedId,
+  authState,
+  logOutUser,
 }) => (
   <Collapse in={isOpen}>
     <List style={styles.navMenu}>
-      <NavMenuListItems byId={byId} allIds={allIds} selectedId={selectedId} />
+      <NavMenuListItems
+        byId={byId}
+        allIds={allIds}
+        selectedId={selectedId}
+        authState={authState}
+        logOutUserAction={logOutUser}
+      />
     </List>
   </Collapse>
 ));
 
-export default NavMenu;
+NavMenu.propTypes = {
+  logOutUser: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = ({ user }) => ({
+  authState: user.id ? authenticationStates.AUTHENTICATED : authenticationStates.UNAUTHENTICATED,
+});
+
+export default connect(mapStateToProps, { logOutUser })(NavMenu);
