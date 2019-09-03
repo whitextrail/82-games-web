@@ -37,13 +37,9 @@ const fetchGamesByTeamIdReducer = (state, { response }) => {
   };
 };
 
-const filterGamesByStatusIdReducer = (state, { response }) => {
-  const statusId = state.allStatusIds[response.statusIndex];
-
-  return {
-    selectedStatusId: statusId || state.selectedStatusId,
-  };
-};
+const filterGamesByStatusIdReducer = (state, { response }) => ({
+  selectedStatusId: response.statusId,
+});
 
 export default (state = gamesState, action) => {
   const { type } = action;

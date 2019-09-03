@@ -1,18 +1,24 @@
 import React, { memo } from 'react';
-import { Grid } from '@material-ui/core';
-import { primaryColor } from '../../../styles/constants';
+import {
+  Grid,
+  Collapse,
+} from '@material-ui/core';
 
 const styles = {
   container: {
-    height: '100vh',
-    backgroundColor: primaryColor,
+    height: window.innerHeight - 56,
   },
 };
 
-const Body = memo(({ children }) => (
-  <Grid style={styles.container}>
-    { children }
-  </Grid>
+const Body = memo(({
+  children,
+  navMenuIsOpen,
+}) => (
+  <Collapse in={!navMenuIsOpen} direction="down">
+    <Grid style={styles.container}>
+      { children }
+    </Grid>
+  </Collapse>
 ));
 
 export default Body;

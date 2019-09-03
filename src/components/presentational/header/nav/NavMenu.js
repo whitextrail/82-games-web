@@ -28,7 +28,7 @@ const navIcons = {
 
 const styles = {
   navMenu: {
-    height: '86.6vh',
+    height: window.innerHeight - 56,
     backgroundColor: primaryColor,
   },
   navMenuListItem: {
@@ -44,8 +44,8 @@ const styles = {
     marginRight: 24,
   },
   navMenuDivider: {
-    marginTop: 24,
-    marginBottom: 20,
+    marginTop: 20,
+    marginBottom: 16,
   },
 };
 
@@ -97,13 +97,11 @@ const NavMenu = memo(({
   isOpen,
   selectedId,
 }) => (
-  <Grid item xs={12}>
-    <Collapse in={isOpen}>
-      <List disablePadding style={styles.navMenu}>
-        <NavMenuListItems byId={byId} allIds={allIds} selectedId={selectedId} />
-      </List>
-    </Collapse>
-  </Grid>
+  <Collapse in={isOpen}>
+    <List style={styles.navMenu}>
+      <NavMenuListItems byId={byId} allIds={allIds} selectedId={selectedId} />
+    </List>
+  </Collapse>
 ));
 
 export default NavMenu;

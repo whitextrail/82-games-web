@@ -49,9 +49,9 @@ const segmentGamesByStatus = gamesById => (
       ]
     };
   }, {
-    Upcoming: [],
-    Live: [],
     Previous: [],
+    Live: [],
+    Upcoming: [],
   })
 );
 

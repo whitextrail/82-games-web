@@ -1,31 +1,32 @@
 import React, { memo } from 'react';
 import {
-  Grid,
   Paper,
-  Typography,
+  Tabs,
+  Tab,
 } from '@material-ui/core';
 import {
-  secondaryColor,
+  ReplaySharp,
+  PlayCircleOutlineSharp,
+  FastForwardSharp,
+} from '@material-ui/icons';
+import {
+  primaryColor,
   primaryTextColor,
 } from '../../../../styles/constants';
 
+const tabIcons = {
+  'Previous': <ReplaySharp />,
+  'Live': <PlayCircleOutlineSharp />,
+  'Upcoming': <FastForwardSharp />,
+};
+
 const styles = {
-  container: {
-    height: 66,
-    borderTopRightRadius: 16,
-    borderTopLeftRadius: 16,
-    backgroundColor: secondaryColor,
-  },
   paper: {
-    height: 56,
+    height: 48,
+    paddingRight: 7.5,
+    paddingLeft: 7.5,
     width: '100%',
-    borderTopRightRadius: 16,
-    borderTopLeftRadius: 16,
-    borderBottomRightRadius: 0,
-    borderBottomLeftRadius: 0,
-  },
-  textContainer: {
-    paddingLeft: 20,
+    backgroundColor: primaryColor,
   },
   text: {
     color: primaryTextColor,
@@ -34,15 +35,28 @@ const styles = {
 };
 
 const GameHeader = memo(({
-  status
+  selectedStatusId,
+  allStatusIds,
+  filterGamesByStatusId,
+  inProgress,
 }) => (
-  <Grid container style={styles.container}>
-    <Paper style={styles.paper}>
-      <Grid container alignItems="center" style={styles.textContainer}>
-        <Typography style={styles.text}>{status}</Typography>
-      </Grid>
-    </Paper>
-  </Grid>
+  <Paper square style={styles.paper}>
+    <Tabs
+      value={selectedStatusId}
+      indicatorColor={inProgress ? "primary" : "secondary"}
+      textColor="secondary"
+      variant="fullWidth"
+      onChange={(evt, value) => filterGamesByStatusId(value)}
+    >
+      { allStatusIds.map(statusId => (
+        <Tab
+          key={statusId}
+          icon={tabIcons[statusId]}
+          value={statusId}
+        />
+      )) }
+    </Tabs>
+  </Paper>
 ));
 
 export default GameHeader;

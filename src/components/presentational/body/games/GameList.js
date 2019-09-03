@@ -15,22 +15,14 @@ import moment from 'moment-timezone';
 import GameDetails from './GameDetails';
 import GameTeams from './GameTeams';
 import avatar from '../../../../assets/img/spencer_dinwiddie.png';
-import {
-  primaryColor,
-  secondaryColor,
-  secondaryTextColor,
-  primaryTextColor,
-} from '../../../../styles/constants';
 
 const styles = {
   container: {
     height: '100%',
-    backgroundColor: secondaryColor,
     overflow: 'hidden',
   },
   list: {
     width: '100%',
-    backgroundColor: secondaryColor,
     position: 'relative',
     overflow: 'auto',
     maxHeight: '100%',
@@ -40,30 +32,18 @@ const styles = {
     paddingBottom: 4,
   },
   card: {
-    marginRight: 5,
-    marginLeft: 5,
-    borderRadius: 2,
+    marginRight: 10,
+    marginLeft: 10,
+    borderRadius: 3,
     width: '100%',
-  },
-  actionButton: {
-    marginTop: 7,
-    marginRight: 5,
-  },
-  closedGameActionButton: {
-    color: primaryTextColor,
-    backgroundColor: secondaryColor,
-  },
-  openGameActionButton: {
-    color: secondaryTextColor,
-    backgroundColor: primaryColor,
-  },
-  liveGameActionButton: {
-    color: secondaryTextColor,
-    backgroundColor: '#01d727',
   },
   cardContent: {
     height: 240,
     padding: 0,
+  },
+  actionButton: {
+    marginTop: 5,
+    marginRight: 5,
   },
   noGamesFoundContainer: {
     marginTop: 20,
@@ -72,52 +52,51 @@ const styles = {
 
 const NoGamesFound = memo(() => (
   <Grid container justify="center" style={styles.noGamesFoundContainer}>
-    <Typography align="center">No games found.</Typography>
+    <Typography variant="body1" align="center">No games found.</Typography>
   </Grid>
 ));
 
-const GameActionButton = memo(({ status }) => {
-  const {
-    actionButton,
-    closedGameActionButton,
-    liveGameActionButton,
-    openGameActionButton,
-  } = styles;
-
+const GameActionButton = memo(({ selectedStatusId }) => {
   let buttonText = '';
-  let buttonStyle = {};
+  let buttonProps = {
+    size: 'small',
+    style: { ...styles.actionButton },
+  };
 
-  switch (status) {
+  switch (selectedStatusId) {
     case 'Previous':
-      buttonText = 'SEE RESULTS';
-      buttonStyle = {
-        ...actionButton,
-        ...closedGameActionButton,
+      buttonText = 'RESULTS';
+      buttonProps = {
+        ...buttonProps,
+        variant: 'contained',
+        color: 'secondary',
       };
       break;
     case 'Live':
-      buttonText = 'VIEW FEED';
-      buttonStyle = {
-        ...actionButton,
-        ...liveGameActionButton,
+      buttonText = 'FEED';
+      buttonProps = {
+        ...buttonProps,
+        variant: 'outlined',
+        color: 'primary',
       };
       break;
     case 'Upcoming':
-      buttonText = 'PREDICT STATS';
-      buttonStyle = {
-        ...actionButton,
-        ...openGameActionButton,
+      buttonText = 'PREDICT';
+      buttonProps = {
+        ...buttonProps,
+        variant: 'contained',
+        color: 'primary',
       };
       break;
     default:
       return null;
   }
 
-  return <Button size="small" variant="contained" style={buttonStyle}>{buttonText}</Button>;
+  return <Button {...buttonProps}>{buttonText}</Button>;
 });
 
 const ListChildren = memo(({
-  status,
+  selectedStatusId,
   games,
   teamsById,
 }) => (
@@ -128,30 +107,37 @@ const ListChildren = memo(({
     dateTime,
     localGameDateTime,
     arena,
-  },
-) => {
+  }) => {
     const { name: homeTeamName } = teamsById[homeTeamId];
     const { name: awayTeamName } = teamsById[awayTeamId];
-    const seasonYearRange = `S${moment(dateTime).format('YYYY')}-${moment(dateTime).add(1, 'y').format('YY')}`;
 
-    // We can't rely on id since there are now games from last season as well
-    // Temporary "hacky" fix since we should discuss whether there should be an actual column
+    // Temporary patch until the "season yearly range" lookup table is complete
+    const isLastSeason = moment(dateTime).isBefore('2019-04-11T00:00:00.001Z');
+    const seasonYearRange = isLastSeason ? 'S2018-19' : 'S2019-20';
+
     const gameNumber = id > 82 ? (id - 82) : id;
 
     return (
       <Fragment key={id}>
-        <ListSubheader>{`Game ${gameNumber} (${seasonYearRange}) - ${homeTeamName} vs. ${awayTeamName}`}</ListSubheader>
+        <ListSubheader disableSticky>
+          {`Game ${gameNumber} (${seasonYearRange})`}
+        </ListSubheader>
         <ListItem disableGutters style={styles.listItem} key={id}>
           <Card style={styles.card}>
             <CardHeader
               avatar={<Avatar src={avatar} />}
-              action={<GameActionButton status={status} />}
+              action={<GameActionButton selectedStatusId={selectedStatusId} />}
               title="Spencer Dinwiddie"
               subheader="0 PTS - 0 STL - 0 AST"
             />
             <CardContent style={styles.cardContent}>
               <GameDetails localGameDateTime={localGameDateTime} arena={arena} />
-              <GameTeams />
+              <GameTeams
+                homeTeamId={homeTeamId}
+                homeTeamName={homeTeamName}
+                awayTeamName={awayTeamName}
+                awayTeamId={awayTeamId}
+              />
             </CardContent>
           </Card>
         </ListItem>
@@ -160,16 +146,20 @@ const ListChildren = memo(({
   }))
 );
 
-const Games = memo(({
-  status,
+const GameList = memo(({
   games,
   teams,
+  selectedStatusId,
 }) => (
   <Grid item xs={12} style={styles.container}>
     <List disablePadding style={styles.list} subheader={<li />}>
-      { games.length ? <ListChildren status={status} games={games} teamsById={teams.byId} /> : <NoGamesFound /> }
+      {
+        games.length
+          ? <ListChildren selectedStatusId={selectedStatusId} games={games} teamsById={teams.byId} />
+          : <NoGamesFound />
+      }
     </List>
   </Grid>
 ));
 
-export default Games;
+export default GameList;

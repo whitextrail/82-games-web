@@ -11,7 +11,6 @@ import {
   CloseSharp,
 } from '@material-ui/icons';
 import { secondaryTextColor } from '../../../../styles/constants';
-import ContextualNavigation from '../../../functional/ContextualNavigation';
 
 const styles = {
   navContainer: {
@@ -26,17 +25,12 @@ const styles = {
     marginLeft: 6,
     marginRight: 12,
   },
-  title: {
-    fontSize: 22,
-    fontWeight: 500,
-  },
 };
 
 const NavBar = memo(({
   toggleNavMenu,
   isOpen,
   title,
-  selectedId,
 }) => {
   const menuIcon = isOpen
     ? <CloseSharp style={styles.menuIcon} color="secondary" />
@@ -50,9 +44,8 @@ const NavBar = memo(({
           <IconButton style={styles.menuIconButton} onClick={toggleNavMenu}>
             {menuIcon}
           </IconButton>
-          <Typography style={styles.title}>{menuTitle}</Typography>
+          <Typography variant="h6">{menuTitle}</Typography>
         </Grid>
-        <ContextualNavigation isOpen={isOpen} selectedId={selectedId} />
       </Toolbar>
     </AppBar>
   );
