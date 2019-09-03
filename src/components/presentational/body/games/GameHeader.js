@@ -22,7 +22,7 @@ const tabIcons = {
 
 const styles = {
   paper: {
-    height: 72,
+    height: 48,
     paddingRight: 7.5,
     paddingLeft: 7.5,
     width: '100%',
@@ -46,14 +46,12 @@ const GameHeader = memo(({
       indicatorColor={inProgress ? "primary" : "secondary"}
       textColor="secondary"
       variant="fullWidth"
-      style={{ height: '100%' }}
       onChange={(evt, value) => filterGamesByStatusId(value)}
     >
       { allStatusIds.map(statusId => (
         <Tab
           key={statusId}
           icon={tabIcons[statusId]}
-          label={statusId}
           value={statusId}
         />
       )) }

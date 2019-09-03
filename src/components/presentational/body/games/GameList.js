@@ -52,7 +52,7 @@ const styles = {
 
 const NoGamesFound = memo(() => (
   <Grid container justify="center" style={styles.noGamesFoundContainer}>
-    <Typography variant="h6" align="center">No games found.</Typography>
+    <Typography variant="body1" align="center">No games found.</Typography>
   </Grid>
 ));
 
@@ -120,7 +120,7 @@ const ListChildren = memo(({
     return (
       <Fragment key={id}>
         <ListSubheader disableSticky>
-          {`Game ${gameNumber} (${seasonYearRange}) - ${homeTeamName} vs. ${awayTeamName}`}
+          {`Game ${gameNumber} (${seasonYearRange})`}
         </ListSubheader>
         <ListItem disableGutters style={styles.listItem} key={id}>
           <Card style={styles.card}>
@@ -132,7 +132,12 @@ const ListChildren = memo(({
             />
             <CardContent style={styles.cardContent}>
               <GameDetails localGameDateTime={localGameDateTime} arena={arena} />
-              <GameTeams />
+              <GameTeams
+                homeTeamId={homeTeamId}
+                homeTeamName={homeTeamName}
+                awayTeamName={awayTeamName}
+                awayTeamId={awayTeamId}
+              />
             </CardContent>
           </Card>
         </ListItem>
