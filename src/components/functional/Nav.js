@@ -1,9 +1,13 @@
 import React, { memo } from 'react';
 import { connect } from 'react-redux';
 import { Grid } from '@material-ui/core';
-import { toggleNavMenu } from '../../state/actions/nav';
+import {
+  toggleNavMenu,
+  logOutUser,
+} from '../../state/actions';
 import NavBar from '../presentational/header/nav/NavBar';
 import NavMenu from '../presentational/header/nav/NavMenu';
+import { authenticationStates } from '../../util/constants';
 
 const NavContainer = memo(({
   isOpen,
@@ -11,6 +15,8 @@ const NavContainer = memo(({
   allIds,
   selectedId,
   toggleNavMenu,
+  logOutUser,
+  authState,
 }) => selectedId && (
   <Grid container direction="column">
     <NavBar
@@ -24,10 +30,18 @@ const NavContainer = memo(({
       selectedId={selectedId}
       isOpen={isOpen}
       allIds={allIds}
+      logOutUser={logOutUser}
+      authState={authState}
     />
   </Grid>
 ));
 
-const mapStateToProps = ({ nav }) => ({ nav });
+const mapStateToProps = ({ user, nav }) => ({
+  nav,
+  authState: user.id ? authenticationStates.AUTHENTICATED : authenticationStates.UNAUTHENTICATED,
+});
 
-export default connect(mapStateToProps, { toggleNavMenu })(NavContainer);
+export default connect(mapStateToProps, {
+  toggleNavMenu,
+  logOutUser,
+})(NavContainer);

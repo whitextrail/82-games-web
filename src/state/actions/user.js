@@ -5,11 +5,7 @@ import {
 } from './util/types';
 import apiEndpoints from './util/apiEndpoints';
 import { logout } from '../../util/auth';
-// import { errorCodes, errorMessages } from '../../util/constants';
-import {
-  actionWrapper,
-  // parseActionError,
-} from '../lib/actions';
+import { actionWrapper } from '../lib/actions';
 
 // ACTIONS
 const authenticateUserAction = actionWrapper({ type: AUTHENTICATE_USER });

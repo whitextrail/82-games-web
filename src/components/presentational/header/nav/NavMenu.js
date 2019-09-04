@@ -1,6 +1,4 @@
 import React, { memo } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import {
   Grid,
   Collapse,
@@ -16,9 +14,7 @@ import {
   EqualizerSharp,
   ExitToAppSharp,
 } from '@material-ui/icons';
-import { logOutUser } from '../../../../state/actions';
 import { authorize } from '../../../../util/auth';
-import { authenticationStates } from '../../../../util/constants';
 import {
   primaryColor,
   secondaryTextColor,
@@ -78,7 +74,7 @@ const NavMenuListItems = ({
     let showItem = true;
 
     // If the authentication state check exists for this item, confirm if the current user auth state matches it
-    if (authenticationState && authenticationState !== authState) {
+    if (authenticationState && (authenticationState !== authState)) {
       showItem = false;
     }
 
@@ -138,12 +134,4 @@ const NavMenu = memo(({
   </Collapse>
 ));
 
-NavMenu.propTypes = {
-  logOutUser: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = ({ user }) => ({
-  authState: user.id ? authenticationStates.AUTHENTICATED : authenticationStates.UNAUTHENTICATED,
-});
-
-export default connect(mapStateToProps, { logOutUser })(NavMenu);
+export default NavMenu;
