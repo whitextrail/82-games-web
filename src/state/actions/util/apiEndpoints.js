@@ -1,9 +1,14 @@
 import { API_URL } from '../../../config';
 
+// User
+const authenticateUser = `${API_URL}/user/authenticate`;
+
+// Teams
 const fetchTeams = `${API_URL}/team`;
 const fetchGamesByTeamId = `${API_URL}/game/team`;
 
 export default {
+  authenticateUser,
   fetchTeams,
   fetchGamesByTeamId,
 };

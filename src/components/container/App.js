@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { CssBaseline } from '@material-ui/core';
 import {
   setNavState,
+  authenticateUser,
   fetchTeams,
   fetchGamesByTeamId,
   filterGamesByStatusId,
@@ -18,6 +19,7 @@ import {
 import Nav from '../functional/Nav';
 import Games from '../functional/Games';
 import Progress from '../presentational/reusable/Progress';
+import { checkSessionAsync } from '../../util/auth';
 
 class App extends PureComponent {
   constructor(props) {
@@ -25,6 +27,22 @@ class App extends PureComponent {
 
     props.setNavStateAction();
   }
+
+  componentDidMount = () => (
+    // Check for Auth0 user session
+    checkSessionAsync()
+      .then((result) => {
+        const { email } = result.idTokenPayload;
+
+        // Session exists, dispatch authenticateUser with credentials
+        return this.props.authenticateUserAction({ email });
+      })
+      // Error checking for user session, ship them off to Auth0
+      .catch((err) => {
+        console.log(err);
+        // TODO: Handle and report error
+      })
+  );
 
   componentDidUpdate({ teams: {
     selectedId: prevTeamsSelectedId
@@ -55,6 +73,7 @@ class App extends PureComponent {
       nav,
       teams,
       games,
+      user: { inProgress },
       filterGamesByStatusIdAction,
     } = this.props;
     const {
@@ -63,7 +82,7 @@ class App extends PureComponent {
     } = nav;
     const { selectedId: teamsSelectedId } = teams;
     const { selectedId: gamesSelectedId } = games;
-    const initialStateLoaded = !!(navSelectedId && teamsSelectedId && gamesSelectedId);
+    const initialStateLoaded = !!(navSelectedId && teamsSelectedId && gamesSelectedId && !inProgress);
 
     return (
       <Fragment>
@@ -91,14 +110,17 @@ const mapStateToProps = ({
   nav,
   teams,
   games,
+  user,
 }) => ({
   nav,
   teams,
   games,
+  user,
 });
 
 export default connect(mapStateToProps, {
   setNavStateAction: setNavState,
+  authenticateUserAction: authenticateUser,
   fetchTeamsAction: fetchTeams,
   fetchGamesByTeamIdAction: fetchGamesByTeamId,
   filterGamesByStatusIdAction: filterGamesByStatusId,

@@ -1,3 +1,5 @@
+import { authenticationStates } from '../../util/constants';
+
 const navList = {
   games: {
     text: 'Games',
@@ -8,16 +10,22 @@ const navList = {
     text: 'Account',
     routePath: '/account',
     hasIcon: true,
+    authenticationState: authenticationStates.AUTHENTICATED,
   },
   leaderboard: {
     text: 'Leaderboard',
     routePath: '/leaderboard',
     hasIcon: true,
   },
+  authenticate: {
+    text: 'Login/Register',
+    hasIcon: true,
+    authenticationState: authenticationStates.UNAUTHENTICATED,
+  },
   logout: {
     text: 'Logout',
-    routePath: '/logout',
     hasIcon: true,
+    authenticationState: authenticationStates.AUTHENTICATED,
   },
   about: {
     text: 'About Us',

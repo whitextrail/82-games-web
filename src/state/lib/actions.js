@@ -6,4 +6,6 @@ const actionWrapper = ({ type }) => {
   });
 };
 
-export { actionWrapper };
+export {
+  actionWrapper,
+};
