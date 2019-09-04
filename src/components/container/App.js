@@ -73,6 +73,7 @@ class App extends PureComponent {
       nav,
       teams,
       games,
+      user: { inProgress },
       filterGamesByStatusIdAction,
     } = this.props;
     const {
@@ -81,7 +82,7 @@ class App extends PureComponent {
     } = nav;
     const { selectedId: teamsSelectedId } = teams;
     const { selectedId: gamesSelectedId } = games;
-    const initialStateLoaded = !!(navSelectedId && teamsSelectedId && gamesSelectedId);
+    const initialStateLoaded = !!(navSelectedId && teamsSelectedId && gamesSelectedId && !inProgress);
 
     return (
       <Fragment>
@@ -109,10 +110,12 @@ const mapStateToProps = ({
   nav,
   teams,
   games,
+  user,
 }) => ({
   nav,
   teams,
   games,
+  user,
 });
 
 export default connect(mapStateToProps, {
