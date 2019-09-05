@@ -8,25 +8,11 @@ import {
   ListItemText,
   Divider,
 } from '@material-ui/core';
-import {
-  LocalPlaySharp,
-  PersonSharp,
-  EqualizerSharp,
-  ExitToAppSharp,
-} from '@material-ui/icons';
 import { authorize } from '../../../../util/auth';
 import {
   primaryColor,
   secondaryTextColor,
 } from '../../../../styles/constants';
-
-const navIcons = {
-  games: <LocalPlaySharp color="secondary" />,
-  account: <PersonSharp color="secondary" />,
-  authenticate: <PersonSharp color="secondary" />,
-  leaderboard: <EqualizerSharp color="secondary" />,
-  logout: <ExitToAppSharp color="secondary" />,
-};
 
 const styles = {
   navMenu: {
@@ -89,18 +75,18 @@ const NavMenuListItems = ({
         selected: id === selectedId,
         ...menuAction,
       };
-  
-      if (hasIcons && !menuItem.hasIcon) {
+
+      if (hasIcons && !menuItem.icon) {
         hasIcons = false;
         menuItems.push(<Divider key="navMenuItemDivider" style={styles.navMenuDivider} />);
       }
-  
+
       menuItems.push((
         <ListItem {...listItemProps}>
-          { hasIcons && (
+          { menuItem.icon && (
             <ListItemIcon style={styles.navMenuListItemIcon}>
               <Grid container justify="center" alignItems="center">
-                {navIcons[id]}
+                { React.createElement(menuItem.icon, { color: 'secondary' }) }
               </Grid>
             </ListItemIcon>
           ) }
