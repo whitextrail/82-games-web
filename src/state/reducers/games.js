@@ -19,13 +19,21 @@ const gamesState = initialStateDecorator({
 
 const fetchGamesByTeamIdReducer = (state, { response }) => {
   const {
+    statusId,
+    ...teamGames
+  } = response;
+  const {
     entities: {
       games,
       gamesByStatus,
     },
     result,
-  } = normalizeGameList(response);
+  } = normalizeGameList(teamGames);
   const gamesByStatusKeys = Object.keys(gamesByStatus);
+  const formattedResponseStatusId = statusId.substring(0, 1).toUpperCase() + statusId.substring(1);
+  const initialStatusId = gamesByStatusKeys.includes(formattedResponseStatusId)
+    ? formattedResponseStatusId
+    : gamesByStatusKeys[0];
 
   return {
     byId: games,
@@ -33,7 +41,7 @@ const fetchGamesByTeamIdReducer = (state, { response }) => {
     selectedId: result[0],
     byStatusId: gamesByStatus,
     allStatusIds: gamesByStatusKeys,
-    selectedStatusId: gamesByStatusKeys[0],
+    selectedStatusId: initialStatusId,
   };
 };
 

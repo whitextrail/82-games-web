@@ -20,11 +20,15 @@ class GamesContainer extends PureComponent {
     const {
       teams,
       fetchGamesByTeamId: fetchGamesByTeamIdAction,
+      location,
     } = this.props;
 
     // Teams must be successfully fetched before games
     if (!prevTeams.selectedId && teams.selectedId) {
-      fetchGamesByTeamIdAction();
+      const pathnameFragments = location.pathname.split('/');
+      const statusFromPathname = pathnameFragments[pathnameFragments.length - 1];
+
+      fetchGamesByTeamIdAction(teams.selectedId, statusFromPathname);
     }
   }
 
