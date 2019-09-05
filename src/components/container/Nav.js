@@ -5,6 +5,7 @@ import {
   setNavState,
   toggleNavMenu,
   logOutUser,
+  selectNavId,
 } from '../../state/actions';
 import NavBar from '../presentational/header/nav/NavBar';
 import NavMenu from '../presentational/header/nav/NavMenu';
@@ -15,6 +16,11 @@ class NavContainer extends PureComponent {
     super(props);
 
     props.setNavState(props.location.pathname);
+  }
+
+  handleMenuItemClick = (menuItemId, menuItemRoutePath) => {
+    this.props.selectNavId(menuItemId);
+    this.props.history.push(menuItemRoutePath);
   }
 
   render = () => {
@@ -47,6 +53,7 @@ class NavContainer extends PureComponent {
           allIds={allIds}
           logOutUser={logOutUserAction}
           authState={authState}
+          handleMenuItemClick={this.handleMenuItemClick}
         />
       </Grid>
     );
@@ -62,4 +69,5 @@ export default connect(mapStateToProps, {
   setNavState,
   toggleNavMenu,
   logOutUser,
+  selectNavId,
 })(NavContainer);

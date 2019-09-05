@@ -1,7 +1,10 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { CssBaseline } from '@material-ui/core';
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import {
+  BrowserRouter as Router, Route, Switch, Redirect,
+  withRouter,
+} from 'react-router-dom';
 import { authenticateUser } from '../../state/actions';
 import Nav from './Nav';
 import Games from './Games';
@@ -66,6 +69,6 @@ const mapStateToProps = ({
   user,
 });
 
-export default connect(mapStateToProps, {
+export default withRouter(connect(mapStateToProps, {
   authenticateUserAction: authenticateUser,
-})(App);
+})(App));

@@ -43,6 +43,7 @@ const NavMenuListItems = ({
   selectedId,
   logOutUserAction,
   authState,
+  handleMenuItemClick,
 }) => {
   // Pre-defined custom actions on some menu items
   const navActions = {
@@ -82,7 +83,7 @@ const NavMenuListItems = ({
       }
 
       menuItems.push((
-        <ListItem {...listItemProps}>
+        <ListItem {...listItemProps} onClick={() => handleMenuItemClick(id, menuItem.routePath)}>
           { menuItem.icon && (
             <ListItemIcon style={styles.navMenuListItemIcon}>
               <Grid container justify="center" alignItems="center">
@@ -106,6 +107,7 @@ const NavMenu = memo(({
   selectedId,
   authState,
   logOutUser,
+  handleMenuItemClick,
 }) => (
   <Collapse in={isOpen}>
     <List style={styles.navMenu}>
@@ -115,6 +117,7 @@ const NavMenu = memo(({
         selectedId={selectedId}
         authState={authState}
         logOutUserAction={logOutUser}
+        handleMenuItemClick={handleMenuItemClick}
       />
     </List>
   </Collapse>

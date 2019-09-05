@@ -1,6 +1,7 @@
 import {
   SET_NAV_STATE,
   TOGGLE_NAV_MENU,
+  SELECT_NAV_ID,
 } from '../actions/util/types';
 import {
   evalActionPayload,
@@ -17,7 +18,7 @@ const navState = initialStateDecorator({
 
 const setNavStateReducer = (state, action) => {
   const navListKeys = Object.keys(navList);
-  const pathname = action.response.substring(1);
+  const pathname = action.response.pathname.substring(1);
 
   return {
     byId: { ...navList},
@@ -30,6 +31,16 @@ const toggleNavMenuReducer = (state) => ({
   isOpen: !state.isOpen,
 });
 
+const selectNavId = (state, action) => {
+  const { allIds } = state;
+  const { id } = action.response;
+
+  return {
+    selectedId: allIds.includes(id) ? id : allIds[0],
+    isOpen: false,
+  };
+};
+
 export default (state = navState, action) => {
   const { type } = action;
 
@@ -38,6 +49,8 @@ export default (state = navState, action) => {
       return evalActionPayload(state, action, setNavStateReducer);
     case TOGGLE_NAV_MENU:
       return evalActionPayload(state, action, toggleNavMenuReducer);
+    case SELECT_NAV_ID:
+      return evalActionPayload(state, action, selectNavId);
     default:
       return state;
   }
