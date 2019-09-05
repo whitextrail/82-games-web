@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import { Grid } from '@material-ui/core';
-import Nav from '../../container/Nav';
+import Nav from '../container/Nav';
 
 const Header = memo(() => (
   <Grid container>

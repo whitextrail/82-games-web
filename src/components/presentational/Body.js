@@ -3,7 +3,7 @@ import {
   Grid,
   Collapse,
 } from '@material-ui/core';
-// import Router from '../reusable/Router';
+import Games from '../container/Games';
 
 const styles = {
   container: {
@@ -11,14 +11,10 @@ const styles = {
   },
 };
 
-const Body = memo(({
-  children,
-  navMenuIsOpen,
-}) => (
+const Body = memo(({ navMenuIsOpen }) => (
   <Collapse in={!navMenuIsOpen} direction="down">
     <Grid style={styles.container}>
-      { React.Children.forEach(children, (child, index) => console.log('index', index, 'child', child))}
-      { children }
+      <Games />
     </Grid>
   </Collapse>
 ));

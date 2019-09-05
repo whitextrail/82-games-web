@@ -4,16 +4,9 @@ import React, {
 } from 'react';
 import { connect } from 'react-redux';
 import { CssBaseline } from '@material-ui/core';
-import {
-  authenticateUser,
-  fetchTeams,
-  fetchGamesByTeamId,
-  filterGamesByStatusId,
-} from '../../state/actions';
+import { authenticateUser } from '../../state/actions';
 import Header from '../presentational/Header';
 import Body from '../presentational/Body';
-import Games from '../functional/Games';
-import Progress from '../presentational/reusable/Progress';
 import { checkSessionAsync } from '../../util/auth';
 
 class App extends PureComponent {
@@ -33,60 +26,14 @@ class App extends PureComponent {
       })
   );
 
-  componentDidUpdate({ teams: {
-    selectedId: prevTeamsSelectedId
-  } }) {
-    const {
-      nav: { selectedId: navSelectedId },
-      teams: {
-        selectedId: teamsSelectedId,
-        inProgress: teamsInProgress,
-      },
-      games: {
-        selectedId: gamesSelectedId,
-        inProgress: gamesInProgress,
-      },
-    } = this.props;
-
-    if (!teamsInProgress && !gamesInProgress) {
-      if (navSelectedId && !teamsSelectedId) {
-        setTimeout(this.props.fetchTeamsAction, 1000);
-      } else if (!prevTeamsSelectedId && teamsSelectedId && !gamesSelectedId) {
-        this.props.fetchGamesByTeamIdAction();
-      }
-    }
-  }
-
   render = () => {
-    const {
-      nav,
-      teams,
-      games,
-      user: { inProgress },
-      filterGamesByStatusIdAction,
-    } = this.props;
-    const {
-      isOpen,
-      selectedId: navSelectedId,
-    } = nav;
-    const { selectedId: teamsSelectedId } = teams;
-    const { selectedId: gamesSelectedId } = games;
-    const initialStateLoaded = !!(navSelectedId && teamsSelectedId && gamesSelectedId && !inProgress);
+    const { isOpen } = this.props.nav;
 
     return (
       <Fragment>
         <CssBaseline />
         <Header />
-        <Body navMenuIsOpen={isOpen}>
-          { !initialStateLoaded ? <Progress /> : (
-            <Games
-              teams={teams}
-              games={games}
-              navMenuIsOpen={isOpen}
-              filterGamesByStatusId={filterGamesByStatusIdAction}
-            />
-          ) }
-        </Body>
+        <Body navMenuIsOpen={isOpen} />
       </Fragment>
     );
   }
@@ -106,7 +53,4 @@ const mapStateToProps = ({
 
 export default connect(mapStateToProps, {
   authenticateUserAction: authenticateUser,
-  fetchTeamsAction: fetchTeams,
-  fetchGamesByTeamIdAction: fetchGamesByTeamId,
-  filterGamesByStatusIdAction: filterGamesByStatusId,
 })(App);
