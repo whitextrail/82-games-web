@@ -1,10 +1,11 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { CssBaseline } from '@material-ui/core';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import { authenticateUser } from '../../state/actions';
 import Nav from './Nav';
 import Games from './Games';
+import Account from './Account';
 import Body from '../presentational/Body';
 import Progress from '../presentational/reusable/Progress';
 import { checkSessionAsync } from '../../util/auth';
@@ -43,7 +44,9 @@ class App extends PureComponent {
         <Route component={Nav} />
         <Body navMenuIsOpen={isOpen}>
           <Switch>
-            <Route component={Games} />
+            <Route exact path="/games" component={Games} />
+            <Route exact path="/account" component={Account} />
+            <Redirect to="/games" />
           </Switch>
         </Body>
       </Router>
