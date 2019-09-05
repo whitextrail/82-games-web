@@ -35,10 +35,7 @@ class App extends PureComponent {
       games,
     } = this.props;
     const { isOpen } = nav;
-    const isLoading = (
-      (!nav.selectedId || !teams.selectedId || !games.selectedId)
-      || (user.inProgress || teams.inProgress || games.inProgress)
-    );
+    const isLoading = user.inProgress || teams.inProgress || games.inProgress;
 
     return (
       <Fragment>
