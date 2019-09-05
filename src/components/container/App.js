@@ -7,6 +7,7 @@ import { CssBaseline } from '@material-ui/core';
 import { authenticateUser } from '../../state/actions';
 import Header from '../presentational/Header';
 import Body from '../presentational/Body';
+import Progress from '../presentational/reusable/Progress';
 import { checkSessionAsync } from '../../util/auth';
 
 class App extends PureComponent {
@@ -27,11 +28,22 @@ class App extends PureComponent {
   );
 
   render = () => {
-    const { isOpen } = this.props.nav;
+    const {
+      nav,
+      user,
+      teams,
+      games,
+    } = this.props;
+    const { isOpen } = nav;
+    const isLoading = (
+      (!nav.selectedId || !teams.selectedId || !games.selectedId)
+      || (user.inProgress || teams.inProgress || games.inProgress)
+    );
 
     return (
       <Fragment>
         <CssBaseline />
+        <Progress show={isLoading} />
         <Header />
         <Body navMenuIsOpen={isOpen} />
       </Fragment>
