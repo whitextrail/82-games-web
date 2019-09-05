@@ -5,29 +5,18 @@ import React, {
 import { connect } from 'react-redux';
 import { CssBaseline } from '@material-ui/core';
 import {
-  setNavState,
   authenticateUser,
   fetchTeams,
   fetchGamesByTeamId,
   filterGamesByStatusId,
 } from '../../state/actions';
-import {
-  Header,
-  Body,
-  Footer,
-} from '../presentational/layout';
-import Nav from '../functional/Nav';
+import Header from '../presentational/Header';
+import Body from '../presentational/Body';
 import Games from '../functional/Games';
 import Progress from '../presentational/reusable/Progress';
 import { checkSessionAsync } from '../../util/auth';
 
 class App extends PureComponent {
-  constructor(props) {
-    super(props);
-
-    props.setNavStateAction();
-  }
-
   componentDidMount = () => (
     // Check for Auth0 user session
     checkSessionAsync()
@@ -87,9 +76,7 @@ class App extends PureComponent {
     return (
       <Fragment>
         <CssBaseline />
-        <Header>
-          <Nav {...nav} />
-        </Header>
+        <Header />
         <Body navMenuIsOpen={isOpen}>
           { !initialStateLoaded ? <Progress /> : (
             <Games
@@ -100,7 +87,6 @@ class App extends PureComponent {
             />
           ) }
         </Body>
-        <Footer />
       </Fragment>
     );
   }
@@ -119,7 +105,6 @@ const mapStateToProps = ({
 });
 
 export default connect(mapStateToProps, {
-  setNavStateAction: setNavState,
   authenticateUserAction: authenticateUser,
   fetchTeamsAction: fetchTeams,
   fetchGamesByTeamIdAction: fetchGamesByTeamId,
