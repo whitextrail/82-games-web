@@ -1,8 +1,6 @@
 import React, { memo } from 'react';
 import {
   Paper,
-  Tabs,
-  Tab,
 } from '@material-ui/core';
 import {
   ReplaySharp,
@@ -13,6 +11,7 @@ import {
   primaryColor,
   primaryTextColor,
 } from '../../../../styles/constants';
+import Tabs from '../../reusable/Tabs';
 
 const tabIcons = {
   'Previous': <ReplaySharp />,
@@ -42,20 +41,12 @@ const GameHeader = memo(({
 }) => (
   <Paper square style={styles.paper}>
     <Tabs
-      value={selectedStatusId}
-      indicatorColor={inProgress ? "primary" : "secondary"}
-      textColor="secondary"
-      variant="fullWidth"
+      selectedTabId={selectedStatusId}
+      inProgress={inProgress}
       onChange={(evt, value) => filterGamesByStatusId(value)}
-    >
-      { allStatusIds.map(statusId => (
-        <Tab
-          key={statusId}
-          icon={tabIcons[statusId]}
-          value={statusId}
-        />
-      )) }
-    </Tabs>
+      allTabIds={allStatusIds}
+      tabIcons={tabIcons}
+    />
   </Paper>
 ));
 
