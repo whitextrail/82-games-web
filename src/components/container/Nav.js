@@ -18,10 +18,7 @@ class NavContainer extends PureComponent {
     props.setNavState(props.location.pathname);
   }
 
-  handleMenuItemClick = (menuItemId, menuItemRoutePath) => {
-    this.props.selectNavId(menuItemId);
-    this.props.history.push(menuItemRoutePath);
-  }
+  handleMenuItemClick = event => this.props.selectNavId(event.currentTarget.id);
 
   render = () => {
     const {

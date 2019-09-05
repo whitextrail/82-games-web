@@ -1,4 +1,7 @@
-import React, { memo } from 'react';
+import React, {
+  memo,
+  createElement,
+} from 'react';
 import {
   Grid,
   Collapse,
@@ -6,13 +9,12 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  Divider,
 } from '@material-ui/core';
-import { authorize } from '../../../../util/auth';
 import {
   primaryColor,
   secondaryTextColor,
 } from '../../../../styles/constants';
+import Link from '../../reusable/Link';
 
 const styles = {
   navMenu: {
@@ -31,73 +33,6 @@ const styles = {
     height: 24,
     marginRight: 24,
   },
-  navMenuDivider: {
-    marginTop: 20,
-    marginBottom: 16,
-  },
-};
-
-const NavMenuListItems = ({
-  byId,
-  allIds,
-  selectedId,
-  logOutUserAction,
-  authState,
-  handleMenuItemClick,
-}) => {
-  // Pre-defined custom actions on some menu items
-  const navActions = {
-    authenticate: () => authorize(), // Redirect to Auth0 login page
-    logout: () => logOutUserAction(), // Clear user state
-  };
-
-  let hasIcons = true;
-
-  const menuItems = [];
-
-  allIds.forEach((id) => {
-    const menuItem = byId[id];
-    const { authenticationState } = menuItem;
-    let showItem = true;
-
-    // If the authentication state check exists for this item, confirm if the current user auth state matches it
-    if (authenticationState && (authenticationState !== authState)) {
-      showItem = false;
-    }
-
-    if (showItem) {
-      const menuAction = (navActions[id] ? { onClick: () => navActions[id]() } : {});
-      const listItemProps = {
-        key: id,
-        style: styles.navMenuListItem,
-        button: true,
-        disableGutters: true,
-        alignItems: 'center',
-        selected: id === selectedId,
-        ...menuAction,
-      };
-
-      if (hasIcons && !menuItem.icon) {
-        hasIcons = false;
-        menuItems.push(<Divider key="navMenuItemDivider" style={styles.navMenuDivider} />);
-      }
-
-      menuItems.push((
-        <ListItem {...listItemProps} onClick={() => handleMenuItemClick(id, menuItem.routePath)}>
-          { menuItem.icon && (
-            <ListItemIcon style={styles.navMenuListItemIcon}>
-              <Grid container justify="center" alignItems="center">
-                { React.createElement(menuItem.icon, { color: 'secondary' }) }
-              </Grid>
-            </ListItemIcon>
-          ) }
-          <ListItemText primary={menuItem.text} />
-        </ListItem>
-      ));
-    }
-  });
-
-  return menuItems;
 };
 
 const NavMenu = memo(({
@@ -105,20 +40,40 @@ const NavMenu = memo(({
   allIds,
   isOpen,
   selectedId,
-  authState,
-  logOutUser,
   handleMenuItemClick,
 }) => (
   <Collapse in={isOpen}>
     <List style={styles.navMenu}>
-      <NavMenuListItems
-        byId={byId}
-        allIds={allIds}
-        selectedId={selectedId}
-        authState={authState}
-        logOutUserAction={logOutUser}
-        handleMenuItemClick={handleMenuItemClick}
-      />
+      { allIds.map((id) => {
+        const {
+          icon,
+          text,
+          routePath = '',
+        } = byId[id];
+        const isSelected = id === selectedId;
+        const iconElement = createElement(icon, { color: 'secondary' });
+
+        return (
+          <Link key={id} to={routePath}>
+            <ListItem
+              id={id}
+              button
+              disableGutters
+              alignItems="center"
+              selected={isSelected}
+              style={styles.navMenuListItem}
+              onClick={handleMenuItemClick}
+            >
+              <ListItemIcon style={styles.navMenuListItemIcon}>
+                <Grid container justify="center" alignItems="center">
+                  { iconElement }
+                </Grid>
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
+          </Link>
+        );
+      }) }
     </List>
   </Collapse>
 ));

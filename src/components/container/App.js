@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { CssBaseline } from '@material-ui/core';
 import {
-  BrowserRouter as Router, Route, Switch, Redirect,
+  BrowserRouter as Router, Route, Switch,
   withRouter,
 } from 'react-router-dom';
 import { authenticateUser } from '../../state/actions';
@@ -47,9 +47,8 @@ class App extends PureComponent {
         <Route component={Nav} />
         <Body navMenuIsOpen={isOpen}>
           <Switch>
-            <Route exact path="/games" component={Games} />
+            <Route path="/games" component={Games} />
             <Route exact path="/account" component={Account} />
-            <Redirect to="/games" />
           </Switch>
         </Body>
       </Router>
