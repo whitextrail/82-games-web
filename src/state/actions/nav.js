@@ -5,11 +5,11 @@ import {
 import { actionWrapper } from '../lib/actions';
 
 const actionCreators = {
-  setNavState: actionWrapper({ type: SET_NAV_STATE })({ response: {} }),
+  setNavState: actionWrapper({ type: SET_NAV_STATE }),
   toggleNavMenu: actionWrapper({ type: TOGGLE_NAV_MENU })({ response: {} }),
 };
 
-const setNavState = () => dispatch => dispatch(actionCreators.setNavState);
+const setNavState = pathname => dispatch => dispatch(actionCreators.setNavState({ response: pathname }));
 
 const toggleNavMenu = () => dispatch => dispatch(actionCreators.toggleNavMenu);
 

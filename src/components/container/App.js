@@ -1,11 +1,10 @@
-import React, {
-  PureComponent,
-  Fragment,
-} from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { CssBaseline } from '@material-ui/core';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { authenticateUser } from '../../state/actions';
-import Header from '../presentational/Header';
+import Nav from './Nav';
+import Games from './Games';
 import Body from '../presentational/Body';
 import Progress from '../presentational/reusable/Progress';
 import { checkSessionAsync } from '../../util/auth';
@@ -38,12 +37,16 @@ class App extends PureComponent {
     const isLoading = user.inProgress || teams.inProgress || games.inProgress;
 
     return (
-      <Fragment>
+      <Router>
         <CssBaseline />
         <Progress show={isLoading} />
-        <Header />
-        <Body navMenuIsOpen={isOpen} />
-      </Fragment>
+        <Route component={Nav} />
+        <Body navMenuIsOpen={isOpen}>
+          <Switch>
+            <Route component={Games} />
+          </Switch>
+        </Body>
+      </Router>
     );
   }
 };

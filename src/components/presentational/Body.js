@@ -3,8 +3,6 @@ import {
   Grid,
   Collapse,
 } from '@material-ui/core';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import Games from '../container/Games';
 
 const styles = {
   container: {
@@ -12,13 +10,13 @@ const styles = {
   },
 };
 
-const Body = memo(({ navMenuIsOpen }) => (
+const Body = memo(({
+  navMenuIsOpen,
+  children,
+}) => (
   <Collapse in={!navMenuIsOpen} direction="down">
     <Grid style={styles.container}>
-      <Router>
-        <Route exact path="/" component={Games} />
-        <Route exact path="/games" component={Games} />
-      </Router>
+      {children}
     </Grid>
   </Collapse>
 ));

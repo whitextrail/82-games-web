@@ -15,13 +15,14 @@ const navState = initialStateDecorator({
   isOpen: false,
 });
 
-const setNavStateReducer = () => {
+const setNavStateReducer = (state, action) => {
   const navListKeys = Object.keys(navList);
+  const pathname = action.response.substring(1);
 
   return {
     byId: { ...navList},
     allIds: navListKeys,
-    selectedId: navListKeys[0],
+    selectedId: navListKeys.includes(pathname) ? pathname : navListKeys[0],
   };
 };
 

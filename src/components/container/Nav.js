@@ -14,7 +14,7 @@ class NavContainer extends PureComponent {
   constructor(props) {
     super(props);
 
-    props.setNavState();
+    props.setNavState(props.location.pathname);
   }
 
   render = () => {
