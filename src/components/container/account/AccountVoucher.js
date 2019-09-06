@@ -56,7 +56,6 @@ const checkout = (packageId, userAuthId) => {
   stripe.redirectToCheckout({
     items: [{ sku: packageId, quantity: 1 }],
     clientReferenceId: userAuthId,
-    customerEmail: 'eko.mirhard@gmail.com',
     successUrl: `${clientUrl}/account`, // Temporarily redirect back to Account
     cancelUrl: `${clientUrl}/account`, // Temporarily redirect back to Account
   })
