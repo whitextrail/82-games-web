@@ -11,12 +11,12 @@ const styles = {
 };
 
 const Body = memo(({
-  children,
   navMenuIsOpen,
+  children,
 }) => (
   <Collapse in={!navMenuIsOpen} direction="down">
     <Grid style={styles.container}>
-      { children }
+      {children}
     </Grid>
   </Collapse>
 ));

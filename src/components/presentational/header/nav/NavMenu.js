@@ -1,4 +1,7 @@
-import React, { memo } from 'react';
+import React, {
+  memo,
+  createElement,
+} from 'react';
 import {
   Grid,
   Collapse,
@@ -6,27 +9,12 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  Divider,
 } from '@material-ui/core';
-import {
-  LocalPlaySharp,
-  PersonSharp,
-  EqualizerSharp,
-  ExitToAppSharp,
-} from '@material-ui/icons';
-import { authorize } from '../../../../util/auth';
 import {
   primaryColor,
   secondaryTextColor,
 } from '../../../../styles/constants';
-
-const navIcons = {
-  games: <LocalPlaySharp color="secondary" />,
-  account: <PersonSharp color="secondary" />,
-  authenticate: <PersonSharp color="secondary" />,
-  leaderboard: <EqualizerSharp color="secondary" />,
-  logout: <ExitToAppSharp color="secondary" />,
-};
+import Link from '../../reusable/Link';
 
 const styles = {
   navMenu: {
@@ -45,72 +33,6 @@ const styles = {
     height: 24,
     marginRight: 24,
   },
-  navMenuDivider: {
-    marginTop: 20,
-    marginBottom: 16,
-  },
-};
-
-const NavMenuListItems = ({
-  byId,
-  allIds,
-  selectedId,
-  logOutUserAction,
-  authState,
-}) => {
-  // Pre-defined custom actions on some menu items
-  const navActions = {
-    authenticate: () => authorize(), // Redirect to Auth0 login page
-    logout: () => logOutUserAction(), // Clear user state
-  };
-
-  let hasIcons = true;
-
-  const menuItems = [];
-
-  allIds.forEach((id) => {
-    const menuItem = byId[id];
-    const { authenticationState } = menuItem;
-    let showItem = true;
-
-    // If the authentication state check exists for this item, confirm if the current user auth state matches it
-    if (authenticationState && (authenticationState !== authState)) {
-      showItem = false;
-    }
-
-    if (showItem) {
-      const menuAction = (navActions[id] ? { onClick: () => navActions[id]() } : {});
-      const listItemProps = {
-        key: id,
-        style: styles.navMenuListItem,
-        button: true,
-        disableGutters: true,
-        alignItems: 'center',
-        selected: id === selectedId,
-        ...menuAction,
-      };
-  
-      if (hasIcons && !menuItem.hasIcon) {
-        hasIcons = false;
-        menuItems.push(<Divider key="navMenuItemDivider" style={styles.navMenuDivider} />);
-      }
-  
-      menuItems.push((
-        <ListItem {...listItemProps}>
-          { hasIcons && (
-            <ListItemIcon style={styles.navMenuListItemIcon}>
-              <Grid container justify="center" alignItems="center">
-                {navIcons[id]}
-              </Grid>
-            </ListItemIcon>
-          ) }
-          <ListItemText primary={menuItem.text} />
-        </ListItem>
-      ));
-    }
-  });
-
-  return menuItems;
 };
 
 const NavMenu = memo(({
@@ -118,18 +40,40 @@ const NavMenu = memo(({
   allIds,
   isOpen,
   selectedId,
-  authState,
-  logOutUser,
+  handleMenuItemClick,
 }) => (
   <Collapse in={isOpen}>
     <List style={styles.navMenu}>
-      <NavMenuListItems
-        byId={byId}
-        allIds={allIds}
-        selectedId={selectedId}
-        authState={authState}
-        logOutUserAction={logOutUser}
-      />
+      { allIds.map((id) => {
+        const {
+          icon,
+          text,
+          routePath = '',
+        } = byId[id];
+        const isSelected = id === selectedId;
+        const iconElement = createElement(icon, { color: 'secondary' });
+
+        return (
+          <Link key={id} to={routePath}>
+            <ListItem
+              id={id}
+              button
+              disableGutters
+              alignItems="center"
+              selected={isSelected}
+              style={styles.navMenuListItem}
+              onClick={handleMenuItemClick}
+            >
+              <ListItemIcon style={styles.navMenuListItemIcon}>
+                <Grid container justify="center" alignItems="center">
+                  { iconElement }
+                </Grid>
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
+          </Link>
+        );
+      }) }
     </List>
   </Collapse>
 ));
