@@ -6,11 +6,6 @@ import AccountVoucher from './account/AccountVoucher';
 import AccountHeader from '../presentational/body/account/AccountHeader';
 
 class AccountContainer extends PureComponent {
-  constructor() {
-    super();
-    // console.log('test');
-  }
-
   render = () => {
     return (
       <Grid container direction="column">
