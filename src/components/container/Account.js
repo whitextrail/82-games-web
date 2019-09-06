@@ -18,12 +18,6 @@ class AccountContainer extends PureComponent {
   }
 };
 
-const mapStateToProps = ({
-  teams,
-  games,
-}) => ({
-  teams,
-  games,
-});
+const mapStateToProps = ({ user }) => ({ user });
 
 export default withRouter(connect(mapStateToProps)(AccountContainer));

@@ -93,6 +93,11 @@ const theme = createMuiTheme({
         fontWeight: 'bold',
       }
     },
+    MuiDivider: {
+      root: {
+        backgroundColor: 'rgba(0,0,0,0.54)',
+      },
+    },
   },
 });
 
