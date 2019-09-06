@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
 import {
   fetchTeams,
@@ -72,8 +73,8 @@ const mapStateToProps = ({
   games,
 });
 
-export default connect(mapStateToProps, {
+export default withRouter(connect(mapStateToProps, {
   fetchTeams,
   fetchGamesByTeamId,
   filterGamesByStatusId,
-})(GamesContainer);
+})(GamesContainer));

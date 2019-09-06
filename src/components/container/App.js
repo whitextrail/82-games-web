@@ -2,8 +2,8 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { CssBaseline } from '@material-ui/core';
 import {
-  BrowserRouter as Router, Route, Switch,
   withRouter,
+  BrowserRouter as Router, Route, Switch,
 } from 'react-router-dom';
 import { authenticateUser } from '../../state/actions';
 import Nav from './Nav';

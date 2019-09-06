@@ -1,6 +1,8 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Grid } from '@material-ui/core';
+import { withRouter } from 'react-router-dom';
+import shallowCompare from 'react-addons-shallow-compare';
 import {
   setNavState,
   toggleNavMenu,
@@ -11,11 +13,24 @@ import NavBar from '../presentational/header/nav/NavBar';
 import NavMenu from '../presentational/header/nav/NavMenu';
 import { authenticationStates } from '../../util/constants';
 
-class NavContainer extends PureComponent {
+class NavContainer extends Component {
   constructor(props) {
     super(props);
 
     props.setNavState(props.location.pathname);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    const { location: nextLocation } = nextProps;
+    const { location } = this.props;
+
+    if (nextLocation.key !== location.key) {
+      if (nextLocation.pathname !== location.pathname) {
+        this.props.setNavState(nextLocation.pathname);
+      }
+    }
+
+    return shallowCompare(this, nextProps, nextState);
   }
 
   handleMenuItemClick = event => this.props.selectNavId(event.currentTarget.id);
@@ -62,9 +77,9 @@ const mapStateToProps = ({ user, nav }) => ({
   authState: user.id ? authenticationStates.AUTHENTICATED : authenticationStates.UNAUTHENTICATED,
 });
 
-export default connect(mapStateToProps, {
+export default withRouter(connect(mapStateToProps, {
   setNavState,
   toggleNavMenu,
   logOutUser,
   selectNavId,
-})(NavContainer);
+})(NavContainer));
