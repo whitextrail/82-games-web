@@ -20,6 +20,8 @@ const styles = {
   container: {
     height: '100%',
     overflow: 'hidden',
+    paddingRight: 5,
+    paddingLeft: 5,
   },
   list: {
     width: '100%',
@@ -32,8 +34,6 @@ const styles = {
     paddingBottom: 4,
   },
   card: {
-    marginRight: 10,
-    marginLeft: 10,
     borderRadius: 3,
     width: '100%',
   },

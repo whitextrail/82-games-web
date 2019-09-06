@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { CssBaseline } from '@material-ui/core';
+import { CssBaseline, Grid } from '@material-ui/core';
 import {
   withRouter,
   BrowserRouter as Router, Route, Switch,
@@ -41,17 +41,19 @@ class App extends PureComponent {
     const isLoading = user.inProgress || teams.inProgress || games.inProgress;
 
     return (
-      <Router>
-        <CssBaseline />
-        <Progress show={isLoading} />
-        <Route component={Nav} />
-        <Body navMenuIsOpen={isOpen}>
-          <Switch>
-            <Route exact path="/account" component={Account} />
-            <Route path="/" component={Games} />
-          </Switch>
-        </Body>
-      </Router>
+      <Grid style={{ overflow: 'hidden' }}>
+        <Router>
+          <CssBaseline />
+          <Progress show={isLoading} />
+          <Route component={Nav} />
+          <Body navMenuIsOpen={isOpen}>
+            <Switch>
+              <Route exact path="/account" component={Account} />
+              <Route path="/" component={Games} />
+            </Switch>
+          </Body>
+        </Router>
+      </Grid>
     );
   }
 };
