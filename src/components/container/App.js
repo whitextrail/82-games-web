@@ -47,8 +47,8 @@ class App extends PureComponent {
         <Route component={Nav} />
         <Body navMenuIsOpen={isOpen}>
           <Switch>
-            <Route path="/games" component={Games} />
             <Route exact path="/account" component={Account} />
+            <Route path="/" component={Games} />
           </Switch>
         </Body>
       </Router>

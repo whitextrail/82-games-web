@@ -36,13 +36,13 @@ class GamesContainer extends PureComponent {
     const {
       games,
       teams,
+      filterGamesByStatusId: filterGamesByStatusIdAction,
     } = this.props;
     const {
       inProgress,
       byStatusId,
       allStatusIds,
       selectedStatusId,
-      filterGamesByStatusId: filterGamesByStatusIdAction,
     } = games;
     const gamesByStatusId = (byStatusId && selectedStatusId) ? byStatusId[selectedStatusId] : [];
 
