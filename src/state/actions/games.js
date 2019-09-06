@@ -9,14 +9,19 @@ import { actionWrapper } from '../lib/actions';
 const fetchGamesByTeamIdActionCreator = actionWrapper({ type: FETCH_GAMES_BY_TEAM_ID });
 const filterGamesByStatusIdActionCreator = actionWrapper({ type: FILTER_GAMES_BY_STATUS_ID });
 
-const fetchGamesByTeamId = (id = 1) => (
+const fetchGamesByTeamId = (id = 1, statusId = 0) => (
   async (dispatch) => {
     dispatch(fetchGamesByTeamIdActionCreator());
 
     try {
       const { data } = await get(`${apiEndpoints.fetchGamesByTeamId}/${id}`);
 
-      return dispatch(fetchGamesByTeamIdActionCreator({ response: data }));
+      return dispatch(fetchGamesByTeamIdActionCreator({
+        response: {
+          ...data,
+          statusId,
+        },
+      }));
     } catch ({ response: error }) {
       return dispatch(fetchGamesByTeamIdActionCreator({ error }));
     }

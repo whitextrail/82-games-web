@@ -1,6 +1,7 @@
 import {
   setNavState,
   toggleNavMenu,
+  selectNavId,
 } from './nav';
 import {
   authenticateUser,
@@ -17,6 +18,7 @@ import {
 export {
   setNavState,
   toggleNavMenu,
+  selectNavId,
   authenticateUser,
   logOutUser,
   fetchGamesByTeamId,

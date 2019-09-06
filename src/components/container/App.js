@@ -1,33 +1,19 @@
-import React, {
-  PureComponent,
-  Fragment,
-} from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { CssBaseline } from '@material-ui/core';
 import {
-  setNavState,
-  authenticateUser,
-  fetchTeams,
-  fetchGamesByTeamId,
-  filterGamesByStatusId,
-} from '../../state/actions';
-import {
-  Header,
-  Body,
-  Footer,
-} from '../presentational/layout';
-import Nav from '../functional/Nav';
-import Games from '../functional/Games';
+  withRouter,
+  BrowserRouter as Router, Route, Switch,
+} from 'react-router-dom';
+import { authenticateUser } from '../../state/actions';
+import Nav from './Nav';
+import Games from './Games';
+import Account from './Account';
+import Body from '../presentational/Body';
 import Progress from '../presentational/reusable/Progress';
 import { checkSessionAsync } from '../../util/auth';
 
 class App extends PureComponent {
-  constructor(props) {
-    super(props);
-
-    props.setNavStateAction();
-  }
-
   componentDidMount = () => (
     // Check for Auth0 user session
     checkSessionAsync()
@@ -44,64 +30,28 @@ class App extends PureComponent {
       })
   );
 
-  componentDidUpdate({ teams: {
-    selectedId: prevTeamsSelectedId
-  } }) {
-    const {
-      nav: { selectedId: navSelectedId },
-      teams: {
-        selectedId: teamsSelectedId,
-        inProgress: teamsInProgress,
-      },
-      games: {
-        selectedId: gamesSelectedId,
-        inProgress: gamesInProgress,
-      },
-    } = this.props;
-
-    if (!teamsInProgress && !gamesInProgress) {
-      if (navSelectedId && !teamsSelectedId) {
-        setTimeout(this.props.fetchTeamsAction, 1000);
-      } else if (!prevTeamsSelectedId && teamsSelectedId && !gamesSelectedId) {
-        this.props.fetchGamesByTeamIdAction();
-      }
-    }
-  }
-
   render = () => {
     const {
       nav,
+      user,
       teams,
       games,
-      user: { inProgress },
-      filterGamesByStatusIdAction,
     } = this.props;
-    const {
-      isOpen,
-      selectedId: navSelectedId,
-    } = nav;
-    const { selectedId: teamsSelectedId } = teams;
-    const { selectedId: gamesSelectedId } = games;
-    const initialStateLoaded = !!(navSelectedId && teamsSelectedId && gamesSelectedId && !inProgress);
+    const { isOpen } = nav;
+    const isLoading = user.inProgress || teams.inProgress || games.inProgress;
 
     return (
-      <Fragment>
+      <Router>
         <CssBaseline />
-        <Header>
-          <Nav {...nav} />
-        </Header>
+        <Progress show={isLoading} />
+        <Route component={Nav} />
         <Body navMenuIsOpen={isOpen}>
-          { !initialStateLoaded ? <Progress /> : (
-            <Games
-              teams={teams}
-              games={games}
-              navMenuIsOpen={isOpen}
-              filterGamesByStatusId={filterGamesByStatusIdAction}
-            />
-          ) }
+          <Switch>
+            <Route exact path="/account" component={Account} />
+            <Route path="/" component={Games} />
+          </Switch>
         </Body>
-        <Footer />
-      </Fragment>
+      </Router>
     );
   }
 };
@@ -118,10 +68,6 @@ const mapStateToProps = ({
   user,
 });
 
-export default connect(mapStateToProps, {
-  setNavStateAction: setNavState,
+export default withRouter(connect(mapStateToProps, {
   authenticateUserAction: authenticateUser,
-  fetchTeamsAction: fetchTeams,
-  fetchGamesByTeamIdAction: fetchGamesByTeamId,
-  filterGamesByStatusIdAction: filterGamesByStatusId,
-})(App);
+})(App));
