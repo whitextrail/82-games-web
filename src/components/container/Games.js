@@ -34,10 +34,13 @@ class GamesContainer extends PureComponent {
 
     // Teams must be successfully fetched before games
     if (!prevTeams.selectedId && teams.selectedId) {
-      const rootRoutePathname = location.pathname.split('/')[0];
+      const childRoutePathname = location.pathname.split('/')[2];
 
-      fetchGamesByTeamIdAction(teams.selectedId, rootRoutePathname);
-    } else if (prevGames.selectedStatusId && (prevGames.selectedStatusId !== games.selectedStatusId)) {
+      fetchGamesByTeamIdAction(teams.selectedId, childRoutePathname);
+    } else if (
+      prevGames.selectedStatusId
+      && (prevGames.selectedStatusId !== games.selectedStatusId)
+    ) {
       this.props.history.push(`${match.url}/${games.selectedStatusId.toLowerCase()}`);
     }
   }
