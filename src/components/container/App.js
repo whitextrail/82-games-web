@@ -1,9 +1,12 @@
-import React, { PureComponent } from 'react';
+import React, {
+  PureComponent,
+  Fragment,
+} from 'react';
 import { connect } from 'react-redux';
-import { CssBaseline, Grid } from '@material-ui/core';
+import { CssBaseline } from '@material-ui/core';
 import {
   withRouter,
-  BrowserRouter as Router, Route, Redirect,
+  Route,
 } from 'react-router-dom';
 import { authenticateUser } from '../../state/actions';
 import Nav from './Nav';
@@ -41,18 +44,15 @@ class App extends PureComponent {
     const isLoading = user.inProgress || teams.inProgress || games.inProgress;
 
     return (
-      <Grid style={{ overflow: 'hidden' }}>
-        <Router>
-          <CssBaseline />
-          <Progress show={isLoading} />
-          <Route component={Nav} />
-          <Body navMenuIsOpen={isOpen}>
-            <Route path="/games" component={Games} />
-            <Route path="/account" component={Account} />
-            <Redirect from="/" to="/games" />
-          </Body>
-        </Router>
-      </Grid>
+      <Fragment>
+        <CssBaseline />
+        <Progress show={isLoading} />
+        <Route component={Nav} />
+        <Body navMenuIsOpen={isOpen}>
+          <Route path="/games" component={Games} />
+          <Route path="/account" component={Account} />
+        </Body>
+      </Fragment>
     );
   }
 };

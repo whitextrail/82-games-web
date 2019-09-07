@@ -71,7 +71,13 @@ const theme = createMuiTheme({
       body2: {
         fontFamily: ['Raleway', 'sans-serif'],
         fontSize: 14,
-      }
+      },
+      colorPrimary: {
+        color: '#333'
+      },
+      colorSecondary: {
+        color: '#FFF'
+      },
     },
     MuiListSubheader: {
       root: {
