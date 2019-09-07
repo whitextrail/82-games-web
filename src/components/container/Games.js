@@ -2,7 +2,9 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import {
   withRouter,
+  Switch,
   Route,
+  Redirect,
 } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
 import {
@@ -59,6 +61,8 @@ class GamesContainer extends PureComponent {
       allStatusIds,
       selectedStatusId,
     } = games;
+    const { url } = this.props.match;
+    const fallbackPathname = allStatusIds.length && allStatusIds[0].toLowerCase();
 
     return (
       <Grid container direction="column">
@@ -68,24 +72,31 @@ class GamesContainer extends PureComponent {
           inProgress={inProgress}
           handleTabClick={this.handleTabClick}
         />
-        { allStatusIds.map((id) => {
-          const path = `${match.url}/${id.toLowerCase()}`;
-          const games = byStatusId[id];
+        <Switch>
+          { allStatusIds.map((id) => {
+            const path = `${match.url}/${id.toLowerCase()}`;
+            const games = byStatusId[id];
 
-          return (
-            <Route
-              key={id}
-              path={path}
-              render={() => (
-                <GameList
-                  games={games}
-                  teams={teams}
-                  selectedStatusId={selectedStatusId}
-                />
-              )}
-            />
-          );
-        }) }
+            return (
+              <Route
+                key={id}
+                path={path}
+                render={() => (
+                  <GameList
+                    games={games}
+                    teams={teams}
+                    selectedStatusId={selectedStatusId}
+                  />
+                )}
+              />
+            );
+          }) }
+          {
+            fallbackPathname
+              ? <Redirect from={url} to={`${url}/${fallbackPathname}`} />
+              : null
+          }
+        </Switch>
       </Grid>
     );
   }
