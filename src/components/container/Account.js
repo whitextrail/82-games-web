@@ -2,18 +2,15 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
+import AccountVoucher from './account/AccountVoucher';
 import AccountHeader from '../presentational/body/account/AccountHeader';
 
 class AccountContainer extends PureComponent {
-  constructor() {
-    super();
-    // console.log('test');
-  }
-
   render = () => {
     return (
       <Grid container direction="column">
         <AccountHeader />
+        <AccountVoucher />
       </Grid>
     );
   }

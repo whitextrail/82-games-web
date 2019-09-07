@@ -8,11 +8,13 @@ import {
 } from '../lib/reducers';
 
 const userState = initialStateDecorator({
-  id: 0,
+  id: '',
   name: '',
   profilePictureUrl: '',
   email: '',
   emailVerified: false,
+  voucherCount: 0,
+  authId: '',
 });
 
 const authenticateUserReducer = (state, { response }) => ({ ...response });
