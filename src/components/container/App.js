@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { CssBaseline, Grid } from '@material-ui/core';
 import {
   withRouter,
-  BrowserRouter as Router, Route,
+  BrowserRouter as Router, Route, Redirect,
 } from 'react-router-dom';
 import { authenticateUser } from '../../state/actions';
 import Nav from './Nav';
@@ -49,6 +49,7 @@ class App extends PureComponent {
           <Body navMenuIsOpen={isOpen}>
             <Route path="/games" component={Games} />
             <Route path="/account" component={Account} />
+            <Redirect from="/" to="/games" />
           </Body>
         </Router>
       </Grid>
