@@ -7,7 +7,7 @@ import {
   Redirect,
 } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
-import AccountVoucher from './account/AccountVoucher';
+import AccountVoucher from '../presentational/body/account/AccountVoucher';
 import AccountHeader from '../presentational/body/account/AccountHeader';
 import AccountProfile from '../presentational/body/account/AccountProfile';
 
@@ -20,7 +20,7 @@ class AccountContainer extends PureComponent {
         <AccountHeader />
         <Switch>
           <Route exact path={`${url}/profile`} component={AccountProfile} />
-          <Route exact path={`${url}/vouchers`} component={AccountVoucher} />
+          <Route exact path={`${url}/vouchers`} render={() => <AccountVoucher user={this.props.user} />} />
           <Redirect from={url} to={`${url}/profile`} />
         </Switch>
       </Grid>

@@ -1,5 +1,4 @@
-import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
+import React, { memo } from 'react';
 import {
   Grid,
   Typography,
@@ -9,7 +8,7 @@ import {
   ListItemText,
 } from '@material-ui/core';
 import { LocalActivitySharp } from '@material-ui/icons';
-import { primaryColor } from '../../../styles/constants';
+import { primaryColor } from '../../../../styles/constants';
 
 const styles = {
   userVoucherPanel: {
@@ -79,9 +78,7 @@ const renderVoucherPackages = (packages, userAuthId) => (
   ))
 );
 
-class AccountVoucherContainer extends PureComponent {
-  render = () => {
-    const { user } = this.props;
+const AccountVoucherContainer = memo(({ user }) => {
     const {
       authId,
       voucherCount,
@@ -117,13 +114,6 @@ class AccountVoucherContainer extends PureComponent {
         </Grid>
       </Grid>
     );
-  }
-};
-
-const mapStateToProps = ({
-  user,
-}) => ({
-  user,
 });
 
-export default connect(mapStateToProps)(AccountVoucherContainer);
+export default AccountVoucherContainer;
