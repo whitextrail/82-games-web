@@ -29,7 +29,7 @@ const styles = {
 const AccountHeader = memo(({
   allIds,
   selectedId,
-  updateId,
+  handleTabClick,
 }) => {
   const tabIcons = {
     'Profile': <PersonSharp />,
@@ -40,7 +40,7 @@ const AccountHeader = memo(({
     <Paper square style={styles.paper}>
       <Tabs
         selectedTabId={selectedId}
-        onChange={updateId}
+        onChange={handleTabClick}
         allTabIds={allIds}
         tabIcons={tabIcons}
       />

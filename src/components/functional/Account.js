@@ -1,4 +1,8 @@
-import React, { memo, useReducer } from 'react';
+import React, {
+  memo,
+  useReducer,
+  useEffect,
+} from 'react';
 import { connect } from 'react-redux';
 import {
   withRouter,
@@ -39,6 +43,7 @@ const reducer = (state, action) => {
 
 const AccountContainer = memo(({
   match: { url },
+  location: { pathname },
   history,
   user,
 }) => {
@@ -48,21 +53,43 @@ const AccountContainer = memo(({
     selectedId,
   } = state;
 
-  const updateId = (event, value) => {
-    dispatch({
-      type: 'UPDATE_ID',
-      response: { id: value },
-    });
+  const updateId = id => dispatch({
+    type: 'UPDATE_ID',
+    response: { id },
+  });
+
+  const handleTabClick = (event, value) => {
+    updateId(value);
 
     return history.push(`${url}/${value.toLowerCase()}`);
   };
+
+  useEffect(() => {
+    const childRoutePathname = pathname.split('/')[2];
+
+    if (childRoutePathname) {
+      const pathnameAsId = childRoutePathname.substring(0, 1).toUpperCase() + childRoutePathname.substring(1);
+      const {
+        byId,
+        selectedId,
+      } = state;
+
+      if (
+        byId[pathnameAsId]
+        && (pathnameAsId !== selectedId)
+      ) {
+        // Update `selectedId` to match child route pathname on-load
+        updateId(pathnameAsId);
+      }
+    }
+  });
 
   return (
     <Grid container direction="column">
       <AccountHeader
         allIds={allIds}
         selectedId={selectedId}
-        updateId={updateId}
+        handleTabClick={handleTabClick}
       />
       <Switch>
         <Route exact path={`${url}/profile`} component={AccountProfile} />
