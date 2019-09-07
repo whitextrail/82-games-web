@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { CssBaseline, Grid } from '@material-ui/core';
 import {
   withRouter,
-  BrowserRouter as Router, Route, Switch,
+  BrowserRouter as Router, Route,
 } from 'react-router-dom';
 import { authenticateUser } from '../../state/actions';
 import Nav from './Nav';
@@ -47,10 +47,8 @@ class App extends PureComponent {
           <Progress show={isLoading} />
           <Route component={Nav} />
           <Body navMenuIsOpen={isOpen}>
-            <Switch>
-              <Route exact path="/account" component={Account} />
-              <Route path="/" component={Games} />
-            </Switch>
+            <Route path="/games" component={Games} />
+            <Route path="/account" component={Account} />
           </Body>
         </Router>
       </Grid>
