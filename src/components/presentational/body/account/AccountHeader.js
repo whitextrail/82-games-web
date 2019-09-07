@@ -5,7 +5,6 @@ import {
 import {
   PersonSharp,
   LocalActivitySharp,
-  SettingsApplicationsSharp,
 } from '@material-ui/icons';
 import {
   primaryColor,
@@ -27,20 +26,22 @@ const styles = {
   },
 };
 
-const AccountHeader = memo(() => {
+const AccountHeader = memo(({
+  allIds,
+  selectedId,
+  updateId,
+}) => {
   const tabIcons = {
     'Profile': <PersonSharp />,
-    'Balance': <LocalActivitySharp />,
-    'Settings': <SettingsApplicationsSharp />,
+    'Tickets': <LocalActivitySharp />,
   };
 
   return (
     <Paper square style={styles.paper}>
       <Tabs
-        selectedTabId={'Profile'}
-        inProgress={false}
-        onChange={() => {}}
-        allTabIds={['Profile', 'Balance', 'Settings']}
+        selectedTabId={selectedId}
+        onChange={updateId}
+        allTabIds={allIds}
         tabIcons={tabIcons}
       />
     </Paper>

@@ -8,7 +8,7 @@ import {
 import { authenticateUser } from '../../state/actions';
 import Nav from './Nav';
 import Games from './Games';
-import Account from './Account';
+import Account from '../functional/Account';
 import Body from '../presentational/Body';
 import Progress from '../presentational/reusable/Progress';
 import { checkSessionAsync } from '../../util/auth';
