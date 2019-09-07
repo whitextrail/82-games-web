@@ -37,7 +37,7 @@ class GamesContainer extends PureComponent {
       const rootRoutePathname = location.pathname.split('/')[0];
 
       fetchGamesByTeamIdAction(teams.selectedId, rootRoutePathname);
-    } else if (prevGames.selectedStatusId !== games.selectedStatusId) {
+    } else if (prevGames.selectedStatusId && (prevGames.selectedStatusId !== games.selectedStatusId)) {
       this.props.history.push(`${match.url}/${games.selectedStatusId.toLowerCase()}`);
     }
   }
