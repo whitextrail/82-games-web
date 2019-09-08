@@ -8,9 +8,18 @@ import {
   ListItemText,
 } from '@material-ui/core';
 import { LocalActivitySharp } from '@material-ui/icons';
-import { primaryColor } from '../../../../styles/constants';
+import background from '../../../../assets/img/tickets-background.png';
 
 const styles = {
+  container: {
+    height: '100%',
+    backgroundImage: `url(${background})`,
+    backgroundSize: 'cover',
+  },
+  overlay: {
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    paddingTop: 25,
+  },
   userTicketPanel: {
     height: '90%',
     borderRadius: 16,
@@ -85,32 +94,32 @@ const AccountTickets = memo(({ user }) => {
     } = user;
 
     return (
-      <Grid container justify="center" alignItems="center" direction="column" style={{ backgroundColor: primaryColor }}>
-        <Grid container style={{ height: '10%' }}>
-        </Grid>
-        <Grid container justify="center" direction="column" alignItems="center" style={{ height: '20%', marginTop: 30 }}>
-          <Grid container justify="center" direction="column" alignItems="center" style={styles.userTicketPanel}>
-            <Grid container item justify="center" alignItems="center" style={{ paddingTop: 5 }}>
-              <LocalActivitySharp style={{ fontSize: 72, color: '#FFF' }} />
-            </Grid>
-            <Grid container item justify="center" alignItems="center">
-              <Typography variant="body1" align="center" style={{ color: '#FFF' }}>You have {voucherCount} voucher(s)</Typography>
-            </Grid>
-          </Grid>
-        </Grid>
-        <Grid container justify="center" direction="column" alignItems="center" style={{ height: '50%' }}>
-          <Grid container item justify="center" direction="column" style={styles.buyTicketPanel}>
-            <Grid container item justify="center" alignItems="center" style={{ height: '15%', marginTop: 15 }}>
-              <Typography variant="body1" align="center" style={{ color: '#FFF' }}>Buy Tickets</Typography>
-            </Grid>
-            <Grid container item justify="center" alignItems="center">
-              <List>
-                {renderTicketPackages(packages, authId)}
-              </List>
+      <Grid style={styles.container}>
+        <Grid container alignItems="center" direction="column" style={styles.overlay}>
+          <Grid container justify="center" direction="column" alignItems="center" style={{ height: '20%', marginTop: 30 }}>
+            <Grid container justify="center" direction="column" alignItems="center" style={styles.userTicketPanel}>
+              <Grid container item justify="center" alignItems="center" style={{ paddingTop: 5 }}>
+                <LocalActivitySharp style={{ fontSize: 72, color: '#FFF' }} />
+              </Grid>
+              <Grid container item justify="center" alignItems="center">
+                <Typography variant="body1" align="center" style={{ color: '#FFF' }}>You have {voucherCount} voucher(s)</Typography>
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
-        <Grid container style={{ height: '15%' }}>
+          <Grid container justify="center" direction="column" alignItems="center" style={{ height: '50%' }}>
+            <Grid container item justify="center" direction="column" style={styles.buyTicketPanel}>
+              <Grid container item justify="center" alignItems="center" style={{ height: '15%', marginTop: 15 }}>
+                <Typography variant="body1" align="center" style={{ color: '#FFF' }}>Buy Tickets</Typography>
+              </Grid>
+              <Grid container item justify="center" alignItems="center">
+                <List>
+                  {renderTicketPackages(packages, authId)}
+                </List>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid container style={{ height: '15%' }}>
+          </Grid>
         </Grid>
       </Grid>
     );

@@ -9,6 +9,7 @@ const styles = {
   container: {
     height: '100%',
     backgroundImage: `url(${background})`,
+    backgroundSize: 'cover',
   },
   overlay: {
     backgroundColor: 'rgba(0,0,0,0.6)',
