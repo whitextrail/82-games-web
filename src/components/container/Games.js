@@ -53,7 +53,6 @@ class GamesContainer extends PureComponent {
     const {
       games,
       teams,
-      match,
     } = this.props;
     const {
       inProgress,
@@ -74,7 +73,7 @@ class GamesContainer extends PureComponent {
         />
         <Switch>
           { allStatusIds.map((id) => {
-            const path = `${match.url}/${id.toLowerCase()}`;
+            const path = `/games/${id.toLowerCase()}`;
             const games = byStatusId[id];
 
             return (
@@ -93,7 +92,7 @@ class GamesContainer extends PureComponent {
           }) }
           {
             fallbackPathname
-              ? <Redirect from={url} to={`${url}/${fallbackPathname}`} />
+              ? <Redirect from={url} to={`/games/${fallbackPathname}`} />
               : null
           }
         </Switch>

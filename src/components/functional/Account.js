@@ -8,7 +8,6 @@ import {
   withRouter,
   Switch,
   Route,
-  Redirect,
 } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
 import AccountHeader from '../presentational/body/account/AccountHeader';
@@ -92,9 +91,9 @@ const AccountContainer = memo(({
         handleTabClick={handleTabClick}
       />
       <Switch>
-        <Route exact path={`${url}/profile`} render={() => <AccountProfile username={user.username} />} />
-        <Route exact path={`${url}/tickets`} render={() => <AccountTickets user={user} />} />
-        <Redirect from={url} to={`${url}/profile`} />
+        <Route exact path="/account" render={() => <AccountProfile username={user.username} />} />
+        <Route exact path={`/account/profile`} render={() => <AccountProfile username={user.username} />} />
+        <Route exact path={`/account/tickets`} render={() => <AccountTickets user={user} />} />
       </Switch>
     </Grid>
   );

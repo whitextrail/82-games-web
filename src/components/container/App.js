@@ -49,6 +49,7 @@ class App extends PureComponent {
         <Progress show={isLoading} />
         <Route component={Nav} />
         <Body navMenuIsOpen={isOpen}>
+          <Route exact path="/" component={Games} />
           <Route path="/games" component={Games} />
           <Route path="/account" component={Account} />
         </Body>
