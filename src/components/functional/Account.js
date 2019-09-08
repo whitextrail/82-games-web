@@ -92,7 +92,7 @@ const AccountContainer = memo(({
         handleTabClick={handleTabClick}
       />
       <Switch>
-        <Route exact path={`${url}/profile`} component={AccountProfile} />
+        <Route exact path={`${url}/profile`} render={() => <AccountProfile username={user.username} />} />
         <Route exact path={`${url}/tickets`} render={() => <AccountTickets user={user} />} />
         <Redirect from={url} to={`${url}/profile`} />
       </Switch>

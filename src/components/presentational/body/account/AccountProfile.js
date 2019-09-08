@@ -16,11 +16,13 @@ const styles = {
   },
 };
 
-const AccountProfile = memo(() => {
+const AccountProfile = memo(({
+  username,
+}) => {
   return (
     <Grid style={styles.container}>
       <Grid container alignItems="center" direction="column" style={styles.overlay}>
-        <Details username="kphed" rankTitle="Pro" />
+        <Details username={username} rankTitle="Pro" />
         <Badges />
         <GameHistory />
       </Grid>
