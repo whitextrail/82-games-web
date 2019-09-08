@@ -1,6 +1,11 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import {
+  withRouter,
+  Switch,
+  Route,
+  Redirect,
+} from 'react-router-dom';
 import { Grid } from '@material-ui/core';
 import {
   fetchTeams,
@@ -17,27 +22,37 @@ class GamesContainer extends PureComponent {
     props.fetchTeams();
   }
 
-  componentDidUpdate({ teams: prevTeams }) {
+  componentDidUpdate({
+    teams: prevTeams,
+    games: prevGames,
+  }) {
     const {
       teams,
+      games,
       fetchGamesByTeamId: fetchGamesByTeamIdAction,
       location,
+      match,
     } = this.props;
 
     // Teams must be successfully fetched before games
     if (!prevTeams.selectedId && teams.selectedId) {
-      const pathnameFragments = location.pathname.split('/');
-      const statusFromPathname = pathnameFragments[pathnameFragments.length - 1];
+      const childRoutePathname = location.pathname.split('/')[2];
 
-      fetchGamesByTeamIdAction(teams.selectedId, statusFromPathname);
+      fetchGamesByTeamIdAction(teams.selectedId, childRoutePathname);
+    } else if (
+      prevGames.selectedStatusId
+      && (prevGames.selectedStatusId !== games.selectedStatusId)
+    ) {
+      this.props.history.push(`${match.url}/${games.selectedStatusId.toLowerCase()}`);
     }
   }
+
+  handleTabClick = (event, value) => this.props.filterGamesByStatusId(value);
 
   render = () => {
     const {
       games,
       teams,
-      filterGamesByStatusId: filterGamesByStatusIdAction,
     } = this.props;
     const {
       inProgress,
@@ -45,7 +60,8 @@ class GamesContainer extends PureComponent {
       allStatusIds,
       selectedStatusId,
     } = games;
-    const gamesByStatusId = (byStatusId && selectedStatusId) ? byStatusId[selectedStatusId] : [];
+    const { url } = this.props.match;
+    const fallbackPathname = allStatusIds.length && allStatusIds[0].toLowerCase();
 
     return (
       <Grid container direction="column">
@@ -53,13 +69,33 @@ class GamesContainer extends PureComponent {
           selectedStatusId={selectedStatusId}
           allStatusIds={allStatusIds}
           inProgress={inProgress}
-          filterGamesByStatusId={filterGamesByStatusIdAction}
+          handleTabClick={this.handleTabClick}
         />
-        <GameList
-          games={gamesByStatusId}
-          teams={teams}
-          selectedStatusId={selectedStatusId}
-        />
+        <Switch>
+          { allStatusIds.map((id) => {
+            const path = `/games/${id.toLowerCase()}`;
+            const games = byStatusId[id];
+
+            return (
+              <Route
+                key={id}
+                path={path}
+                render={() => (
+                  <GameList
+                    games={games}
+                    teams={teams}
+                    selectedStatusId={selectedStatusId}
+                  />
+                )}
+              />
+            );
+          }) }
+          {
+            fallbackPathname
+              ? <Redirect from={url} to={`/games/${fallbackPathname}`} />
+              : null
+          }
+        </Switch>
       </Grid>
     );
   }

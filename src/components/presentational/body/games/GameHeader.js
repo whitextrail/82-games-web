@@ -34,14 +34,14 @@ const styles = {
 const GameHeader = memo(({
   selectedStatusId,
   allStatusIds,
-  filterGamesByStatusId,
+  handleTabClick,
   inProgress,
 }) => (
   <Paper square style={styles.paper}>
     <Tabs
       selectedTabId={selectedStatusId}
       inProgress={inProgress}
-      onChange={(evt, value) => filterGamesByStatusId(value)}
+      onChange={handleTabClick}
       allTabIds={allStatusIds}
       tabIcons={tabIcons}
     />

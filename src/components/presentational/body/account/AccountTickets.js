@@ -1,5 +1,4 @@
-import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
+import React, { memo } from 'react';
 import {
   Grid,
   Typography,
@@ -9,16 +8,16 @@ import {
   ListItemText,
 } from '@material-ui/core';
 import { LocalActivitySharp } from '@material-ui/icons';
-import { primaryColor } from '../../../styles/constants';
+import { primaryColor } from '../../../../styles/constants';
 
 const styles = {
-  userVoucherPanel: {
+  userTicketPanel: {
     height: '90%',
     borderRadius: 16,
     backgroundColor: '#d70219',
     width: '70%',
   },
-  buyVoucherPanel: {
+  buyTicketPanel: {
     height: '80%',
     backgroundColor: '#d70219',
     width: '70%',
@@ -39,13 +38,13 @@ const styles = {
 // Hard-coding packages for now
 const packages = [{
   id: 'sku_Fl4EPEQSJK10AT',
-  title: '1 Voucher',
+  title: '1 Ticket',
 }, {
   id: 'sku_Fl4IVCmLjHHynK',
-  title: '5 Vouchers',
+  title: '5 Tickets',
 }, {
   id: 'sku_Fl4JYjEdlKvQfx',
-  title: '10 Vouchers',
+  title: '10 Tickets',
 }];
 
 const checkout = (packageId, userAuthId) => {
@@ -66,7 +65,7 @@ const checkout = (packageId, userAuthId) => {
   });
 };
 
-const renderVoucherPackages = (packages, userAuthId) => (
+const renderTicketPackages = (packages, userAuthId) => (
   packages.map(({ id, title }) => (
     <ListItem key={id} onClick={() => checkout(id, userAuthId)} style={styles.packageListItem}>
       <ListItemIcon>
@@ -79,9 +78,7 @@ const renderVoucherPackages = (packages, userAuthId) => (
   ))
 );
 
-class AccountVoucherContainer extends PureComponent {
-  render = () => {
-    const { user } = this.props;
+const AccountTickets = memo(({ user }) => {
     const {
       authId,
       voucherCount,
@@ -92,7 +89,7 @@ class AccountVoucherContainer extends PureComponent {
         <Grid container style={{ height: '10%' }}>
         </Grid>
         <Grid container justify="center" direction="column" alignItems="center" style={{ height: '20%', marginTop: 30 }}>
-          <Grid container justify="center" direction="column" alignItems="center" style={styles.userVoucherPanel}>
+          <Grid container justify="center" direction="column" alignItems="center" style={styles.userTicketPanel}>
             <Grid container item justify="center" alignItems="center" style={{ paddingTop: 5 }}>
               <LocalActivitySharp style={{ fontSize: 72, color: '#FFF' }} />
             </Grid>
@@ -102,13 +99,13 @@ class AccountVoucherContainer extends PureComponent {
           </Grid>
         </Grid>
         <Grid container justify="center" direction="column" alignItems="center" style={{ height: '50%' }}>
-          <Grid container item justify="center" direction="column" style={styles.buyVoucherPanel}>
+          <Grid container item justify="center" direction="column" style={styles.buyTicketPanel}>
             <Grid container item justify="center" alignItems="center" style={{ height: '15%', marginTop: 15 }}>
-              <Typography variant="body1" align="center" style={{ color: '#FFF' }}>Buy Vouchers</Typography>
+              <Typography variant="body1" align="center" style={{ color: '#FFF' }}>Buy Tickets</Typography>
             </Grid>
             <Grid container item justify="center" alignItems="center">
               <List>
-                {renderVoucherPackages(packages, authId)}
+                {renderTicketPackages(packages, authId)}
               </List>
             </Grid>
           </Grid>
@@ -117,13 +114,6 @@ class AccountVoucherContainer extends PureComponent {
         </Grid>
       </Grid>
     );
-  }
-};
-
-const mapStateToProps = ({
-  user,
-}) => ({
-  user,
 });
 
-export default connect(mapStateToProps)(AccountVoucherContainer);
+export default AccountTickets;
