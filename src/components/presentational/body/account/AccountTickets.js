@@ -27,6 +27,20 @@ const styles = {
     borderRadius: 5,
     backgroundColor: 'rgba(255,255,255,0.85)',
   },
+  ticketBalanceIcon: {
+    height: 70,
+    width: 70,
+    borderRadius: '50%',
+    backgroundColor: primaryColor,
+  },
+  ticketBalanceTextContainer: {
+    height: 100,
+    width: 230,
+    paddingLeft: 15,
+  },
+  ticketBalanceTextHeader: {
+    fontWeight: 600,
+  },
   ticketPackagesContainer: {
     paddingTop: 10,
     width: 325,
@@ -190,12 +204,7 @@ const AccountTickets = memo(({ user }) => {
               container
               justify="center"
               alignItems="center"
-              style={{
-                height: 70,
-                width: 70,
-                borderRadius: '50%',
-                backgroundColor: primaryColor,
-              }}
+              style={styles.ticketBalanceIcon}
             >
               <LocalActivitySharp color="secondary" fontSize="large" />
             </Fab>
@@ -203,10 +212,14 @@ const AccountTickets = memo(({ user }) => {
               container
               justify="center"
               direction="column"
-              style={{ height: 100, width: 230, paddingLeft: 15 }}
+              style={styles.ticketBalanceTextContainer}
             >
-              <Typography variant="body1" style={{ fontWeight: 600 }}>You have {ticketCount} ticket(s)</Typography>
-              <Typography variant="body2">Tickets are used to make game predictions. Get them below!</Typography>
+              <Typography variant="body1" style={styles.ticketBalanceTextHeader}>
+                You have {ticketCount} ticket(s)
+              </Typography>
+              <Typography variant="body2">
+                Tickets are used to make game predictions. Get them below!
+              </Typography>
             </Grid>
           </Grid>
           <Grid
