@@ -13,7 +13,7 @@ const userState = initialStateDecorator({
   profilePictureUrl: '',
   email: '',
   emailVerified: false,
-  voucherCount: 0,
+  ticketCount: 0,
   authId: '',
 });
 
