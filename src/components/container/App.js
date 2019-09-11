@@ -8,7 +8,6 @@ import {
 import { authenticateUser } from '../../state/actions';
 import Games from './Games';
 import Account from '../functional/Account';
-import Progress from '../presentational/reusable/Progress';
 import { checkSessionAsync } from '../../util/auth';
 
 class App extends PureComponent {
@@ -29,17 +28,9 @@ class App extends PureComponent {
   );
 
   render = () => {
-    const {
-      user,
-      teams,
-      games,
-    } = this.props;
-    const isLoading = user.inProgress || teams.inProgress || games.inProgress;
-
     return (
       <Grid container direction="column">
         <CssBaseline />
-        <Progress show={isLoading} />
         <Route path="/account" component={Account} />
         <Route component={Games} />
       </Grid>
@@ -47,18 +38,6 @@ class App extends PureComponent {
   }
 };
 
-const mapStateToProps = ({
-  nav,
-  teams,
-  games,
-  user,
-}) => ({
-  nav,
-  teams,
-  games,
-  user,
-});
-
-export default withRouter(connect(mapStateToProps, {
+export default withRouter(connect(null, {
   authenticateUserAction: authenticateUser,
 })(App));
