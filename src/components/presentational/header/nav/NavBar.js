@@ -28,7 +28,7 @@ const styles = {
   },
 };
 
-const createNavBarClasses = (classes) => makeStyles(classes);
+const createNavBarClasses = (classes) => makeStyles(classes)();
 
 const NavBar = memo(({
   menuIsOpen,
@@ -43,33 +43,39 @@ const NavBar = memo(({
   },
   navBarIconStyles = {},
 }) => {
-  const defaultNavBarIconStyles = {
+  const combinedNavBarIconStyles = {
     ...styles.navBarIcon,
     ...navBarIconStyles,
   };
   const defaultNavBarIcon = menuIsOpen
-    ? <CloseSharp style={defaultNavBarIconStyles} />
-    : <MenuSharp style={defaultNavBarIconStyles} />;
+    ? <CloseSharp style={combinedNavBarIconStyles} />
+    : <MenuSharp style={combinedNavBarIconStyles} />;
   const navBarClasses = createNavBarClasses({ ...navBarStyles });
 
   return (
-    <AppBar position="static" elevation={0} classes={{ ...navBarClasses }}>
-      <Toolbar
-        component={Grid}
-        disableGutters
-        style={styles.toolbar}
-        container
-        justify="flex-start"
-        alignItems="center"
-      >
-        <IconButton style={styles.navBarIconButton} onClick={navBarIconClickHandler}>
-          {navBarIcon || defaultNavBarIcon}
-        </IconButton>
-        <Typography variant="h6">
-          {menuIsOpen ? '82 GAMES' : navBarTitle}
-        </Typography>
-      </Toolbar>
-    </AppBar>
+    <Grid container direction="column">
+      <AppBar position="static" elevation={0} color="default" classes={{ ...navBarClasses }}>
+        <Toolbar
+          component={Grid}
+          disableGutters
+          style={styles.toolbar}
+          container
+          justify="flex-start"
+          alignItems="center"
+        >
+          <IconButton style={styles.navBarIconButton} onClick={navBarIconClickHandler}>
+            {
+              navBarIcon
+                ? React.cloneElement(navBarIcon, { style: combinedNavBarIconStyles })
+                : defaultNavBarIcon
+            }
+          </IconButton>
+          <Typography variant="h6">
+            {menuIsOpen ? '82 GAMES' : navBarTitle}
+          </Typography>
+        </Toolbar>
+      </AppBar>
+    </Grid>
   );
 });
 

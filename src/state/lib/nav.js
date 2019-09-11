@@ -8,53 +8,53 @@ import { authenticationStates } from '../../util/constants';
 
 const navList = {
   games: {
-    text: 'Games',
+    title: 'Games',
     routePath: '/games',
     icon: LocalPlaySharp,
   },
   leaderboard: {
-    text: 'Leaderboard',
+    title: 'Leaderboard',
     routePath: '/leaderboard',
     icon: EqualizerSharp,
   },
   account: {
-    text: 'Account',
+    title: 'Account',
     routePath: '/account',
     icon: PersonSharp,
     authenticationState: authenticationStates.AUTHENTICATED,
   },
   login: {
-    text: 'Login/Register',
+    title: 'Login/Register',
     icon: PersonSharp,
     authenticationState: authenticationStates.UNAUTHENTICATED,
   },
   logout: {
-    text: 'Logout',
+    title: 'Logout',
     icon: ExitToAppSharp,
     authenticationState: authenticationStates.AUTHENTICATED,
   },
   // about: {
-  //   text: 'About Us',
+  //   title: 'About Us',
   //   icon: null,
   //   routePath: '/about',
   // },
   // team: {
-  //   text: 'Our Team',
+  //   title: 'Our Team',
   //   icon: null,
   //   routePath: '/team',
   // },
   // contact: {
-  //   text: 'Contact',
+  //   title: 'Contact',
   //   icon: null,
   //   routePath: '/contact',
   // },
   // terms: {
-  //   text: 'Terms of Service',
+  //   title: 'Terms of Service',
   //   icon: null,
   //   routePath: '/terms',
   // },
   // privacy: {
-  //   text: 'Privacy Policy',
+  //   title: 'Privacy Policy',
   //   icon: null,
   //   routePath: '/privacy',
   // },

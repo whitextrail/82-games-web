@@ -53,6 +53,8 @@ class NavContainer extends Component {
   render = () => {
     const {
       nav,
+      navBarProps = {},
+      navMenuProps = {},
       isAuthenticated,
       toggleNavMenu: toggleNavMenuAction,
     } = this.props;
@@ -62,7 +64,7 @@ class NavContainer extends Component {
       allIds,
       selectedId,
     } = nav;
-    const navBarTitle = (byId && byId[selectedId]) ? byId[selectedId].text : '';
+    const navBarTitle = (byId && selectedId) ? byId[selectedId].title : '';
 
     return (
       <Grid container direction="column">
@@ -70,6 +72,7 @@ class NavContainer extends Component {
           menuIsOpen={isOpen}
           navBarTitle={navBarTitle}
           navBarIconClickHandler={toggleNavMenuAction}
+          {...navBarProps}
         />
         <NavMenu
           byId={byId}
@@ -78,6 +81,7 @@ class NavContainer extends Component {
           allIds={allIds}
           isAuthenticated={isAuthenticated}
           handleMenuItemClick={this.handleMenuItemClick}
+          {...navMenuProps}
         />
       </Grid>
     );
