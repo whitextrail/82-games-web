@@ -205,19 +205,4 @@ const GameStats = memo(() => {
   );
 });
 
-            // <StatsBar
-            //   barNameLabel="Season"
-            //   barValueLabel="16.8"
-            //   value={100}
-            //   barColor="#FFF"
-            //   barBackgroundColor="rgba(0,0,0,0.54)"
-            // />
-            // <StatsBar
-            //   barNameLabel="Career"
-            //   barValueLabel="11"
-            //   value={(11/16.8) * 100}
-            //   barColor="#FFF"
-            //   barBackgroundColor="rgba(0,0,0,0.54)"
-            // />
-
 export default GameStats;

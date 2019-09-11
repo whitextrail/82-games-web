@@ -39,7 +39,7 @@ const AthleteStats = memo(() => (
           labels: {
             boxWidth: 10,
             padding: 5,
-            fontSize: 8,
+            fontSize: 10,
             fontColor: '#333',
             fontFamily: 'Red Hat Display, sans-serif', 
           },
