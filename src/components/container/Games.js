@@ -32,7 +32,6 @@ class GamesContainer extends PureComponent {
       games,
       fetchGamesByTeamId: fetchGamesByTeamIdAction,
       location,
-      match,
     } = this.props;
 
     // Teams must be successfully fetched before games
@@ -40,11 +39,13 @@ class GamesContainer extends PureComponent {
       const childRoutePathname = location.pathname.split('/')[2];
 
       fetchGamesByTeamIdAction(teams.selectedId, childRoutePathname);
+    } else if (location.pathname === '/') {
+      this.props.history.push(`/games/previous`);
     } else if (
       prevGames.selectedStatusId
       && (prevGames.selectedStatusId !== games.selectedStatusId)
     ) {
-      this.props.history.push(`${match.url}/${games.selectedStatusId.toLowerCase()}`);
+      this.props.history.push(`/games/${games.selectedStatusId.toLowerCase()}`);
     }
   }
 
@@ -109,9 +110,9 @@ class GamesContainer extends PureComponent {
           <Route component={Nav} />
         </Switch>
         <Switch>
-          <Route path="/games/live" render={() => <Games {...gameListProps} />} />
-          <Route path="/games/upcoming" render={() => <Games {...gameListProps} />} />
-          <Route path="/games/:season/:game" component={GameStats} />
+          <Route exact path="/games/live" render={() => <Games {...gameListProps} />} />
+          <Route exact path="/games/upcoming" render={() => <Games {...gameListProps} />} />
+          <Route exact path="/games/:season/:game" component={GameStats} />
           <Route render={() => <Games {...gameListProps} />} />
         </Switch>
       </Grid>

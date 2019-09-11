@@ -18,7 +18,10 @@ class NavContainer extends Component {
   constructor(props) {
     super(props);
 
-    props.setNavState();
+    // Set initial nav state if it has previously not been set
+    if (!props.nav.selectedId) {
+      props.setNavState();
+    }
   }
 
   shouldComponentUpdate(nextProps, nextState) {

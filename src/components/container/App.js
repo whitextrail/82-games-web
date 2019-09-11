@@ -40,9 +40,8 @@ class App extends PureComponent {
       <Grid container direction="column">
         <CssBaseline />
         <Progress show={isLoading} />
-        <Route exact path="/" component={Games} />
-        <Route path="/games" component={Games} />
         <Route path="/account" component={Account} />
+        <Route component={Games} />
       </Grid>
     );
   }
