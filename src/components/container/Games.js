@@ -6,14 +6,12 @@ import {
   Route,
   Redirect,
 } from 'react-router-dom';
-import { Grid } from '@material-ui/core';
 import {
   fetchTeams,
   fetchGamesByTeamId,
   filterGamesByStatusId,
 } from '../../state/actions';
-import GameHeader from '../presentational/body/games/GameHeader';
-import GameList from '../presentational/body/games/GameList';
+import Games from '../presentational/body/games/Games';
 
 class GamesContainer extends PureComponent {
   constructor(props) {
@@ -52,7 +50,7 @@ class GamesContainer extends PureComponent {
   render = () => {
     const {
       games,
-      teams,
+      teams: { byId: teamsById },
     } = this.props;
     const {
       inProgress,
@@ -64,39 +62,34 @@ class GamesContainer extends PureComponent {
     const fallbackPathname = allStatusIds.length && allStatusIds[0].toLowerCase();
 
     return (
-      <Grid container direction="column">
-        <GameHeader
-          selectedStatusId={selectedStatusId}
-          allStatusIds={allStatusIds}
-          inProgress={inProgress}
-          handleTabClick={this.handleTabClick}
-        />
-        <Switch>
-          { allStatusIds.map((id) => {
-            const path = `/games/${id.toLowerCase()}`;
-            const games = byStatusId[id];
+      <Switch>
+        { allStatusIds.map((id) => {
+          const path = `/games/${id.toLowerCase()}`;
+          const gamesByStatusId = byStatusId[id];
 
-            return (
-              <Route
-                key={id}
-                path={path}
-                render={() => (
-                  <GameList
-                    games={games}
-                    teams={teams}
-                    selectedStatusId={selectedStatusId}
-                  />
-                )}
-              />
-            );
-          }) }
-          {
-            fallbackPathname
-              ? <Redirect from={url} to={`/games/${fallbackPathname}`} />
-              : null
-          }
-        </Switch>
-      </Grid>
+          return (
+            <Route
+              key={id}
+              path={path}
+              render={() => (
+                <Games
+                  gamesByStatusId={gamesByStatusId}
+                  teamsById={teamsById}
+                  inProgress={inProgress}
+                  allStatusIds={allStatusIds}
+                  handleTabClick={this.handleTabClick}
+                  selectedStatusId={selectedStatusId}
+                />
+              )}
+            />
+          );
+        }) }
+        {
+          fallbackPathname
+            ? <Redirect from={url} to={`/games/${fallbackPathname}`} />
+            : null
+        }
+      </Switch>
     );
   }
 };

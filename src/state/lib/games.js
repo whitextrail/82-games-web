@@ -28,15 +28,29 @@ const normalizeGameList = data => {
 // TODO: Differentiate between "closed" and "live" games
 const segmentGamesByStatus = gamesById => (
   reduce(gamesById, (accumulator, value) => {
+    const {
+      id,
+      dateTime,
+    } = value;
+
     // Check whether the current time is before the game's date/time
-    const isUpcoming = moment().isBefore(moment(value.dateTime));
+    const isUpcoming = moment().isBefore(moment(dateTime));
+    const isLastSeason = moment(dateTime).isBefore('2019-04-11T00:00:00.001Z');
+    const season = isLastSeason ? 'S2018-2019' : 'S2019-2020';
+    const gameNumber = id > 82 ? (id - 82) : id;
+
+    const game = {
+      ...value,
+      season,
+      gameNumber,
+    };
 
     if (isUpcoming) {
       return {
         ...accumulator,
         Upcoming: [
           ...accumulator.Upcoming,
-          value,
+          game,
         ]
       };
     }
@@ -44,7 +58,7 @@ const segmentGamesByStatus = gamesById => (
     return {
       ...accumulator,
       Previous: [
-        value,
+        game,
         ...accumulator.Previous,
       ]
     };
