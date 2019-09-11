@@ -12,6 +12,7 @@ import {
 import NavBar from '../presentational/header/nav/NavBar';
 import NavMenu from '../presentational/header/nav/NavMenu';
 import { authenticationStates } from '../../util/constants';
+import { authorize } from '../../util/auth';
 
 class NavContainer extends Component {
   constructor(props) {
@@ -28,21 +29,29 @@ class NavContainer extends Component {
     const rootPathname = location.pathname.split('/')[1];
 
     // Check whether the nav title properly reflects the pathname
-    if (rootPathname !== nav.selectedId) {
+    if (rootPathname && (rootPathname !== nav.selectedId)) {
       this.props.selectNavId(rootPathname);
     }
 
     return shallowCompare(this, nextProps, nextState);
   }
 
-  handleMenuItemClick = event => this.props.selectNavId(event.currentTarget.id);
+  handleMenuItemClick = event => {
+    switch(event.currentTarget.id) {
+      case 'login':
+        return authorize();
+      case 'logout':
+        return this.props.logOutUser();
+      default:
+        this.props.selectNavId(event.currentTarget.id);
+    }
+  };
 
   render = () => {
     const {
       nav,
-      authState,
+      isAuthenticated,
       toggleNavMenu: toggleNavMenuAction,
-      logOutUser: logOutUserAction,
     } = this.props;
     const {
       isOpen,
@@ -64,8 +73,7 @@ class NavContainer extends Component {
           selectedId={selectedId}
           isOpen={isOpen}
           allIds={allIds}
-          logOutUser={logOutUserAction}
-          authState={authState}
+          isAuthenticated={isAuthenticated}
           handleMenuItemClick={this.handleMenuItemClick}
         />
       </Grid>
@@ -75,7 +83,7 @@ class NavContainer extends Component {
 
 const mapStateToProps = ({ user, nav }) => ({
   nav,
-  authState: user.id ? authenticationStates.AUTHENTICATED : authenticationStates.UNAUTHENTICATED,
+  isAuthenticated: user.id ? authenticationStates.AUTHENTICATED : authenticationStates.UNAUTHENTICATED,
 });
 
 export default withRouter(connect(mapStateToProps, {

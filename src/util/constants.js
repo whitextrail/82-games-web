@@ -1,7 +1,6 @@
 module.exports = {
   authenticationStates: {
-    ANY: 0,
-    UNAUTHENTICATED: 1,
-    AUTHENTICATED: 2,
+    UNAUTHENTICATED: 0,
+    AUTHENTICATED: 1,
   },
 };

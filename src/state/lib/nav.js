@@ -23,7 +23,7 @@ const navList = {
     icon: PersonSharp,
     authenticationState: authenticationStates.AUTHENTICATED,
   },
-  authenticate: {
+  login: {
     text: 'Login/Register',
     icon: PersonSharp,
     authenticationState: authenticationStates.UNAUTHENTICATED,
