@@ -2,10 +2,8 @@ import React, { memo } from 'react';
 import {
   Grid,
   List,
-  Typography,
 } from '@material-ui/core';
 import GameHeader from './GameHeader';
-import Game from './Game';
 
 const styles = {
   list: {
@@ -32,53 +30,15 @@ const styles = {
     marginTop: 5,
     marginRight: 5,
   },
-  noGamesFoundContainer: {
-    marginTop: 20,
-  },
 };
 
-const NoGamesFound = memo(() => (
-  <Grid container justify="center" style={styles.noGamesFoundContainer}>
-    <Typography variant="body1" align="center">No games found.</Typography>
-  </Grid>
-));
-
 const Games = memo(({
-  gamesByStatusId,
-  teamsById,
   inProgress,
   allStatusIds,
-  handleTabClick,
   selectedStatusId,
+  handleTabClick,
+  renderGamesByStatusId,
 }) => {
-  const renderGamesByStatusId = gamesByStatusId => (
-    gamesByStatusId.map(({
-      season,
-      gameNumber,
-      localGameDateTime,
-      arena,
-      homeTeamId,
-      awayTeamId,
-    }) => (
-      <Game
-        key={gameNumber}
-        selectedStatusId={selectedStatusId}
-        season={season}
-        gameNumber={gameNumber}
-        localGameDateTime={localGameDateTime}
-        arena={arena}
-        homeTeam={{
-          id: homeTeamId,
-          name: teamsById[homeTeamId].name,
-        }}
-        awayTeam={{
-          id: awayTeamId,
-          name: teamsById[awayTeamId].name,
-        }}
-      />
-    ))
-  );
-
   return (
     <Grid container direction="column">
       <GameHeader
@@ -88,11 +48,7 @@ const Games = memo(({
         handleTabClick={handleTabClick}
       />
         <List disablePadding style={styles.list} subheader={<li />}>
-          {
-            gamesByStatusId.length
-              ? renderGamesByStatusId(gamesByStatusId)
-              : <NoGamesFound />
-          }
+          {renderGamesByStatusId()}
         </List>
     </Grid>
   );

@@ -4,7 +4,6 @@ import {
   withRouter,
   Switch,
   Route,
-  Redirect,
 } from 'react-router-dom';
 import {
   fetchTeams,
@@ -12,6 +11,7 @@ import {
   filterGamesByStatusId,
 } from '../../state/actions';
 import Games from '../presentational/body/games/Games';
+import Game from '../presentational/body/games/Game';
 
 class GamesContainer extends PureComponent {
   constructor(props) {
@@ -47,48 +47,64 @@ class GamesContainer extends PureComponent {
 
   handleTabClick = (event, value) => this.props.filterGamesByStatusId(value);
 
+  renderGamesByStatusId = (
+    gamesByStatusId,
+    teamsById,
+  ) => (
+    gamesByStatusId.map(({
+      homeTeamId,
+      awayTeamId,
+      ...game
+    }, index) => {
+      const homeTeam = {
+        id: homeTeamId,
+        name: teamsById[homeTeamId].name,
+      };
+      const awayTeam = {
+        id: awayTeamId,
+        name: teamsById[awayTeamId].name,
+      };
+
+      return (
+        <Game
+          {...game}
+          key={index}
+          homeTeam={homeTeam}
+          awayTeam={awayTeam}
+        />
+      );
+    }
+));
+
   render = () => {
     const {
-      games,
-      teams: { byId: teamsById },
+      games: {
+        inProgress,
+        byStatusId,
+        allStatusIds,
+        selectedStatusId,
+      },
+      teams: {
+        byId: teamsById,
+      },
     } = this.props;
-    const {
+    const gameListProps = {
       inProgress,
-      byStatusId,
       allStatusIds,
       selectedStatusId,
-    } = games;
-    const { url } = this.props.match;
-    const fallbackPathname = allStatusIds.length && allStatusIds[0].toLowerCase();
+      handleTabClick: this.handleTabClick,
+      renderGamesByStatusId: !!selectedStatusId && (() => (
+        this.renderGamesByStatusId(
+        byStatusId[selectedStatusId],
+        teamsById
+      ))),
+    };
 
-    return (
+    return !!selectedStatusId && (
       <Switch>
-        { allStatusIds.map((id) => {
-          const path = `/games/${id.toLowerCase()}`;
-          const gamesByStatusId = byStatusId[id];
-
-          return (
-            <Route
-              key={id}
-              path={path}
-              render={() => (
-                <Games
-                  gamesByStatusId={gamesByStatusId}
-                  teamsById={teamsById}
-                  inProgress={inProgress}
-                  allStatusIds={allStatusIds}
-                  handleTabClick={this.handleTabClick}
-                  selectedStatusId={selectedStatusId}
-                />
-              )}
-            />
-          );
-        }) }
-        {
-          fallbackPathname
-            ? <Redirect from={url} to={`/games/${fallbackPathname}`} />
-            : null
-        }
+        <Route path="/games/previous" render={() => <Games {...gameListProps} />} />
+        <Route path="/games/live" render={() => <Games {...gameListProps} />} />
+        <Route path="/games/upcoming" render={() => <Games {...gameListProps} />} />
       </Switch>
     );
   }
