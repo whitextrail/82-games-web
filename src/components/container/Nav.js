@@ -17,17 +17,19 @@ class NavContainer extends Component {
   constructor(props) {
     super(props);
 
-    props.setNavState(props.location.pathname);
+    props.setNavState();
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    const { location: nextLocation } = nextProps;
-    const { location } = this.props;
+    const {
+      nav,
+      location,
+    } = this.props;
+    const rootPathname = location.pathname.split('/')[1];
 
-    if (nextLocation.key !== location.key) {
-      if (nextLocation.pathname !== location.pathname) {
-        this.props.setNavState(nextLocation.pathname);
-      }
+    // Check whether the nav title properly reflects the pathname
+    if (rootPathname !== nav.selectedId) {
+      this.props.selectNavId(rootPathname);
     }
 
     return shallowCompare(this, nextProps, nextState);
