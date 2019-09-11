@@ -16,14 +16,13 @@ const navState = initialStateDecorator({
   isOpen: false,
 });
 
-const setNavStateReducer = (state, { response }) => {
+const setNavStateReducer = () => {
   const navListKeys = Object.keys(navList);
-  const rootRoutePathname = response.pathname.split('/')[1];
 
   return {
     byId: { ...navList},
     allIds: navListKeys,
-    selectedId: navListKeys.includes(rootRoutePathname) ? rootRoutePathname : navListKeys[0],
+    selectedId: navListKeys[0],
   };
 };
 

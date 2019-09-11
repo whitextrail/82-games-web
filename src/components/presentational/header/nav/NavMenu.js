@@ -39,6 +39,7 @@ const NavMenu = memo(({
   byId,
   allIds,
   isOpen,
+  isAuthenticated,
   selectedId,
   handleMenuItemClick,
 }) => (
@@ -52,8 +53,12 @@ const NavMenu = memo(({
         } = byId[id];
         const isSelected = id === selectedId;
         const iconElement = createElement(icon, { color: 'secondary' });
+        const { authenticationState } = byId[id];
 
-        return (
+        // Show the menu item if it has no authenticationState prop or matches the user's authentication state
+        const showMenuItem = !Number.isInteger(authenticationState) || (isAuthenticated === authenticationState);
+
+        return showMenuItem && (
           <Link key={id} to={routePath}>
             <ListItem
               id={id}

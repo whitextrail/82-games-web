@@ -6,12 +6,12 @@ import {
 import { actionWrapper } from '../lib/actions';
 
 const actionCreators = {
-  setNavState: actionWrapper({ type: SET_NAV_STATE }),
+  setNavState: actionWrapper({ type: SET_NAV_STATE })({ response: {} }),
   toggleNavMenu: actionWrapper({ type: TOGGLE_NAV_MENU })({ response: {} }),
   selectNavId: actionWrapper({ type: SELECT_NAV_ID }),
 };
 
-const setNavState = pathname => dispatch => dispatch(actionCreators.setNavState({ response: { pathname } }));
+const setNavState = () => dispatch => dispatch(actionCreators.setNavState);
 
 const toggleNavMenu = () => dispatch => dispatch(actionCreators.toggleNavMenu);
 

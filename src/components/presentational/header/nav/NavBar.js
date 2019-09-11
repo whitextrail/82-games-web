@@ -10,42 +10,64 @@ import {
   MenuSharp,
   CloseSharp,
 } from '@material-ui/icons';
-import { secondaryTextColor } from '../../../../styles/constants';
+import { makeStyles } from '@material-ui/styles';
+import { secondaryTextColor, primaryColor } from '../../../../styles/constants';
 
 const styles = {
-  navContainer: {
+  toolbar: {
     height: 56,
     minHeight: 56,
   },
-  menuIcon: {
+  navBarIcon: {
     color: secondaryTextColor,
     fontSize: 24,
   },
-  menuIconButton: {
+  navBarIconButton: {
     marginLeft: 6,
     marginRight: 12,
   },
 };
 
+const createNavBarClasses = (classes) => makeStyles(classes);
+
 const NavBar = memo(({
-  toggleNavMenu,
-  isOpen,
-  title,
+  menuIsOpen,
+  navBarTitle,
+  navBarIconClickHandler,
+  navBarIcon = null,
+  navBarStyles = {
+    colorDefault: {
+      backgroundColor: primaryColor,
+      color: 'white',
+    },
+  },
+  navBarIconStyles = {},
 }) => {
-  const menuIcon = isOpen
-    ? <CloseSharp style={styles.menuIcon} color="secondary" />
-    : <MenuSharp style={styles.menuIcon} color="secondary" />;
-  const menuTitle = isOpen ? '82 GAMES' : title;
+  const defaultNavBarIconStyles = {
+    ...styles.navBarIcon,
+    ...navBarIconStyles,
+  };
+  const defaultNavBarIcon = menuIsOpen
+    ? <CloseSharp style={defaultNavBarIconStyles} />
+    : <MenuSharp style={defaultNavBarIconStyles} />;
+  const navBarClasses = createNavBarClasses({ ...navBarStyles });
 
   return (
-    <AppBar position="static" color="primary" elevation={0}>
-      <Toolbar disableGutters style={styles.navContainer}>
-        <Grid container justify="flex-start" alignItems="center">
-          <IconButton style={styles.menuIconButton} onClick={toggleNavMenu}>
-            {menuIcon}
-          </IconButton>
-          <Typography variant="h6">{menuTitle}</Typography>
-        </Grid>
+    <AppBar position="static" elevation={0} classes={{ ...navBarClasses }}>
+      <Toolbar
+        component={Grid}
+        disableGutters
+        style={styles.toolbar}
+        container
+        justify="flex-start"
+        alignItems="center"
+      >
+        <IconButton style={styles.navBarIconButton} onClick={navBarIconClickHandler}>
+          {navBarIcon || defaultNavBarIcon}
+        </IconButton>
+        <Typography variant="h6">
+          {menuIsOpen ? '82 GAMES' : navBarTitle}
+        </Typography>
       </Toolbar>
     </AppBar>
   );
