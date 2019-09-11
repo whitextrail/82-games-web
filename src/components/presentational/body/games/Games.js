@@ -6,6 +6,10 @@ import {
 import GameHeader from './GameHeader';
 
 const styles = {
+  container: {
+    overflow: 'auto',
+    height: window.innerHeight - 56,
+  },
   list: {
     width: '100%',
     position: 'relative',
@@ -40,16 +44,16 @@ const Games = memo(({
   renderGamesByStatusId,
 }) => {
   return (
-    <Grid container direction="column">
+    <Grid container direction="column" style={styles.container}>
       <GameHeader
         selectedStatusId={selectedStatusId}
         allStatusIds={allStatusIds}
         inProgress={inProgress}
         handleTabClick={handleTabClick}
       />
-        <List disablePadding style={styles.list} subheader={<li />}>
-          {renderGamesByStatusId()}
-        </List>
+      <List disablePadding style={styles.list} subheader={<li />}>
+        {renderGamesByStatusId()}
+      </List>
     </Grid>
   );
 });

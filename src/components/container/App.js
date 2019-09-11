@@ -1,18 +1,13 @@
-import React, {
-  PureComponent,
-  Fragment,
-} from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { CssBaseline } from '@material-ui/core';
+import { CssBaseline, Grid } from '@material-ui/core';
 import {
   withRouter,
   Route,
 } from 'react-router-dom';
 import { authenticateUser } from '../../state/actions';
-import Nav from './Nav';
 import Games from './Games';
 import Account from '../functional/Account';
-import Body from '../presentational/Body';
 import Progress from '../presentational/reusable/Progress';
 import { checkSessionAsync } from '../../util/auth';
 
@@ -35,25 +30,20 @@ class App extends PureComponent {
 
   render = () => {
     const {
-      nav,
       user,
       teams,
       games,
     } = this.props;
-    const { isOpen } = nav;
     const isLoading = user.inProgress || teams.inProgress || games.inProgress;
 
     return (
-      <Fragment>
+      <Grid container direction="column">
         <CssBaseline />
         <Progress show={isLoading} />
-        <Route component={Nav} />
-        <Body navMenuIsOpen={isOpen}>
-          <Route exact path="/" component={Games} />
-          <Route path="/games" component={Games} />
-          <Route path="/account" component={Account} />
-        </Body>
-      </Fragment>
+        <Route exact path="/" component={Games} />
+        <Route path="/games" component={Games} />
+        <Route path="/account" component={Account} />
+      </Grid>
     );
   }
 };

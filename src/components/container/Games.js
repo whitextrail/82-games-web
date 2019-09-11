@@ -10,8 +10,11 @@ import {
   fetchGamesByTeamId,
   filterGamesByStatusId,
 } from '../../state/actions';
+import { Grid } from '@material-ui/core';
+import Nav from './Nav';
 import Games from '../presentational/body/games/Games';
 import Game from '../presentational/body/games/Game';
+import GameStats from '../functional/GameStats';
 
 class GamesContainer extends PureComponent {
   constructor(props) {
@@ -101,11 +104,17 @@ class GamesContainer extends PureComponent {
     };
 
     return !!selectedStatusId && (
-      <Switch>
-        <Route path="/games/previous" render={() => <Games {...gameListProps} />} />
-        <Route path="/games/live" render={() => <Games {...gameListProps} />} />
-        <Route path="/games/upcoming" render={() => <Games {...gameListProps} />} />
-      </Switch>
+      <Grid container direction="column">
+        <Switch>
+          <Route component={Nav} />
+        </Switch>
+        <Switch>
+          <Route path="/games/live" render={() => <Games {...gameListProps} />} />
+          <Route path="/games/upcoming" render={() => <Games {...gameListProps} />} />
+          <Route path="/games/:season/:game" component={GameStats} />
+          <Route render={() => <Games {...gameListProps} />} />
+        </Switch>
+      </Grid>
     );
   }
 };
