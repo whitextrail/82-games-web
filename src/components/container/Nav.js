@@ -55,10 +55,9 @@ class NavContainer extends Component {
     return (
       <Grid container direction="column">
         <NavBar
-          toggleNavMenu={toggleNavMenuAction}
-          isOpen={isOpen}
-          title={navBarTitle}
-          selectedId={selectedId}
+          menuIsOpen={isOpen}
+          navBarTitle={navBarTitle}
+          navBarIconClickHandler={toggleNavMenuAction}
         />
         <NavMenu
           byId={byId}
