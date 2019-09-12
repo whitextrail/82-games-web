@@ -15,7 +15,7 @@ import Nav from './Nav';
 import Games from '../presentational/body/games/Games';
 import Game from '../presentational/body/games/Game';
 import GameStatsNav from '../presentational/body/games/GameStatsNav';
-import GameStats from '../functional/GameStats';
+import GameStats from '../functional/AthleteStats';
 
 class GamesContainer extends PureComponent {
   constructor(props) {
