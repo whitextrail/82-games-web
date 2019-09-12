@@ -93,16 +93,16 @@ const StatsBar = ({
 const polarOptions = ['REB', 'PTS', 'AST'];
 const polarStats = {
   REB: [0, 2.4, 2.6],
-  PTS: [8, 16.8, 11],
-  AST: [5, 4.6, 4.5],
+  PTS: [0, 16.8, 11],
+  AST: [0, 4.6, 4.5],
 };
 
 const AthleteCoreStatsComparison = memo(() => {
   const [currentPolarPosition, changePolarPosition] = useState(polarOptions[1]);
 
   return (
-    <Grid container>
-      <Grid container justify="center" style={{ marginLeft: 5 }}>
+    <Grid container justify="space-between" style={{ height: 175 }}>
+      <Grid container justify="center" style={{ width: 170 }}>
         <Paper
           component={Grid}
           container
@@ -125,7 +125,7 @@ const AthleteCoreStatsComparison = memo(() => {
           </Grid>
         </Paper>
       </Grid>
-      <Grid container justify="center" style={{ marginRight: 5 }}>
+      <Grid container justify="center" style={{ width: 170 }}>
         <Paper
           component={Grid}
           container
@@ -136,14 +136,14 @@ const AthleteCoreStatsComparison = memo(() => {
         >
           <Grid container alignItems="center" direction="column">
             <Grid container justify="space-between" alignItems="center" direction="column" style={{ paddingTop: 10, height: 80, marginBottom: 10 }}>
-              <Typography variant="body2" color="secondary" style={{ fontSize: 14, fontWeight: 600 }}>GAME #82 STATS</Typography>
+              <Typography variant="body2" color="secondary" style={{ fontSize: 14, fontWeight: 600 }}>G1 STATS</Typography>
               <Typography variant="body2" align="center" style={{ fontSize: 10 }}>vs. season '18-19 averages</Typography>
             </Grid>
             <Grid container justify="flex-start" alignItems="center" direction="column">
               <StatsBar
                 barNameLabel="PTS"
-                barValueLabel="8"
-                value={(8/16.8) * 100}
+                barValueLabel="0"
+                value={(0/16.8) * 100}
                 barColor="#FFF"
                 barBackgroundColor="rgba(0,0,0,0.54)"
               />
@@ -156,8 +156,8 @@ const AthleteCoreStatsComparison = memo(() => {
               />
               <StatsBar
                 barNameLabel="AST"
-                barValueLabel="5"
-                value={(4.6/4.6) * 100}
+                barValueLabel="0"
+                value={(0/4.6) * 100}
                 barColor="#FFF"
                 barBackgroundColor="rgba(0,0,0,0.54)"
               />

@@ -6,6 +6,7 @@ import {
 import avatar from '../../assets/img/sdin.png';
 import AthleteCoreStatsComparison from './athlete/CoreStatsComparison';
 import AthletePersonalStats from './athlete/PersonalStats';
+import AthleteGamesCarousel from './athlete/GamesCarousel';
 
 const styles = {
   container: {
@@ -64,6 +65,7 @@ const AthleteStats = memo(() => {
       </Grid>
       <Grid container direction="column" style={styles.statsContainer}>
         <AthletePersonalStats />
+        <AthleteGamesCarousel />
         <AthleteCoreStatsComparison />
       </Grid>
     </Grid>
