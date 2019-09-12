@@ -1,11 +1,11 @@
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 import {
   Grid,
   Paper,
   Typography,
   LinearProgress,
+  Grow,
 } from '@material-ui/core';
-import { ChevronLeftSharp, ChevronRightSharp } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import avatar from '../../assets/img/sdin.png';
 import { primaryColor } from '../../styles/constants';
@@ -109,7 +109,18 @@ const StatsBar = ({
   );
 };
 
+const polarOptions = ['REB', 'PTS', 'AST'];
+const polarStats = {
+  REB: [0, 2.4, 2.6],
+  PTS: [8, 16.8, 11],
+  AST: [5, 4.6, 4.5],
+};
+
 const GameStats = memo(() => {
+  const [currentPolarPosition, changePolarPosition] = useState(polarOptions[1]);
+
+  console.log('currentPolarPosition', currentPolarPosition);
+
   return (
     <Grid container direction="column" style={styles.container}>
       <Grid container style={styles.backgroundContainer}>
@@ -138,19 +149,17 @@ const GameStats = memo(() => {
                 paddingTop: 12.5,
               }}
             >
-              <AthleteStats />
+              <AthleteStats data={polarStats[currentPolarPosition]} />
               <Grid container justify="space-between" alignItems="center" style={{ height: 60, paddingRight: 7.5, paddingLeft: 7.5 }}>
-                <Grid container justify="center" alignItems="center" style={{ width: 40 }}>
-                  <ChevronLeftSharp style={{ fontSize: 18, color: '#A9A9A9' }} />
-                  <Typography variant="body2" style={{ fontSize: 10, color: '#A9A9A9' }}>REB</Typography>
-                </Grid>
-                <Grid container justify="center" alignItems="center" style={{ width: 40 }}>
-                  <Typography variant="body2" style={{ fontSize: 16, fontWeight: 900 }}>PTS</Typography>
-                </Grid>
-                <Grid container justify="center" alignItems="center" style={{ width: 40 }}>
-                  <Typography variant="body2" style={{ fontSize: 10, color: '#A9A9A9' }}>AST</Typography>
-                  <ChevronRightSharp style={{ fontSize: 18, color: '#A9A9A9' }} />
-                </Grid>
+                {
+                  polarOptions.map((polarOption) => (
+                    <Grid key={polarOption} container justify="center" alignItems="center" style={{ width: 40 }} onClick={() => changePolarPosition(polarOption)}>
+                      <Grow in={true} style={currentPolarPosition === polarOption ? { fontSize: 16, fontWeight: 600 } : { fontSize: 10, color: '#A9A9A9' }}>
+                        <Typography variant="body2">{polarOption}</Typography>
+                      </Grow>
+                    </Grid>
+                  ))
+                }
               </Grid>
             </Paper>
           </Grid>

@@ -6,31 +6,31 @@ import {
   Grid,
 } from '@material-ui/core';
 
-const data = {
-  datasets: [{
-    data: [
-      3,
-      16.8,
-      11,
-    ],
-    backgroundColor: [
-      'rgb(44,62,80)',
-      'rgb(231,76,60)',
-      'rgb(230,126,34)',
-    ],
-    borderAlign: 'inner'
-  }],
-  labels: [
-    'Game',
-    'Season',
-    'Career',
-  ]
-};
+const AthleteStats = memo(({
+  data
+}) => {
 
-const AthleteStats = memo(() => (
+  const chartData = {
+    datasets: [{
+      data: [...data],
+      backgroundColor: [
+        'rgb(44,62,80)',
+        'rgb(231,76,60)',
+        'rgb(230,126,34)',
+      ],
+      borderAlign: 'inner'
+    }],
+    labels: [
+      'Game',
+      'Season',
+      'Career',
+    ]
+  };
+
+return (
   <Grid container justify="center" style={{ position: 'relative', width: 300 }}>
     <Polar
-      data={data}
+      data={chartData}
       options={{
         responsive: true,
         legend: {
@@ -55,6 +55,7 @@ const AthleteStats = memo(() => (
       }}
     />
   </Grid>
-));
+);
+});
 
 export default AthleteStats;
