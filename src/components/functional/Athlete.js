@@ -7,9 +7,11 @@ import avatar from '../../assets/img/sdin.png';
 import AthleteCoreStatsComparison from './athlete/CoreStatsComparison';
 import AthletePersonalStats from './athlete/PersonalStats';
 import AthleteCarousel from './athlete/Carousel';
+import AthleteNav from './athlete/Nav';
 
 const styles = {
   container: {
+    top: 56,
     position: 'absolute',
     backgroundColor: 'black',
   },
@@ -47,9 +49,11 @@ const styles = {
   },
 };
 
-const AthleteStats = memo(() => {
-
-  return (
+const Athlete = memo(({
+  location,
+}) => (
+  <Grid container direction="column">
+    <AthleteNav location={location} />
     <Grid container direction="column" style={styles.container}>
       <Grid container style={styles.backgroundContainer}>
         <Grid container direction="column" style={styles.imgTextContainer}>
@@ -67,7 +71,7 @@ const AthleteStats = memo(() => {
         <AthleteCoreStatsComparison />
       </Grid>
     </Grid>
-  );
-});
+  </Grid>
+));
 
-export default AthleteStats;
+export default Athlete;

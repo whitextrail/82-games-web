@@ -18,6 +18,8 @@ class NavContainer extends Component {
   constructor(props) {
     super(props);
 
+    console.log('props', props);
+
     // Set initial nav state if it has previously not been set
     if (!props.nav.selectedId) {
       props.setNavState();
@@ -30,6 +32,10 @@ class NavContainer extends Component {
       location,
     } = this.props;
     const rootPathname = location.pathname.split('/')[1];
+
+    console.log('rootPathname', rootPathname);
+
+    console.log('nav.selectedId', nav.selectedId);
 
     // Check whether the nav title properly reflects the pathname
     if (rootPathname && (rootPathname !== nav.selectedId)) {

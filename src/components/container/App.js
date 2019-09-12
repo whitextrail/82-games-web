@@ -8,6 +8,7 @@ import {
 import { authenticateUser } from '../../state/actions';
 import Games from './Games';
 import Account from '../functional/Account';
+import Athlete from '../functional/Athlete';
 import { checkSessionAsync } from '../../util/auth';
 
 class App extends PureComponent {
@@ -31,8 +32,10 @@ class App extends PureComponent {
     return (
       <Grid container direction="column">
         <CssBaseline />
+        <Route exact path="/" component={Games} />
+        <Route path="/games" component={Games} />
         <Route path="/account" component={Account} />
-        <Route component={Games} />
+        <Route path="/athletes" component={Athlete} />
       </Grid>
     );
   }

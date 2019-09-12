@@ -3,6 +3,7 @@ import {
   PersonSharp,
   EqualizerSharp,
   ExitToAppSharp,
+  StarSharp,
 } from '@material-ui/icons';
 import { authenticationStates } from '../../util/constants';
 
@@ -11,6 +12,11 @@ const navList = {
     title: 'Games',
     routePath: '/games',
     icon: LocalPlaySharp,
+  },
+  athletes: {
+    title: 'Athletes',
+    routePath: '/athletes',
+    icon: StarSharp,
   },
   leaderboard: {
     title: 'Leaderboard',
