@@ -101,8 +101,8 @@ const AthleteCoreStatsComparison = memo(() => {
   const [currentPolarPosition, changePolarPosition] = useState(polarOptions[1]);
 
   return (
-    <Grid container justify="space-between" style={{ height: 175 }}>
-      <Grid container justify="center" style={{ width: 170 }}>
+    <Grid container justify="space-between" style={{ height: 175, width: window.innerWidth - 20 }}>
+      <Grid container justify="center" style={{ width: 172.5 }}>
         <Paper
           component={Grid}
           container
@@ -125,7 +125,7 @@ const AthleteCoreStatsComparison = memo(() => {
           </Grid>
         </Paper>
       </Grid>
-      <Grid container justify="center" style={{ width: 170 }}>
+      <Grid container justify="center" style={{ width: 172.5 }}>
         <Paper
           component={Grid}
           container

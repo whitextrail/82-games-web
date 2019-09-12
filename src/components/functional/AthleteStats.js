@@ -6,7 +6,7 @@ import {
 import avatar from '../../assets/img/sdin.png';
 import AthleteCoreStatsComparison from './athlete/CoreStatsComparison';
 import AthletePersonalStats from './athlete/PersonalStats';
-import AthleteGamesCarousel from './athlete/GamesCarousel';
+import AthleteCarousel from './athlete/Carousel';
 
 const styles = {
   container: {
@@ -36,8 +36,6 @@ const styles = {
   },
   statsContainer: {
     paddingTop: 45,
-    paddingRight: 10,
-    paddingLeft: 10,
     width: '100%',
     backgroundColor: 'transparent',
     position: 'relative',
@@ -63,9 +61,9 @@ const AthleteStats = memo(() => {
           <img src={avatar} style={styles.img} alt="Spencer Dinwiddie" />
         </Grid>
       </Grid>
-      <Grid container direction="column" style={styles.statsContainer}>
+      <Grid container alignItems="center" direction="column" style={styles.statsContainer}>
         <AthletePersonalStats />
-        <AthleteGamesCarousel />
+        <AthleteCarousel />
         <AthleteCoreStatsComparison />
       </Grid>
     </Grid>

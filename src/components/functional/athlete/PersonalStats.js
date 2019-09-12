@@ -14,6 +14,7 @@ const styles = {
   paper: {
     height: 40,
     borderRadius: 5,
+    width: window.innerWidth - 20,
   },
   heightInnerContainer: {
     width: 125,
