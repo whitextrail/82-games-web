@@ -14,6 +14,9 @@ import {
   fetchGamesByTeamId,
   filterGamesByStatusId,
 } from './games';
+import {
+  fetchAthleteProfileById,
+} from './athletes';
 
 export {
   setNavState,
@@ -24,4 +27,5 @@ export {
   fetchGamesByTeamId,
   filterGamesByStatusId,
   fetchTeams,
+  fetchAthleteProfileById,
 };
