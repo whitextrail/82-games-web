@@ -48,7 +48,7 @@ const NavMenu = memo(({
       { allIds.map((id) => {
         const {
           icon,
-          text,
+          title,
           routePath = '',
         } = byId[id];
         const isSelected = id === selectedId;
@@ -74,7 +74,7 @@ const NavMenu = memo(({
                   { iconElement }
                 </Grid>
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary={title} />
             </ListItem>
           </Link>
         );
