@@ -4,6 +4,7 @@ import {
   withRouter,
   Switch,
   Route,
+  Redirect,
 } from 'react-router-dom';
 import {
   fetchTeams,
@@ -108,11 +109,12 @@ class GamesContainer extends PureComponent {
         <Switch>
           <Route component={Nav} />
         </Switch>
-        <Grid container style={{ height: window.innerHeight - 56 }}>
+        <Grid container>
           <Switch>
             <Route exact path="/games/live" render={() => <Games {...gameListProps} />} />
             <Route exact path="/games/upcoming" render={() => <Games {...gameListProps} />} />
-            <Route render={() => <Games {...gameListProps} />} />
+            <Route exact path="/games/previous" render={() => <Games {...gameListProps} />} />
+            <Redirect from="/games" to="/games/previous" />
           </Switch>
         </Grid>
       </Grid>
