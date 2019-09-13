@@ -87,6 +87,11 @@ const Game = memo(({
   arena,
   homeTeam,
   awayTeam,
+  athleteStats: {
+    PTS,
+    REB,
+    AST,
+  },
 }) => (
   <Fragment>
     <ListSubheader disableSticky>
@@ -98,7 +103,7 @@ const Game = memo(({
           avatar={<Avatar src={avatar} />}
           action={<GameActionButton selectedStatusId={selectedStatusId} />}
           title="Spencer Dinwiddie"
-          subheader="0 PTS - 0 STL - 0 AST"
+          subheader={`${PTS} PTS - ${REB} REB - ${AST} AST`}
         />
         <CardContent
           component={Grid}

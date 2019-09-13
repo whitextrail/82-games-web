@@ -10,6 +10,7 @@ import {
   fetchTeams,
   fetchGamesByTeamId,
   filterGamesByStatusId,
+  fetchAthleteProfileById,
 } from '../../state/actions';
 import { Grid } from '@material-ui/core';
 import Nav from './Nav';
@@ -21,6 +22,7 @@ class GamesContainer extends PureComponent {
     super(props);
 
     props.fetchTeams();
+    props.fetchAthleteProfileById(1);
   }
 
   componentDidUpdate({
@@ -54,6 +56,7 @@ class GamesContainer extends PureComponent {
   renderGamesByStatusId = (
     gamesByStatusId,
     teamsById,
+    { performanceStatisticsByGameId },
   ) => (
     gamesByStatusId.map(({
       homeTeamId,
@@ -79,6 +82,7 @@ class GamesContainer extends PureComponent {
           key={index}
           homeTeam={homeTeam}
           awayTeam={awayTeam}
+          athleteStats={performanceStatisticsByGameId[game.id]}
         />
       );
     }
@@ -95,16 +99,21 @@ class GamesContainer extends PureComponent {
       teams: {
         byId: teamsById,
       },
+      athletes: {
+        selectedId: selectedAthleteId,
+        byId: athletesById,
+      }
     } = this.props;
     const gameListProps = {
       inProgress,
       allStatusIds,
       selectedStatusId,
       handleTabClick: this.handleTabClick,
-      renderGamesByStatusId: !!selectedStatusId && (() => (
+      renderGamesByStatusId: !!(selectedStatusId && selectedAthleteId) && (() => (
         this.renderGamesByStatusId(
         byStatusId[selectedStatusId],
-        teamsById
+        teamsById,
+        athletesById[selectedAthleteId],
       ))),
     };
 
@@ -129,13 +138,16 @@ class GamesContainer extends PureComponent {
 const mapStateToProps = ({
   teams,
   games,
+  athletes,
 }) => ({
   teams,
   games,
+  athletes,
 });
 
 export default withRouter(connect(mapStateToProps, {
   fetchTeams,
   fetchGamesByTeamId,
   filterGamesByStatusId,
+  fetchAthleteProfileById,
 })(GamesContainer));

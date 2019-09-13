@@ -52,7 +52,7 @@ const Games = memo(({
         handleTabClick={handleTabClick}
       />
       <List disablePadding style={styles.list} subheader={<li />}>
-        {renderGamesByStatusId()}
+        {renderGamesByStatusId && renderGamesByStatusId()}
       </List>
     </Grid>
   );
