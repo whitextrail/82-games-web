@@ -30,10 +30,12 @@ const Team = memo(({
   wins = 0,
   losses = 0,
 }) => (
-  <Grid container justify="center" alignItems="center" direction="column">
-    <CardMedia style={styles.teamImage} image={svg[name]} />
-    <Typography variant="body2">{`${wins} / ${losses}`}</Typography>
-  </Grid>
+  svg[name] && (
+    <Grid container justify="center" alignItems="center" direction="column">
+      <CardMedia style={styles.teamImage} image={svg[name]} />
+      <Typography variant="body2">{`${wins} / ${losses}`}</Typography>
+    </Grid>
+  )
 ));
 
 const GameTeams = memo(({
