@@ -57,16 +57,20 @@ class GamesContainer extends PureComponent {
   ) => (
     gamesByStatusId.map(({
       homeTeamId,
+      homeTeamPoints,
       awayTeamId,
+      awayTeamPoints,
       ...game
     }, index) => {
       const homeTeam = {
         id: homeTeamId,
         name: teamsById[homeTeamId].name,
+        points: homeTeamPoints,
       };
       const awayTeam = {
         id: awayTeamId,
         name: teamsById[awayTeamId].name,
+        points: awayTeamPoints,
       };
 
       return (

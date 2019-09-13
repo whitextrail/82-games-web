@@ -117,12 +117,7 @@ const Game = memo(({
             <Typography variant="body2">{localGameDateTime}</Typography>
             <Typography variant="body2">{arena}</Typography>
           </Grid>
-          <GameTeams
-            homeTeamId={homeTeam.id}
-            homeTeamName={homeTeam.name}
-            awayTeamName={awayTeam.name}
-            awayTeamId={awayTeam.id}
-          />
+          <GameTeams homeTeam={homeTeam} awayTeam={awayTeam} />
         </CardContent>
       </Card>
     </ListItem>

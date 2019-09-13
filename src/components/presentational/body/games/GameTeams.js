@@ -19,50 +19,83 @@ const styles = {
     height: 100,
     width: 100,
   },
-  typographyContainer: {
+  textContainer: {
     width: 50,
     height: 100,
   },
+  winningTeamPoints: {
+    color: '#2ECC71',
+  },
+  loserTeamPoints: {
+    color: '#E74C3C',
+  },
 };
 
-const Team = memo(({
-  name,
-  wins = 0,
-  losses = 0,
-}) => (
-  svg[name] && (
+const TeamImage = memo(({
+  team: {
+    id,
+    name,
+    points,
+  },
+  isWinner,
+}) => {
+  const teamImageName = `${name.split(' ').join('_')}_${id}`;
+  const teamPointsStyle = isWinner ? styles.winningTeamPoints : styles.loserTeamPoints;
+
+  return svg[teamImageName] && (
     <Grid container justify="center" alignItems="center" direction="column">
-      <CardMedia style={styles.teamImage} image={svg[name]} />
-      <Typography variant="body2">{`${wins} / ${losses}`}</Typography>
+      <CardMedia style={styles.teamImage} image={svg[teamImageName]} />
+      <Typography variant="body1" style={teamPointsStyle}>{points}</Typography>
     </Grid>
-  )
-));
+  );
+});
+
+const TeamLocation = memo(({
+  isHome,
+}) => {
+  const headerText = isHome ? 'HOME' : 'AWAY';
+  const icon = isHome
+    ? <HomeSharp />
+    : <AirplanemodeActiveSharp style={{ transform: `rotate(90deg)` }} />;
+
+  return (
+    <Grid
+      container
+      direction="column"
+      justify="space-around"
+      alignItems="center"
+      style={styles.textContainer}
+    >
+      <Typography variant="body2">{headerText}</Typography>
+        {icon}
+      <Typography variant="body2">GAME</Typography>
+    </Grid>
+  );
+});
 
 const GameTeams = memo(({
-  homeTeamName,
-  awayTeamName,
-  homeTeamId,
-  awayTeamId,
+  homeTeam,
+  awayTeam,
 }) => {
-  const homeName = `${homeTeamName.split(' ').join('_')}_${homeTeamId}`;
-  const awayName = `${awayTeamName.split(' ').join('_')}_${awayTeamId}`;
-  const isHome = homeTeamId === 1;
+  // TODO: Update to check athlete's team
+  const isHome = homeTeam.id === 1;
+
+  const homeWinner = homeTeam.points > awayTeam.points;
+  const awayWinner = homeTeam.points < awayTeam.points;
 
   return (
     <Grid container alignItems="center" style={styles.container}>
-      <Team name={isHome ? homeName : awayName} />
-      <Grid
-        container
-        direction="column"
-        justify="space-around"
-        alignItems="center"
-        style={styles.typographyContainer}
-      >
-        <Typography variant="body2">{isHome ? 'HOME' : 'AWAY' }</Typography>
-        { isHome ? <HomeSharp /> : <AirplanemodeActiveSharp style={{ transform: `rotate(90deg)` }} /> }
-        <Typography variant="body2">GAME</Typography>
-      </Grid>
-      <Team name={isHome ? awayName : homeName} />
+      <TeamImage
+        team={isHome ? homeTeam : awayTeam}
+        isHome={isHome}
+        isWinner={homeWinner}
+      />
+      <TeamLocation isHome={isHome} />
+      <TeamImage
+        team={isHome ? awayTeam : homeTeam}
+        isHome={isHome}
+        isWinner={awayWinner}
+      />
     </Grid>
   );
 });
