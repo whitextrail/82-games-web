@@ -16,16 +16,16 @@ const theme = createMuiTheme({
   },
   typography: {
     h6: {
-      fontFamily: ['Cabin', 'sans-serif'],
+      fontFamily: ['Red Hat Display', 'sans-serif'],
       fontSize: 18,
       fontWeight: 600,
     },
     body1: {
-      fontFamily: ['Raleway', 'sans-serif'],
+      fontFamily: ['Red Hat Display', 'sans-serif'],
       fontSize: 16,
     },
     body2: {
-      fontFamily: ['Raleway', 'sans-serif'],
+      fontFamily: ['Red Hat Display', 'sans-serif'],
       fontSize: 14,
     }
   },
@@ -41,7 +41,7 @@ const theme = createMuiTheme({
     MuiButton: {
       root: {
         textTransform: 'none',
-        fontFamily: ['Cabin', 'sans-serif'],
+        fontFamily: ['Red Hat Display', 'sans-serif'],
         fontSize: 14,
       },
       textPrimary: {
@@ -60,16 +60,16 @@ const theme = createMuiTheme({
     },
     MuiTypography: {
       h6: {
-        fontFamily: ['Cabin', 'sans-serif'],
+        fontFamily: ['Red Hat Display', 'sans-serif'],
         fontSize: 20,
         fontWeight: 600,
       },
       body1: {
-        fontFamily: ['Raleway', 'sans-serif'],
+        fontFamily: ['Red Hat Display', 'sans-serif'],
         fontSize: 18,
       },
       body2: {
-        fontFamily: ['Raleway', 'sans-serif'],
+        fontFamily: ['Red Hat Display', 'sans-serif'],
         fontSize: 14,
       },
       colorPrimary: {
@@ -81,20 +81,20 @@ const theme = createMuiTheme({
     },
     MuiListSubheader: {
       root: {
-        fontFamily: ['Raleway', 'sans-serif'],
+        fontFamily: ['Red Hat Display', 'sans-serif'],
         fontSize: 14,
         fontWeight: 'bold',
       },
     },
     MuiListItemText: {
       root: {
-        fontFamily: ['Cabin', 'sans-serif'],
+        fontFamily: ['Red Hat Display', 'sans-serif'],
         fontSize: 14,
       },
     },
     MuiTab: {
       wrapper: {
-        fontFamily: ['Cabin', 'sans-serif'],
+        fontFamily: ['Red Hat Display', 'sans-serif'],
         fontSize: 14,
         fontWeight: 'bold',
       }

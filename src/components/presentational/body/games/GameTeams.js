@@ -21,6 +21,7 @@ const styles = {
   },
   typographyContainer: {
     width: 50,
+    height: 100,
   },
 };
 
@@ -48,7 +49,13 @@ const GameTeams = memo(({
   return (
     <Grid container alignItems="center" style={styles.container}>
       <Team name={isHome ? homeName : awayName} />
-      <Grid container direction="column" justify="space-around" alignItems="center" style={{ width: 50, height: 100 }}>
+      <Grid
+        container
+        direction="column"
+        justify="space-around"
+        alignItems="center"
+        style={styles.typographyContainer}
+      >
         <Typography variant="body2">{isHome ? 'HOME' : 'AWAY' }</Typography>
         { isHome ? <HomeSharp /> : <AirplanemodeActiveSharp style={{ transform: `rotate(90deg)` }} /> }
         <Typography variant="body2">GAME</Typography>
