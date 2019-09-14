@@ -33,9 +33,9 @@ const styles = {
   button: {
     height: 40,
     width: 40,
-    backgroundColor: '#2ECC71',
+    backgroundColor: '#9B59B6',
     color: '#FFF',
-    marginTop: 4,
+    marginTop: 7.5,
   },
 };
 
@@ -89,7 +89,7 @@ const GameStats = memo(() => {
           value=""
           {...textFieldProps}
         />
-        <Button variant="contained" style={{ height: 40, width: 40, backgroundColor: '#2ECC71', color: '#FFF', marginTop: 4 }}>
+        <Button variant="contained" style={styles.button}>
           <LocalActivitySharp />
         </Button>
       </Grid>
