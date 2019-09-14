@@ -11,7 +11,7 @@ import { LocalActivitySharp } from '@material-ui/icons';
 const styles = {
   container: {
     height: 145,
-    width: 350,
+    width: 355,
     borderTopRightRadius: 0,
     borderTopLeftRadius: 0,
   },

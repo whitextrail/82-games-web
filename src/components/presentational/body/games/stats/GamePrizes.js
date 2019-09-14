@@ -15,7 +15,7 @@ import basketballIcon from '../../../../../assets/img/basketball.png';
 const styles = {
   gamePrizesContainer: {
     height: 115,
-    width: 350,
+    width: 355,
     position: 'relative',
     backgroundColor: 'transparent',
     borderBottomRightRadius: 0,
@@ -28,17 +28,27 @@ const styles = {
     borderTopRightRadius: 5,
     borderTopLeftRadius: 5,
   },
+  gamePrizesHeader: {
+    fontSize: 16,
+    fontWeight: 600
+  },
   gamePrizesByQuarterContainer: {
     position: 'absolute',
     top: 15,
+    width: 340,
   },
   gamePrizeContainer: {
-    height: 70
+    height: 65,
+    width: 85,
   },
   gamePrizeIcon: {
     backgroundColor: 'white',
     height: 36,
     width: 70,
+  },
+  gamePrizeQuantity: {
+    fontSize: 10,
+    marginRight: 5,
   },
 };
 
@@ -87,7 +97,7 @@ const GameStats = memo(() => {
     <Paper
       component={Grid}
       container
-      justify="space-around"
+      justify="center"
       alignItems="center"
       direction="column"
       style={styles.gamePrizesContainer}
@@ -110,7 +120,7 @@ const GameStats = memo(() => {
             top: 0,
           }}
       >
-        <Typography variant="body1" color="secondary" style={{ fontSize: 16, fontWeight: 600 }}>
+        <Typography variant="body1" color="secondary" style={styles.gamePrizesHeader}>
           Game Countdown
         </Typography>
       </Grid>
@@ -132,7 +142,7 @@ const GameStats = memo(() => {
               style={styles.gamePrizeContainer}
             >
               <Fab variant="extended" style={styles.gamePrizeIcon}>
-                <Typography variant="body1" style={{ fontSize: 10, marginRight: 5 }}>{quantity}x</Typography>
+                <Typography variant="body1" style={styles.gamePrizeQuantity}>{quantity}x</Typography>
                 <img src={iconSrc} style={iconStyle} alt={iconAlt} />
               </Fab>
               <Typography variant="body2" color="secondary">
