@@ -34,6 +34,7 @@ const NavBar = memo(({
   menuIsOpen,
   navBarTitle,
   navBarIconClickHandler,
+  navBarElevation = 0,
   navBarIcon = null,
   navBarStyles = {
     colorDefault: {
@@ -54,11 +55,11 @@ const NavBar = memo(({
 
   return (
     <Grid container direction="column">
-      <AppBar position="static" elevation={0} color="default" classes={{ ...navBarClasses }}>
+      <AppBar position="static" elevation={menuIsOpen ? 0 : navBarElevation} color="default" classes={{ ...navBarClasses }}>
         <Toolbar
-          component={Grid}
           disableGutters
           style={styles.toolbar}
+          component={Grid}
           container
           justify="flex-start"
           alignItems="center"
