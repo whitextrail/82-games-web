@@ -16,6 +16,8 @@ import { Grid } from '@material-ui/core';
 import Nav from './Nav';
 import Games from '../presentational/body/games/Games';
 import Game from '../presentational/body/games/Game';
+import GameStats from '../presentational/body/games/GameStats';
+import GameStatsNav from '../presentational/body/games/stats/GameStatsNav';
 
 class GamesContainer extends PureComponent {
   constructor(props) {
@@ -120,13 +122,13 @@ class GamesContainer extends PureComponent {
     return !!selectedStatusId && (
       <Grid container direction="column">
         <Switch>
-          <Route component={Nav} />
+          <Route exact path="/games/:timeframe/:id" render={() => <GameStatsNav location={this.props.location} />} />
+          <Route exact path="/games/:timeframe" component={Nav} />
         </Switch>
         <Grid container>
           <Switch>
-            <Route exact path="/games/live" render={() => <Games {...gameListProps} />} />
-            <Route exact path="/games/upcoming" render={() => <Games {...gameListProps} />} />
-            <Route exact path="/games/previous" render={() => <Games {...gameListProps} />} />
+            <Route exact path="/games/:timeframe" render={() => <Games {...gameListProps} />} />
+            <Route exact path="/games/:timeframe/:id" render={() => <GameStats {...gameListProps} />} />
             <Redirect from="/games" to="/games/previous" />
           </Switch>
         </Grid>
