@@ -126,7 +126,7 @@ class GamesContainer extends PureComponent {
       },
     );
     const renderGamesRoute = routeProps => renderRoute(Games, routeProps);
-    const renderGameStatsRoute = routeProps => renderRoute(GameStats, routeProps);
+    const renderGameStatsRoute = ({ match: { params: { id } } }) => renderRoute(GameStats, { gameId: id });
 
     return !!selectedStatusId && (
       <Grid container direction="column">

@@ -14,31 +14,31 @@ import basketballIcon from '../../../../../assets/img/basketball.png';
 
 const styles = {
   gamePrizesContainer: {
-    marginTop: 15,
-    height: 80,
-    borderRadius: 5,
+    height: 115,
     width: 350,
     position: 'relative',
+    backgroundColor: 'transparent',
+    borderBottomRightRadius: 0,
+    borderBottomLeftRadius: 0,
   },
   gamePrizesCountdown: {
     height: '100%',
     width: '100%',
     position: 'absolute',
-    borderRadius: 5,
+    borderTopRightRadius: 5,
+    borderTopLeftRadius: 5,
   },
   gamePrizesByQuarterContainer: {
     position: 'absolute',
+    top: 15,
   },
   gamePrizeContainer: {
-    height: 65
+    height: 70
   },
   gamePrizeIcon: {
     backgroundColor: 'white',
     height: 36,
-    width: 36,
-  },
-  quarter: {
-    fontWeight: 600,
+    width: 70,
   },
 };
 
@@ -58,24 +58,28 @@ const GameStats = memo(() => {
   };
 
   const gamePrizesByQuarter = [{
-    iconSrc: basketballIcon,
-    iconStyle: { height: 15 },
-    iconAlt: 'basketball',
-    text: 'Q1',
-  }, {
     iconSrc: wristIcon,
     iconStyle: { height: 20 },
     iconAlt: 'wristband',
-    text: 'Q2',
+    quantity: 50,
+    text: 'Q1',
   }, {
     iconSrc: shirtIcon,
     iconStyle: { height: 17.5 },
     iconAlt: 'shirt',
+    quantity: 25,
+    text: 'Q2',
+  }, {
+    iconSrc: basketballIcon,
+    iconStyle: { height: 15 },
+    iconAlt: 'basketball',
+    quantity: 5,
     text: 'Q3',
   }, {
     iconSrc: sneakerIcon,
     iconStyle: { height: 22.5 },
     iconAlt: 'sneaker',
+    quantity: 1,
     text: 'Q4',
   }];
 
@@ -95,11 +99,28 @@ const GameStats = memo(() => {
         style={styles.gamePrizesCountdown}
         classes={gamePrizesCountdownClassStyles}
       />
+      <Grid
+          component={Grid}
+          container
+          justify="center"
+          alignItems="center"
+          style={{
+            height: 40,
+            position: 'absolute',
+            top: 0,
+          }}
+      >
+        <Typography variant="body1" color="secondary" style={{ fontSize: 16, fontWeight: 600 }}>
+          Game Countdown
+        </Typography>
+      </Grid>
       <Grid container alignItems="center" style={styles.gamePrizesByQuarterContainer}>
         {
           gamePrizesByQuarter.map(({
             iconSrc,
             iconStyle,
+            iconAlt,
+            quantity,
             text,
           }) => (
             <Grid
@@ -110,10 +131,11 @@ const GameStats = memo(() => {
               direction="column"
               style={styles.gamePrizeContainer}
             >
-              <Fab style={styles.gamePrizeIcon}>
-                <img src={iconSrc} style={iconStyle} alt="basketball" />
+              <Fab variant="extended" style={styles.gamePrizeIcon}>
+                <Typography variant="body1" style={{ fontSize: 10, marginRight: 5 }}>{quantity}x</Typography>
+                <img src={iconSrc} style={iconStyle} alt={iconAlt} />
               </Fab>
-              <Typography variant="body2" color="secondary" style={styles.quarter}>
+              <Typography variant="body2" color="secondary">
                 {text}
               </Typography>
             </Grid>
