@@ -118,6 +118,15 @@ class GamesContainer extends PureComponent {
         athletesById[selectedAthleteId],
       ))),
     };
+    const renderRoute = (elementType, props) => React.createElement(
+      elementType,
+      {
+        ...props,
+        ...gameListProps
+      },
+    );
+    const renderGamesRoute = routeProps => renderRoute(Games, routeProps);
+    const renderGameStatsRoute = routeProps => renderRoute(GameStats, routeProps);
 
     return !!selectedStatusId && (
       <Grid container direction="column">
@@ -127,8 +136,8 @@ class GamesContainer extends PureComponent {
         </Switch>
         <Grid container>
           <Switch>
-            <Route exact path="/games/:timeframe" render={() => <Games {...gameListProps} />} />
-            <Route exact path="/games/:timeframe/:id" render={() => <GameStats {...gameListProps} />} />
+            <Route exact path="/games/:timeframe" render={renderGamesRoute} />
+            <Route exact path="/games/:timeframe/:id" render={renderGameStatsRoute} />
             <Redirect from="/games" to="/games/previous" />
           </Switch>
         </Grid>
