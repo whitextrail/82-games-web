@@ -160,7 +160,18 @@ const StatsBar = ({
   );
 };
 
-const GameTeamStats = memo(() => {
+const GameTeamStats = memo(({
+  homeTeam,
+  awayTeam,
+}) => {
+  const lineChartLabels = [
+    homeTeam.name,
+    awayTeam.name,
+  ];
+  const barChartDenominator = homeTeam.points > awayTeam.points
+    ? homeTeam.points
+    : awayTeam.points;
+
   return (
     <Paper
       component={Grid}
@@ -173,25 +184,22 @@ const GameTeamStats = memo(() => {
       <Grid container justify="center" style={styles.lineChartContainer}>
         <Line
           data={lineChartData}
-          labels={['Brooklyn', 'Miami']}
+          labels={lineChartLabels}
           options={lineChartOptions}
         />
       </Grid>
       <Grid container justify="flex-start" alignItems="center" direction="column" style={styles.teamStatsContainer}>
-        <StatsBar
-          teamImageSrc="Brooklyn_1"
-          barValueLabel="113"
-          value={100}
-          barColor="rgb(0,0,0)"
-          barBackgroundColor="rgba(0,0,0,0.54)"
-        />
-        <StatsBar
-          teamImageSrc="Miami_21"
-          barValueLabel="94"
-          value={(94/113) * 100}
-          barColor="rgb(255,59,63)"
-          barBackgroundColor="rgba(255,59,63,0.10)"
-        />
+        {
+          [homeTeam, awayTeam].map(team => (
+            <StatsBar
+              teamImageSrc={`${team.name}_${team.id}`}
+              barValueLabel={team.points}
+              value={team.points/barChartDenominator}
+              barColor="rgb(0,0,0)"
+              barBackgroundColor="rgba(0,0,0,0.54)"
+            />
+          ))
+        }
       </Grid>
     </Paper>
   );

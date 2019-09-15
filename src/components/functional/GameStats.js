@@ -2,9 +2,7 @@ import React, {
   memo,
   useReducer,
 } from 'react';
-import {
-  Grid,
-} from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import GamePrizes from '../presentational/body/games/stats/GamePrizes';
 import GamePrediction from './GamePrediction';
 import GameTeamStats from '../presentational/body/games/stats/GameTeamStats';
@@ -72,6 +70,14 @@ const styles = {
 const GameStats = memo(({
   game,
   athlete,
+  homeTeam: {
+    id: homeTeamId,
+    name: homeTeamName,
+  },
+  awayTeam: {
+    id: awayTeamId,
+    name: awayTeamName,
+  },
 }) => {
   const [state,] = useReducer(reducer, initialState);
   const {
@@ -90,6 +96,10 @@ const GameStats = memo(({
     AST,
     REB,
   } = performanceStatisticsByGameId[game.id];
+  const {
+    homeTeamPoints,
+    awayTeamPoints,
+  } = game;
 
   return (
     <Grid container alignItems="center" direction="column" style={styles.container}>
@@ -103,7 +113,18 @@ const GameStats = memo(({
         name={name.toUpperCase()}
         stats={{ PTS, AST, REB }}
       />
-      <GameTeamStats />
+      <GameTeamStats
+        homeTeam={{
+          id: homeTeamId,
+          name: homeTeamName,
+          points: homeTeamPoints,
+        }}
+        awayTeam={{
+          id: awayTeamId,
+          name: awayTeamName,
+          points: awayTeamPoints,
+        }}
+      />
     </Grid>
   );
 });

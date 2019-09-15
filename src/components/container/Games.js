@@ -131,12 +131,16 @@ class GamesContainer extends PureComponent {
       match: {
         params: { gameId },
       }
-    }) => (
-      renderRoute(GameStats, {
-        game: gamesById[gameId],
+    }) => {
+      const game = gamesById[gameId];
+
+      return renderRoute(GameStats, {
+        game,
+        homeTeam: teamsById[game.homeTeamId],
+        awayTeam: teamsById[game.awayTeamId],
         athlete: athletesById[selectedAthleteId],
-      })
-    );
+      });
+    };
 
     return !!selectedStatusId && (
       <Grid container direction="column">
