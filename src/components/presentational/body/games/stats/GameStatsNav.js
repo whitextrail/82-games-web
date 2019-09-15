@@ -10,7 +10,7 @@ const GameStatsNav = memo(({
   <Nav
     location={location}
     navBarProps={{
-      navBarTitle: '',
+      navBarTitle: 'Game 82',
       navBarIconClickHandler: () => console.log('TODO'),
       navBarIcon: <KeyboardArrowLeftSharp />,
       navBarStyles: {
