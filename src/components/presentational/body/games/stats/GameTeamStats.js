@@ -8,11 +8,12 @@ import {
 import { Line } from 'react-chartjs-2';
 import { makeStyles } from '@material-ui/styles';
 import * as svg from '../../../../../assets/svg/index';
+import { teamColors } from '../../../../../styles/constants';
 
 const styles = {
   container: {
     marginTop: 15,
-    height: 310,
+    height: 280,
     width: 355,
     position: 'relative',
     backgroundColor: 'transparent',
@@ -32,24 +33,29 @@ const styles = {
   },
 };
 
-const lineChartData = {
+const populateLineChartData = (
+  homeTeamResourceId,
+  awayTeamResourceId,
+  homeTeamPointsByQuarter,
+  awayTeamPointsByQuarter,
+) => ({
   labels: ['', '1st', '2nd', '3rd', '4th', ''],
   datasets: [{
-    data: [0, 23, 24, 24, 23, 0],
-    backgroundColor: 'rgba(255,59,63,0.10)',
-    borderColor: 'rgb(255,59,63)',
-    pointRadius: 0,
-    fill: true,
-    label: 'Miami',
-  }, {
-    data: [0, 32, 31, 29, 21, 0],
-    backgroundColor: 'rgba(0,0,0,0.10)',
-    borderColor: 'rgb(0,0,0)',
+    data: [0, ...homeTeamPointsByQuarter, 0],
+    borderColor: teamColors[homeTeamResourceId].primary.rgba(),
+    backgroundColor: teamColors[homeTeamResourceId].secondary.rgba(0.2),
     pointRadius: 0,
     fill: true,
     label: 'Brooklyn',
+  }, {
+    data: [0, ...awayTeamPointsByQuarter, 0],
+    borderColor: teamColors[awayTeamResourceId].primary.rgba(),
+    backgroundColor: teamColors[awayTeamResourceId].secondary.rgba(0.2),
+    pointRadius: 0,
+    fill: true,
+    label: 'Miami',
   }],
-};
+});
 
 const lineChartOptions = {
   responsive: true,
@@ -164,13 +170,31 @@ const GameTeamStats = memo(({
   homeTeam,
   awayTeam,
 }) => {
+  const {
+    id: homeTeamId,
+    name: homeTeamName,
+    points: {
+      total: homeTeamTotalPoints,
+      byQuarter: homeTeamPointsByQuarter,
+    },
+  } = homeTeam;
+  const {
+    id: awayTeamId,
+    name: awayTeamName,
+    points: {
+      total: awayTeamTotalPoints,
+      byQuarter: awayTeamPointsByQuarter,
+    },
+  } = awayTeam;
   const lineChartLabels = [
-    homeTeam.name,
-    awayTeam.name,
+    homeTeamName,
+    awayTeamName,
   ];
-  const barChartDenominator = homeTeam.points > awayTeam.points
-    ? homeTeam.points
-    : awayTeam.points;
+  const barChartDenominator = homeTeamTotalPoints > awayTeamTotalPoints
+    ? homeTeamTotalPoints
+    : awayTeamTotalPoints;
+  const homeTeamResourceId = `${homeTeamName}_${homeTeamId}`;
+  const awayTeamResourceId = `${awayTeamName}_${awayTeamId}`;
 
   return (
     <Paper
@@ -183,22 +207,43 @@ const GameTeamStats = memo(({
     >
       <Grid container justify="center" style={styles.lineChartContainer}>
         <Line
-          data={lineChartData}
+          data={(
+            populateLineChartData(
+              homeTeamResourceId,
+              awayTeamResourceId,
+              homeTeamPointsByQuarter,
+              awayTeamPointsByQuarter,
+            )
+          )}
           labels={lineChartLabels}
           options={lineChartOptions}
         />
       </Grid>
       <Grid container justify="flex-start" alignItems="center" direction="column" style={styles.teamStatsContainer}>
         {
-          [homeTeam, awayTeam].map(team => (
-            <StatsBar
-              teamImageSrc={`${team.name}_${team.id}`}
-              barValueLabel={team.points}
-              value={team.points/barChartDenominator}
-              barColor="rgb(0,0,0)"
-              barBackgroundColor="rgba(0,0,0,0.54)"
-            />
-          ))
+          [homeTeam, awayTeam].map(({
+            name,
+            id,
+            points: { total }
+          }) => {
+            const teamResourceId = `${name}_${id}`;
+            const {
+              primary,
+              secondary,
+            } = teamColors[teamResourceId];
+            const statsBarValue = (total / barChartDenominator) * 100;
+
+            return (
+              <StatsBar
+                key={name}
+                teamImageSrc={teamResourceId}
+                barValueLabel={total}
+                value={statsBarValue}
+                barColor={primary.hex}
+                barBackgroundColor={secondary.rgba(0.2)}
+              />
+            );
+          })
         }
       </Grid>
     </Paper>

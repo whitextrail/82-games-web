@@ -1,4 +1,5 @@
 import { createMuiTheme } from '@material-ui/core/styles';
+import teamColors from './teamColors';
 
 const primaryColor = '#FF3B3F'; // watermelon
 const secondaryColor = '#EFEFEF'; // light gray
@@ -124,4 +125,5 @@ export {
   primaryTextColor,
   secondaryColor,
   secondaryTextColor,
+  teamColors,
 };
