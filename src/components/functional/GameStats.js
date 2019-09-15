@@ -6,7 +6,7 @@ import {
   Grid,
 } from '@material-ui/core';
 import GamePrizes from '../presentational/body/games/stats/GamePrizes';
-import GamePrediction from '../presentational/body/games/stats/GamePrediction';
+import GamePrediction from './GamePrediction';
 import GameTeamStats from '../presentational/body/games/stats/GameTeamStats';
 import GameAthleteStats from '../presentational/body/games/stats/GameAthleteStats';
 
@@ -42,7 +42,22 @@ const initialState = {
     }
   },
   allPeriods: ['1st', '2nd', '3rd', '4th'],
-  remainingGameTime: 0,
+  byStat: {
+    points: {
+      shorthand: 'PTS',
+      value: 0,
+    },
+    rebounds: {
+      shorthand: 'RBD',
+      value: 0,
+    },
+    assists: {
+      shorthand: 'AST',
+      value: 0,
+    },
+  },
+  allStats: ['points', 'rebounds', 'assists'],
+  remainingGameTime: 2880,
 };
 
 const reducer = (state, action) => {
@@ -71,11 +86,18 @@ const styles = {
 
 const GameStats = memo(() => {
   const [state,] = useReducer(reducer, initialState);
+  const {
+    byPeriod,
+    allPeriods,
+    byStat,
+    allStats,
+    remainingGameTime,
+  } = state;
 
   return (
     <Grid container alignItems="center" direction="column" style={styles.container}>
-      <GamePrizes {...state} />
-      <GamePrediction />
+      <GamePrizes byPeriod={byPeriod} allPeriods={allPeriods} />
+      <GamePrediction byStat={byStat} allStats={allStats} gameOver={!remainingGameTime} />
       <GameAthleteStats />
       <GameTeamStats />
     </Grid>
