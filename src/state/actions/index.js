@@ -12,6 +12,7 @@ import {
 } from './teams';
 import {
   fetchGamesByTeamId,
+  fetchGameStatisticById,
   filterGamesByStatusId,
 } from './games';
 import {
@@ -25,6 +26,7 @@ export {
   authenticateUser,
   logOutUser,
   fetchGamesByTeamId,
+  fetchGameStatisticById,
   filterGamesByStatusId,
   fetchTeams,
   fetchAthleteProfileById,

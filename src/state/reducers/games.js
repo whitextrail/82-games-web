@@ -1,5 +1,6 @@
 import {
   FETCH_GAMES_BY_TEAM_ID,
+  FETCH_GAME_STATISTIC_BY_ID,
   FILTER_GAMES_BY_STATUS_ID,
 } from '../actions/util/types';
 import {
@@ -45,6 +46,25 @@ const fetchGamesByTeamIdReducer = (state, { response }) => {
   };
 };
 
+const fetchGameStatisticByIdReducer = (state, { response }) => {
+  const {
+    id,
+    homeTeamStatistics,
+    awayTeamStatistics,
+  } = response;
+
+  return {
+    byId: {
+      ...state.byId,
+      [id]: {
+        ...state.byId[id],
+        homeTeamStatistics,
+        awayTeamStatistics,
+      }
+    },
+  };
+};
+
 const filterGamesByStatusIdReducer = (state, { response }) => ({
   selectedStatusId: response.statusId,
 });
@@ -55,6 +75,8 @@ export default (state = gamesState, action) => {
   switch (type) {
     case FETCH_GAMES_BY_TEAM_ID:
       return evalActionPayload(state, action, fetchGamesByTeamIdReducer);
+    case FETCH_GAME_STATISTIC_BY_ID:
+        return evalActionPayload(state, action, fetchGameStatisticByIdReducer);
     case FILTER_GAMES_BY_STATUS_ID:
       return evalActionPayload(state, action, filterGamesByStatusIdReducer);
     default:
