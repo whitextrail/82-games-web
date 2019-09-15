@@ -57,14 +57,14 @@ const populateLineChartData = (
   }],
 });
 
-const lineChartOptions = {
+const populateLineChartOptions = (homeTeamName, awayTeamName) => ({
   responsive: true,
   title: {
     display: true,
     fontFamily: "'Red Hat Display', sans-serif",
     fontColor: '#FFF',
     fontSize: 14,
-    text: 'BROOKLYN vs MIAMI',
+    text: `${homeTeamName} vs. ${awayTeamName}`,
   },
   layout: {
     padding: { top: 0 }
@@ -105,7 +105,7 @@ const lineChartOptions = {
       }
     }]
   }
-};
+});
 
 const StatsBar = ({
   teamImageSrc,
@@ -216,7 +216,12 @@ const GameTeamStats = memo(({
             )
           )}
           labels={lineChartLabels}
-          options={lineChartOptions}
+          options={(
+            populateLineChartOptions(
+              homeTeamName.toUpperCase(),
+              awayTeamName.toUpperCase(),
+            )
+          )}
         />
       </Grid>
       <Grid container justify="flex-start" alignItems="center" direction="column" style={styles.teamStatsContainer}>

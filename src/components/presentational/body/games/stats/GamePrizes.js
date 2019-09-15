@@ -26,7 +26,7 @@ const styles = {
     borderTopLeftRadius: 5,
   },
   headerTextContainer: {
-    height: 40,
+    height: 30,
     position: 'absolute',
     top: 0,
   },
@@ -74,7 +74,7 @@ const GamePrizes = memo(({
   })();
 
   // 2880 = 48 minutes (total NBA game time) in seconds
-  const countdownCompletion = 100 - (remainingGameTime / 2880);
+  const countdownCompletion = 100 - ((remainingGameTime / 2880) * 100);
 
   return (
     <Paper

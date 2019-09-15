@@ -9,13 +9,13 @@ import { Doughnut } from 'react-chartjs-2';
 const styles = {
   container: {
     marginTop: 15,
-    height: 240,
+    height: 175,
     width: 355,
     backgroundColor: 'transparent',
     border: '3px solid #333'
   },
   statsContainer: {
-    paddingTop: 20,
+    paddingTop: 10,
   },
   athleteName: {
     fontSize: 14,
@@ -23,8 +23,8 @@ const styles = {
   },
   chartContainer: {
     position: 'relative',
-    width: 275,
-    marginTop: 25,
+    width: 225,
+    marginTop: 15,
   },
 };
 
