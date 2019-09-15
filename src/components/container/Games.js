@@ -16,7 +16,7 @@ import { Grid } from '@material-ui/core';
 import Nav from './Nav';
 import Games from '../presentational/body/games/Games';
 import Game from '../presentational/body/games/Game';
-import GameStats from '../presentational/body/games/GameStats';
+import GameStats from '../functional/GameStats';
 import GameStatsNav from '../presentational/body/games/stats/GameStatsNav';
 
 class GamesContainer extends PureComponent {

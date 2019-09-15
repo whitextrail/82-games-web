@@ -7,10 +7,7 @@ import {
   LinearProgress,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import sneakerIcon from '../../../../../assets/img/sneaker.png';
-import shirtIcon from '../../../../../assets/img/shirt.png';
-import wristIcon from '../../../../../assets/img/wrist.png';
-import basketballIcon from '../../../../../assets/img/basketball.png';
+import { prizeImages } from '../../../../../assets/img';
 
 const styles = {
   container: {
@@ -46,10 +43,15 @@ const styles = {
     height: 65,
     width: 85,
   },
-  prizeIcon: {
-    backgroundColor: 'black',
+  prizeFab: {
     height: 36,
     width: 70,
+  },
+  prizeImage: {
+    wristband: { height: 20 },
+    shirt: { height: 17.5 },
+    basketball: { height: 15 },
+    sneakers: { height: 22.5 },
   },
   prizeQuantity: {
     fontSize: 10,
@@ -57,8 +59,12 @@ const styles = {
   },
 };
 
-const GameStats = memo(() => {
-  const prizeBarClasses = makeStyles({
+const GamePrizes = memo(({
+  byPeriod,
+  allPeriods,
+  remainingGameTime,
+}) => {
+  const countdownClasses = makeStyles({
     barColorPrimary: {
       backgroundColor: 'rgba(255,255,255,0.24)',
     },
@@ -67,36 +73,8 @@ const GameStats = memo(() => {
     },
   })();
 
-  const linearProgressClasses = {
-    barColorPrimary: prizeBarClasses.barColorPrimary,
-    colorPrimary: prizeBarClasses.colorPrimary,
-  };
-
-  const prizes = [{
-    iconSrc: wristIcon,
-    iconStyle: { height: 20 },
-    iconAlt: 'wristband',
-    quantity: 50,
-    text: '1st',
-  }, {
-    iconSrc: shirtIcon,
-    iconStyle: { height: 17.5 },
-    iconAlt: 'shirt',
-    quantity: 25,
-    text: '2nd',
-  }, {
-    iconSrc: basketballIcon,
-    iconStyle: { height: 15 },
-    iconAlt: 'basketball',
-    quantity: 5,
-    text: '3rd',
-  }, {
-    iconSrc: sneakerIcon,
-    iconStyle: { height: 22.5 },
-    iconAlt: 'sneaker',
-    quantity: 1,
-    text: '4th',
-  }];
+  // 2880 = 48 minutes (total NBA game time) in seconds
+  const countdownCompletion = 100 - (remainingGameTime / 2880);
 
   return (
     <Paper
@@ -110,19 +88,15 @@ const GameStats = memo(() => {
       <LinearProgress
         color="primary"
         variant="determinate"
-        value={100}
+        value={countdownCompletion}
         style={styles.linearProgress}
-        classes={linearProgressClasses}
+        classes={countdownClasses}
       />
       <Grid
         container
         justify="center"
         alignItems="center"
-        style={{
-          height: 40,
-          position: 'absolute',
-          top: 0,
-        }}
+        style={styles.headerTextContainer}
       >
         <Typography variant="body1" color="secondary" style={styles.headerText}>
           GAME COUNTDOWN
@@ -130,34 +104,53 @@ const GameStats = memo(() => {
       </Grid>
       <Grid container alignItems="center" style={styles.prizesContainer}>
         {
-          prizes.map(({
-            iconSrc,
-            iconStyle,
-            iconAlt,
-            quantity,
-            text,
-          }) => (
-            <Grid
-              key={text}
-              container
-              justify="space-around"
-              alignItems="center"
-              direction="column"
-              style={styles.prizeContainer}
-            >
-              <Fab variant="extended" style={styles.prizeIcon}>
-                <Typography variant="body1" style={styles.prizeQuantity}>{quantity}x</Typography>
-                <img src={iconSrc} style={iconStyle} alt={iconAlt} />
-              </Fab>
-              <Typography variant="body2" style={{ textDecoration: 'line-through' }}>
-                {text}
-              </Typography>
-            </Grid>
-          ))
+          allPeriods.map((period) => {
+            const {
+              period: periodNumber,
+              prize: {
+                name: prizeName,
+                quantity: prizeQuantity,
+              }
+            } = byPeriod[period];
+
+            // Each game has 4 periods (essentially, quarters) so we can check if a period is over by
+            // comparing the countdownCompletion against the period number * 25 (1/4th of 100)
+            const periodOver = countdownCompletion >= (periodNumber * 25);
+            const periodStyles = periodOver ? { textDecoration: 'line-through' } : {};
+            const prizeFabStyles = {
+              ...styles.prizeFab,
+              backgroundColor: periodOver ? '#333' : '#FFF',
+            };
+
+            return (
+              <Grid
+                key={periodNumber}
+                container
+                justify="space-around"
+                alignItems="center"
+                direction="column"
+                style={styles.prizeContainer}
+              >
+                <Fab variant="extended" style={prizeFabStyles}>
+                  <Typography variant="body1" style={styles.prizeQuantity}>
+                    {`${prizeQuantity}x`}
+                  </Typography>
+                  <img
+                    src={prizeImages[prizeName]}
+                    style={styles.prizeImage[prizeName]}
+                    alt={prizeName}
+                  />
+                </Fab>
+                <Typography variant="body2" style={periodStyles}>
+                  {period}
+                </Typography>
+              </Grid>
+            );
+          })
         }
       </Grid>
     </Paper>
   );
 });
 
-export default GameStats;
+export default GamePrizes;
