@@ -105,12 +105,12 @@ const Game = memo(({
         text: 'STL',
         value: 0,
       },
-      RBD: {
-        text: 'RBD',
+      REB: {
+        text: 'REB',
         value: 0,
       },
     },
-    allStatsIds = ['PTS', 'STL', 'RBD'],
+    allStatsIds = ['PTS', 'STL', 'REB'],
   }) => (
     <Grid container justify="center" alignItems="center" style={styles.statsContainer}>
       { allStatsIds.map(id => {

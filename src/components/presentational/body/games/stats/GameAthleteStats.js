@@ -28,14 +28,14 @@ const styles = {
   },
 };
 
-const doughnutChartData = {
+const populateDoughnutChartData = (PTS, REB, AST) => ({
 	labels: [
-		'POINTS: 8',
-		'REBOUNDS: 1',
-		'ASSISTS: 5'
+		`PTS: ${PTS}`,
+		`REB: ${REB}`,
+		`AST: ${AST}`,
 	],
 	datasets: [{
-    data: [8, 1, 5],
+    data: [PTS, REB, AST],
     borderColor: [
       'rgba(46,204,113,1)',
       'rgba(255,59,63,1)',
@@ -47,7 +47,7 @@ const doughnutChartData = {
 		'rgba(52,152,219,0.1)'
 		],
 	}]
-};
+});
 
 const doughnutChartOptions = {
   response: true,
@@ -57,7 +57,14 @@ const doughnutChartOptions = {
   },
 };
 
-const GameAthleteStats = memo(() => {
+const GameAthleteStats = memo(({
+  name,
+  stats: {
+    PTS,
+    REB,
+    AST,
+  }
+}) => {
   return (
     <Paper
       component={Grid}
@@ -68,10 +75,12 @@ const GameAthleteStats = memo(() => {
       style={styles.container}
     >
       <Grid container justify="center" alignItems="center" direction="column" style={styles.statsContainer}>
-        <Typography variant="body2" color="secondary" style={styles.athleteName}>SPENCER DINWIDDIE</Typography>
+        <Typography variant="body2" color="secondary" style={styles.athleteName}>
+          {name}
+        </Typography>
         <Grid container style={styles.chartContainer}>
           <Doughnut
-            data={doughnutChartData}
+            data={populateDoughnutChartData(PTS, REB, AST)}
             options={doughnutChartOptions}
           />
         </Grid>

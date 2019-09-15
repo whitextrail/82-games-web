@@ -87,29 +87,22 @@ const GamePredictionForm = memo(({
 }) => (
   <Grid container justify="space-between" style={styles.textFieldContainer}>
     {
-      allPredictionStats.map(stat => {
-        const {
-          shorthand,
-          value,
-        } = byPredictionStat[stat];
-
-        return (
-          <TextField
-            id={stat}
-            key={stat}
-            label={shorthand}
-            value={value}
-            onChange={updatePredictionStat}
-            margin="dense"
-            variant="outlined"
-            InputLabelProps={{
-              shrink: true,
-              style: styles.textFieldInputLabel,
-            }}
-            style={styles.textField}
-          />
-        );
-      })
+      allPredictionStats.map(stat => (
+        <TextField
+          id={stat}
+          key={stat}
+          label={stat}
+          value={byPredictionStat[stat]}
+          onChange={updatePredictionStat}
+          margin="dense"
+          variant="outlined"
+          InputLabelProps={{
+            shrink: true,
+            style: styles.textFieldInputLabel,
+          }}
+          style={styles.textField}
+        />
+      ))
     }
     <Button variant="contained" style={styles.button}>
       <LocalActivitySharp />

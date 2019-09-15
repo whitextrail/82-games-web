@@ -50,32 +50,13 @@ const types = {
 };
 
 const initialState = {
-  byPredictionStat: {},
-  allPredictionStats: [],
+  byPredictionStat: {
+    PTS: 0,
+    REB: 0,
+    AST: 0,
+  },
+  allPredictionStats: ['PTS', 'REB', 'AST'],
 };
-
-const createGamePredictionState = (byStat, allStats) => (
-  allStats.reduce(
-    (acc, stat) => {
-      const { shorthand } = byStat[stat];
-
-      return {
-        byPredictionStat: {
-          ...acc.byPredictionStat,
-          [stat]: {
-            shorthand,
-            value: 0,
-          },
-        },
-        allPredictionStats: [
-          ...acc.allPredictionStats,
-          stat,
-        ],
-      };
-    },
-    { ...initialState }
-  )
-);
 
 const reducer = (state, action) => {
   const {
@@ -86,7 +67,7 @@ const reducer = (state, action) => {
   switch(type) {
     case 'UPDATE_PREDICTION_STAT':
       const {
-        stat,
+        id,
         value,
       } = response;
 
@@ -94,10 +75,7 @@ const reducer = (state, action) => {
         ...state,
         byPredictionStat: {
           ...state.byPredictionStat,
-          [stat]: {
-            ...state.byPredictionStat[stat],
-            value,
-          },
+          [id]: value,
         },
       };
     default:
@@ -106,11 +84,9 @@ const reducer = (state, action) => {
 };
 
 const GamePredictionFunctional = memo(({
-  byStat,
-  allStats,
   gameOver,
 }) => {
-  const [state, dispatch] = useReducer(reducer, createGamePredictionState(byStat, allStats));
+  const [state, dispatch] = useReducer(reducer, initialState);
   const {
     byPredictionStat,
     allPredictionStats,
@@ -124,7 +100,7 @@ const GamePredictionFunctional = memo(({
   }) => dispatch({
     type: types.UPDATE_PREDICTION_STAT,
     response: {
-      stat: id,
+      id,
       value,
     },
   });

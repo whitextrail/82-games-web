@@ -42,21 +42,6 @@ const initialState = {
     }
   },
   allPeriods: ['1st', '2nd', '3rd', '4th'],
-  byStat: {
-    points: {
-      shorthand: 'PTS',
-      value: 0,
-    },
-    rebounds: {
-      shorthand: 'RBD',
-      value: 0,
-    },
-    assists: {
-      shorthand: 'AST',
-      value: 0,
-    },
-  },
-  allStats: ['points', 'rebounds', 'assists'],
   remainingGameTime: 2880,
 };
 
@@ -84,7 +69,10 @@ const styles = {
   },
 };
 
-const GameStats = memo(() => {
+const GameStats = memo(({
+  game,
+  athlete,
+}) => {
   const [state,] = useReducer(reducer, initialState);
   const {
     byPeriod,
@@ -93,12 +81,28 @@ const GameStats = memo(() => {
     allStats,
     remainingGameTime,
   } = state;
+  const {
+    name,
+    performanceStatisticsByGameId,
+  } = athlete;
+  const {
+    PTS,
+    AST,
+    REB,
+  } = performanceStatisticsByGameId[game.id];
 
   return (
     <Grid container alignItems="center" direction="column" style={styles.container}>
       <GamePrizes byPeriod={byPeriod} allPeriods={allPeriods} />
-      <GamePrediction byStat={byStat} allStats={allStats} gameOver={!remainingGameTime} />
-      <GameAthleteStats />
+      <GamePrediction
+        byStat={byStat}
+        allStats={allStats}
+        gameOver={!remainingGameTime}
+      />
+      <GameAthleteStats
+        name={name.toUpperCase()}
+        stats={{ PTS, AST, REB }}
+      />
       <GameTeamStats />
     </Grid>
   );

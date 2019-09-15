@@ -93,6 +93,7 @@ class GamesContainer extends PureComponent {
   render = () => {
     const {
       games: {
+        byId: gamesById,
         inProgress,
         byStatusId,
         allStatusIds,
@@ -126,18 +127,27 @@ class GamesContainer extends PureComponent {
       },
     );
     const renderGamesRoute = routeProps => renderRoute(Games, routeProps);
-    const renderGameStatsRoute = ({ match: { params: { id } } }) => renderRoute(GameStats, { gameId: id });
+    const renderGameStatsRoute = ({
+      match: {
+        params: { gameId },
+      }
+    }) => (
+      renderRoute(GameStats, {
+        game: gamesById[gameId],
+        athlete: athletesById[selectedAthleteId],
+      })
+    );
 
     return !!selectedStatusId && (
       <Grid container direction="column">
         <Switch>
-          <Route exact path="/games/:timeframe/:id" render={() => <GameStatsNav location={this.props.location} />} />
+          <Route exact path="/games/:timeframe/:gameSeason/:gameId" render={() => <GameStatsNav location={this.props.location} />} />
           <Route exact path="/games/:timeframe" component={Nav} />
         </Switch>
         <Grid container>
           <Switch>
             <Route exact path="/games/:timeframe" render={renderGamesRoute} />
-            <Route exact path="/games/:timeframe/:id" render={renderGameStatsRoute} />
+            <Route exact path="/games/:timeframe/:gameSeason/:gameId" render={renderGameStatsRoute} />
             <Redirect from="/games" to="/games/previous" />
           </Switch>
         </Grid>
