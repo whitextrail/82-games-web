@@ -6,6 +6,7 @@ import {
   Route,
 } from 'react-router-dom';
 import {
+  fetchTeams,
   fetchGamesByTeamId,
   filterGamesByStatusId,
 } from '../../state/actions';
@@ -17,6 +18,7 @@ class GamesContainer extends PureComponent {
   constructor(props) {
     super(props);
 
+    props.fetchTeams();
     props.fetchGamesByTeamId();
   }
 
@@ -29,8 +31,9 @@ class GamesContainer extends PureComponent {
         byStatusId,
         allStatusIds,
       },
+      teamsById,
     } = this.props;
-    const showProgress = !Object.keys(byStatusId).length || inProgress;
+    const showProgress = !Object.keys(byStatusId).length || !Object.keys(teamsById) || inProgress;
 
     return (
       <Grid container direction="column">
@@ -40,7 +43,14 @@ class GamesContainer extends PureComponent {
               <Route
                 exact
                 path="/games/:statusId"
-                render={routeProps => <GameList byStatusId={byStatusId} allStatusIds={allStatusIds} {...routeProps} />}
+                render={routeProps => (
+                  <GameList
+                    teamsById={teamsById}
+                    byStatusId={byStatusId}
+                    allStatusIds={allStatusIds}
+                    {...routeProps}
+                  />
+                )}
               />
             </Switch>
           )
@@ -50,9 +60,16 @@ class GamesContainer extends PureComponent {
   }
 };
 
-const mapStateToProps = ({ games }) => ({ games });
+const mapStateToProps = ({
+  teams,
+  games,
+}) => ({
+  teamsById: teams.byId,
+  games,
+});
 
 export default withRouter(connect(mapStateToProps, {
+  fetchTeams,
   fetchGamesByTeamId,
   filterGamesByStatusId,
 })(GamesContainer));

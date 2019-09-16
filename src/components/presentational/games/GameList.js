@@ -18,6 +18,7 @@ const styles = {
 };
 
 const GameList = memo(({
+  teamsById,
   byStatusId,
   allStatusIds,
   match: {
@@ -27,7 +28,20 @@ const GameList = memo(({
   <Fragment>
     <GameListHeader statusId={statusId} allStatusIds={allStatusIds} />
     <List disablePadding style={styles.list} subheader={<li />}>
-      { byStatusId[statusId].map((game, index) => <GameListItem key={index} game={game} />) }
+      {
+        byStatusId[statusId].map(({
+          homeTeamId,
+          awayTeamId,
+          ...game
+        }, index) => (
+          <GameListItem
+            key={index}
+            game={game}
+            homeTeam={teamsById[homeTeamId]}
+            awayTeam={teamsById[awayTeamId]}
+          />
+        ))
+      }
     </List>
   </Fragment>
 ));

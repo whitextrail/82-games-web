@@ -1,7 +1,6 @@
 import React, { memo, Fragment } from 'react';
 import {
   Grid,
-  Button,
   Avatar,
   Card,
   CardHeader,
@@ -46,9 +45,9 @@ const GameListItem = memo(({
     gameNumber,
     localGameDateTime,
     arena,
-    // homeTeamId,
-    // awayTeamId,
-  }
+  },
+  homeTeam,
+  awayTeam,
 }) => (
   <Fragment>
     <ListSubheader disableSticky>
@@ -79,7 +78,7 @@ const GameListItem = memo(({
             <Typography variant="body2">{localGameDateTime}</Typography>
             <Typography variant="body2">{arena}</Typography>
           </Grid>
-          {/* <GameTeams homeTeam={homeTeam} awayTeam={awayTeam} /> */}
+          <GameTeams homeTeam={homeTeam} awayTeam={awayTeam} />
         </CardContent>
       </Card>
     </ListItem>
