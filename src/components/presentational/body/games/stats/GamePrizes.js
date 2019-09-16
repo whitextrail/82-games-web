@@ -26,7 +26,7 @@ const styles = {
     borderTopLeftRadius: 5,
   },
   headerTextContainer: {
-    height: 30,
+    height: 40,
     position: 'absolute',
     top: 0,
   },
