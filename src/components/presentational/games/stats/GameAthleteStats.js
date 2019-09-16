@@ -59,34 +59,30 @@ const doughnutChartOptions = {
 
 const GameAthleteStats = memo(({
   name,
-  stats: {
-    PTS,
-    REB,
-    AST,
-  }
-}) => {
-  return (
-    <Paper
-      component={Grid}
-      container
-      justify="flex-end"
-      alignItems="center"
-      direction="column"
-      style={styles.container}
-    >
-      <Grid container justify="center" alignItems="center" direction="column" style={styles.statsContainer}>
-        <Typography variant="body2" color="secondary" style={styles.athleteName}>
-          {name}
-        </Typography>
-        <Grid container style={styles.chartContainer}>
-          <Doughnut
-            data={populateDoughnutChartData(PTS, REB, AST)}
-            options={doughnutChartOptions}
-          />
-        </Grid>
+  PTS,
+  REB,
+  AST,
+}) => (
+  <Paper
+    component={Grid}
+    container
+    justify="flex-end"
+    alignItems="center"
+    direction="column"
+    style={styles.container}
+  >
+    <Grid container justify="center" alignItems="center" direction="column" style={styles.statsContainer}>
+      <Typography variant="body2" color="secondary" style={styles.athleteName}>
+        {name}
+      </Typography>
+      <Grid container style={styles.chartContainer}>
+        <Doughnut
+          data={populateDoughnutChartData(PTS, REB, AST)}
+          options={doughnutChartOptions}
+        />
       </Grid>
-    </Paper>
-  );
-});
+    </Grid>
+  </Paper>
+));
 
 export default GameAthleteStats;

@@ -7,8 +7,8 @@ import {
 } from '@material-ui/core';
 import { Line } from 'react-chartjs-2';
 import { makeStyles } from '@material-ui/styles';
-import * as svg from '../../../../../assets/svg/index';
-import { teamColors } from '../../../../../styles/constants';
+import * as svg from '../../../../assets/svg/index';
+import { teamColors } from '../../../../styles/constants';
 
 const styles = {
   container: {
@@ -167,34 +167,48 @@ const StatsBar = ({
 };
 
 const GameTeamStats = memo(({
-  homeTeam,
-  awayTeam,
-}) => {
-  const {
+  homeTeamPoints,
+  awayTeamPoints,
+  homeTeam: {
     id: homeTeamId,
     name: homeTeamName,
-    points: {
-      total: homeTeamTotalPoints,
-      byQuarter: homeTeamPointsByQuarter,
-    },
-  } = homeTeam;
-  const {
+  },
+  awayTeam: {
     id: awayTeamId,
     name: awayTeamName,
-    points: {
-      total: awayTeamTotalPoints,
-      byQuarter: awayTeamPointsByQuarter,
-    },
-  } = awayTeam;
-  const lineChartLabels = [
-    homeTeamName,
-    awayTeamName,
-  ];
-  const barChartDenominator = homeTeamTotalPoints > awayTeamTotalPoints
-    ? homeTeamTotalPoints
-    : awayTeamTotalPoints;
+  },
+  homeTeamStatistics: {
+    PTS_QTR1: homeQ1,
+    PTS_QTR2: homeQ2,
+    PTS_QTR3: homeQ3,
+    PTS_QTR4: homeQ4,
+  },
+  awayTeamStatistics: {
+    PTS_QTR1: awayQ1,
+    PTS_QTR2: awayQ2,
+    PTS_QTR3: awayQ3,
+    PTS_QTR4: awayQ4,
+  },
+}) => {
   const homeTeamResourceId = `${homeTeamName}_${homeTeamId}`;
   const awayTeamResourceId = `${awayTeamName}_${awayTeamId}`;
+  const barChartDenominator = (homeTeamPoints > awayTeamPoints)
+    ? homeTeamPoints
+    : awayTeamPoints;
+  const homeTeamColors = teamColors[homeTeamResourceId];
+  const awayTeamColors = teamColors[awayTeamResourceId];
+
+  const lineChartLabels = [homeTeamName,awayTeamName];
+  const lineChartData = populateLineChartData(
+    homeTeamResourceId,
+    awayTeamResourceId,
+    [homeQ1,homeQ2,homeQ3,homeQ4],
+    [awayQ1,awayQ2,awayQ3,awayQ4],
+  );
+  const lineChartOptions = populateLineChartOptions(
+    homeTeamName.toUpperCase(),
+    awayTeamName.toUpperCase(),
+  );
 
   return (
     <Paper
@@ -207,49 +221,26 @@ const GameTeamStats = memo(({
     >
       <Grid container justify="center" style={styles.lineChartContainer}>
         <Line
-          data={(
-            populateLineChartData(
-              homeTeamResourceId,
-              awayTeamResourceId,
-              homeTeamPointsByQuarter,
-              awayTeamPointsByQuarter,
-            )
-          )}
+          data={lineChartData}
           labels={lineChartLabels}
-          options={(
-            populateLineChartOptions(
-              homeTeamName.toUpperCase(),
-              awayTeamName.toUpperCase(),
-            )
-          )}
+          options={lineChartOptions}
         />
       </Grid>
       <Grid container justify="flex-start" alignItems="center" direction="column" style={styles.teamStatsContainer}>
-        {
-          [homeTeam, awayTeam].map(({
-            name,
-            id,
-            points: { total }
-          }) => {
-            const teamResourceId = `${name}_${id}`;
-            const {
-              primary,
-              secondary,
-            } = teamColors[teamResourceId];
-            const statsBarValue = (total / barChartDenominator) * 100;
-
-            return (
-              <StatsBar
-                key={name}
-                teamImageSrc={teamResourceId}
-                barValueLabel={total}
-                value={statsBarValue}
-                barColor={primary.hex}
-                barBackgroundColor={secondary.rgba(0.2)}
-              />
-            );
-          })
-        }
+        <StatsBar
+          teamImageSrc={homeTeamResourceId}
+          barValueLabel={homeTeamPoints}
+          value={(homeTeamPoints / barChartDenominator) * 100}
+          barColor={homeTeamColors.primary.hex}
+          barBackgroundColor={homeTeamColors.secondary.rgba(0.2)}
+        />
+        <StatsBar
+          teamImageSrc={awayTeamResourceId}
+          barValueLabel={awayTeamPoints}
+          value={(awayTeamPoints / barChartDenominator) * 100}
+          barColor={awayTeamColors.primary.hex}
+          barBackgroundColor={awayTeamColors.secondary.rgba(0.2)}
+        />
       </Grid>
     </Paper>
   );

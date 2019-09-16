@@ -1,15 +1,15 @@
 import React, {
   memo,
   useReducer,
-  useEffect,
 } from 'react';
 import { Grid } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { fetchGameStatisticById } from '../../state/actions';
-import GamePrizes from '../presentational/body/games/stats/GamePrizes';
 import GamePrediction from './GamePrediction';
-import GameTeamStats from '../presentational/body/games/stats/GameTeamStats';
-import GameAthleteStats from '../presentational/body/games/stats/GameAthleteStats';
+import GameStatsHeader from '../presentational/games/stats/GameStatsHeader';
+import GamePrizes from '../presentational/games/stats/GamePrizes';
+import GameTeamStats from '../presentational/games/stats/GameTeamStats';
+import GameAthleteStats from '../presentational/games/stats/GameAthleteStats';
 
 const initialState = {
   byPeriod: {
@@ -47,17 +47,9 @@ const initialState = {
 };
 
 const reducer = (state, action) => {
-  const {
-    type,
-    response,
-  } = action;
+  const { type } = action;
 
   switch(type) {
-    case 'DEDUCT_GAME_TIME':
-      return {
-        ...state,
-        remainingGameTime: state.remainingGameTime - response.seconds,
-      };
     default:
       return state;
   }
@@ -71,85 +63,53 @@ const styles = {
 };
 
 const GameStats = memo(({
-  game,
-  athlete,
-  homeTeam: {
-    id: homeTeamId,
-    name: homeTeamName,
+  teamsById,
+  game: {
+    id: gameId,
+    homeTeamPoints,
+    awayTeamPoints,
+    homeTeamStatistics,
+    awayTeamStatistics,
+    homeTeamId,
+    awayTeamId,
   },
-  awayTeam: {
-    id: awayTeamId,
-    name: awayTeamName,
+  athlete: {
+    name: athleteName,
+    performanceStatistics: { PTS, REB, AST },
   },
   fetchGameStatisticById: fetchGameStatisticByIdAction,
 }) => {
-  useEffect(() => {
-    fetchGameStatisticByIdAction(game.id);
-  }, [game.id, fetchGameStatisticByIdAction]);
-
+  // TODO: Use the dispatcher function to update remainingGameTime
   const [state,] = useReducer(reducer, initialState);
-  const {
-    byPeriod,
-    allPeriods,
-    remainingGameTime,
-  } = state;
-  const {
-    name,
-    performanceStatisticsByGameId,
-  } = athlete;
-  const {
-    PTS,
-    AST,
-    REB,
-  } = performanceStatisticsByGameId[game.id];
-  const {
-    homeTeamStatistics = {},
-    awayTeamStatistics = {},
-    homeTeamPoints,
-    awayTeamPoints,
-  } = game;
-  const {
-    PTS_QTR1: homeQ1 = 0,
-    PTS_QTR2: homeQ2 = 0,
-    PTS_QTR3: homeQ3 = 0,
-    PTS_QTR4: homeQ4 = 0,
-  } = homeTeamStatistics;
-  const {
-    PTS_QTR1: awayQ1 = 0,
-    PTS_QTR2: awayQ2 = 0,
-    PTS_QTR3: awayQ3 = 0,
-    PTS_QTR4: awayQ4 = 0,
-  } = awayTeamStatistics;
+  const hasTeamStatistics = homeTeamStatistics && awayTeamStatistics;
 
-  return (
-    <Grid container alignItems="center" direction="column" style={styles.container}>
-      <GamePrizes
-        byPeriod={byPeriod}
-        allPeriods={allPeriods}
-        remainingGameTime={remainingGameTime}
-      />
-      <GamePrediction gameOver={!remainingGameTime} />
+  if (!hasTeamStatistics) {
+    fetchGameStatisticByIdAction(gameId);
+  }
+
+  return hasTeamStatistics && (
+    <Grid
+      container
+      alignItems="center"
+      direction="column"
+      style={styles.container}
+    >
+      <GameStatsHeader />
+      <GamePrizes {...state} />
+      <GamePrediction gameOver={!state.remainingGameTime} />
       <GameAthleteStats
-        name={name.toUpperCase()}
-        stats={{ PTS, AST, REB }}
+        name={athleteName.toUpperCase()}
+        PTS={PTS}
+        AST={AST}
+        REB={REB}
       />
       <GameTeamStats
-        homeTeam={{
-          id: homeTeamId,
-          name: homeTeamName,
-          points: {
-            total: homeTeamPoints,
-            byQuarter: [homeQ1, homeQ2, homeQ3, homeQ4],
-          },
-        }}
-        awayTeam={{
-          id: awayTeamId,
-          name: awayTeamName,
-          points: {
-            total: awayTeamPoints,
-            byQuarter: [awayQ1, awayQ2, awayQ3, awayQ4],
-          },
-        }}
+        homeTeam={teamsById[homeTeamId]}
+        homeTeamPoints={homeTeamPoints}
+        homeTeamStatistics={homeTeamStatistics}
+        awayTeam={teamsById[awayTeamId]}
+        awayTeamPoints={awayTeamPoints}
+        awayTeamStatistics={awayTeamStatistics}
       />
     </Grid>
   );

@@ -13,6 +13,7 @@ import {
 } from '../../state/actions';
 import { Grid } from '@material-ui/core';
 import GameList from '../functional/GameList';
+import GameStats from '../functional/GameStats';
 import Progress from '../presentational/reusable/Progress';
 
 class GamesContainer extends PureComponent {
@@ -30,6 +31,7 @@ class GamesContainer extends PureComponent {
       isFetched,
       athlete,
       teamsById,
+      gamesById,
       gamesByStatusId,
       allGameStatusIds,
     } = this.props;
@@ -55,6 +57,24 @@ class GamesContainer extends PureComponent {
                     />
                   )}
                 />
+                <Route
+                  exact
+                  path="/games/:statusId/:gameId"
+                  render={({ match: { params: { gameId } } }) => (
+                    <GameStats
+                      game={gamesById[gameId]}
+                      teamsById={teamsById}
+                      athlete={{
+                        ...athlete,
+                        performanceStatistics: athlete.performanceStatisticsByGameId[gameId] || {
+                          PTS: 0,
+                          REB: 0,
+                          AST: 0,
+                        }
+                      }}
+                    />
+                  )}
+                />
               </Switch>
             )
         }
@@ -70,6 +90,7 @@ const mapStateToProps = ({
     inProgress: teamsInProgress,
   },
   games: {
+    byId: gamesById,
     byStatusId: gamesByStatusId,
     allStatusIds: allGameStatusIds,
     selectedStatusId: selectedGameStatusId,
@@ -85,6 +106,7 @@ const mapStateToProps = ({
   isFetched: selectedTeamId && selectedGameStatusId && selectedAthleteId,
   athlete: athletesById[selectedAthleteId],
   teamsById,
+  gamesById,
   gamesByStatusId,
   allGameStatusIds,
 });

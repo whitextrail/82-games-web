@@ -15,11 +15,11 @@ const styles = {
     height: 56,
     minHeight: 56,
   },
-  navBarIcon: {
+  icon: {
     color: secondaryTextColor,
     fontSize: 24,
   },
-  navBarIconButton: {
+  IconButton: {
     marginLeft: 6,
     marginRight: 12,
   },
@@ -35,18 +35,19 @@ const createNavBarClasses = (classes = {
 const NavBar = memo(({
   title,
   elevation,
+  icon,
   iconButtonClickHandler,
-  navBarIcon,
-  navBarStyles,
-  navBarIconStyles,
+  styleClasses,
+  iconStyles,
 }) => {
   const combinedNavBarIconStyles = {
-    ...styles.navBarIcon,
-    ...navBarIconStyles && navBarIconStyles,
+    ...styles.icon,
+    ...iconStyles && iconStyles,
   };
-  const navBarClasses = createNavBarClasses(navBarStyles);
+  const classes = createNavBarClasses(styleClasses);
+
   return (
-    <AppBar position="static" elevation={elevation} color="default" classes={navBarClasses}>
+    <AppBar position="static" elevation={elevation} color="default" classes={classes}>
       <Toolbar
         disableGutters
         component={Grid}
@@ -55,10 +56,10 @@ const NavBar = memo(({
         alignItems="center"
         style={styles.toolbar}
       >
-        <IconButton style={styles.navBarIconButton} onClick={iconButtonClickHandler}>
+        <IconButton style={styles.iconButton} onClick={iconButtonClickHandler}>
           {
-            navBarIcon
-              ? React.cloneElement(navBarIcon, { style: combinedNavBarIconStyles })
+            icon
+              ? React.cloneElement(icon, { style: combinedNavBarIconStyles })
               : <MenuSharp style={combinedNavBarIconStyles} />
           }
         </IconButton>

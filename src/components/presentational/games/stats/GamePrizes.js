@@ -7,7 +7,7 @@ import {
   LinearProgress,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import { prizeImages } from '../../../../../assets/img';
+import { prizeImages } from '../../../../assets/img';
 
 const styles = {
   container: {
