@@ -8,13 +8,13 @@ import {
 import {
   primaryColor,
   primaryTextColor,
-} from '../../../../styles/constants';
-import Tabs from '../../reusable/Tabs';
+} from '../../../styles/constants';
+import Tabs from '../reusable/Tabs';
 
 const tabIcons = {
-  'Previous': <ReplaySharp />,
-  'Live': <PlayCircleOutlineSharp />,
-  'Upcoming': <FastForwardSharp />,
+  previous: <ReplaySharp />,
+  live: <PlayCircleOutlineSharp />,
+  upcoming: <FastForwardSharp />,
 };
 
 const styles = {
@@ -31,15 +31,15 @@ const styles = {
   },
 };
 
-const GameHeader = memo(({
-  selectedStatusId,
+const GameListHeader = memo(({
+  statusId,
   allStatusIds,
   handleTabClick,
   inProgress,
 }) => (
   <Paper square style={styles.paper}>
     <Tabs
-      selectedTabId={selectedStatusId}
+      selectedTabId={statusId}
       inProgress={inProgress}
       onChange={handleTabClick}
       allTabIds={allStatusIds}
@@ -48,4 +48,4 @@ const GameHeader = memo(({
   </Paper>
 ));
 
-export default GameHeader;
+export default GameListHeader;

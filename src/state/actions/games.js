@@ -11,19 +11,14 @@ const fetchGamesByTeamIdActionCreator = actionWrapper({ type: FETCH_GAMES_BY_TEA
 const fetchGameStatisticByIdActionCreator = actionWrapper({ type: FETCH_GAME_STATISTIC_BY_ID });
 const filterGamesByStatusIdActionCreator = actionWrapper({ type: FILTER_GAMES_BY_STATUS_ID });
 
-const fetchGamesByTeamId = (id = 1, statusId = '') => (
+const fetchGamesByTeamId = (id = 1) => (
   async (dispatch) => {
     dispatch(fetchGamesByTeamIdActionCreator());
 
     try {
       const { data } = await get(`${apiEndpoints.fetchGamesByTeamId}/${id}`);
 
-      return dispatch(fetchGamesByTeamIdActionCreator({
-        response: {
-          ...data,
-          statusId,
-        },
-      }));
+      return dispatch(fetchGamesByTeamIdActionCreator({ response: { data } }));
     } catch ({ response: error }) {
       return dispatch(fetchGamesByTeamIdActionCreator({ error }));
     }

@@ -8,7 +8,7 @@ import {
   HomeSharp,
   AirplanemodeActiveSharp,
 } from '@material-ui/icons';
-import * as svg from '../../../../assets/svg/index';
+import * as svg from '../../../assets/svg/index';
 
 const styles = {
   container: {

@@ -48,8 +48,8 @@ const segmentGamesByStatus = gamesById => (
     if (isUpcoming) {
       return {
         ...accumulator,
-        Upcoming: [
-          ...accumulator.Upcoming,
+        upcoming: [
+          ...accumulator.upcoming,
           game,
         ]
       };
@@ -57,15 +57,15 @@ const segmentGamesByStatus = gamesById => (
 
     return {
       ...accumulator,
-      Previous: [
+      previous: [
         game,
-        ...accumulator.Previous,
+        ...accumulator.previous,
       ]
     };
   }, {
-    Previous: [],
-    Live: [],
-    Upcoming: [],
+    previous: [],
+    live: [],
+    upcoming: [],
   })
 );
 

@@ -11,7 +11,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import GameTeams from './GameTeams';
-import avatar from '../../../../assets/img/spencer_dinwiddie.png';
+import avatar from '../../../assets/img/spencer_dinwiddie.png';
 
 const styles = {
   listItem: {
@@ -80,18 +80,18 @@ const GameActionButton = memo(({ selectedStatusId }) => {
 });
 
 const Game = memo(({
-  selectedStatusId,
+  // selectedStatusId,
   season,
   gameNumber,
   localGameDateTime,
   arena,
   homeTeam,
   awayTeam,
-  athleteStats: {
-    PTS,
-    REB,
-    AST,
-  },
+  // athleteStats: {
+  //   PTS,
+  //   REB,
+  //   AST,
+  // },
 }) => (
   <Fragment>
     <ListSubheader disableSticky>
@@ -99,12 +99,12 @@ const Game = memo(({
     </ListSubheader>
     <ListItem disableGutters style={styles.listItem}>
       <Card style={styles.card}>
-        <CardHeader
+        {/* <CardHeader
           avatar={<Avatar src={avatar} />}
           action={<GameActionButton selectedStatusId={selectedStatusId} />}
           title="Spencer Dinwiddie"
           subheader={`${PTS} PTS - ${REB} REB - ${AST} AST`}
-        />
+        /> */}
         <CardContent
           component={Grid}
           container
