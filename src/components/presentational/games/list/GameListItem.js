@@ -9,8 +9,8 @@ import {
   ListSubheader,
   Typography,
 } from '@material-ui/core';
-import GameTeams from './GameTeams';
-import avatar from '../../../assets/img/spencer_dinwiddie.png';
+import GameListItemTeams from './GameListItemTeams';
+import avatar from '../../../../assets/img/spencer_dinwiddie.png';
 
 const styles = {
   listItem: {
@@ -84,7 +84,7 @@ const GameListItem = memo(({
             <Typography variant="body2">{localGameDateTime}</Typography>
             <Typography variant="body2">{arena}</Typography>
           </Grid>
-          <GameTeams isHome={homeTeam.id === athleteTeamId} homeTeam={homeTeam} awayTeam={awayTeam} />
+          <GameListItemTeams isHome={homeTeam.id === athleteTeamId} homeTeam={homeTeam} awayTeam={awayTeam} />
         </CardContent>
       </Card>
     </ListItem>

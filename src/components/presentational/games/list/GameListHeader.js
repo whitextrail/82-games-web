@@ -11,9 +11,9 @@ import {
 import {
   primaryColor,
   primaryTextColor,
-} from '../../../styles/constants';
-import NavBar from '../nav/NavBar';
-import Tabs from '../reusable/Tabs';
+} from '../../../../styles/constants';
+import NavBar from '../../nav/NavBar';
+import Tabs from '../../reusable/Tabs';
 
 const tabIcons = {
   previous: <ReplaySharp />,

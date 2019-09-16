@@ -8,7 +8,7 @@ import {
   HomeSharp,
   AirplanemodeActiveSharp,
 } from '@material-ui/icons';
-import * as svg from '../../../assets/svg/index';
+import * as svg from '../../../../assets/svg/index';
 
 const styles = {
   container: {
@@ -73,7 +73,7 @@ const TeamLocation = memo(({
   );
 });
 
-const GameTeams = memo(({
+const GameListItemTeams = memo(({
   isHome,
   homeTeam,
   awayTeam,
@@ -98,4 +98,4 @@ const GameTeams = memo(({
   );
 });
 
-export default GameTeams;
+export default GameListItemTeams;
