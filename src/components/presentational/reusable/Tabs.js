@@ -21,7 +21,7 @@ const ReusableTabs = memo(({
       variant="fullWidth"
       onChange={onChange}
     >
-      { allTabIds.map(id => <Tab key={id} icon={tabIcons[id]} value={id} />) }
+      { allTabIds.map(id => <Tab id={id} key={id} icon={tabIcons[id]} value={id} />) }
     </Tabs>
   );
 });

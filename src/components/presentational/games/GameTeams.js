@@ -74,12 +74,10 @@ const TeamLocation = memo(({
 });
 
 const GameTeams = memo(({
+  isHome,
   homeTeam,
   awayTeam,
 }) => {
-  // TODO: Update to check athlete's team
-  const isHome = homeTeam.id === 1;
-
   const homeWinner = homeTeam.points > awayTeam.points;
   const awayWinner = homeTeam.points < awayTeam.points;
 

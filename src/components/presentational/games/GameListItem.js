@@ -46,6 +46,11 @@ const GameListItem = memo(({
     localGameDateTime,
     arena,
   },
+  athlete: {
+    name: athleteName,
+    teamId: athleteTeamId,
+    performanceStatistics: { PTS, REB, AST },
+  },
   homeTeam,
   awayTeam,
 }) => (
@@ -57,9 +62,10 @@ const GameListItem = memo(({
       <Card style={styles.card}>
         <CardHeader
           avatar={<Avatar src={avatar} />}
+          // TODO: Create a set of buttons for interacting with GameListItem
           // action={<GameActionButton selectedStatusId={selectedStatusId} />}
-          title="Spencer Dinwiddie"
-          // subheader={`${PTS} PTS - ${REB} REB - ${AST} AST`}
+          title={athleteName}
+          subheader={`${PTS} PTS - ${REB} REB - ${AST} AST`}
         />
         <CardContent
           component={Grid}
@@ -78,7 +84,7 @@ const GameListItem = memo(({
             <Typography variant="body2">{localGameDateTime}</Typography>
             <Typography variant="body2">{arena}</Typography>
           </Grid>
-          <GameTeams homeTeam={homeTeam} awayTeam={awayTeam} />
+          <GameTeams isHome={homeTeam.id === athleteTeamId} homeTeam={homeTeam} awayTeam={awayTeam} />
         </CardContent>
       </Card>
     </ListItem>

@@ -34,7 +34,7 @@ const styles = {
 
 const GameListHeader = memo(({
   statusId,
-  allStatusIds,
+  allGameStatusIds,
   handleTabClick,
   inProgress,
 }) => (
@@ -50,7 +50,7 @@ const GameListHeader = memo(({
       selectedTabId={statusId}
       inProgress={inProgress}
       onChange={handleTabClick}
-      allTabIds={allStatusIds}
+      allTabIds={allGameStatusIds}
       tabIcons={tabIcons}
     />
   </Paper>
