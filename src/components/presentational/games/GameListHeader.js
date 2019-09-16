@@ -1,5 +1,8 @@
 import React, { memo } from 'react';
-import { Paper } from '@material-ui/core';
+import {
+  Paper,
+  Grid,
+} from '@material-ui/core';
 import {
   ReplaySharp,
   PlayCircleOutlineSharp,
@@ -9,6 +12,7 @@ import {
   primaryColor,
   primaryTextColor,
 } from '../../../styles/constants';
+import NavBar from '../nav/NavBar';
 import Tabs from '../reusable/Tabs';
 
 const tabIcons = {
@@ -18,11 +22,8 @@ const tabIcons = {
 };
 
 const styles = {
-  paper: {
-    height: 48,
-    paddingRight: 7.5,
-    paddingLeft: 7.5,
-    width: '100%',
+  container: {
+    height: 104,
     backgroundColor: primaryColor,
   },
   text: {
@@ -37,7 +38,14 @@ const GameListHeader = memo(({
   handleTabClick,
   inProgress,
 }) => (
-  <Paper square style={styles.paper}>
+  <Paper
+    square
+    component={Grid}
+    container
+    direction="column"
+    style={styles.container}
+  >
+    <NavBar title="Games" elevation={0} />
     <Tabs
       selectedTabId={statusId}
       inProgress={inProgress}
