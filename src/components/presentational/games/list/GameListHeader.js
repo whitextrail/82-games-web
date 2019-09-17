@@ -1,5 +1,8 @@
 import React, { memo } from 'react';
-import { Paper } from '@material-ui/core';
+import {
+  Paper,
+  Grid,
+} from '@material-ui/core';
 import {
   ReplaySharp,
   PlayCircleOutlineSharp,
@@ -9,20 +12,18 @@ import {
   primaryColor,
   primaryTextColor,
 } from '../../../../styles/constants';
+import NavBar from '../../nav/NavBar';
 import Tabs from '../../reusable/Tabs';
 
 const tabIcons = {
-  'Previous': <ReplaySharp />,
-  'Live': <PlayCircleOutlineSharp />,
-  'Upcoming': <FastForwardSharp />,
+  previous: <ReplaySharp />,
+  live: <PlayCircleOutlineSharp />,
+  upcoming: <FastForwardSharp />,
 };
 
 const styles = {
-  paper: {
-    height: 48,
-    paddingRight: 7.5,
-    paddingLeft: 7.5,
-    width: '100%',
+  container: {
+    height: 104,
     backgroundColor: primaryColor,
   },
   text: {
@@ -31,21 +32,28 @@ const styles = {
   },
 };
 
-const GameHeader = memo(({
-  selectedStatusId,
-  allStatusIds,
+const GameListHeader = memo(({
+  statusId,
+  allGameStatusIds,
   handleTabClick,
   inProgress,
 }) => (
-  <Paper square style={styles.paper}>
+  <Paper
+    square
+    component={Grid}
+    container
+    direction="column"
+    style={styles.container}
+  >
+    <NavBar title="Games" elevation={0} />
     <Tabs
-      selectedTabId={selectedStatusId}
+      selectedTabId={statusId}
       inProgress={inProgress}
       onChange={handleTabClick}
-      allTabIds={allStatusIds}
+      allTabIds={allGameStatusIds}
       tabIcons={tabIcons}
     />
   </Paper>
 ));
 
-export default GameHeader;
+export default GameListHeader;

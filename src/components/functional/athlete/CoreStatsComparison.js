@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { primaryColor } from '../../../styles/constants';
-import GameStatsPolarChart from '../../presentational/body/games/stats/GameStatsPolarChart';
+import GameStatsPolarChart from '../../presentational/games/stats/GameStatsPolarChart';
 
 const styles = {
   paperOne: {

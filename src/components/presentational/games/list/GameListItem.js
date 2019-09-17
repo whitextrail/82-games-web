@@ -1,7 +1,6 @@
 import React, { memo, Fragment } from 'react';
 import {
   Grid,
-  Button,
   Avatar,
   Card,
   CardHeader,
@@ -10,7 +9,7 @@ import {
   ListSubheader,
   Typography,
 } from '@material-ui/core';
-import GameTeams from './GameTeams';
+import GameListItemTeams from './GameListItemTeams';
 import avatar from '../../../../assets/img/spencer_dinwiddie.png';
 
 const styles = {
@@ -40,51 +39,18 @@ const styles = {
   },
 };
 
-const GameActionButton = memo(({ selectedStatusId }) => {
-  let buttonText = '';
-  let buttonProps = {
-    size: 'small',
-    style: { ...styles.actionButton },
-  };
-
-  switch (selectedStatusId) {
-    case 'Previous':
-      buttonText = 'RESULTS';
-      buttonProps = {
-        ...buttonProps,
-        variant: 'contained',
-        color: 'secondary',
-      };
-      break;
-    case 'Live':
-      buttonText = 'FEED';
-      buttonProps = {
-        ...buttonProps,
-        variant: 'outlined',
-        color: 'primary',
-      };
-      break;
-    case 'Upcoming':
-      buttonText = 'PREDICT';
-      buttonProps = {
-        ...buttonProps,
-        variant: 'contained',
-        color: 'primary',
-      };
-      break;
-    default:
-      return null;
-  }
-
-  return <Button {...buttonProps}>{buttonText}</Button>;
-});
-
-const Game = memo(({
-  selectedStatusId,
-  season,
-  gameNumber,
-  localGameDateTime,
-  arena,
+const GameListItem = memo(({
+  game: {
+    season,
+    gameNumber,
+    localGameDateTime,
+    arena,
+  },
+  athlete: {
+    name: athleteName,
+    teamId: athleteTeamId,
+    performanceStatistics: { PTS, REB, AST },
+  },
   homeTeam,
   awayTeam,
 }) => (
@@ -96,9 +62,10 @@ const Game = memo(({
       <Card style={styles.card}>
         <CardHeader
           avatar={<Avatar src={avatar} />}
-          action={<GameActionButton selectedStatusId={selectedStatusId} />}
-          title="Spencer Dinwiddie"
-          subheader="0 PTS - 0 STL - 0 AST"
+          // TODO: Create a set of buttons for interacting with GameListItem
+          // action={<GameActionButton selectedStatusId={selectedStatusId} />}
+          title={athleteName}
+          subheader={`${PTS} PTS - ${REB} REB - ${AST} AST`}
         />
         <CardContent
           component={Grid}
@@ -117,16 +84,11 @@ const Game = memo(({
             <Typography variant="body2">{localGameDateTime}</Typography>
             <Typography variant="body2">{arena}</Typography>
           </Grid>
-          <GameTeams
-            homeTeamId={homeTeam.id}
-            homeTeamName={homeTeam.name}
-            awayTeamName={awayTeam.name}
-            awayTeamId={awayTeam.id}
-          />
+          <GameListItemTeams isHome={homeTeam.id === athleteTeamId} homeTeam={homeTeam} awayTeam={awayTeam} />
         </CardContent>
       </Card>
     </ListItem>
   </Fragment>
 ));
 
-export default Game;
+export default GameListItem;

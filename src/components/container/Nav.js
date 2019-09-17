@@ -9,8 +9,8 @@ import {
   logOutUser,
   selectNavId,
 } from '../../state/actions';
-import NavBar from '../presentational/header/nav/NavBar';
-import NavMenu from '../presentational/header/nav/NavMenu';
+import NavBar from '../presentational/nav/NavBar';
+import NavMenu from '../presentational/nav/NavMenu';
 import { authenticationStates } from '../../util/constants';
 import { authorize } from '../../util/auth';
 

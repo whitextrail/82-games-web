@@ -13,8 +13,8 @@ import {
 import {
   primaryColor,
   secondaryTextColor,
-} from '../../../../styles/constants';
-import Link from '../../reusable/Link';
+} from '../../../styles/constants';
+import Link from '../reusable/Link';
 
 const styles = {
   navMenu: {

@@ -9,127 +9,111 @@ import {
   fetchTeams,
   fetchGamesByTeamId,
   filterGamesByStatusId,
+  fetchAthleteProfileById,
 } from '../../state/actions';
 import { Grid } from '@material-ui/core';
-import Nav from './Nav';
-import Games from '../presentational/body/games/Games';
-import Game from '../presentational/body/games/Game';
+import GameList from '../functional/GameList';
+import GameStats from '../functional/GameStats';
+import Progress from '../presentational/reusable/Progress';
 
 class GamesContainer extends PureComponent {
   constructor(props) {
     super(props);
 
     props.fetchTeams();
+    props.fetchGamesByTeamId();
+    props.fetchAthleteProfileById();
   }
-
-  componentDidUpdate({
-    teams: prevTeams,
-    games: prevGames,
-  }) {
-    const {
-      teams,
-      games,
-      fetchGamesByTeamId: fetchGamesByTeamIdAction,
-      location,
-    } = this.props;
-
-    // Teams must be successfully fetched before games
-    if (!prevTeams.selectedId && teams.selectedId) {
-      const childRoutePathname = location.pathname.split('/')[2];
-
-      fetchGamesByTeamIdAction(teams.selectedId, childRoutePathname);
-    } else if (location.pathname === '/') {
-      this.props.history.push(`/games/previous`);
-    } else if (
-      prevGames.selectedStatusId
-      && (prevGames.selectedStatusId !== games.selectedStatusId)
-    ) {
-      this.props.history.push(`/games/${games.selectedStatusId.toLowerCase()}`);
-    }
-  }
-
-  handleTabClick = (event, value) => this.props.filterGamesByStatusId(value);
-
-  renderGamesByStatusId = (
-    gamesByStatusId,
-    teamsById,
-  ) => (
-    gamesByStatusId.map(({
-      homeTeamId,
-      awayTeamId,
-      ...game
-    }, index) => {
-      const homeTeam = {
-        id: homeTeamId,
-        name: teamsById[homeTeamId].name,
-      };
-      const awayTeam = {
-        id: awayTeamId,
-        name: teamsById[awayTeamId].name,
-      };
-
-      return (
-        <Game
-          {...game}
-          key={index}
-          homeTeam={homeTeam}
-          awayTeam={awayTeam}
-        />
-      );
-    }
-));
 
   render = () => {
     const {
-      games: {
-        inProgress,
-        byStatusId,
-        allStatusIds,
-        selectedStatusId,
-      },
-      teams: {
-        byId: teamsById,
-      },
-    } = this.props;
-    const gameListProps = {
       inProgress,
-      allStatusIds,
-      selectedStatusId,
-      handleTabClick: this.handleTabClick,
-      renderGamesByStatusId: !!selectedStatusId && (() => (
-        this.renderGamesByStatusId(
-        byStatusId[selectedStatusId],
-        teamsById
-      ))),
-    };
+      isFetched,
+      athlete,
+      teamsById,
+      gamesById,
+      gamesByStatusId,
+      allGameStatusIds,
+    } = this.props;
+    const showProgress = inProgress || !isFetched;
 
-    return !!selectedStatusId && (
+    return (
       <Grid container direction="column">
-        <Switch>
-          <Route component={Nav} />
-        </Switch>
-        <Grid container style={{ height: window.innerHeight - 56 }}>
-          <Switch>
-            <Route exact path="/games/live" render={() => <Games {...gameListProps} />} />
-            <Route exact path="/games/upcoming" render={() => <Games {...gameListProps} />} />
-            <Route render={() => <Games {...gameListProps} />} />
-          </Switch>
-        </Grid>
+        {
+          showProgress
+            ? <Progress show />
+            : (
+              <Switch>
+                <Route
+                  exact
+                  path="/games/:statusId"
+                  render={routeProps => (
+                    <GameList
+                      teamsById={teamsById}
+                      gamesByStatusId={gamesByStatusId}
+                      allGameStatusIds={allGameStatusIds}
+                      athlete={athlete}
+                      {...routeProps}
+                    />
+                  )}
+                />
+                <Route
+                  exact
+                  path="/games/:statusId/:gameId"
+                  render={({ match: { params: { gameId } } }) => (
+                    <GameStats
+                      game={gamesById[gameId]}
+                      teamsById={teamsById}
+                      athlete={{
+                        ...athlete,
+                        performanceStatistics: athlete.performanceStatisticsByGameId[gameId] || {
+                          PTS: 0,
+                          REB: 0,
+                          AST: 0,
+                        }
+                      }}
+                    />
+                  )}
+                />
+              </Switch>
+            )
+        }
       </Grid>
     );
   }
 };
 
 const mapStateToProps = ({
-  teams,
-  games,
+  teams: {
+    byId: teamsById,
+    selectedId: selectedTeamId,
+    inProgress: teamsInProgress,
+  },
+  games: {
+    byId: gamesById,
+    byStatusId: gamesByStatusId,
+    allStatusIds: allGameStatusIds,
+    selectedStatusId: selectedGameStatusId,
+    inProgress: gamesInProgress,
+  },
+  athletes: {
+    byId: athletesById,
+    selectedId: selectedAthleteId,
+    inProgress: athletesInProgress,
+  },
 }) => ({
-  teams,
-  games,
+  inProgress: teamsInProgress || gamesInProgress || athletesInProgress,
+  isFetched: selectedTeamId && selectedGameStatusId && selectedAthleteId,
+  athlete: athletesById[selectedAthleteId],
+  teamsById,
+  gamesById,
+  gamesByStatusId,
+  allGameStatusIds,
 });
 
 export default withRouter(connect(mapStateToProps, {
   fetchTeams,
   fetchGamesByTeamId,
   filterGamesByStatusId,
+  fetchAthleteProfileById,
 })(GamesContainer));

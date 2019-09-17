@@ -1,4 +1,5 @@
 import { createMuiTheme } from '@material-ui/core/styles';
+import teamColors from './teamColors';
 
 const primaryColor = '#FF3B3F'; // watermelon
 const secondaryColor = '#EFEFEF'; // light gray
@@ -104,6 +105,17 @@ const theme = createMuiTheme({
         backgroundColor: 'rgba(0,0,0,0.54)',
       },
     },
+    MuiOutlinedInput: {
+      root: {
+        '&$focused $notchedOutline': {
+          borderColor: '#9B59B6',
+          borderWidth: 1,
+        },
+      },
+      notchedOutline: {
+        borderColor: '#A9A9A9'
+      }
+    }
   },
 });
 
@@ -113,4 +125,5 @@ export {
   primaryTextColor,
   secondaryColor,
   secondaryTextColor,
+  teamColors,
 };
