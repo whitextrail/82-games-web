@@ -5,7 +5,6 @@ import {
 } from '@material-ui/core';
 import { Route } from 'react-router-dom';
 import Games from './Games';
-import Account from '../functional/Account';
 import Athlete from '../functional/Athlete';
 
 const App = memo(() => (
@@ -13,7 +12,6 @@ const App = memo(() => (
     <CssBaseline />
     <Route exact path="/" component={Games} />
     <Route path="/games" component={Games} />
-    <Route path="/account" component={Account} />
     <Route path="/athletes" component={Athlete} />
   </Grid>
 ));

@@ -1,6 +1,5 @@
 import {
   LocalPlaySharp,
-  PersonSharp,
   EqualizerSharp,
   StarSharp,
 } from '@material-ui/icons';
@@ -20,11 +19,6 @@ const navList = {
     title: 'Leaderboard',
     routePath: '/leaderboard',
     icon: EqualizerSharp,
-  },
-  account: {
-    title: 'Account',
-    routePath: '/account',
-    icon: PersonSharp,
   },
   // about: {
   //   title: 'About Us',
