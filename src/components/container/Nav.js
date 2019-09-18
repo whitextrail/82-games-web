@@ -11,7 +11,6 @@ import {
 } from '../../state/actions';
 import NavBar from '../presentational/nav/NavBar';
 import NavMenu from '../presentational/nav/NavMenu';
-import { authenticationStates } from '../../util/constants';
 
 class NavContainer extends Component {
   constructor(props) {
@@ -38,21 +37,13 @@ class NavContainer extends Component {
     return shallowCompare(this, nextProps, nextState);
   }
 
-  handleMenuItemClick = event => {
-    switch(event.currentTarget.id) {
-      case 'logout':
-        return this.props.logOutUser();
-      default:
-        this.props.selectNavId(event.currentTarget.id);
-    }
-  };
+  handleMenuItemClick = ({ currentTarget: { id }}) => this.props.selectNavId(id);
 
   render = () => {
     const {
       nav,
       navBarProps = {},
       navMenuProps = {},
-      isAuthenticated,
       toggleNavMenu: toggleNavMenuAction,
     } = this.props;
     const {
@@ -76,7 +67,6 @@ class NavContainer extends Component {
           selectedId={selectedId}
           isOpen={isOpen}
           allIds={allIds}
-          isAuthenticated={isAuthenticated}
           handleMenuItemClick={this.handleMenuItemClick}
           {...navMenuProps}
         />
@@ -85,9 +75,8 @@ class NavContainer extends Component {
   }
 };
 
-const mapStateToProps = ({ user, nav }) => ({
+const mapStateToProps = ({ nav }) => ({
   nav,
-  isAuthenticated: user.id ? authenticationStates.AUTHENTICATED : authenticationStates.UNAUTHENTICATED,
 });
 
 export default withRouter(connect(mapStateToProps, {
