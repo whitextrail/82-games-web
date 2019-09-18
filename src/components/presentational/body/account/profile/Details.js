@@ -23,7 +23,6 @@ const styles = {
 };
 
 const Details = memo(({
-  username,
   rankTitle,
 }) => (
   <Grid
@@ -35,9 +34,6 @@ const Details = memo(({
   >
     <Avatar src={avatar} style={styles.userAvatar} />
     <Grid container justify="center" alignItems="center" direction="column" style={styles.userDetails} >
-      <Typography variant="body1" color="secondary" style={styles.username}>
-        { username }
-      </Typography>
       <Typography variant="body2" color="secondary">
         { rankTitle }
       </Typography>

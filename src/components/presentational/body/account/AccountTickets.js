@@ -94,14 +94,13 @@ const ticketPackages = [{
   discount: '-30%',
 }];
 
-const checkout = (packageId, userAuthId) => {
+const checkout = (packageId) => {
   // eslint-disable-next-line no-undef
   const stripe = Stripe(process.env.STRIPE_API_KEY || 'pk_test_pLrEub8cmg1ApBYt37zqTKVx');
   const clientUrl = process.env.CLIENT_WEB_URL || 'http://localhost:8000';
 
   stripe.redirectToCheckout({
     items: [{ sku: packageId, quantity: 1 }],
-    clientReferenceId: userAuthId,
     successUrl: `${clientUrl}/account`, // Temporarily redirect back to Account
     cancelUrl: `${clientUrl}/account`, // Temporarily redirect back to Account
   })
@@ -181,13 +180,8 @@ const renderTicketPackages = (onClick) => {
   return ticketPackageRows;
 };
 
-const AccountTickets = memo(({ user }) => {
-    const {
-      authId,
-      ticketCount,
-    } = user;
-
-    const ticketPackageClickHandler = (event) => checkout(event.currentTarget.id, authId);
+const AccountTickets = memo(() => {
+    const ticketPackageClickHandler = ({ currentTarget: { id } }) => checkout(id);
 
     return (
       <Grid style={styles.backgroundContainer}>
@@ -214,9 +208,6 @@ const AccountTickets = memo(({ user }) => {
               direction="column"
               style={styles.ticketBalanceTextContainer}
             >
-              <Typography variant="body1" style={styles.ticketBalanceTextHeader}>
-                You have {ticketCount} ticket(s)
-              </Typography>
               <Typography variant="body2">
                 Tickets are used to make game predictions. Get them below!
               </Typography>

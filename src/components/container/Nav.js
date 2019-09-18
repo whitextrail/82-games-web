@@ -6,7 +6,6 @@ import shallowCompare from 'react-addons-shallow-compare';
 import {
   setNavState,
   toggleNavMenu,
-  logOutUser,
   selectNavId,
 } from '../../state/actions';
 import NavBar from '../presentational/nav/NavBar';
@@ -82,6 +81,5 @@ const mapStateToProps = ({ nav }) => ({
 export default withRouter(connect(mapStateToProps, {
   setNavState,
   toggleNavMenu,
-  logOutUser,
   selectNavId,
 })(NavContainer));
