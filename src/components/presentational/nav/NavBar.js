@@ -8,6 +8,7 @@ import {
 } from '@material-ui/core';
 import { MenuSharp } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
+import connectNav from '../../container/Nav';
 import { secondaryTextColor, primaryColor } from '../../../styles/constants';
 
 const styles = {
@@ -69,4 +70,4 @@ const NavBar = memo(({
   );
 });
 
-export default NavBar;
+export default connectNav(NavBar);

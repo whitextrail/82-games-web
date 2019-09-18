@@ -1,85 +1,93 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Grid } from '@material-ui/core';
-import { withRouter } from 'react-router-dom';
-import shallowCompare from 'react-addons-shallow-compare';
+import React, {
+  memo,
+  useReducer,
+} from 'react';
 import {
-  setNavState,
-  toggleNavMenu,
-  selectNavId,
-} from '../../state/actions';
-import NavBar from '../presentational/nav/NavBar';
-import NavMenu from '../presentational/nav/NavMenu';
+  LocalPlaySharp,
+  EqualizerSharp,
+  StarSharp,
+} from '@material-ui/icons';
 
-class NavContainer extends Component {
-  constructor(props) {
-    super(props);
+const initialState = {
+  byId: {
+    games: {
+      title: 'Games',
+      routePath: '/games',
+      icon: LocalPlaySharp,
+    },
+    athletes: {
+      title: 'Athletes',
+      routePath: '/athletes',
+      icon: StarSharp,
+    },
+    leaderboard: {
+      title: 'Leaderboard',
+      routePath: '/leaderboard',
+      icon: EqualizerSharp,
+    },
+  },
+  allIds: ['games', 'athletes', 'leaderboard'],
+  selectedId: 'games',
+  menuOpen: false,
+};
 
-    // Set initial nav state if it has previously not been set
-    if (!props.nav.selectedId) {
-      props.setNavState();
-    }
-  }
+const actionTypes = {
+  TOGGLE_MENU: 'TOGGLE_MENU',
+  SELECT_ID: 'SELECT_ID',
+};
 
-  shouldComponentUpdate(nextProps, nextState) {
-    const {
-      nav,
-      location,
-    } = this.props;
-    const rootPathname = location.pathname.split('/')[1];
+const reducer = (state = initialState, action) => {
+  const {
+    type,
+    payload,
+  } = action;
+  const {
+    TOGGLE_MENU,
+    SELECT_ID,
+  } = actionTypes;
 
-    // Check whether the nav title properly reflects the pathname
-    if (rootPathname && (rootPathname !== nav.selectedId)) {
-      this.props.selectNavId(rootPathname);
-    }
-
-    return shallowCompare(this, nextProps, nextState);
-  }
-
-  handleMenuItemClick = ({ currentTarget: { id }}) => this.props.selectNavId(id);
-
-  render = () => {
-    const {
-      nav,
-      navBarProps = {},
-      navMenuProps = {},
-      toggleNavMenu: toggleNavMenuAction,
-    } = this.props;
-    const {
-      isOpen,
-      byId,
-      allIds,
-      selectedId,
-    } = nav;
-    const navBarTitle = (byId && selectedId) ? byId[selectedId].title : '';
-
-    return (
-      <Grid container direction="column">
-        <NavBar
-          menuIsOpen={isOpen}
-          navBarTitle={navBarTitle}
-          navBarIconClickHandler={toggleNavMenuAction}
-          {...navBarProps}
-        />
-        <NavMenu
-          byId={byId}
-          selectedId={selectedId}
-          isOpen={isOpen}
-          allIds={allIds}
-          handleMenuItemClick={this.handleMenuItemClick}
-          {...navMenuProps}
-        />
-      </Grid>
-    );
+  switch (type) {
+    case TOGGLE_MENU:
+      return {
+        ...state,
+        menuOpen: payload,
+      };
+    case SELECT_ID:
+      return {
+        ...state,
+        selectedId: payload,
+      };
+    default:
+      return state;
   }
 };
 
-const mapStateToProps = ({ nav }) => ({
-  nav,
-});
+const connectNav = (component) => (
+  memo((props) => {
+    const [state, dispatch] = useReducer(reducer, initialState);
 
-export default withRouter(connect(mapStateToProps, {
-  setNavState,
-  toggleNavMenu,
-  selectNavId,
-})(NavContainer));
+    const toggleMenu = () => dispatch({
+      type: actionTypes.TOGGLE_MENU,
+      payload: !state.menuOpen,
+    });
+
+    const selectId = id => dispatch({
+      type: actionTypes.SELECT_ID,
+      payload: id,
+    });
+
+    return (
+      React.createElement(
+        component,
+        {
+          ...props,
+          state,
+          toggleMenu,
+          selectId,
+        }
+      )
+    );
+  })
+);
+
+export default connectNav;

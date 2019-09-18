@@ -10,6 +10,7 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@material-ui/core';
+import connectNav from '../../container/Nav';
 import {
   primaryColor,
   secondaryTextColor,
@@ -78,4 +79,4 @@ const NavMenu = memo(({
   </Collapse>
 ));
 
-export default NavMenu;
+export default connectNav(NavMenu);
