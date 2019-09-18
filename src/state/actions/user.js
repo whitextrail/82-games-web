@@ -4,7 +4,6 @@ import {
   LOG_OUT_USER,
 } from './util/types';
 import apiEndpoints from './util/apiEndpoints';
-import { logout } from '../../util/auth';
 import { actionWrapper } from '../lib/actions';
 
 // ACTIONS
@@ -26,7 +25,6 @@ const authenticateUser = (credentials) => (
 
 const logOutUser = () => (
   async (dispatch) => {
-    await logout();
     dispatch(logOutUserAction({}));
   }
 );

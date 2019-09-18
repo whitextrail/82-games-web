@@ -12,7 +12,6 @@ import {
 import NavBar from '../presentational/nav/NavBar';
 import NavMenu from '../presentational/nav/NavMenu';
 import { authenticationStates } from '../../util/constants';
-import { authorize } from '../../util/auth';
 
 class NavContainer extends Component {
   constructor(props) {
@@ -41,8 +40,6 @@ class NavContainer extends Component {
 
   handleMenuItemClick = event => {
     switch(event.currentTarget.id) {
-      case 'login':
-        return authorize();
       case 'logout':
         return this.props.logOutUser();
       default:
