@@ -9,7 +9,6 @@ import App from './components/container/App';
 import * as serviceWorker from './serviceWorker';
 import { SENTRY_DSN } from './config';
 import { theme } from './styles/constants';
-import 'typeface-roboto';
 
 Sentry.init({
   dsn: SENTRY_DSN,
