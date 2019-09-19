@@ -4,10 +4,10 @@ import {
   Typography,
 } from '@material-ui/core';
 import avatar from '../../assets/img/sdin.png';
-import AthleteCoreStatsComparison from './athlete/CoreStatsComparison';
-import AthletePersonalStats from './athlete/PersonalStats';
-import AthleteCarousel from './athlete/Carousel';
-import AthleteNav from './athlete/Nav';
+import AthleteCoreStatsComparison from '../functional/athlete/CoreStatsComparison';
+import AthletePersonalStats from '../functional/athlete/PersonalStats';
+import AthleteCarousel from '../functional/athlete/Carousel';
+import AthleteNav from '../functional/athlete/Nav';
 
 const styles = {
   container: {
