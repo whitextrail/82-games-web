@@ -3,7 +3,10 @@ import {
   CssBaseline,
   Grid,
 } from '@material-ui/core';
-import { Route } from 'react-router-dom';
+import {
+  Route,
+  Redirect,
+} from 'react-router-dom';
 import { Nav } from './Nav';
 import NavMenu from '../presentational/nav/NavMenu';
 import Games from './Games';
@@ -14,7 +17,7 @@ const App = memo(({ location: { pathname } }) => (
     <CssBaseline />
     <Nav pathname={pathname}>
       <NavMenu />
-      <Route exact path="/" component={Games} />
+      <Route exact path="/" render={() => <Redirect to="/games" /> } />
       <Route path="/games" component={Games} />
       <Route path="/athletes" component={Athletes} />
     </Nav>
