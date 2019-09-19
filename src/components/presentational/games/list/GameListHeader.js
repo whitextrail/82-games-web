@@ -3,10 +3,10 @@ import NavBar from '../../nav/NavBar';
 
 const GameListHeader = memo(() => (
   <NavBar
-    title="GAMES"
+    title="Games"
     styleClasses={{
       colorDefault: {
-        backgroundColor: '#333333',
+        backgroundColor: '#8E44AD',
         color: '#FFF',
       },
     }}

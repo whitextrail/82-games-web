@@ -1,94 +1,85 @@
-import React, { memo, Fragment } from 'react';
+import React, { memo } from 'react';
 import {
   Grid,
-  Avatar,
   Card,
+  Button,
   CardHeader,
   CardContent,
   ListItem,
-  ListSubheader,
-  Typography,
 } from '@material-ui/core';
+import { MoreHorizSharp } from '@material-ui/icons';
 import GameListItemTeams from './GameListItemTeams';
-import avatar from '../../../../assets/img/spencer_dinwiddie.png';
 
 const styles = {
-  listItem: {
-    paddingTop: 0,
-    paddingBottom: 4,
+  container: {
+    padding: '5px 12.5px 0px 12.5px',
   },
   card: {
-    borderRadius: 3,
     width: '100%',
+    backgroundColor: '#333333'
   },
   cardContent: {
-    height: 240,
     padding: 0,
   },
-  gameDetailsContainer: {
-    height: '25%',
-    width: '90%',
-    borderTop: '1px solid #EFEFEF',
-    borderBottom: '1px solid #EFEFEF',
-    paddingTop: 7,
-    paddingBottom: 7,
+  cardActions: {
+    paddingTop: 0,
+    paddingBottom: 8,
   },
   actionButton: {
-    marginTop: 5,
-    marginRight: 5,
+    marginTop: 8,
+    marginRight: 8,
+    backgroundColor: '#8E44AD',
+    color: '#FFF',
+    fontSize: 20,
+    width: 30,
+  },
+};
+
+const materialProps = {
+  titleTypography: {
+    variant: "body1",
+    style: { color: 'white' }
+  },
+  subheaderTypography: {
+    variant: "body2",
+    style: { color: 'white' }
   },
 };
 
 const GameListItem = memo(({
   game: {
-    season,
     gameNumber,
-    localGameDateTime,
-    arena,
-  },
-  athlete: {
-    name: athleteName,
-    teamId: athleteTeamId,
-    performanceStatistics: { PTS, REB, AST },
+    season,
   },
   homeTeam,
   awayTeam,
 }) => (
-  <Fragment>
-    <ListSubheader disableSticky>
-      {`Game ${gameNumber} (${season})`}
-    </ListSubheader>
+  <Grid container direction="column" style={styles.container}>
     <ListItem disableGutters style={styles.listItem}>
-      <Card style={styles.card}>
+      <Card raised style={styles.card}>
         <CardHeader
-          avatar={<Avatar src={avatar} />}
-          // TODO: Create a set of buttons for interacting with GameListItem
-          // action={<GameActionButton selectedStatusId={selectedStatusId} />}
-          title={athleteName}
-          subheader={`${PTS} PTS - ${REB} REB - ${AST} AST`}
+          title={`GAME ${gameNumber}`}
+          subheader={season}
+          action={(
+            <Button variant="contained" size="small" style={styles.actionButton}>
+              <MoreHorizSharp />
+            </Button>
+          )}
+          titleTypographyProps={materialProps.titleTypography}
+          subheaderTypographyProps={materialProps.subheaderTypography}
         />
         <CardContent
           component={Grid}
           container
+          justify="center"
           alignItems="center"
-          direction="column"
           style={styles.cardContent}
         >
-          <Grid
-            container
-            justify="space-between"
-            alignItems="center"
-            direction="column"
-            style={styles.gameDetailsContainer}
-          >
-            <Typography variant="body2">{localGameDateTime}</Typography>
-            <Typography variant="body2">{arena}</Typography>
-          </Grid>
-          <GameListItemTeams isHome={homeTeam.id === athleteTeamId} homeTeam={homeTeam} awayTeam={awayTeam} />
+          <GameListItemTeams homeTeam={homeTeam} awayTeam={awayTeam} />
         </CardContent>
       </Card>
     </ListItem>
-  </Fragment>
+  </Grid>
 ));
 
 export default GameListItem;

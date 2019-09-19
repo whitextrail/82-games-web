@@ -27,6 +27,7 @@ const styles = {
     overflow: 'auto',
     maxHeight: '100vh',
     paddingTop: 10,
+    scrollbarColor: '#8E44AD'
   },
 };
 
@@ -40,11 +41,6 @@ const GameList = memo(({
   teamsById,
   gamesByStatusId,
   allGameStatusIds,
-  athlete: {
-    name,
-    teamId,
-    performanceStatisticsByGameId,
-  },
   match: {
     params: { statusId }
   },
@@ -59,7 +55,7 @@ const GameList = memo(({
         allGameStatusIds={allGameStatusIds}
         handleTabClick={handleTabClick}
       />
-      <List disablePadding style={styles.list} subheader={<li />}>
+      <List disablePadding style={styles.list}>
         <Tabs
           selectedTabId={statusId}
           onChange={handleTabClick}
@@ -78,15 +74,6 @@ const GameList = memo(({
               game={game}
               homeTeam={teamsById[homeTeamId]}
               awayTeam={teamsById[awayTeamId]}
-              athlete={{
-                name,
-                teamId,
-                performanceStatistics: performanceStatisticsByGameId[game.id] || {
-                  PTS: 0,
-                  REB: 0,
-                  AST: 0,
-                },
-              }}
             />
           ))
         }
