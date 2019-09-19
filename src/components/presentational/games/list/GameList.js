@@ -1,19 +1,21 @@
 import React, {
   memo,
-  Fragment,
 } from 'react';
-import { List } from '@material-ui/core';
+import { List, Grid } from '@material-ui/core';
 import GameListHeader from './GameListHeader';
 import GameListItem from './GameListItem';
 
 const styles = {
+  container: {
+    backgroundColor: '#333333',
+  },
   list: {
     width: '100%',
     position: 'relative',
     overflow: 'auto',
-    maxHeight: '100%',
-    paddingRight: 5,
-    paddingLeft: 5,
+    maxHeight: '100vh',
+    paddingRight: 10,
+    paddingLeft: 10,
   },
 };
 
@@ -34,7 +36,7 @@ const GameList = memo(({
   const handleTabClick = ({ currentTarget: { id } }) => history.push(`/games/${id}`);
 
   return (
-    <Fragment>
+    <Grid container direction="column" style={styles.container}>
       <GameListHeader
         statusId={statusId}
         allGameStatusIds={allGameStatusIds}
@@ -65,7 +67,7 @@ const GameList = memo(({
           ))
         }
       </List>
-    </Fragment>
+    </Grid>
   );
 });
 
