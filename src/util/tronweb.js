@@ -1,4 +1,4 @@
-const TronWeb = require('tronweb');
+import TronWeb from 'tronweb';
 
 const initUserInfo = async () => {
   const account = await window.tronWeb.trx.getAccount();
@@ -48,6 +48,6 @@ const setupTronWeb = async () => {
   }, 100);
 };
 
-module.exports = {
+export {
   setupTronWeb,
 };
