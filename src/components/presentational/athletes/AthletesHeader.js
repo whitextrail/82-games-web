@@ -4,19 +4,21 @@ import {
 } from '@material-ui/icons';
 import NavBar from '../nav/NavBar';
 
-const iconStyles = { color: 'white' };
+const iconStyles = { color: '#FFF' };
+const navBarStyleClasses = {
+  colorDefault: {
+    backgroundColor: '#333333',
+    color: '#FFF',
+  },
+};
 
-const AthleteNav = memo(() => (
+const AthletesHeader = memo(() => (
   <NavBar
+    title="Athletes"
     iconClickHandler={() => console.log('TODO')}
     icon={<KeyboardArrowLeftSharp style={iconStyles} />}
-    styleClasses={{
-      colorDefault: {
-        backgroundColor: 'black',
-        color: 'white',
-      },
-    }}
+    styleClasses={navBarStyleClasses}
   />
 ));
 
-export default AthleteNav;
+export default AthletesHeader;
