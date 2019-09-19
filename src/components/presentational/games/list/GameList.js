@@ -4,6 +4,18 @@ import React, {
 import { List, Grid } from '@material-ui/core';
 import GameListHeader from './GameListHeader';
 import GameListItem from './GameListItem';
+import Tabs from '../../reusable/Tabs';
+import {
+  ReplaySharp,
+  PlayCircleOutlineSharp,
+  FastForwardSharp,
+} from '@material-ui/icons';
+
+const tabIcons = {
+  previous: <ReplaySharp />,
+  live: <PlayCircleOutlineSharp />,
+  upcoming: <FastForwardSharp />,
+};
 
 const styles = {
   container: {
@@ -14,9 +26,14 @@ const styles = {
     position: 'relative',
     overflow: 'auto',
     maxHeight: '100vh',
-    paddingRight: 10,
-    paddingLeft: 10,
+    paddingTop: 10,
   },
+};
+
+const tabIndicatorProps = {
+  style: {
+    backgroundColor: '#333333'
+  }
 };
 
 const GameList = memo(({
@@ -43,6 +60,13 @@ const GameList = memo(({
         handleTabClick={handleTabClick}
       />
       <List disablePadding style={styles.list} subheader={<li />}>
+        <Tabs
+          selectedTabId={statusId}
+          onChange={handleTabClick}
+          allTabIds={allGameStatusIds}
+          tabIcons={tabIcons}
+          tabIndicatorProps={tabIndicatorProps}
+        />
         {
           gamesByStatusId[statusId].map(({
             homeTeamId,
