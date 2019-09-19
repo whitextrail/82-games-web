@@ -2,24 +2,19 @@ import React, { memo } from 'react';
 import {
   KeyboardArrowLeftSharp,
 } from '@material-ui/icons';
-import Nav from '../../container/Nav';
+import NavBar from '../../presentational/nav/NavBar';
 
-const AthleteNav = memo(({
-  location,
-}) => (
-  <Nav
-    location={location}
-    navBarProps={{
-      navBarTitle: '',
-      navBarIconClickHandler: () => console.log('TODO'),
-      navBarIcon: <KeyboardArrowLeftSharp />,
-      navBarStyles: {
-        colorDefault: {
-          backgroundColor: 'black',
-          color: 'white',
-        },
+const iconStyles = { color: 'white' };
+
+const AthleteNav = memo(() => (
+  <NavBar
+    iconClickHandler={() => console.log('TODO')}
+    icon={<KeyboardArrowLeftSharp style={iconStyles} />}
+    styleClasses={{
+      colorDefault: {
+        backgroundColor: 'black',
+        color: 'white',
       },
-      navBarIconStyles: { color: 'white' },
     }}
   />
 ));

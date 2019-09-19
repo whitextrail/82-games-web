@@ -1,6 +1,8 @@
 import React, {
   memo,
+  createContext,
   useReducer,
+  useMemo,
 } from 'react';
 import {
   LocalPlaySharp,
@@ -62,32 +64,27 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-const connectNav = (component) => (
-  memo((props) => {
-    const [state, dispatch] = useReducer(reducer, initialState);
+const NavContext = createContext({});
 
-    const toggleMenu = () => dispatch({
+const Nav = memo(({ children }) => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  const memoContext = useMemo(() => ({
+    state,
+    toggleMenu: () => dispatch({
       type: actionTypes.TOGGLE_MENU,
       payload: !state.menuOpen,
-    });
-
-    const selectId = id => dispatch({
+    }),
+    selectId: id => dispatch({
       type: actionTypes.SELECT_ID,
       payload: id,
-    });
+    })
+  }), [state]);
 
-    return (
-      React.createElement(
-        component,
-        {
-          ...props,
-          state,
-          toggleMenu,
-          selectId,
-        }
-      )
-    );
-  })
-);
+  return <NavContext.Provider value={memoContext}>{children}</NavContext.Provider>;
+});
 
-export default connectNav;
+export {
+  Nav,
+  NavContext,
+};

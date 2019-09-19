@@ -1,6 +1,7 @@
 import React, {
   memo,
   createElement,
+  useContext,
 } from 'react';
 import {
   Grid,
@@ -10,12 +11,31 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@material-ui/core';
-import connectNav from '../../container/Nav';
+import {
+  LocalPlaySharp,
+  EqualizerSharp,
+  StarSharp,
+} from '@material-ui/icons';
+import { NavContext } from '../../container/Nav';
 import {
   primaryColor,
   secondaryTextColor,
 } from '../../../styles/constants';
 import Link from '../reusable/Link';
+
+const navMenuItems = [{
+  title: 'Games',
+  routePath: '/games',
+  icon: LocalPlaySharp,
+}, {
+  title: 'Athletes',
+  routePath: '/athletes',
+  icon: StarSharp,
+}, {
+  title: 'Leaderboard',
+  routePath: '/leaderboard',
+  icon: EqualizerSharp,
+}];
 
 const styles = {
   navMenu: {
@@ -36,47 +56,49 @@ const styles = {
   },
 };
 
-const NavMenu = memo(({
-  byId,
-  allIds,
-  isOpen,
-  selectedId,
-  handleMenuItemClick,
-}) => (
-  <Collapse in={isOpen}>
-    <List style={styles.navMenu}>
-      { allIds.map((id) => {
-        const {
-          icon,
-          title,
-          routePath = '',
-        } = byId[id];
-        const isSelected = id === selectedId;
-        const iconElement = createElement(icon, { color: 'secondary' });
+const NavMenu = memo(() => {
+  const {
+    state: { menuOpen },
+    toggleMenu,
+  } = useContext(NavContext);
 
-        return (
-          <Link key={id} to={routePath}>
-            <ListItem
-              id={id}
-              button
-              disableGutters
-              alignItems="center"
-              selected={isSelected}
-              style={styles.navMenuListItem}
-              onClick={handleMenuItemClick}
-            >
-              <ListItemIcon style={styles.navMenuListItemIcon}>
-                <Grid container justify="center" alignItems="center">
-                  { iconElement }
-                </Grid>
-              </ListItemIcon>
-              <ListItemText primary={title} />
-            </ListItem>
-          </Link>
-        );
-      }) }
-    </List>
-  </Collapse>
-));
+  return (
+    <Collapse in={menuOpen}>
+      <List style={styles.navMenu}>
+        { navMenuItems.map((menuItem) => {
+          const {
+            icon,
+            title,
+            routePath = '',
+          } = menuItem;
+          // TODO
+          {/* const isSelected = id === selectedId; */}
+          const iconElement = createElement(icon, { color: 'secondary' });
 
-export default connectNav(NavMenu);
+          return (
+            <Link key={title} to={routePath}>
+              <ListItem
+                id={title}
+                button
+                disableGutters
+                alignItems="center"
+                selected={false} // TODO
+                style={styles.navMenuListItem}
+                onClick={toggleMenu}
+              >
+                <ListItemIcon style={styles.navMenuListItemIcon}>
+                  <Grid container justify="center" alignItems="center">
+                    { iconElement }
+                  </Grid>
+                </ListItemIcon>
+                <ListItemText primary={title} />
+              </ListItem>
+            </Link>
+          );
+        }) }
+      </List>
+    </Collapse>
+  );
+});
+
+export default NavMenu;
