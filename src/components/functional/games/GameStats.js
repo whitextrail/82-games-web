@@ -5,7 +5,6 @@ import React, {
 import { Grid } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { fetchGameStatisticById } from '../../../state/actions';
-import GamePrediction from './GamePrediction';
 import GameStatsHeader from '../../presentational/games/stats/GameStatsHeader';
 import GamePrizes from '../../presentational/games/stats/GamePrizes';
 import GameTeamStats from '../../presentational/games/stats/GameTeamStats';
@@ -96,7 +95,6 @@ const GameStats = memo(({
     >
       <GameStatsHeader />
       <GamePrizes {...state} />
-      <GamePrediction gameOver={!state.remainingGameTime} />
       <GameAthleteStats
         name={athleteName.toUpperCase()}
         PTS={PTS}
