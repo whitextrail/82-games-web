@@ -4,6 +4,7 @@ import {
   withRouter,
   Switch,
   Route,
+  Redirect,
 } from 'react-router-dom';
 import {
   fetchTeams,
@@ -12,8 +13,8 @@ import {
   fetchAthleteProfileById,
 } from '../../state/actions';
 import { Grid } from '@material-ui/core';
-import GameList from '../functional/GameList';
-import GameStats from '../functional/GameStats';
+import GameList from '../presentational/games/list/GameList';
+import GameStats from '../functional/games/GameStats';
 import Progress from '../presentational/reusable/Progress';
 
 class GamesContainer extends PureComponent {
@@ -44,6 +45,7 @@ class GamesContainer extends PureComponent {
             ? <Progress show />
             : (
               <Switch>
+                <Route exact path="/games" render={() => <Redirect to="/games/previous" />} />
                 <Route
                   exact
                   path="/games/:statusId"

@@ -1,4 +1,7 @@
-import React, { memo } from 'react';
+import React, {
+  memo,
+  useContext,
+} from 'react';
 import {
   AppBar,
   Toolbar,
@@ -9,6 +12,7 @@ import {
 import { MenuSharp } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
 import { secondaryTextColor, primaryColor } from '../../../styles/constants';
+import { NavContext } from '../../container/Nav';
 
 const styles = {
   toolbar: {
@@ -38,16 +42,23 @@ const NavBar = memo(({
   icon,
   iconButtonClickHandler,
   styleClasses,
-  iconStyles,
 }) => {
-  const combinedNavBarIconStyles = {
-    ...styles.icon,
-    ...iconStyles && iconStyles,
-  };
-  const classes = createNavBarClasses(styleClasses);
+  const {
+    state: { menuOpen },
+    toggleMenu,
+  } = useContext(NavContext);
+  const appBarClasses = createNavBarClasses(styleClasses);
+  const appBarElevation = menuOpen ? 0 : elevation;
+  const iconButtonOnClick = iconButtonClickHandler || toggleMenu;
+
+  let menuIcon = <MenuSharp style={styles.icon} />;
+
+  if (icon) {
+    menuIcon = React.cloneElement(icon, { style: styles.icon });
+  }
 
   return (
-    <AppBar position="static" elevation={elevation} color="default" classes={classes}>
+    <AppBar position="static" elevation={appBarElevation} color="default" classes={appBarClasses}>
       <Toolbar
         disableGutters
         component={Grid}
@@ -56,13 +67,7 @@ const NavBar = memo(({
         alignItems="center"
         style={styles.toolbar}
       >
-        <IconButton style={styles.iconButton} onClick={iconButtonClickHandler}>
-          {
-            icon
-              ? React.cloneElement(icon, { style: combinedNavBarIconStyles })
-              : <MenuSharp style={combinedNavBarIconStyles} />
-          }
-        </IconButton>
+        <IconButton style={styles.iconButton} onClick={iconButtonOnClick}>{menuIcon}</IconButton>
         <Typography variant="h6">{title}</Typography>
       </Toolbar>
     </AppBar>

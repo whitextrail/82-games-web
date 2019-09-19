@@ -1,85 +1,122 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Grid } from '@material-ui/core';
-import { withRouter } from 'react-router-dom';
-import shallowCompare from 'react-addons-shallow-compare';
+import React, {
+  memo,
+  createContext,
+  useReducer,
+  useMemo,
+  useCallback,
+  useEffect,
+} from 'react';
 import {
-  setNavState,
-  toggleNavMenu,
-  selectNavId,
-} from '../../state/actions';
-import NavBar from '../presentational/nav/NavBar';
-import NavMenu from '../presentational/nav/NavMenu';
+  LocalPlaySharp,
+  EqualizerSharp,
+  StarSharp,
+} from '@material-ui/icons';
 
-class NavContainer extends Component {
-  constructor(props) {
-    super(props);
+const initialState = {
+  byId: {
+    games: {
+      title: 'Games',
+      routePath: '/games',
+      icon: LocalPlaySharp,
+    },
+    athletes: {
+      title: 'Athletes',
+      routePath: '/athletes',
+      icon: StarSharp,
+    },
+    leaderboard: {
+      title: 'Leaderboard',
+      routePath: '/leaderboard',
+      icon: EqualizerSharp,
+    },
+  },
+  allIds: ['games', 'athletes', 'leaderboard'],
+  selectedId: 'games',
+  menuOpen: false,
+};
 
-    // Set initial nav state if it has previously not been set
-    if (!props.nav.selectedId) {
-      props.setNavState();
-    }
-  }
+const actionTypes = {
+  TOGGLE_MENU: 'TOGGLE_MENU',
+  SELECT_ID: 'SELECT_ID',
+};
 
-  shouldComponentUpdate(nextProps, nextState) {
-    const {
-      nav,
-      location,
-    } = this.props;
-    const rootPathname = location.pathname.split('/')[1];
+const reducer = (state = initialState, action) => {
+  const {
+    type,
+    payload,
+  } = action;
+  const {
+    TOGGLE_MENU,
+    SELECT_ID,
+  } = actionTypes;
 
-    // Check whether the nav title properly reflects the pathname
-    if (rootPathname && (rootPathname !== nav.selectedId)) {
-      this.props.selectNavId(rootPathname);
-    }
-
-    return shallowCompare(this, nextProps, nextState);
-  }
-
-  handleMenuItemClick = ({ currentTarget: { id }}) => this.props.selectNavId(id);
-
-  render = () => {
-    const {
-      nav,
-      navBarProps = {},
-      navMenuProps = {},
-      toggleNavMenu: toggleNavMenuAction,
-    } = this.props;
-    const {
-      isOpen,
-      byId,
-      allIds,
-      selectedId,
-    } = nav;
-    const navBarTitle = (byId && selectedId) ? byId[selectedId].title : '';
-
-    return (
-      <Grid container direction="column">
-        <NavBar
-          menuIsOpen={isOpen}
-          navBarTitle={navBarTitle}
-          navBarIconClickHandler={toggleNavMenuAction}
-          {...navBarProps}
-        />
-        <NavMenu
-          byId={byId}
-          selectedId={selectedId}
-          isOpen={isOpen}
-          allIds={allIds}
-          handleMenuItemClick={this.handleMenuItemClick}
-          {...navMenuProps}
-        />
-      </Grid>
-    );
+  switch (type) {
+    case TOGGLE_MENU:
+      return {
+        ...state,
+        menuOpen: payload,
+      };
+    case SELECT_ID:
+      return {
+        ...state,
+        selectedId: payload,
+      };
+    default:
+      return state;
   }
 };
 
-const mapStateToProps = ({ nav }) => ({
-  nav,
+const NavContext = createContext({});
+
+const Nav = memo(({
+  pathname,
+  children
+}) => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  // useCallback memoizes the functions below and only update them if the
+  // dependencies in the function's 2nd arg change. This is necessary,
+  // otherwise memoContext will constantly be re-assigned
+  const toggleMenu = useCallback(() => dispatch({
+        type: actionTypes.TOGGLE_MENU,
+        payload: !state.menuOpen,
+      }), [state.menuOpen]);
+
+  const selectId = useCallback((id => dispatch({
+    type: actionTypes.SELECT_ID,
+    payload: id,
+  })), [dispatch]);
+
+  // Returns a memoized object to prevent NavContext subscribers
+  // from re-rendering when state and props don't change
+  const memoContext = useMemo(() => ({
+    state,
+    toggleMenu,
+    selectId,
+  }), [
+    state,
+    toggleMenu,
+    selectId,
+  ]);
+
+  // The useEffect hook is used below to set `selectId` based on
+  // the root pathname (e.g. "games" in /games/previous)
+  useEffect(() => {
+    const [,rootPath] = pathname.split('/');
+    const {
+      byId,
+      selectedId,
+    } = state;
+
+    if (byId[rootPath] && rootPath !== selectedId) {
+      selectId(rootPath);
+    }
+  }, [state, pathname, selectId]);
+
+  return <NavContext.Provider value={memoContext}>{children}</NavContext.Provider>;
 });
 
-export default withRouter(connect(mapStateToProps, {
-  setNavState,
-  toggleNavMenu,
-  selectNavId,
-})(NavContainer));
+export {
+  Nav,
+  NavContext,
+};

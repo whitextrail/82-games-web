@@ -1,9 +1,4 @@
 import {
-  setNavState,
-  toggleNavMenu,
-  selectNavId,
-} from './nav';
-import {
   fetchTeams,
 } from './teams';
 import {
@@ -16,9 +11,6 @@ import {
 } from './athletes';
 
 export {
-  setNavState,
-  toggleNavMenu,
-  selectNavId,
   fetchGamesByTeamId,
   fetchGameStatisticById,
   filterGamesByStatusId,

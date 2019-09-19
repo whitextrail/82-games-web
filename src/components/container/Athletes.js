@@ -4,10 +4,10 @@ import {
   Typography,
 } from '@material-ui/core';
 import avatar from '../../assets/img/sdin.png';
-import AthleteCoreStatsComparison from './athlete/CoreStatsComparison';
-import AthletePersonalStats from './athlete/PersonalStats';
-import AthleteCarousel from './athlete/Carousel';
-import AthleteNav from './athlete/Nav';
+import AthletesHeader from '../presentational/athletes/AthletesHeader';
+import AthleteCoreStatsComparison from '../presentational/athletes/CoreStatsComparison';
+import AthletePersonalStats from '../presentational/athletes/PersonalStats';
+import AthleteCarousel from '../presentational/athletes/Carousel';
 
 const styles = {
   container: {
@@ -49,11 +49,9 @@ const styles = {
   },
 };
 
-const Athlete = memo(({
-  location,
-}) => (
+const Athletes = memo(() => (
   <Grid container direction="column">
-    <AthleteNav location={location} />
+    <AthletesHeader />
     <Grid container direction="column" style={styles.container}>
       <Grid container style={styles.backgroundContainer}>
         <Grid container direction="column" style={styles.imgTextContainer}>
@@ -74,4 +72,4 @@ const Athlete = memo(({
   </Grid>
 ));
 
-export default Athlete;
+export default Athletes;
