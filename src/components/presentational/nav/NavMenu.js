@@ -15,8 +15,10 @@ import {
   LocalPlaySharp,
   EqualizerSharp,
   StarSharp,
+  CloseSharp,
 } from '@material-ui/icons';
 import { NavContext } from '../../container/Nav';
+import NavBar from './NavBar';
 import {
   primaryColor,
   secondaryTextColor,
@@ -24,14 +26,17 @@ import {
 import Link from '../reusable/Link';
 
 const navMenuItems = [{
+  id: 'games',
   title: 'Games',
   routePath: '/games',
   icon: LocalPlaySharp,
 }, {
+  id: 'athletes',
   title: 'Athletes',
   routePath: '/athletes',
   icon: StarSharp,
 }, {
+  id: 'leaderboard',
   title: 'Leaderboard',
   routePath: '/leaderboard',
   icon: EqualizerSharp,
@@ -43,7 +48,7 @@ const styles = {
     backgroundColor: primaryColor,
   },
   navMenuListItem: {
-    padding: 18,
+    padding: 12,
     height: 40,
     marginBottom: 12,
     color: secondaryTextColor,
@@ -58,21 +63,25 @@ const styles = {
 
 const NavMenu = memo(() => {
   const {
-    state: { menuOpen },
+    state: {
+      menuOpen,
+      selectedId,
+    },
     toggleMenu,
   } = useContext(NavContext);
 
   return (
     <Collapse in={menuOpen}>
+      <NavBar icon={<CloseSharp />} />
       <List style={styles.navMenu}>
         { navMenuItems.map((menuItem) => {
           const {
+            id,
             icon,
             title,
             routePath = '',
           } = menuItem;
-          // TODO
-          {/* const isSelected = id === selectedId; */}
+          const isSelected = id === selectedId;
           const iconElement = createElement(icon, { color: 'secondary' });
 
           return (
@@ -82,7 +91,7 @@ const NavMenu = memo(() => {
                 button
                 disableGutters
                 alignItems="center"
-                selected={false} // TODO
+                selected={isSelected}
                 style={styles.navMenuListItem}
                 onClick={toggleMenu}
               >
