@@ -26,7 +26,7 @@ const styles = {
     color: secondaryTextColor,
     fontSize: 24,
   },
-  IconButton: {
+  iconButton: {
     marginLeft: 6,
     marginRight: 12,
   },
