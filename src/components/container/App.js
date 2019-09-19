@@ -6,12 +6,12 @@ import {
 import { Route } from 'react-router-dom';
 import { Nav } from './Nav';
 import Games from './Games';
-import Athlete from '../functional/Athlete';
+import Athlete from './Athlete';
 
-const App = memo(() => (
+const App = memo(({ location: { pathname } }) => (
   <Grid container direction="column">
     <CssBaseline />
-    <Nav>
+    <Nav pathname={pathname}>
       <Route exact path="/" component={Games} />
       <Route path="/games" component={Games} />
       <Route path="/athletes" component={Athlete} />
