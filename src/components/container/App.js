@@ -20,7 +20,7 @@ class App extends PureComponent {
   };
 
   render = () => {
-    const { location: pathname } = this.props;
+    const { location: { pathname } } = this.props;
 
     return (
       <Grid container direction="column">

@@ -3,11 +3,11 @@ const TronWeb = require('tronweb');
 const initUserInfo = async () => {
   const account = await window.tronWeb.trx.getAccount();
   const balanceInSun = await window.tronWeb.trx.getBalance();
-  const accountAddress = account.address;
+  const accountAddressInHex = account.address;
   console.log('Account', account);
-  console.log('Address', window.tronWeb.address.fromHex(accountAddress));
+  console.log('Address', window.tronWeb.address.fromHex(accountAddressInHex));
   console.log('Balance-TRX', window.tronWeb.fromSun(balanceInSun));
-  return accountAddress;
+  return true;
 };
 
 const setupTronWeb = async () => {
