@@ -4,6 +4,7 @@ import {
   withRouter,
   Switch,
   Route,
+  Redirect,
 } from 'react-router-dom';
 import {
   fetchTeams,
@@ -44,6 +45,7 @@ class GamesContainer extends PureComponent {
             ? <Progress show />
             : (
               <Switch>
+                <Route exact path="/games" render={() => <Redirect to="/games/previous" />} />
                 <Route
                   exact
                   path="/games/:statusId"
