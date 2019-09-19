@@ -3,8 +3,8 @@ import React, {
   Fragment,
 } from 'react';
 import { List } from '@material-ui/core';
-import GameListHeader from '../presentational/games/list/GameListHeader';
-import GameListItem from '../presentational/games/list/GameListItem';
+import GameListHeader from './GameListHeader';
+import GameListItem from './GameListItem';
 
 const styles = {
   list: {

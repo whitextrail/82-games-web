@@ -12,8 +12,8 @@ import {
   fetchAthleteProfileById,
 } from '../../state/actions';
 import { Grid } from '@material-ui/core';
-import GameList from '../functional/GameList';
-import GameStats from '../functional/GameStats';
+import GameList from '../presentational/games/list/GameList';
+import GameStats from '../functional/games/GameStats';
 import Progress from '../presentational/reusable/Progress';
 
 class GamesContainer extends PureComponent {
@@ -36,8 +36,6 @@ class GamesContainer extends PureComponent {
       allGameStatusIds,
     } = this.props;
     const showProgress = inProgress || !isFetched;
-
-    console.log('yolo');
 
     return (
       <Grid container direction="column">
