@@ -1,11 +1,8 @@
 import {
   LocalPlaySharp,
-  PersonSharp,
   EqualizerSharp,
-  ExitToAppSharp,
   StarSharp,
 } from '@material-ui/icons';
-import { authenticationStates } from '../../util/constants';
 
 const navList = {
   games: {
@@ -22,22 +19,6 @@ const navList = {
     title: 'Leaderboard',
     routePath: '/leaderboard',
     icon: EqualizerSharp,
-  },
-  account: {
-    title: 'Account',
-    routePath: '/account',
-    icon: PersonSharp,
-    authenticationState: authenticationStates.AUTHENTICATED,
-  },
-  login: {
-    title: 'Login/Register',
-    icon: PersonSharp,
-    authenticationState: authenticationStates.UNAUTHENTICATED,
-  },
-  logout: {
-    title: 'Logout',
-    icon: ExitToAppSharp,
-    authenticationState: authenticationStates.AUTHENTICATED,
   },
   // about: {
   //   title: 'About Us',
