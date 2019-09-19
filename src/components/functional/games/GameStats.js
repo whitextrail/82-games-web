@@ -4,12 +4,12 @@ import React, {
 } from 'react';
 import { Grid } from '@material-ui/core';
 import { connect } from 'react-redux';
-import { fetchGameStatisticById } from '../../state/actions';
+import { fetchGameStatisticById } from '../../../state/actions';
 import GamePrediction from './GamePrediction';
-import GameStatsHeader from '../presentational/games/stats/GameStatsHeader';
-import GamePrizes from '../presentational/games/stats/GamePrizes';
-import GameTeamStats from '../presentational/games/stats/GameTeamStats';
-import GameAthleteStats from '../presentational/games/stats/GameAthleteStats';
+import GameStatsHeader from '../../presentational/games/stats/GameStatsHeader';
+import GamePrizes from '../../presentational/games/stats/GamePrizes';
+import GameTeamStats from '../../presentational/games/stats/GameTeamStats';
+import GameAthleteStats from '../../presentational/games/stats/GameAthleteStats';
 
 const initialState = {
   byPeriod: {

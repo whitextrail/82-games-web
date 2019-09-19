@@ -6,7 +6,7 @@ import {
   Grid,
   Paper,
 } from '@material-ui/core';
-import GamePrediction from '../presentational/games/prediction/GamePrediction';
+import GamePrediction from '../../presentational/games/prediction/GamePrediction';
 
 const styles = {
   container: {
