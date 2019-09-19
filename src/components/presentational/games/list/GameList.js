@@ -50,11 +50,7 @@ const GameList = memo(({
 
   return (
     <Grid container direction="column" style={styles.container}>
-      <GameListHeader
-        statusId={statusId}
-        allGameStatusIds={allGameStatusIds}
-        handleTabClick={handleTabClick}
-      />
+      <GameListHeader />
       <List disablePadding style={styles.list}>
         <Tabs
           selectedTabId={statusId}
