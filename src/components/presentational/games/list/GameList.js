@@ -72,6 +72,7 @@ const GameList = memo(({
             <GameListItem
               key={index}
               game={game}
+              statusId={statusId}
               homeTeam={teamsById[homeTeamId]}
               awayTeam={teamsById[awayTeamId]}
             />

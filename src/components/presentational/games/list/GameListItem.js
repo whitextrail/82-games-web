@@ -51,6 +51,7 @@ const GameListItem = memo(({
     gameNumber,
     season,
   },
+  statusId,
   homeTeam,
   awayTeam,
 }) => (
@@ -61,7 +62,12 @@ const GameListItem = memo(({
           title={`GAME ${gameNumber}`}
           subheader={season}
           action={(
-            <Button variant="contained" size="small" style={styles.actionButton}>
+            <Button
+              variant="contained"
+              size="small"
+              style={styles.actionButton}
+              href={`/games/${statusId}/${gameNumber}`}
+            >
               <MoreHorizSharp />
             </Button>
           )}
