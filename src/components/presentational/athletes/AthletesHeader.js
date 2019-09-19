@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 import {
   KeyboardArrowLeftSharp,
 } from '@material-ui/icons';
-import NavBar from '../../presentational/nav/NavBar';
+import NavBar from '../nav/NavBar';
 
 const iconStyles = { color: 'white' };
 

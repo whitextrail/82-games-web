@@ -37,6 +37,8 @@ class GamesContainer extends PureComponent {
     } = this.props;
     const showProgress = inProgress || !isFetched;
 
+    console.log('yolo');
+
     return (
       <Grid container direction="column">
         {
