@@ -9,7 +9,9 @@ const ReusableTabs = memo(({
   onChange,
   allTabIds,
   tabIcons,
-  tabIndicatorProps
+  tabIndicatorProps,
+  orientation = 'horizontal',
+  style,
 }) => {
   return (
     <Tabs
@@ -17,8 +19,10 @@ const ReusableTabs = memo(({
       indicatorColor="secondary"
       textColor="secondary"
       variant="fullWidth"
+      orientation={orientation}
       onChange={onChange}
       TabIndicatorProps={tabIndicatorProps}
+      style={style}
     >
       { allTabIds.map(id => <Tab id={id} key={id} icon={tabIcons[id]} value={id} />) }
     </Tabs>

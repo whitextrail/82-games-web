@@ -1,7 +1,6 @@
 import React, { memo } from 'react';
 import {
   Grid,
-  Paper,
   Typography,
   LinearProgress,
 } from '@material-ui/core';
@@ -43,14 +42,14 @@ const populateLineChartData = (
   datasets: [{
     data: [0, ...homeTeamPointsByQuarter, 0],
     borderColor: teamColors[homeTeamResourceId].primary.rgba(),
-    backgroundColor: teamColors[homeTeamResourceId].secondary.rgba(0.2),
+    backgroundColor: teamColors[homeTeamResourceId].secondary.rgba(0.25),
     pointRadius: 0,
     fill: true,
     label: 'Brooklyn',
   }, {
     data: [0, ...awayTeamPointsByQuarter, 0],
     borderColor: teamColors[awayTeamResourceId].primary.rgba(),
-    backgroundColor: teamColors[awayTeamResourceId].secondary.rgba(0.2),
+    backgroundColor: teamColors[awayTeamResourceId].secondary.rgba(0.25),
     pointRadius: 0,
     fill: true,
     label: 'Miami',
@@ -211,8 +210,7 @@ const GameTeamStats = memo(({
   );
 
   return (
-    <Paper
-      component={Grid}
+    <Grid
       container
       justify="flex-end"
       alignItems="center"
@@ -232,17 +230,17 @@ const GameTeamStats = memo(({
           barValueLabel={homeTeamPoints}
           value={(homeTeamPoints / barChartDenominator) * 100}
           barColor={homeTeamColors.primary.hex}
-          barBackgroundColor={homeTeamColors.secondary.rgba(0.2)}
+          barBackgroundColor={homeTeamColors.secondary.rgba(0.75)}
         />
         <StatsBar
           teamImageSrc={awayTeamResourceId}
           barValueLabel={awayTeamPoints}
           value={(awayTeamPoints / barChartDenominator) * 100}
           barColor={awayTeamColors.primary.hex}
-          barBackgroundColor={awayTeamColors.secondary.rgba(0.2)}
+          barBackgroundColor={awayTeamColors.secondary.rgba(0.75)}
         />
       </Grid>
-    </Paper>
+    </Grid>
   );
 });
 

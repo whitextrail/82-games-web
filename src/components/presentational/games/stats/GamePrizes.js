@@ -6,13 +6,12 @@ import {
   Typography,
   LinearProgress,
 } from '@material-ui/core';
-import { HelpOutlineSharp } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
 import { prizeImages } from '../../../../assets/img';
 
 const styles = {
   container: {
-    height: 100,
+    height: 80,
     width: 355,
     position: 'relative',
     backgroundColor: 'transparent',
@@ -23,21 +22,10 @@ const styles = {
     position: 'absolute',
     borderRadius: 5,
   },
-  headerTextContainer: {
-    height: 26,
-    position: 'absolute',
-    top: 0,
-    paddingTop: 4,
-    paddingRight: 4,
-  },
-  headerText: {
-    fontSize: 16,
-    fontWeight: 600
-  },
   prizesContainer: {
     position: 'absolute',
     width: '100%',
-    paddingTop: 25,
+    paddingTop: 5,
   },
   prizeContainer: {
     height: 65,
@@ -93,13 +81,6 @@ const GamePrizes = memo(({
         style={styles.linearProgress}
         classes={countdownClasses}
       />
-      <Grid
-        container
-        justify="flex-end"
-        style={styles.headerTextContainer}
-      >
-        <HelpOutlineSharp />
-      </Grid>
       <Grid container justify="center" alignItems="center" style={styles.prizesContainer}>
         {
           allPeriods.map((period) => {
