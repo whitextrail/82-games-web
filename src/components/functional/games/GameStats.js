@@ -79,8 +79,10 @@ const styles = {
 };
 
 const GameStats = memo(({
-  teamsById,
   game,
+  gamesById,
+  teamGameIds,
+  teamsById,
   fetchGameStatisticById: fetchGameStatisticByIdAction,
 }) => {
   // TODO: Use the dispatcher function to update remainingGameTime
@@ -97,6 +99,22 @@ const GameStats = memo(({
   const hasTeamStatistics = homeTeamStatistics && awayTeamStatistics;
   const homeTeam = teamsById[homeTeamId];
   const awayTeam = teamsById[awayTeamId];
+  const teamGames = teamGameIds.reduce((accumulator, value) => {
+    const {
+      arena,
+      localGameDateTime,
+    } = gamesById[value];
+
+    return {
+      ...accumulator,
+      [value]: {
+        arena,
+        localGameDateTime,
+        homeTeamName: homeTeam.name,
+        awayTeamName: awayTeam.name,
+      },
+    };
+  }, {});
 
   const selectStatsType = useCallback(
     ({ currentTarget: { id } }) => dispatch({ type: actionTypes.SELECT_STATS_TYPE, payload: id }),
@@ -116,8 +134,7 @@ const GameStats = memo(({
     >
       <GameStatsHeader
         game={game}
-        homeTeam={homeTeam}
-        awayTeam={awayTeam}
+        teamGames={teamGames}
         allStatsTypes={state.allStatsTypes}
         selectedStatsType={state.selectedStatsType}
         selectStatsType={selectStatsType}

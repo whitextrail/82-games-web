@@ -17,10 +17,12 @@ const styles = {
   carouselContainer: {
     height: 96,
     backgroundColor: 'transparent',
+    position: 'relative',
   },
   swipe: {
     width: '100%',
     height: 'auto',
+    position: 'absolute',
   },
   slide: {
     padding: '0px 10px 0px 10px',
@@ -30,14 +32,13 @@ const styles = {
     minWidth: 30,
     backgroundColor: 'transparent',
     height: '100%',
+    position: 'absolute',
   },
   leftSwipeIconContainer: {
-    borderTopRightRadius: 3,
-    borderBottomRightRadius: 3,
+    left: 0,
   },
   rightSwipeIconContainer: {
-    borderTopLeftRadius: 3,
-    borderBottomLeftRadius: 3,
+    right: 0,
   },
   swipeIcon: {
     fontSize: 30,
@@ -46,12 +47,11 @@ const styles = {
 };
 
 const GamesCarousel = ({
-  homeTeamName,
-  awayTeamName,
-  localGameDateTime,
-  arena,
+  gameId,
+  teamGames,
 }) => {
-  const [activeStep, updateActiveStep] = useState(0);
+  const teamGameIds = Object.keys(teamGames).sort();
+  const [activeStep, updateActiveStep] = useState(teamGameIds.indexOf(`${gameId}`));
 
   return (
     <Grid container direction="column" style={styles.container}>
@@ -61,27 +61,40 @@ const GamesCarousel = ({
         alignItems="center"
         style={styles.carouselContainer}
       >
-        <Button style={styles.swipeButton}>
-          <ArrowLeftSharp style={styles.swipeIcon} onClick={() => updateActiveStep(activeStep - 1)} />
-        </Button>
         <SwipeableViews
           index={activeStep}
           style={styles.swipe}
           slideStyle={styles.slide}
         >
-          <Grid container justify="space-around" alignItems="center" direction="column" style={{ height: 76 }}>
-            <Typography align="center" variant="body1" color="secondary" style={{ fontSize: 16, fontWeight: 600 }}>
-              {`${homeTeamName} vs. ${awayTeamName}`}
-            </Typography>
-            <Typography align="center" variant="body2" color="secondary">
-              {arena}
-            </Typography>
-            <Typography align="center" variant="body2" color="secondary">
-              {localGameDateTime}
-            </Typography>
-          </Grid>
+          {
+            teamGameIds.map((id) => {
+              const {
+                homeTeamName,
+                awayTeamName,
+                localGameDateTime,
+                arena,
+              } = teamGames[id];
+
+              return (
+                <Grid key={id} container justify="space-around" alignItems="center" direction="column" style={{ height: 76 }}>
+                  <Typography align="center" variant="body1" color="secondary" style={{ fontSize: 14, fontWeight: 600 }}>
+                    {`Game ${id} - ${homeTeamName} vs. ${awayTeamName}`}
+                  </Typography>
+                  <Typography align="center" variant="body2" color="secondary" style={{ fontSize: 12 }}>
+                    {localGameDateTime}
+                  </Typography>
+                  <Typography align="center" variant="body2" color="secondary" noWrap style={{ fontSize: 12 }}>
+                    {arena}
+                  </Typography>
+                </Grid>
+              );
+            })
+          }
         </SwipeableViews>
-        <Button style={styles.swipeButton}>
+        <Button style={{ ...styles.swipeButton, ...styles.leftSwipeIconContainer}}>
+          <ArrowLeftSharp style={styles.swipeIcon} onClick={() => updateActiveStep(activeStep - 1)} />
+        </Button>
+        <Button style={{ ...styles.swipeButton, ...styles.rightSwipeIconContainer}}>
           <ArrowRightSharp style={styles.swipeIcon} onClick={() => updateActiveStep(activeStep + 1)} />
         </Button>
       </Grid>

@@ -51,8 +51,7 @@ const navBarStyleClasses = {
 
 const GameStatsHeader = memo(({
   game,
-  homeTeam,
-  awayTeam,
+  teamGames,
   allStatsTypes,
   selectedStatsType,
   selectStatsType,
@@ -95,12 +94,7 @@ const GameStatsHeader = memo(({
         alignItems="center"
         style={styles.carouselContainer}
       >
-        <Carousel
-          homeTeamName={homeTeam.name}
-          awayTeamName={awayTeam.name}
-          localGameDateTime={game.localGameDateTime}
-          arena={game.arena}
-        />
+        <Carousel gameId={game.id} teamGames={teamGames} />
       </Grid>
     </Grid>
   </Grid>
