@@ -13,7 +13,6 @@ import SwipeableViews from 'react-swipeable-views';
 const styles = {
   container: {
     height: 96,
-    paddingRight: 10,
   },
   carouselContainer: {
     height: 96,
@@ -27,8 +26,8 @@ const styles = {
     padding: '0px 10px 0px 10px',
   },
   swipeButton: {
-    width: 24,
-    minWidth: 24,
+    width: 30,
+    minWidth: 30,
     backgroundColor: 'transparent',
     height: '100%',
   },
@@ -42,7 +41,7 @@ const styles = {
   },
   swipeIcon: {
     fontSize: 30,
-    color: '#EFEFEF',
+    color: '#FFF',
   },
 };
 

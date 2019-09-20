@@ -19,21 +19,27 @@ const styles = {
   controlsContainer: {
     height: 96,
     width: 375,
+    paddingRight: 5,
   },
   tabsContainer: {
     height: 96,
     width: 72,
-    backgroundColor: '#333333',
+    borderRadius: 0,
+    backgroundColor: '#8E44AD',
   },
   carouselContainer: {
     height: 96,
     width: 288,
+    backgroundColor: 'rgba(0,0,0,0.24)',
+    borderRadius: 2,
   },
 };
 const tabsIndicatorProps = {
   style: {
-    backgroundColor: '#FFF'
-  }
+    backgroundColor: '#FFF',
+    left: 0,
+    width: 3,
+  },
 };
 const iconStyles = { color: '#FFF' };
 const navBarStyleClasses = {
@@ -90,8 +96,6 @@ const GameStatsHeader = memo(({
         style={styles.carouselContainer}
       >
         <Carousel
-          id={game.id}
-          season={game.season}
           homeTeamName={homeTeam.name}
           awayTeamName={awayTeam.name}
           localGameDateTime={game.localGameDateTime}
