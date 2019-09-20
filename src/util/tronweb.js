@@ -19,22 +19,16 @@ const initUserInfo = async (onAccountChanged) => {
     }
   } catch (error) {
     previousUserAddress = '';
+    return false;
   }
 };
 
 const setupTronWeb = async (onAccountChanged) => {
-  const tronWebState = {
-    installed: !!window.tronWeb,
-    loggedIn: !!window.tronWeb && !!window.tronWeb.ready
-  };
-
   // Schedule a timer to keep polling the user state and handle it accordingly
   setInterval(() => {
-    tronWebState.installed = !!window.tronWeb;
-    tronWebState.loggedIn = !!window.tronWeb && !!window.tronWeb.ready;
-    // console.log(tronWebState.installed);
-    // console.log(tronWebState.loggedIn);
-    if (!tronWebState.installed || !tronWebState.loggedIn) {
+    const tronWebReady = !!window.tronWeb && !!window.tronWeb.ready;
+
+    if (!tronWebReady) {
       previousUserAddress = '';
       return onAccountChanged(null);
     }
