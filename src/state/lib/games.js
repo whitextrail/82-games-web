@@ -5,7 +5,7 @@ import { reduce } from 'lodash';
 const gameSchema = new schema.Entity('games', {}, {
   processStrategy: value => ({
     ...value,
-    localGameDateTime: moment(value.dateTime).tz(Intl.DateTimeFormat().resolvedOptions().timeZone).format('MMMM D [at] h:mm A z'),
+    localGameDateTime: moment(value.dateTime).tz(Intl.DateTimeFormat().resolvedOptions().timeZone).format('MMMM D, YYYY [-] h:mm A z'),
   })
 });
 const gameListSchema = new schema.Array(gameSchema);
