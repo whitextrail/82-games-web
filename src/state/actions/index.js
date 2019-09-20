@@ -1,4 +1,8 @@
 import {
+  authenticateUser,
+  logOutUser,
+} from './user';
+import {
   fetchTeams,
 } from './teams';
 import {
@@ -11,6 +15,8 @@ import {
 } from './athletes';
 
 export {
+  authenticateUser,
+  logOutUser,
   fetchGamesByTeamId,
   fetchGameStatisticById,
   filterGamesByStatusId,
