@@ -1,10 +1,35 @@
+import {
+  getContractABI,
+  getContractAddress,
+} from './tron-metadata';
+
 let previousUserAddress = '';
+let contract = null;
 
 const initUserInfo = async (onAccountChanged) => {
+  if (!contract) {
+    contract = window.tronWeb.contract(getContractABI(), getContractAddress());
+    // const account = await window.tronWeb.trx.getAccount();
+    // const address = window.tronWeb.address.fromHex(account.address);
+
+    // try {
+    //   const tx = await contract.buyVoucher(address).send({
+    //     callValue: 100000000,
+    //     shouldPollResponse: true,
+    //   });
+    //   console.log(tx);
+    // } catch (err) {
+    //   console.log(err);
+    // }
+  }
+
   try {
-    const account = await window.tronWeb.trx.getAccount();
-    const balanceInSun = await window.tronWeb.trx.getBalance();
-    const address = window.tronWeb.address.fromHex(account.address);
+    const { tronWeb } = window;
+    const account = await tronWeb.trx.getAccount();
+    const balanceInSun = await tronWeb.trx.getBalance();
+    const address = tronWeb.address.fromHex(account.address);
+    const voucherBalance = await contract.balanceOf(address).call();
+    const voucherCount = voucherBalance.balance.toNumber();
 
     // Update the user redux state only when changes have been detected
     if (address !== previousUserAddress) {
@@ -13,6 +38,7 @@ const initUserInfo = async (onAccountChanged) => {
       return onAccountChanged({
         address,
         balance: balanceInSun,
+        voucherCount,
       });
     } else {
       return true;
@@ -26,7 +52,8 @@ const initUserInfo = async (onAccountChanged) => {
 const setupTronWeb = async (onAccountChanged) => {
   // Schedule a timer to keep polling the user state and handle it accordingly
   setInterval(() => {
-    const tronWebReady = !!window.tronWeb && !!window.tronWeb.ready;
+    const { tronWeb } = window;
+    const tronWebReady = !!tronWeb && !!tronWeb.ready;
 
     if (!tronWebReady) {
       previousUserAddress = '';
