@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
 import {
   CssBaseline,
   Grid,
@@ -7,6 +8,10 @@ import {
   Route,
   Redirect,
 } from 'react-router-dom';
+import {
+  authenticateUser,
+  logOutUser,
+} from '../../state/actions';
 import { Nav } from './Nav';
 import NavMenu from '../presentational/nav/NavMenu';
 import Games from './Games';
@@ -16,12 +21,25 @@ import { setupTronWeb } from '../../util/tronweb';
 class App extends PureComponent {
   componentDidMount() {
     // Initialize TronWeb and hook-up any available provider (ie. TronLink)
-    setupTronWeb();
+    setupTronWeb(this.onAccountChanged);
+  };
+
+  onAccountChanged = (account) => {
+    const { user: { address } } = this.props;
+
+    if (account) {
+      this.props.authenticateUser(account);
+    } else if (address) {
+      this.props.logOutUser();
+    }
   };
 
   render = () => {
-    const { location: { pathname } } = this.props;
-
+    const {
+      location: { pathname },
+      user,
+    } = this.props;
+    console.log(user);
     return (
       <Grid container direction="column">
         <CssBaseline />
@@ -36,4 +54,13 @@ class App extends PureComponent {
   };
 };
 
-export default App;
+const mapStateToProps = ({
+  user,
+}) => ({
+  user,
+});
+
+export default connect(mapStateToProps, {
+  authenticateUser,
+  logOutUser,
+})(App);
