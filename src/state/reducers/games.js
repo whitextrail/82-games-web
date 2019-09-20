@@ -16,6 +16,7 @@ const gamesState = initialStateDecorator({
   byStatusId: {},
   allStatusIds: [],
   selectedStatusId: null,
+  idsByTeam: {},
 });
 
 const fetchGamesByTeamIdReducer = (state, { response }) => {
@@ -24,6 +25,7 @@ const fetchGamesByTeamIdReducer = (state, { response }) => {
     entities: {
       games,
       gamesByStatus,
+      gameIdsByTeam,
     },
     result,
   } = normalizeGameList(data);
@@ -36,6 +38,7 @@ const fetchGamesByTeamIdReducer = (state, { response }) => {
     byStatusId: gamesByStatus,
     allStatusIds: gamesByStatusKeys,
     selectedStatusId: gamesByStatusKeys[0],
+    idsByTeam: gameIdsByTeam,
   };
 };
 

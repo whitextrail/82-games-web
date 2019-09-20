@@ -20,6 +20,7 @@ const normalizeGameList = data => {
     entities: {
       ...entities,
       gamesByStatus: segmentGamesByStatus(entities.games),
+      gameIdsByTeam: segmentGameIdsByTeamId(entities.games),
     },
     result,
   };
@@ -69,7 +70,42 @@ const segmentGamesByStatus = gamesById => (
   })
 );
 
+// TODO: Differentiate between "closed" and "live" games
+const segmentGameIdsByTeamId = gamesById => (
+  reduce(gamesById, (accumulator, value) => {
+    const {
+      id,
+      homeTeamId,
+      awayTeamId,
+    } = value;
+    const gameNumber = id > 82 ? (id - 82) : id;
+
+    const gameIdsByTeamId = {
+      ...accumulator,
+    };
+
+    if (homeTeamId !== 1) {
+      if (gameIdsByTeamId[homeTeamId]) {
+        gameIdsByTeamId[homeTeamId].push(gameNumber);
+        gameIdsByTeamId[homeTeamId].sort();
+      } else {
+        gameIdsByTeamId[homeTeamId] = [gameNumber];
+      }
+    }
+
+    if (awayTeamId !== 1) {
+      if (gameIdsByTeamId[awayTeamId]) {
+        gameIdsByTeamId[awayTeamId].push(gameNumber);
+        gameIdsByTeamId[awayTeamId].sort();
+      } else {
+        gameIdsByTeamId[awayTeamId] = [gameNumber];
+      }
+    }
+
+    return gameIdsByTeamId;
+  }, {})
+);
+
 export {
   normalizeGameList,
-  segmentGamesByStatus,
 };
