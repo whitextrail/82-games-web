@@ -11,7 +11,7 @@ const styles = {
     width: 240,
   },
   legendContainer: {
-    height: 50,
+    height: 45,
   },
   legendColorIndicator: {
     height: 15,
@@ -28,12 +28,12 @@ const styles = {
   },
   legendLabel: { color: '#FFF', fontSize: 12 },
   statsBarContainer: {
-    height: 105,
+    height: 120,
     width: 220,
     paddingBottom: 10,
   },
   statsBarInnerContainer: {
-    height: 70,
+    height: 75,
     width: 50,
   },
   statsBarValueLabel: {
@@ -42,7 +42,7 @@ const styles = {
   },
   statsBar: {
     height: 20,
-    width: 65,
+    width: 80,
     borderRadius: 3,
     transform: 'rotate(-90deg)',
   },

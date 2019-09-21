@@ -39,25 +39,6 @@ const styles = {
     width: 365,
     backgroundColor: '#333333',
   },
-  statsBarContainer: {
-    height: 105,
-    width: 220,
-    paddingBottom: 10,
-  },
-  statsBarInnerContainer: {
-    height: 70,
-    width: 50,
-  },
-  statsBarValueLabel: {
-    color: '#FFF',
-    fontSize: 12,
-  },
-  statsBar: {
-    height: 20,
-    width: 65,
-    borderRadius: 3,
-    transform: 'rotate(-90deg)',
-  },
 };
 
 const GameAthleteStats = memo(({
@@ -71,6 +52,7 @@ const GameAthleteStats = memo(({
   const [state, updateState] = useState(initialState);
   const {
     barValuesByStatType,
+    pastAveragesByStatType,
     pastAveragesCalculated,
     barValuesUpdated,
     allStatTypes,
@@ -107,6 +89,8 @@ const GameAthleteStats = memo(({
       <GameAthleteStatsProfile />
       <GameAthleteStatsBars
         allStatTypes={allStatTypes}
+        currentGameStats={currentGameStats}
+        pastAveragesByStatType={pastAveragesByStatType}
         barValuesByStatType={barValuesByStatType}
       />
     </Card>
