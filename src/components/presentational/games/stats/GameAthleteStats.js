@@ -9,6 +9,8 @@ import {
   Card,
 } from '@material-ui/core';
 import GameAthleteStatsProfile from './GameAthleteStatsProfile';
+import GameAthleteStatsBars from './GameAthleteStatsBars';
+import { calculateStatAverages } from '../../../../util/gameStats';
 
 const initialState = {
   pastAveragesByStatType: {
@@ -60,6 +62,7 @@ const GameAthleteStats = memo(({
   statsByGameId,
 }) => {
   const {
+    currentGameStats,
     ...pastGamesStats
   } = statsByGameId;
   const [state, updateState] = useState(initialState);
@@ -69,83 +72,21 @@ const GameAthleteStats = memo(({
     allStatTypes,
   } = state;
 
-  const calculatePastGamesStatsAverages = useCallback(() => {
-    const pastGamesStatsTotals = {};
-    const pastGameIds = Object.keys(pastGamesStats);
-
-    // Calculate average stats for past games
-    pastGameIds.forEach((id) => {
-      const pastGameStats = pastGamesStats[id];
-
-      allStatTypes.forEach((type) => {
-        pastGamesStatsTotals[type] = pastGamesStatsTotals[type] + pastGameStats[type];
-      });
-    });
-
-    return updateState({
-      ...state,
-      pastAveragesCalculated: true,
-      pastAveragesByStatType: allStatTypes.reduce((acc, type) => ({
-        ...acc,
-        [type]: pastGamesStatsTotals[type] / pastGameIds.length,
-      }), {}),
-    });
-  }, [
-    state,
-    pastGamesStats,
-    allStatTypes,
-  ]);
-
-  const updateBarValuesLinearly = useCallback((latestState) => {
-    // Latest state must be passed in due to `state` being previous state values
-    const {
-      barValuesByStatType,
-      pastAveragesByStatType,
-    } = latestState;
-
-    const newBarValues = allStatTypes.reduce((acc, statType) => {
-      const past = pastAveragesByStatType[statType];
-      const bar = barValuesByStatType[statType];
-      const percentageOfPast = past * 0.1;
-      const barPastDifference = past - bar;
-
-      // Check whether subtracting percentageOfPast will cause the bar value to exceed past value
-      const barIncrementValue = (barPastDifference - percentageOfPast) > 0
-        ? percentageOfPast
-        : barPastDifference;
-
-      return {
-        ...acc,
-        [statType]: bar + barIncrementValue,
-      };
-    }, {});
-
-    // Check whether bar and past values are equal
-    const barPastValueParity = allStatTypes.every((statType) => (
-      pastAveragesByStatType[statType] === newBarValues[statType]
-    ));
-
-    return setTimeout(() => updateState({
-      ...latestState,
-      barValuesByStatType: newBarValues,
-      barValuesUpdated: barPastValueParity,
-    }), 150);
-  }, [
-    allStatTypes,
-  ]);
-
   useEffect(() => {
     if (!pastAveragesCalculated) {
-      calculatePastGamesStatsAverages();
-    } else if (!barValuesUpdated) {
-      updateBarValuesLinearly(state);
+      return updateState({
+        pastAveragesByStatType: calculateStatAverages(allStatTypes, pastGamesStats),
+        pastAveragesCalculated: true,
+      });
     }
+
+    console.log(state);
   }, [
     state,
     pastAveragesCalculated,
     barValuesUpdated,
-    calculatePastGamesStatsAverages,
-    updateBarValuesLinearly,
+    // calculatePastGamesStatsAverages,
+    // updateBarValuesLinearly,
   ]);
 
   return (
@@ -158,6 +99,7 @@ const GameAthleteStats = memo(({
       style={styles.container}
     >
       <GameAthleteStatsProfile />
+      {/* <GameAthleteStatsBars /> */}
     </Card>
   );
 });
