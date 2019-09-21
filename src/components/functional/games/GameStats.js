@@ -41,10 +41,6 @@ const initialState = {
     }
   },
   allGamePeriods: ['1st', '2nd', '3rd', '4th'],
-  byStatsType: {
-    player: {},
-    teams: {},
-  },
   allStatsTypes: ['player', 'teams'],
   selectedStatsType: 'player',
   remainingGameTime: 2880,
@@ -149,7 +145,10 @@ const GameStats = memo(({
         selectedStatsType={state.selectedStatsType}
         selectStatsType={selectStatsType}
       />
-      <GameAthleteStats gameId={game.id} stats={athletePerformanceStatsByGame} />
+      <GameAthleteStats
+        currentGameId={game.id}
+        statsByGameId={athletePerformanceStatsByGame}
+      />
     </Grid>
   );
 });
