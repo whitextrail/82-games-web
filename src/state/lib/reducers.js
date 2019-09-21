@@ -37,7 +37,7 @@ const evalActionPayload = (state, action, caseReducer) => {
     response,
     error,
   } = action;
-  console.log('Act', action);
+
   if (response) {
     // Reduce state with the return value of `caseReducer`
     return reduceSuccessState(state, caseReducer(state, action));

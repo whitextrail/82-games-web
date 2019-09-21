@@ -69,14 +69,16 @@ const NavBar = memo(({
         disableGutters
         component={Grid}
         container
-        justify="space-between"
+        justify="flex-start"
         alignItems="center"
         style={styles.toolbar}
       >
         <IconButton style={styles.iconButton} onClick={menuButtonOnClick}>{menuIcon}</IconButton>
         <Typography variant="h6">{title}</Typography>
         { !menuOpen && (
-          <IconButton style={styles.iconButton} onClick={voucherButtonOnClick}>{voucherIcon}</IconButton>
+          <Grid container justify="flex-end">
+            <IconButton style={styles.iconButton} onClick={voucherButtonOnClick}>{voucherIcon}</IconButton>
+          </Grid>
         )}
       </Toolbar>
     </AppBar>
