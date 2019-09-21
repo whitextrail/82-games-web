@@ -6,21 +6,10 @@ import {
 let previousUserAddress = '';
 let contract = null;
 
-const initUserInfo = async (onAccountChanged) => {
+const tronWebInitialized = async (onAccountChanged) => {
+  // Setup the contract handler when needed
   if (!contract) {
     contract = window.tronWeb.contract(getContractABI(), getContractAddress());
-    // const account = await window.tronWeb.trx.getAccount();
-    // const address = window.tronWeb.address.fromHex(account.address);
-
-    // try {
-    //   const tx = await contract.buyVoucher(address).send({
-    //     callValue: 100000000,
-    //     shouldPollResponse: true,
-    //   });
-    //   console.log(tx);
-    // } catch (err) {
-    //   console.log(err);
-    // }
   }
 
   try {
@@ -60,10 +49,31 @@ const setupTronWeb = async (onAccountChanged) => {
       return onAccountChanged(null);
     }
 
-    return initUserInfo(onAccountChanged);
+    return tronWebInitialized(onAccountChanged);
   }, 250);
+};
+
+const buyVoucher = async (voucherCount) => {
+  const { tronWeb } = window;
+  const account = await tronWeb.trx.getAccount();
+  const address = tronWeb.address.fromHex(account.address);
+
+  try {
+    await contract.buyVoucher(address).send({
+      callValue: 100000000 * voucherCount, // Rate for 1 voucher is currently hardcoded to 100 TRX
+      shouldPollResponse: true,
+    });
+
+    // Get the latest voucherCount from the network
+    const voucherBalance = await contract.balanceOf(address).call();
+    const currentVoucherCount = voucherBalance.balance.toNumber();
+    return { voucherCount: currentVoucherCount };
+  } catch (err) {
+    throw err;
+  }
 };
 
 export {
   setupTronWeb,
+  buyVoucher,
 };

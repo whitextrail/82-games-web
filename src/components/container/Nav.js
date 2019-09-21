@@ -70,7 +70,8 @@ const NavContext = createContext({});
 
 const Nav = memo(({
   pathname,
-  children
+  children,
+  showVoucherDialog,
 }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -93,10 +94,12 @@ const Nav = memo(({
     state,
     toggleMenu,
     selectId,
+    showVoucherDialog,
   }), [
     state,
     toggleMenu,
     selectId,
+    showVoucherDialog,
   ]);
 
   // The useEffect hook is used below to set `selectId` based on
