@@ -1,6 +1,7 @@
 import { normalize, schema } from 'normalizr';
 import moment from 'moment-timezone';
 import { reduce } from 'lodash';
+import { sortNumbersAscending } from '../../util';
 
 const gameSchema = new schema.Entity('games', {}, {
   processStrategy: value => ({
@@ -87,7 +88,7 @@ const segmentGameIdsByTeamId = gamesById => (
     if (homeTeamId !== 1) {
       if (gameIdsByTeamId[homeTeamId]) {
         gameIdsByTeamId[homeTeamId].push(gameNumber);
-        gameIdsByTeamId[homeTeamId].sort();
+        sortNumbersAscending(gameIdsByTeamId[homeTeamId]);
       } else {
         gameIdsByTeamId[homeTeamId] = [gameNumber];
       }
@@ -96,7 +97,7 @@ const segmentGameIdsByTeamId = gamesById => (
     if (awayTeamId !== 1) {
       if (gameIdsByTeamId[awayTeamId]) {
         gameIdsByTeamId[awayTeamId].push(gameNumber);
-        gameIdsByTeamId[awayTeamId].sort();
+        sortNumbersAscending(gameIdsByTeamId[awayTeamId]);
       } else {
         gameIdsByTeamId[awayTeamId] = [gameNumber];
       }

@@ -11,6 +11,7 @@ import {
   ArrowRightSharp,
 } from '@material-ui/icons';
 import SwipeableViews from 'react-swipeable-views';
+import { sortNumbersAscending } from '../../../util';
 
 const styles = {
   container: {
@@ -53,7 +54,7 @@ const GamesCarousel = ({
   gameId,
   teamGames,
 }) => {
-  const teamGameIds = Object.keys(teamGames).sort();
+  const teamGameIds = sortNumbersAscending(Object.keys(teamGames));
   const [activeStep, updateActiveStep] = useState(teamGameIds.indexOf(`${gameId}`));
 
   const mobileStepperClasses = makeStyles({

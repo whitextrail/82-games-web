@@ -1,3 +1,5 @@
+import { sortNumbersAscending } from './';
+
 const calculateStatAverages = (allStatTypes, statsByGameId) => {
   const gameIds = Object.keys(statsByGameId);
 
@@ -18,7 +20,10 @@ const calculateStatAverages = (allStatTypes, statsByGameId) => {
   }, {});
 };
 
-const updateBarValues = (state, updateState) => {
+const updateBarValues = (
+  currentGameStats,
+  state,
+) => {
   const {
     allStatTypes,
     barValuesByStatType,
@@ -26,32 +31,42 @@ const updateBarValues = (state, updateState) => {
   } = state;
 
   const newBarValues = allStatTypes.reduce((acc, statType) => {
-    const past = pastAveragesByStatType[statType];
-    const bar = barValuesByStatType[statType];
-    const percentageOfPast = past * 0.1;
-    const barPastDifference = past - bar;
+    const [numerator, denominator] = sortNumbersAscending([
+      currentGameStats[statType],
+      pastAveragesByStatType[statType]
+    ]);
+    const targetValue = denominator ? (numerator / denominator) * 100 : 0;
+    const barValue = barValuesByStatType[statType];
+    const percentageOfTarget = targetValue * 0.1;
+    const targetDifference = targetValue - barValue;
 
     // Check whether subtracting percentageOfPast will cause the bar value to exceed past value
-    const barIncrementValue = (barPastDifference - percentageOfPast) > 0
-      ? percentageOfPast
-      : barPastDifference;
+    const barIncrementValue = (targetDifference - percentageOfTarget) > 0
+      ? percentageOfTarget
+      : targetDifference;
 
     return {
       ...acc,
-      [statType]: bar + barIncrementValue,
+      [statType]: barValue + barIncrementValue,
     };
   }, {});
 
-  // Check whether all bar and past values are equal
-  const barPastValueParity = allStatTypes.every((statType) => (
-    pastAveragesByStatType[statType] === newBarValues[statType]
-  ));
+  // Check whether all bar and target values are equal
+  const barTargetReached = allStatTypes.every((statType) => {
+    const [numerator, denominator] = sortNumbersAscending([
+      currentGameStats[statType],
+      pastAveragesByStatType[statType]
+    ]);
+    const targetValue = denominator ? (numerator / denominator) * 100 : 0;
 
-  return setTimeout(() => updateState({
+    return targetValue === newBarValues[statType];
+  });
+
+  return {
     ...state,
     barValuesByStatType: newBarValues,
-    barValuesUpdated: barPastValueParity,
-  }), 150);
+    barValuesUpdated: barTargetReached,
+  };
 };
 
 export {

@@ -2,7 +2,6 @@ import React, {
   memo,
   useState,
   useEffect,
-  useCallback,
 } from 'react';
 import {
   Grid,
@@ -10,7 +9,10 @@ import {
 } from '@material-ui/core';
 import GameAthleteStatsProfile from './GameAthleteStatsProfile';
 import GameAthleteStatsBars from './GameAthleteStatsBars';
-import { calculateStatAverages } from '../../../../util/gameStats';
+import {
+  calculateStatAverages,
+  updateBarValues,
+} from '../../../../util/gameStats';
 
 const initialState = {
   pastAveragesByStatType: {
@@ -59,14 +61,16 @@ const styles = {
 };
 
 const GameAthleteStats = memo(({
+  currentGameId,
   statsByGameId,
 }) => {
   const {
-    currentGameStats,
+    [currentGameId]: currentGameStats,
     ...pastGamesStats
   } = statsByGameId;
   const [state, updateState] = useState(initialState);
   const {
+    barValuesByStatType,
     pastAveragesCalculated,
     barValuesUpdated,
     allStatTypes,
@@ -75,18 +79,20 @@ const GameAthleteStats = memo(({
   useEffect(() => {
     if (!pastAveragesCalculated) {
       return updateState({
+        ...state,
         pastAveragesByStatType: calculateStatAverages(allStatTypes, pastGamesStats),
         pastAveragesCalculated: true,
       });
+    } else if (!barValuesUpdated) {
+      setTimeout(() => updateState(updateBarValues(currentGameStats, state)), 150);
     }
-
-    console.log(state);
   }, [
     state,
     pastAveragesCalculated,
     barValuesUpdated,
-    // calculatePastGamesStatsAverages,
-    // updateBarValuesLinearly,
+    allStatTypes,
+    currentGameStats,
+    pastGamesStats,
   ]);
 
   return (
@@ -99,7 +105,10 @@ const GameAthleteStats = memo(({
       style={styles.container}
     >
       <GameAthleteStatsProfile />
-      {/* <GameAthleteStatsBars /> */}
+      <GameAthleteStatsBars
+        allStatTypes={allStatTypes}
+        barValuesByStatType={barValuesByStatType}
+      />
     </Card>
   );
 });
