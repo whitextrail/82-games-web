@@ -12,7 +12,7 @@ import {
   ListItemText,
 } from '@material-ui/core';
 import {
-  LocalPlaySharp,
+  SportsBasketballSharp,
   EqualizerSharp,
   StarSharp,
   CloseSharp,
@@ -29,7 +29,7 @@ const navMenuItems = [{
   id: 'games',
   title: 'Games',
   routePath: '/games',
-  icon: LocalPlaySharp,
+  icon: SportsBasketballSharp,
 }, {
   id: 'athletes',
   title: 'Athletes',
