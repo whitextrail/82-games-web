@@ -50,6 +50,7 @@ const navBarStyleClasses = {
 };
 
 const GameStatsHeader = memo(({
+  navButtonClickHandler,
   game,
   teamGames,
   allStatsTypes,
@@ -61,6 +62,7 @@ const GameStatsHeader = memo(({
       elevation={0}
       icon={<KeyboardArrowLeftSharp styles={iconStyles} />}
       styleClasses={navBarStyleClasses}
+      iconButtonClickHandler={navButtonClickHandler}
     />
     <Grid
       container

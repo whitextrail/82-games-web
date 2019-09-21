@@ -7,7 +7,7 @@ import { Grid } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { fetchGameStatisticById } from '../../../state/actions';
 import GameStatsHeader from '../../presentational/games/stats/GameStatsHeader';
-import GameTeamStats from '../../presentational/games/stats/GameTeamStats';
+import GameAthleteStats from '../../presentational/games/stats/GameAthleteStats';
 
 const initialState = {
   byGamePeriod: {
@@ -79,18 +79,19 @@ const styles = {
 };
 
 const GameStats = memo(({
+  history,
+  statusId,
   game,
   gamesById,
   teamGameIds,
   teamsById,
+  athlete,
   fetchGameStatisticById: fetchGameStatisticByIdAction,
 }) => {
   // TODO: Use the dispatcher function to update remainingGameTime
   const [state,dispatch] = useReducer(reducer, initialState);
   const {
     id: gameId,
-    homeTeamPoints,
-    awayTeamPoints,
     homeTeamStatistics,
     awayTeamStatistics,
     homeTeamId,
@@ -115,6 +116,14 @@ const GameStats = memo(({
       },
     };
   }, {});
+  const athletePerformanceStatsByGame = teamGameIds.reduce((accumulator, value) => (
+    athlete.performanceStatisticsByGameId[value]
+    ? ({
+        ...accumulator,
+        [value]: athlete.performanceStatisticsByGameId[value],
+      })
+    : accumulator
+  ), {});
 
   const selectStatsType = useCallback(
     ({ currentTarget: { id } }) => dispatch({ type: actionTypes.SELECT_STATS_TYPE, payload: id }),
@@ -133,20 +142,14 @@ const GameStats = memo(({
       style={styles.container}
     >
       <GameStatsHeader
+        navButtonClickHandler={() => history.push(`/games/${statusId}`)}
         game={game}
         teamGames={teamGames}
         allStatsTypes={state.allStatsTypes}
         selectedStatsType={state.selectedStatsType}
         selectStatsType={selectStatsType}
       />
-      <GameTeamStats
-        homeTeam={homeTeam}
-        homeTeamPoints={homeTeamPoints}
-        homeTeamStatistics={homeTeamStatistics}
-        awayTeam={awayTeam}
-        awayTeamPoints={awayTeamPoints}
-        awayTeamStatistics={awayTeamStatistics}
-      />
+      <GameAthleteStats gameId={game.id} stats={athletePerformanceStatsByGame} />
     </Grid>
   );
 });

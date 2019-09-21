@@ -31,8 +31,8 @@ const styles = {
     padding: '0px 10px 0px 10px',
   },
   swipeButton: {
-    width: 30,
-    minWidth: 30,
+    width: 40,
+    minWidth: 40,
     backgroundColor: 'transparent',
     height: '100%',
     position: 'absolute',

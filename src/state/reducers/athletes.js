@@ -13,14 +13,29 @@ const athletesState = initialStateDecorator({
 
 const fetchAthleteProfileByIdReducer = (state, { response }) => {
   const {
-    entities: { athlete }
+    entities: { athlete },
+    result,
   } = normalizeAthlete(response);
   const athleteKeys = Object.keys(athlete);
+
+  // Remove games that don't have any stats
+  const perfStatsKeys = Object.keys(athlete[result].performanceStatisticsByGameId);
+  const filteredPerfStats = perfStatsKeys.reduce((accumulator, gameId) => (
+    athlete[result].performanceStatisticsByGameId[gameId].WL
+      ? ({
+          ...accumulator,
+          [gameId]: { ...athlete[result].performanceStatisticsByGameId[gameId], }
+        })
+      : accumulator
+  ), {});
 
   return {
     byId: {
       ...state.byId,
-      ...athlete,
+      [result]: {
+        ...athlete[result],
+        performanceStatisticsByGameId: filteredPerfStats,
+      },
     },
     allIds: [
       ...state.allIds,

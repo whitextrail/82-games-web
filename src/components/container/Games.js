@@ -63,7 +63,7 @@ class GamesContainer extends PureComponent {
                 <Route
                   exact
                   path="/games/:statusId/:gameId"
-                  render={({ match: { params: { gameId } } }) => {
+                  render={({ match: { params: { gameId, statusId } }, history }) => {
                     const game = gamesById[gameId];
 
                     // Since we already have games from Brooklyn, we just want the game ids they have against
@@ -72,18 +72,13 @@ class GamesContainer extends PureComponent {
 
                     return (
                       <GameStats
+                        history={history}
+                        statusId={statusId}
                         game={game}
                         gamesById={gamesById}
                         teamGameIds={teamGameIds}
                         teamsById={teamsById}
-                        athlete={{
-                          ...athlete,
-                          performanceStatistics: athlete.performanceStatisticsByGameId[gameId] || {
-                            PTS: 0,
-                            REB: 0,
-                            AST: 0,
-                          }
-                        }}
+                        athlete={athlete}
                       />
                     );
                   }}
