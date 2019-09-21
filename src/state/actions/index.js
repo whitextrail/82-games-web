@@ -1,6 +1,7 @@
 import {
   authenticateUser,
   logOutUser,
+  purchaseVoucher,
 } from './user';
 import {
   fetchTeams,
@@ -17,6 +18,7 @@ import {
 export {
   authenticateUser,
   logOutUser,
+  purchaseVoucher,
   fetchGamesByTeamId,
   fetchGameStatisticById,
   filterGamesByStatusId,

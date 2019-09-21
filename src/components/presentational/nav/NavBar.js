@@ -9,7 +9,10 @@ import {
   IconButton,
   Typography,
 } from '@material-ui/core';
-import { MenuSharp } from '@material-ui/icons';
+import {
+  MenuSharp,
+  LocalPlaySharp,
+} from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
 import { secondaryTextColor, primaryColor } from '../../../styles/constants';
 import { NavContext } from '../../container/Nav';
@@ -46,12 +49,15 @@ const NavBar = memo(({
   const {
     state: { menuOpen },
     toggleMenu,
+    showVoucherDialog,
   } = useContext(NavContext);
   const appBarClasses = createNavBarClasses(styleClasses);
   const appBarElevation = menuOpen ? 0 : elevation;
-  const iconButtonOnClick = iconButtonClickHandler || toggleMenu;
+  const menuButtonOnClick = iconButtonClickHandler || toggleMenu;
+  const voucherButtonOnClick = showVoucherDialog;
 
   let menuIcon = <MenuSharp style={styles.icon} />;
+  const voucherIcon = <LocalPlaySharp style={styles.icon} />;
 
   if (icon) {
     menuIcon = React.cloneElement(icon, { style: styles.icon });
@@ -67,8 +73,13 @@ const NavBar = memo(({
         alignItems="center"
         style={styles.toolbar}
       >
-        <IconButton style={styles.iconButton} onClick={iconButtonOnClick}>{menuIcon}</IconButton>
+        <IconButton style={styles.iconButton} onClick={menuButtonOnClick}>{menuIcon}</IconButton>
         <Typography variant="h6">{title}</Typography>
+        { !menuOpen && (
+          <Grid container justify="flex-end">
+            <IconButton style={styles.iconButton} onClick={voucherButtonOnClick}>{voucherIcon}</IconButton>
+          </Grid>
+        )}
       </Toolbar>
     </AppBar>
   );

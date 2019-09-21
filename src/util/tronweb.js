@@ -1,10 +1,24 @@
-let previousUserAddress = '';
+import {
+  getContractABI,
+  getContractAddress,
+} from './tron-metadata';
 
-const initUserInfo = async (onAccountChanged) => {
+let previousUserAddress = '';
+let contract = null;
+
+const tronWebInitialized = async (onAccountChanged) => {
+  // Setup the contract handler when needed
+  if (!contract) {
+    contract = window.tronWeb.contract(getContractABI(), getContractAddress());
+  }
+
   try {
-    const account = await window.tronWeb.trx.getAccount();
-    const balanceInSun = await window.tronWeb.trx.getBalance();
-    const address = window.tronWeb.address.fromHex(account.address);
+    const { tronWeb } = window;
+    const account = await tronWeb.trx.getAccount();
+    const balanceInSun = await tronWeb.trx.getBalance();
+    const address = tronWeb.address.fromHex(account.address);
+    const voucherBalance = await contract.balanceOf(address).call();
+    const voucherCount = voucherBalance.balance.toNumber();
 
     // Update the user redux state only when changes have been detected
     if (address !== previousUserAddress) {
@@ -13,6 +27,7 @@ const initUserInfo = async (onAccountChanged) => {
       return onAccountChanged({
         address,
         balance: balanceInSun,
+        voucherCount,
       });
     } else {
       return true;
@@ -26,17 +41,39 @@ const initUserInfo = async (onAccountChanged) => {
 const setupTronWeb = async (onAccountChanged) => {
   // Schedule a timer to keep polling the user state and handle it accordingly
   setInterval(() => {
-    const tronWebReady = !!window.tronWeb && !!window.tronWeb.ready;
+    const { tronWeb } = window;
+    const tronWebReady = !!tronWeb && !!tronWeb.ready;
 
     if (!tronWebReady) {
       previousUserAddress = '';
       return onAccountChanged(null);
     }
 
-    return initUserInfo(onAccountChanged);
+    return tronWebInitialized(onAccountChanged);
   }, 250);
+};
+
+const buyVoucher = async (voucherCount) => {
+  const { tronWeb } = window;
+  const account = await tronWeb.trx.getAccount();
+  const address = tronWeb.address.fromHex(account.address);
+
+  try {
+    await contract.buyVoucher(address).send({
+      callValue: 100000000 * voucherCount, // Rate for 1 voucher is currently hardcoded to 100 TRX
+      shouldPollResponse: true,
+    });
+
+    // Get the latest voucherCount from the network
+    const voucherBalance = await contract.balanceOf(address).call();
+    const currentVoucherCount = voucherBalance.balance.toNumber();
+    return { voucherCount: currentVoucherCount };
+  } catch (err) {
+    throw err;
+  }
 };
 
 export {
   setupTronWeb,
+  buyVoucher,
 };
