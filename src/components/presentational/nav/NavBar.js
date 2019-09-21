@@ -54,7 +54,7 @@ const NavBar = memo(({
   const appBarClasses = createNavBarClasses(styleClasses);
   const appBarElevation = menuOpen ? 0 : elevation;
   const menuButtonOnClick = iconButtonClickHandler || toggleMenu;
-  const voucherButtonOnClick = showVoucherDialog || (() => {});
+  const voucherButtonOnClick = showVoucherDialog;
 
   let menuIcon = <MenuSharp style={styles.icon} />;
   const voucherIcon = <LocalPlaySharp style={styles.icon} />;

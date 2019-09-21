@@ -68,12 +68,11 @@ const NavMenu = memo(() => {
       selectedId,
     },
     toggleMenu,
-    showVoucherDialog,
   } = useContext(NavContext);
 
   return (
     <Collapse in={menuOpen}>
-      <NavBar icon={<CloseSharp />} showVoucherDialog={showVoucherDialog} />
+      <NavBar icon={<CloseSharp />}/>
       <List style={styles.navMenu}>
         { navMenuItems.map((menuItem) => {
           const {
