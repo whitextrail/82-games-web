@@ -10,14 +10,13 @@ import {
 import GameAthleteStatsProfile from './GameAthleteStatsProfile';
 import GameAthleteStatsBars from './GameAthleteStatsBars';
 import GameAthleteStatsComparison from './GameAthleteStatsComparison';
-
 import {
   calculateStatAverages,
   updateBarValues,
 } from '../../../../util/gameStats';
 
 const initialState = {
-  pastAveragesByStatType: {
+  otherAveragesByStatType: {
     MIN: 0,
     PTS: 0,
     REB: 0,
@@ -30,8 +29,9 @@ const initialState = {
     AST: 0,
   },
   allStatTypes: ['MIN', 'PTS', 'REB', 'AST'],
-  pastAveragesCalculated: false,
+  otherAveragesCalculated: false,
   barValuesUpdated: false,
+  calculatedGameId: null,
 };
 
 const styles = {
@@ -48,39 +48,49 @@ const styles = {
 };
 
 const GameAthleteStats = memo(({
-  currentGameId,
-  statsByGameId,
+  selectedAthleteGameId,
+  athleteGames,
 }) => {
   const {
-    [currentGameId]: currentGameStats,
-    ...pastGamesStats
-  } = statsByGameId;
+    [selectedAthleteGameId]: selectedGameStats,
+    ...otherGameStats
+  } = athleteGames;
   const [state, updateState] = useState(initialState);
   const {
     barValuesByStatType,
-    pastAveragesByStatType,
-    pastAveragesCalculated,
+    otherAveragesCalculated,
     barValuesUpdated,
     allStatTypes,
+    calculatedGameId,
   } = state;
 
   useEffect(() => {
-    if (!pastAveragesCalculated) {
+    if (!otherAveragesCalculated) {
       return updateState({
         ...state,
-        pastAveragesByStatType: calculateStatAverages(allStatTypes, pastGamesStats),
-        pastAveragesCalculated: true,
+        calculatedGameId: selectedAthleteGameId,
+        otherAveragesByStatType: calculateStatAverages(allStatTypes, otherGameStats),
+        otherAveragesCalculated: true,
       });
     } else if (!barValuesUpdated) {
-      setTimeout(() => updateState(updateBarValues(currentGameStats, state)), 100);
+      setTimeout(() => updateState(updateBarValues(selectedGameStats, state)), 100);
+    } else if (otherAveragesCalculated && barValuesUpdated && (calculatedGameId !== selectedAthleteGameId)) {
+      return updateState({
+        ...state,
+        calculatedGameId: null,
+        otherAveragesCalculated: false,
+        barValuesUpdated: false,
+      });
     }
   }, [
     state,
-    pastAveragesCalculated,
+    otherAveragesCalculated,
     barValuesUpdated,
     allStatTypes,
-    currentGameStats,
-    pastGamesStats,
+    selectedGameStats,
+    otherGameStats,
+    calculatedGameId,
+    selectedAthleteGameId,
   ]);
 
   return (
@@ -96,9 +106,8 @@ const GameAthleteStats = memo(({
         <GameAthleteStatsProfile />
         <GameAthleteStatsBars
           allStatTypes={allStatTypes}
-          currentGameStats={currentGameStats}
-          pastAveragesByStatType={pastAveragesByStatType}
           barValuesByStatType={barValuesByStatType}
+          selectedGameStats={selectedGameStats}
         />
       </Card>
       <GameAthleteStatsComparison />

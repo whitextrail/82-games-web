@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { memo } from 'react';
 import {
   Grid,
   Button,
@@ -51,12 +51,13 @@ const styles = {
   },
 };
 
-const GamesCarousel = ({
-  gameId,
-  teamGames,
+const GamesCarousel = memo(({
+  athleteGames,
+  selectedAthleteGameId,
+  changeAthleteGameId,
 }) => {
-  const teamGameIds = sortNumbersAscending(Object.keys(teamGames));
-  const [activeStep, updateActiveStep] = useState(teamGameIds.indexOf(`${gameId}`));
+  const athleteGameIds = sortNumbersAscending(Object.keys(athleteGames));
+  const athleteGameIdIndex = athleteGameIds.indexOf(`${selectedAthleteGameId}`);
 
   const mobileStepperClasses = makeStyles({
     dotActive: {
@@ -65,16 +66,22 @@ const GamesCarousel = ({
   })();
 
   const handleSwipeButtonClick = ({ currentTarget: { id }}) => {
+    let gameIndex;
+
     switch(id) {
       case 'left':
-        const decremented = activeStep - 1;
-        return updateActiveStep(decremented < 0 ? (teamGameIds.length - 1) : decremented);
+        const decremented = athleteGameIdIndex - 1;
+        gameIndex = decremented < 0 ? (athleteGameIds.length - 1) : decremented;
+        break;
       case 'right':
-          const incremented = activeStep + 1;
-        return updateActiveStep(incremented === teamGameIds.length ? 0 : incremented);
+        const incremented = athleteGameIdIndex + 1;
+        gameIndex = incremented < 0 ? (athleteGameIds.length - 1) : incremented;
+        break;
       default:
-        return;
+        break;
     }
+
+    return changeAthleteGameId(athleteGameIds[gameIndex]);
   };
 
   return (
@@ -86,18 +93,18 @@ const GamesCarousel = ({
         style={styles.carouselContainer}
       >
         <SwipeableViews
-          index={activeStep}
+          index={athleteGameIdIndex}
           style={styles.swipe}
           slideStyle={styles.slide}
         >
           {
-            teamGameIds.map((id) => {
+            athleteGameIds.map((id) => {
               const {
                 homeTeamName,
                 awayTeamName,
                 localGameDateTime,
                 arena,
-              } = teamGames[id];
+              } = athleteGames[id];
 
               return (
                 <Grid key={id} container justify="space-around" alignItems="center" direction="column" style={{ height: 66 }}>
@@ -124,14 +131,14 @@ const GamesCarousel = ({
         <MobileStepper
           classes={mobileStepperClasses}
           variant="dots"
-          steps={teamGameIds.length}
+          steps={athleteGameIds.length}
           position="static"
-          activeStep={activeStep}
+          activeStep={athleteGameIdIndex}
           style={{ bottom: 2.5, height: 20, width: 100, position: 'absolute', backgroundColor: 'transparent' }}
         />
       </Grid>
     </Grid>
   );
-};
+});
 
 export default GamesCarousel;

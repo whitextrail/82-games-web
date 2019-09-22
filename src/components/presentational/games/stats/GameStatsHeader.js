@@ -53,11 +53,12 @@ const navBarStyleClasses = {
 
 const GameStatsHeader = memo(({
   navButtonClickHandler,
-  game,
-  teamGames,
   allStatsTypes,
-  selectedStatsType,
-  selectStatsType,
+  selectedStatsView,
+  selectedAthleteGameId,
+  changeStatsView,
+  changeAthleteGameId,
+  athleteGames,
 }) => (
   <Grid container direction="column" style={styles.container}>
     <NavBar
@@ -82,8 +83,8 @@ const GameStatsHeader = memo(({
           style={styles.tabsContainer}
         >
           <Tabs
-            onChange={selectStatsType}
-            selectedTabId={selectedStatsType}
+            onChange={changeStatsView}
+            selectedTabId={selectedStatsView}
             allTabIds={allStatsTypes}
             tabIcons={{
               player: <FaceSharp />,
@@ -103,7 +104,11 @@ const GameStatsHeader = memo(({
           alignItems="center"
           style={styles.carouselContainer}
         >
-          <Carousel gameId={game.id} teamGames={teamGames} />
+          <Carousel
+            athleteGames={athleteGames}
+            selectedAthleteGameId={selectedAthleteGameId}
+            changeAthleteGameId={changeAthleteGameId}
+          />
         </Card>
       </Slide>
     </Grid>

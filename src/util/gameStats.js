@@ -21,19 +21,19 @@ const calculateStatAverages = (allStatTypes, statsByGameId) => {
 };
 
 const updateBarValues = (
-  currentGameStats,
+  selectedGameStats,
   state,
 ) => {
   const {
     allStatTypes,
     barValuesByStatType,
-    pastAveragesByStatType,
+    otherAveragesByStatType,
   } = state;
 
   const newBarValues = allStatTypes.reduce((acc, statType) => {
     const [numerator, denominator] = sortNumbersAscending([
-      currentGameStats[statType],
-      pastAveragesByStatType[statType]
+      selectedGameStats[statType],
+      otherAveragesByStatType[statType]
     ]);
     const targetValue = denominator ? (numerator / denominator) * 100 : 0;
     const barValue = barValuesByStatType[statType];
@@ -54,8 +54,8 @@ const updateBarValues = (
   // Check whether all bar and target values are equal
   const barTargetReached = allStatTypes.every((statType) => {
     const [numerator, denominator] = sortNumbersAscending([
-      currentGameStats[statType],
-      pastAveragesByStatType[statType]
+      selectedGameStats[statType],
+      otherAveragesByStatType[statType]
     ]);
     const targetValue = denominator ? (numerator / denominator) * 100 : 0;
 
