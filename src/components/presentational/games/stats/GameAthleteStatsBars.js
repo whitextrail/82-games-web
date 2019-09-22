@@ -19,7 +19,7 @@ const styles = {
   },
   statsBarInnerContainer: {
     paddingTop: 5,
-    height: 85,
+    height: 80,
     width: 55,
   },
   statsBarValueLabel: {
@@ -28,7 +28,7 @@ const styles = {
   },
   statsBar: {
     height: 27,
-    width: 85,
+    width: 80,
     borderRadius: 3,
     transform: 'rotate(-90deg)',
     border: '5px solid rgba(0,0,0,0.84)',

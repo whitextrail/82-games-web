@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core';
 import GameAthleteStatsProfile from './GameAthleteStatsProfile';
 import GameAthleteStatsBars from './GameAthleteStatsBars';
-import GameAthleteStatsRadar from './GameAthleteStatsRadar';
+import GameAthleteStatsComparison from './GameAthleteStatsComparison';
 
 import {
   calculateStatAverages,
@@ -36,8 +36,9 @@ const initialState = {
 
 const styles = {
   container: {
-    height: 565,
+    height: 595,
     width: 365,
+    marginTop: 15,
   },
   barsContainer: {
     height: 150,
@@ -99,7 +100,7 @@ const GameAthleteStats = memo(({
           barValuesByStatType={barValuesByStatType}
         />
       </Card>
-      <GameAthleteStatsRadar />
+      <GameAthleteStatsComparison />
     </Grid>
   );
 });
