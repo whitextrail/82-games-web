@@ -15,7 +15,7 @@ import { primaryColor } from '../../../../styles/constants';
 const styles = {
   container: {
     marginTop: 15,
-    height: 360,
+    height: 325,
     position: 'relative',
   },
 };
@@ -62,71 +62,71 @@ const legendColors = [
 
 const GameAthleteStatsRadar = memo(() => {
   return (
-      <Zoom in timeout={2250}>
-        <Grid
-          container
-          justify="center"
-          alignItems="center"
-          direction="column"
-          style={styles.container}
-        >
-          <RadarChart
-            animation
-            data={DATA}
-            tickFormat={() => {
-              return '';
-            }}
-            height={325}
-            width={325}
-            domains={[
-              {name: 'PTS', domain: [0, 113], getValue: d => d.PTS},
-              {name: 'REB', domain: [0, 68], getValue: d => d.REB},
-              {name: 'AST', domain: [0, 29], getValue: d => d.AST},
-            ]}
-            style={{
-              polygons: {
-                strokeWidth: 5,
-                strokeOpacity: 1,
+    <Zoom in timeout={2250}>
+      <Grid
+        container
+        justify="center"
+        alignItems="center"
+        direction="column"
+        style={styles.container}
+      >
+        <RadarChart
+          animation
+          data={DATA}
+          tickFormat={() => {
+            return '';
+          }}
+          height={325}
+          width={325}
+          domains={[
+            {name: 'PTS', domain: [0, 113], getValue: d => d.PTS},
+            {name: 'REB', domain: [0, 68], getValue: d => d.REB},
+            {name: 'AST', domain: [0, 29], getValue: d => d.AST},
+          ]}
+          style={{
+            polygons: {
+              strokeWidth: 5,
+              strokeOpacity: 1,
+            },
+            labels: {
+              textAnchor: 'middle',
+              fontSize: 14,
+              fontFamily: ['Red Hat Display', 'sans-serif'],
+            },
+            axes: {
+              line: {
+                fillOpacity: 1,
+                strokeWidth: 10,
+                strokeOpacity: 0.54
               },
-              labels: {
-                textAnchor: 'middle',
-                fontSize: 14,
-                fontFamily: ['Red Hat Display', 'sans-serif'],
+              ticks: {
+                fillOpacity: 0,
+                strokeOpacity: 0
               },
-              axes: {
-                line: {
-                  fillOpacity: 1,
-                  strokeWidth: 10,
-                  strokeOpacity: 0.54
-                },
-                ticks: {
-                  fillOpacity: 0,
-                  strokeOpacity: 0
-                },
-              },
-            }}
-            margin={{
-              left: 30,
-              top: 40,
-              bottom: 0,
-              right: 30
-            }}
-            renderAxesOverPolygons={false}
-          />
-          <DiscreteColorLegend
-            items={legendItems}
-            colors={legendColors}
-            orientation="vertical"
-            height={200}
-            width={150}
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 10,
-            }}
-          />
-      </Grid>
-    </Zoom>
+            },
+          }}
+          margin={{
+            left: 30,
+            top: 40,
+            bottom: -40,
+            right: 30
+          }}
+          renderAxesOverPolygons={false}
+        />
+        <DiscreteColorLegend
+          items={legendItems}
+          colors={legendColors}
+          orientation="vertical"
+          height={200}
+          width={150}
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 10,
+          }}
+        />
+    </Grid>
+  </Zoom>
   );
 });
 
