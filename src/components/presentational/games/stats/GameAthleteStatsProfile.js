@@ -6,6 +6,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import spencerDinwiddie from '../../../../assets/img/spencer_dinwiddie.png';
+import { primaryColor } from '../../../../styles/constants';
 
 const styles = {
   container: {
@@ -21,14 +22,14 @@ const styles = {
     width: 110,
     position: 'relative',
     borderRadius: 5,
-    background: 'linear-gradient(333deg, rgba(89,43,108,1) 0%, rgba(142,68,173,1) 100%)',
+    backgroundColor: primaryColor,
   },
   photo: {
-    height: 80,
-    width: 80,
-    top: 17.5,
+    height: 85,
+    width: 85,
+    top: 15,
     borderRadius: '50%',
-    border: '5px solid rgba(0,0,0,0.94)',
+    border: '5px solid rgba(0,0,0,0.84)',
     backgroundColor: '#FFF',
     position: 'absolute',
   },

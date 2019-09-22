@@ -42,7 +42,7 @@ const styles = {
   },
   barsContainer: {
     height: 150,
-    background: 'linear-gradient(180deg, rgba(51,51,51,1) 0%, rgba(45,45,45,1) 100%)',
+    background: '#333',
   },
 };
 

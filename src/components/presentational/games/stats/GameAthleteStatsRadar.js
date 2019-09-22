@@ -89,6 +89,7 @@ const GameAthleteStatsRadar = memo(() => {
               strokeOpacity: 1,
             },
             labels: {
+              fill: '#FFF',
               textAnchor: 'middle',
               fontSize: 14,
               fontFamily: ['Red Hat Display', 'sans-serif'],

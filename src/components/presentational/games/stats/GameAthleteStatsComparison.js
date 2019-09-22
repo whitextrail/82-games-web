@@ -33,9 +33,10 @@ const GameAthleteStatsComparison = memo(() => {
           justify="center"
           alignItems="center"
           direction="column"
-          style={{ height: 70, width: 105, backgroundColor: '#000' }}
+          style={{ height: 80, width: 110, background: 'radial-gradient(rgba(32,32,32,1) 5%, rgba(0,0,0,1) 95%)' }}
         >
-          <Grid container justify="center" alignItems="center" style={{ height: 50 }}>
+          <Typography variant="body2" style={{ fontSize: 14, color: '#FFF' }}>BROOKLYN</Typography>
+          <Grid container justify="center" alignItems="center" style={{ height: 45 }}>
             <Grid container justify="center" alignItems="center" direction="column" style={{ width: 30 }}>
               <Typography variant="body2" style={{ fontSize: 16, color: '#FFF' }}>113</Typography>
               <Typography variant="body2" style={{ fontSize: 10, color: '#FFF' }}>PTS</Typography>
@@ -57,9 +58,10 @@ const GameAthleteStatsComparison = memo(() => {
           justify="center"
           alignItems="center"
           direction="column"
-          style={{ height: 70, width: 105, backgroundColor: '#E74C3C' }}
+          style={{ height: 80, width: 110, background: 'radial-gradient(rgba(231,76,60,1) 5%, rgba(144,48,37,1) 95%)' }}
         >
-          <Grid container justify="center" alignItems="center" style={{ height: 50 }}>
+          <Typography variant="body2" style={{ fontSize: 14, color: '#FFF' }}>MIAMI</Typography>
+          <Grid container justify="center" alignItems="center" style={{ height: 45 }}>
             <Grid container justify="center" alignItems="center" direction="column" style={{ width: 30 }}>
               <Typography variant="body2" style={{ fontSize: 16, color: '#FFF' }}>94</Typography>
               <Typography variant="body2" style={{ fontSize: 10, color: '#FFF' }}>PTS</Typography>
@@ -81,9 +83,10 @@ const GameAthleteStatsComparison = memo(() => {
           justify="center"
           alignItems="center"
           direction="column"
-          style={{ height: 70, width: 105, backgroundColor: '#8E44AD' }}
+          style={{ height: 80, width: 110, background: 'radial-gradient(rgba(142,68,173,1) 5%, rgba(71,34,86,1) 95%)' }}
         >
-          <Grid container justify="center" alignItems="center" style={{ height: 50 }}>
+          <Typography variant="body2" style={{ fontSize: 14, color: '#FFF' }}>DINWIDDIE</Typography>
+          <Grid container justify="center" alignItems="center" style={{ height: 45 }}>
             <Grid container justify="center" alignItems="center" direction="column" style={{ width: 30 }}>
               <Typography variant="body2" style={{ fontSize: 16, color: '#FFF' }}>8</Typography>
               <Typography variant="body2" style={{ fontSize: 10, color: '#FFF' }}>PTS</Typography>
