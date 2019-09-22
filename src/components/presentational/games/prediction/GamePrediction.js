@@ -9,6 +9,7 @@ import {
   Button,
 } from '@material-ui/core';
 import { LocalActivitySharp } from '@material-ui/icons';
+import { primaryColor } from '../../../../styles/constants';
 
 const styles = {
   container: {
@@ -41,7 +42,7 @@ const styles = {
   button: {
     height: 40,
     width: 40,
-    backgroundColor: '#8E44AD',
+    backgroundColor: primaryColor,
     color: '#FFF',
     marginTop: 7.5,
   },

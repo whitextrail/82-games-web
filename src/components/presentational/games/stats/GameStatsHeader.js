@@ -12,6 +12,7 @@ import {
 import NavBar from '../../nav/NavBar';
 import Carousel from '../../reusable/Carousel';
 import Tabs from '../../reusable/Tabs';
+import { primaryColor } from '../../../../styles/constants';
 
 const styles = {
   container: {
@@ -26,7 +27,7 @@ const styles = {
     height: 96,
     width: 72,
     borderRadius: 0,
-    backgroundColor: '#8E44AD',
+    backgroundColor: primaryColor,
   },
   carouselContainer: {
     height: 96,

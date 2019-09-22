@@ -59,7 +59,7 @@ const buyVoucher = async (voucherCount) => {
   const address = tronWeb.address.fromHex(account.address);
 
   try {
-    await contract.buyVoucher(address).send({
+    await contract.buyVoucher().send({
       callValue: 100000000 * voucherCount, // Rate for 1 voucher is currently hardcoded to 100 TRX
       shouldPollResponse: true,
     });

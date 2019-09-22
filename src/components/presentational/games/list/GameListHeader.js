@@ -1,12 +1,13 @@
 import React, { memo } from 'react';
 import NavBar from '../../nav/NavBar';
+import { primaryColor } from '../../../../styles/constants';
 
 const GameListHeader = memo(() => (
   <NavBar
     title="Games"
     styleClasses={{
       colorDefault: {
-        backgroundColor: '#8E44AD',
+        backgroundColor: primaryColor,
         color: '#FFF',
       },
     }}

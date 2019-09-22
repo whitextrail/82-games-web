@@ -9,6 +9,7 @@ import {
 } from '@material-ui/core';
 import { MoreHorizSharp } from '@material-ui/icons';
 import GameListItemTeams from './GameListItemTeams';
+import { primaryColor } from '../../../../styles/constants';
 
 const styles = {
   container: {
@@ -28,7 +29,7 @@ const styles = {
   actionButton: {
     marginTop: 8,
     marginRight: 8,
-    backgroundColor: '#8E44AD',
+    backgroundColor: primaryColor,
     color: '#FFF',
     fontSize: 20,
     width: 30,

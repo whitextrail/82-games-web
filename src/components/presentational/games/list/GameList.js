@@ -10,6 +10,7 @@ import {
   PlayCircleOutlineSharp,
   FastForwardSharp,
 } from '@material-ui/icons';
+import { primaryColor } from '../../../../styles/constants';
 
 const tabIcons = {
   previous: <ReplaySharp />,
@@ -27,7 +28,7 @@ const styles = {
     overflow: 'auto',
     maxHeight: '100vh',
     paddingTop: 10,
-    scrollbarColor: '#8E44AD'
+    scrollbarColor: primaryColor,
   },
 };
 

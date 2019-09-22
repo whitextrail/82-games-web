@@ -15,6 +15,7 @@ import {
 } from '@material-ui/icons';
 import Dialog from '../reusable/Dialog';
 import ProgressSpinner from '../reusable/ProgressSpinner';
+import { primaryColor } from '../../../styles/constants';
 
 const styles = {
   dialogTitle: {
@@ -26,6 +27,7 @@ const styles = {
   },
   counterButtonText: {
     fontSize: 36,
+    color: primaryColor,
   },
   currentCounterText: {
     fontSize: 28,
@@ -79,7 +81,7 @@ const VoucherDialog = memo(({
                   disabled={selectedVoucherCount <= minCount}
                   onClick={() => updateSelectedVoucherCount(selectedVoucherCount - 1)}
                 >
-                  <RemoveCircleOutlineSharp color="primary" style={styles.counterButtonText} />
+                  <RemoveCircleOutlineSharp style={styles.counterButtonText} />
                 </IconButton>
               </Grid>
               <Grid justify="center" alignItems="center" direction="column" container spacing={2} style={{ width: '35%' }}>
@@ -92,7 +94,7 @@ const VoucherDialog = memo(({
                   disabled={selectedVoucherCount >= maxCount}
                   onClick={() => updateSelectedVoucherCount(selectedVoucherCount + 1)}
                 >
-                  <AddCircleOutlineSharp color="primary" style={styles.counterButtonText} />
+                  <AddCircleOutlineSharp style={styles.counterButtonText} />
                 </IconButton>
               </Grid>
             </Grid>
@@ -101,10 +103,12 @@ const VoucherDialog = memo(({
       </Dialog.Content>
       <Dialog.Actions>
         <Fragment>
-          { !inProgress && address && (
+          { !inProgress && (
             <Grid justify="center" alignItems="center" container style={styles.dialogActions}>
               <Dialog.CancelAction text="Close" onClick={() => hideVoucherDialog()} />
-              <Dialog.ConfirmAction text="Buy Vouchers" onClick={() => purchaseVoucher(selectedVoucherCount)} />
+              { address && (
+                <Dialog.ConfirmAction text="Buy Vouchers" onClick={() => purchaseVoucher(selectedVoucherCount)} />
+              )}
             </Grid>
           )}
         </Fragment>

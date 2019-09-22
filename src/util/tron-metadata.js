@@ -1,4 +1,4 @@
-const getContractAddress = () => 'TC7b2pYyqMqcKeTKhgr1uFqU5gKiezoMHz';
+const getContractAddress = () => 'TWvRLMjDrTsB3KhQfDVVmWCMtPHdZcCbBA';
 
 const getContractABI = () => ([
   {
@@ -55,14 +55,67 @@ const getContractABI = () => ([
     "type": "fallback"
   },
   {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "name": "userAddress",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "name": "gameId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "name": "points",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "name": "rebounds",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "name": "assists",
+        "type": "uint256"
+      }
+    ],
+    "name": "LogUserPrediction",
+    "type": "event"
+  },
+  {
+    "constant": false,
+    "inputs": [],
+    "name": "buyVoucher",
+    "outputs": [],
+    "payable": true,
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
     "constant": false,
     "inputs": [
       {
-        "name": "userAddress",
-        "type": "address"
+        "name": "gameId",
+        "type": "uint256"
+      },
+      {
+        "name": "points",
+        "type": "uint256"
+      },
+      {
+        "name": "rebounds",
+        "type": "uint256"
+      },
+      {
+        "name": "assists",
+        "type": "uint256"
       }
     ],
-    "name": "buyVoucher",
+    "name": "submitPrediction",
     "outputs": [],
     "payable": true,
     "stateMutability": "payable",

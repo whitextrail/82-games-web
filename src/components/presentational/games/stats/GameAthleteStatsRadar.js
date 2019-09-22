@@ -10,6 +10,7 @@ import {
   RadarChart,
   DiscreteColorLegend,
 } from 'react-vis';
+import { primaryColor } from '../../../../styles/constants';
 
 const styles = {
   container: {
@@ -42,7 +43,7 @@ const DATA = [
     AST: 15,
     REB: 5,
     fill: 'rgba(142,68,173,0.84)',
-    stroke: '#8E44AD',
+    stroke: primaryColor,
     fillOpacity: 1,
   },
 ];

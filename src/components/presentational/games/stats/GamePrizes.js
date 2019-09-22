@@ -8,6 +8,7 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { prizeImages } from '../../../../assets/img';
+import { primaryColor } from '../../../../styles/constants';
 
 const styles = {
   container: {
@@ -57,7 +58,7 @@ const GamePrizes = memo(({
       backgroundColor: 'rgba(0,0,0,0.54)',
     },
     colorPrimary: {
-      backgroundColor: '#8E44AD',
+      backgroundColor: primaryColor,
     },
   })();
 
