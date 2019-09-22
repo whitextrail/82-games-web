@@ -10,23 +10,25 @@ const styles = {
   container: {
     height: 125,
     width: 125,
-    paddingRight: 2.5,
+    paddingRight: 5,
   },
   title: {
     fontSize: 12,
     color: '#FFF',
   },
   photoContainer: {
-    height: 100,
-    width: 100,
+    height: 95,
+    width: 95,
     borderRadius: '50%',
-    border: '5px solid rgba(0,0,0,0.9)',
-    backgroundColor: 'rgba(255,255,255,0.74)',
+    border: '5px solid #333',
+    backgroundColor: 'transparent'
   },
   photo: {
-    height: 90,
-    width: 90,
+    height: 85,
+    width: 85,
     borderRadius: '50%',
+    border: '3px solid #FFF',
+    backgroundColor: '#000',
   },
 };
 
@@ -37,7 +39,7 @@ const GameAthleteStatsProfile = memo(() => (
       component={Grid}
       container
       justify="center"
-      alignItems="flex-end"
+      alignItems="center"
       style={styles.photoContainer}
     >
       <CardMedia image={spencerDinwiddie} style={styles.photo} />
