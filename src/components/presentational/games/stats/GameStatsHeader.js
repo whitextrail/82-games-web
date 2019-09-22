@@ -21,19 +21,19 @@ const styles = {
   controlsContainer: {
     height: 96,
     width: 375,
-    paddingRight: 5,
+    paddingRight: 10,
   },
   tabsContainer: {
     height: 96,
     width: 72,
-    borderRadius: 0,
+    borderTopLeftRadius: 0,
+    borderBottomLeftRadius: 0,
     backgroundColor: primaryColor,
   },
   carouselContainer: {
     height: 96,
-    width: 288,
+    width: 278,
     backgroundColor: 'rgba(0,0,0,0.24)',
-    borderRadius: 2,
   },
 };
 const tabsIndicatorProps = {
@@ -94,14 +94,18 @@ const GameStatsHeader = memo(({
           />
         </Card>
       </Slide>
-      <Grid
-        container
-        justify="flex-start"
-        alignItems="center"
-        style={styles.carouselContainer}
-      >
-        <Carousel gameId={game.id} teamGames={teamGames} />
-      </Grid>
+      <Slide in direction="left" timeout={750}>
+        <Card
+          raised
+          component={Grid}
+          container
+          justify="flex-start"
+          alignItems="center"
+          style={styles.carouselContainer}
+        >
+          <Carousel gameId={game.id} teamGames={teamGames} />
+        </Card>
+      </Slide>
     </Grid>
   </Grid>
 ));

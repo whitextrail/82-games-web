@@ -42,7 +42,7 @@ const DATA = [
     PTS: 40,
     AST: 15,
     REB: 5,
-    fill: 'rgba(142,68,173,0.84)',
+    fill: 'rgba(142,68,173,0.24)',
     stroke: primaryColor,
     fillOpacity: 1,
   },
@@ -112,7 +112,7 @@ const GameAthleteStatsRadar = memo(() => {
             bottom: -40,
             right: 30
           }}
-          renderAxesOverPolygons={false}
+          renderAxesOverPolygons={true}
         />
         <DiscreteColorLegend
           items={legendItems}

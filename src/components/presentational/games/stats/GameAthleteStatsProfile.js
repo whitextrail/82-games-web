@@ -6,37 +6,31 @@ import {
   Typography,
 } from '@material-ui/core';
 import spencerDinwiddie from '../../../../assets/img/spencer_dinwiddie.png';
-import { primaryColor } from '../../../../styles/constants';
 
 const styles = {
   container: {
     height: 150,
     width: 125,
   },
-  title: {
-    fontSize: 12,
-    color: '#FFF',
-  },
   photoContainer: {
     height: 110,
     width: 110,
     position: 'relative',
     borderRadius: 5,
-    backgroundColor: primaryColor,
+    border: '5px solid rgba(0,0,0,0.84)',
+    backgroundColor: 'transparent',
   },
   photo: {
-    height: 85,
-    width: 85,
-    top: 15,
-    borderRadius: '50%',
-    border: '5px solid rgba(0,0,0,0.84)',
-    backgroundColor: '#FFF',
+    height: 100,
+    width: 100,
+    border: '5px solid #000',
+    backgroundColor: '#000',
     position: 'absolute',
   },
   playerNumber: {
     position: 'absolute',
-    left: 7.5,
-    top: 2.5,
+    left: 5,
+    top: 0,
     color: '#FFF',
   },
 };

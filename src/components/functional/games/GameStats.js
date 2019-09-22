@@ -69,7 +69,7 @@ const reducer = (state, action) => {
 
 const styles = {
   container: {
-    backgroundColor: '#333',
+    background: 'linear-gradient(180deg, rgba(51,51,51,1) 25%, rgba(25,25,25,1) 100%)',
     height: '100vh',
   },
 };

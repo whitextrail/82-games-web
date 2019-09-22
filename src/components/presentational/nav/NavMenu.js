@@ -68,7 +68,7 @@ const NavMenu = memo(() => {
   } = useContext(NavContext);
 
   return (
-    <Collapse in={menuOpen}>
+    <Collapse in={menuOpen} timeout={500}>
       <NavBar icon={<CloseSharp />} styleClasses={{ colorDefault: { backgroundColor: '#333333'} }} />
       <List style={styles.navMenu}>
         { navMenuItems.map((menuItem) => {

@@ -37,11 +37,12 @@ const initialState = {
 const styles = {
   container: {
     height: 595,
-    width: 365,
+    width: 375,
     marginTop: 15,
   },
   barsContainer: {
     height: 150,
+    width: 355,
     background: '#333',
   },
 };
