@@ -62,30 +62,30 @@ const GameAthleteStatsBars = memo(({
 
   return (
     <Grid container justify="center" alignItems="center" style={styles.container}>
-        {
-          allStatTypes.map((statType) => (
-            <Grid
-              key={statType}
-              container
-              justify="center"
-              alignItems="center"
-              direction="column"
-              style={styles.statsBarInnerContainer}
-            >
-              <LinearProgress
-                color="primary"
-                classes={statsBarClassStyles}
-                variant="determinate"
-                value={barValuesByStatType[statType]}
-                style={styles.statsBar}
-              />
-              <Grid container alignItems="center" direction="column" style={styles.statsLabelContainer}>
-                <Typography variant="body2" style={styles.statsBarTypeLabel}>{statType}</Typography>
-                <Typography variant="body2" style={styles.statsBarValueLabel}>{selectedGameStats[statType]}</Typography>
-              </Grid>
+      {
+        allStatTypes.map((statType) => (
+          <Grid
+            key={statType}
+            container
+            justify="center"
+            alignItems="center"
+            direction="column"
+            style={styles.statsBarInnerContainer}
+          >
+            <LinearProgress
+              color="primary"
+              classes={statsBarClassStyles}
+              variant="determinate"
+              value={barValuesByStatType[statType]}
+              style={styles.statsBar}
+            />
+            <Grid container alignItems="center" direction="column" style={styles.statsLabelContainer}>
+              <Typography variant="body2" style={styles.statsBarTypeLabel}>{statType}</Typography>
+              <Typography variant="body2" style={styles.statsBarValueLabel}>{selectedGameStats[statType]}</Typography>
             </Grid>
-          ))
-        }
+          </Grid>
+        ))
+      }
     </Grid>
   );
 });

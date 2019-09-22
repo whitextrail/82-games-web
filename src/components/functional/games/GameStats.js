@@ -2,6 +2,7 @@ import React, {
   memo,
   useReducer,
   useCallback,
+  useEffect,
 } from 'react';
 import { Grid } from '@material-ui/core';
 import { connect } from 'react-redux';
@@ -47,11 +48,13 @@ const initialState = {
   selectedStatsView: 'player',
   selectedAthleteGameId: 0,
   remainingGameTime: 2880,
+  gameStatsFetched: false,
 };
 
 const actionTypes = {
   CHANGE_STATS_VIEW: 'CHANGE_STATS_VIEW',
   CHANGE_ATHLETE_GAME_ID: 'CHANGE_ATHLETE_GAME_ID',
+  UPDATE_GAME_STATS_FETCHED: 'UPDATE_GAME_STATS_FETCHED',
 };
 
 const reducer = (state, action) => {
@@ -62,6 +65,7 @@ const reducer = (state, action) => {
   const {
     CHANGE_STATS_VIEW,
     CHANGE_ATHLETE_GAME_ID,
+    UPDATE_GAME_STATS_FETCHED,
   } = actionTypes;
 
   switch(type) {
@@ -74,6 +78,11 @@ const reducer = (state, action) => {
       return {
         ...state,
         selectedAthleteGameId: payload,
+      };
+    case UPDATE_GAME_STATS_FETCHED:
+      return {
+        ...state,
+        gameStatsFetched: true,
       };
     default:
       return state;
@@ -103,38 +112,8 @@ const GameStats = memo(({
     selectedStatsView,
     allStatsTypes,
     selectedAthleteGameId,
+    gameStatsFetched,
   } = state;
-  const {
-    id: gameId,
-    homeTeamStatistics,
-    awayTeamStatistics,
-    homeTeamId,
-    awayTeamId,
-  } = game;
-  const hasTeamStatistics = homeTeamStatistics && awayTeamStatistics;
-  const homeTeam = teamsById[homeTeamId];
-  const awayTeam = teamsById[awayTeamId];
-  const athleteGames = teamGameIds.reduce((accumulator, value) => {
-    if (athlete.performanceStatisticsByGameId[value]) {
-      const {
-        arena,
-        localGameDateTime,
-      } = gamesById[value];
-
-      return {
-        ...accumulator,
-        [value]: {
-          arena,
-          localGameDateTime,
-          homeTeamName: homeTeam.name,
-          awayTeamName: awayTeam.name,
-          ...athlete.performanceStatisticsByGameId[value],
-        },
-      };
-    }
-
-    return accumulator;
-  }, {});
 
   const changeStatsView = useCallback(
     ({ currentTarget: { id } }) => dispatch({ type: actionTypes.CHANGE_STATS_VIEW, payload: id }),
@@ -146,11 +125,82 @@ const GameStats = memo(({
     [dispatch]
   );
 
-  if (!hasTeamStatistics) {
-    fetchGameStatisticByIdAction(gameId);
+  useEffect(() => {
+    if (!gameStatsFetched) {
+      teamGameIds.forEach((id, index) => {
+        const {
+          homeTeamStatistics,
+          awayTeamStatistics,
+        } = gamesById[id];
+
+        if (!homeTeamStatistics || !awayTeamStatistics) {
+          return fetchGameStatisticByIdAction(id);
+        } else if (index === (teamGameIds.length - 1)) {
+          return dispatch({ type: actionTypes.UPDATE_GAME_STATS_FETCHED });
+        }
+      });
+    }
+  });
+
+  const {
+    homeTeamId,
+    awayTeamId,
+  } = gamesById[selectedAthleteGameId];
+  const homeTeam = teamsById[homeTeamId];
+  const awayTeam = teamsById[awayTeamId];
+
+  let athleteGames;
+
+  if (gameStatsFetched) {
+    athleteGames = teamGameIds.reduce((accumulator, value) => {
+      if (athlete.performanceStatisticsByGameId[value]) {
+        const athleteSplitName = athlete.name.split(' ');
+        const {
+          arena,
+          localGameDateTime,
+          homeTeamStatistics: currentHomeTeamStatistics,
+          awayTeamStatistics: currentAwayTeamStatistics,
+        } = gamesById[value];
+
+        return {
+          ...accumulator,
+          [value]: {
+            arena,
+            localGameDateTime,
+            homeTeamName: homeTeam.name,
+            awayTeamName: awayTeam.name,
+            athleteName: athleteSplitName[athleteSplitName.length - 1],
+            homeTeamStatistics: {
+              PTS: (
+                currentHomeTeamStatistics.PTS_QTR1 +
+                currentHomeTeamStatistics.PTS_QTR2 +
+                currentHomeTeamStatistics.PTS_QTR3 +
+                currentHomeTeamStatistics.PTS_QTR4
+              ),
+              REB: currentHomeTeamStatistics.REB,
+              AST: currentHomeTeamStatistics.AST,
+            },
+            awayTeamStatistics: {
+              PTS: (
+                currentAwayTeamStatistics.PTS_QTR1 +
+                currentAwayTeamStatistics.PTS_QTR2 +
+                currentAwayTeamStatistics.PTS_QTR3 +
+                currentAwayTeamStatistics.PTS_QTR4
+              ),
+              REB: currentAwayTeamStatistics.REB,
+              AST: currentAwayTeamStatistics.AST,
+            },
+            statsKeys: ['PTS', 'REB', 'AST'],
+            athleteStatistics: { ...athlete.performanceStatisticsByGameId[value] },
+          },
+        };
+      }
+
+      return accumulator;
+    }, {});
   }
 
-  return hasTeamStatistics && (
+  return gameStatsFetched && (
     <Grid
       container
       alignItems="center"

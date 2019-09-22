@@ -4,24 +4,42 @@ const calculateStatAverages = (allStatTypes, statsByGameId) => {
   const gameIds = Object.keys(statsByGameId);
 
   return gameIds.reduce((acc, id, index) => {
-    const stats = statsByGameId[id];
+    const {
+      athleteStatistics: {
+        MIN,
+        PTS,
+        REB,
+        AST,
+      }
+    } = statsByGameId[id];
+    const newAcc = {
+      MIN: acc.MIN + MIN,
+      PTS: acc.PTS + PTS,
+      REB: acc.REB + REB,
+      AST: acc.AST + AST,
+    };
 
-    return allStatTypes.reduce((acc, type) => {
-      const isLast = index < (gameIds.length - 1);
-      const typeValue = !isLast
-        ? (acc[type] || 0) + stats[type]
-        : (acc[type] + stats[type]) / gameIds.length;
+    if (index === (gameIds.length - 1)) {
+      // Change totals to average values
+      newAcc.MIN = newAcc.MIN / gameIds.length;
+      newAcc.PTS = newAcc.PTS / gameIds.length;
+      newAcc.REB = newAcc.REB / gameIds.length;
+      newAcc.AST = newAcc.AST / gameIds.length;
+    }
 
-      return ({
-        ...acc,
-        [type]: typeValue,
-      });
-    }, {});
-  }, {});
+    return {
+      ...newAcc,
+    };
+  }, {
+    MIN: 0,
+    PTS: 0,
+    REB: 0,
+    AST: 0,
+  });
 };
 
 const updateBarValues = (
-  selectedGameStats,
+  athleteStats,
   state,
 ) => {
   const {
@@ -32,7 +50,7 @@ const updateBarValues = (
 
   const newBarValues = allStatTypes.reduce((acc, statType) => {
     const [numerator, denominator] = sortNumbersAscending([
-      selectedGameStats[statType],
+      athleteStats[statType],
       otherAveragesByStatType[statType]
     ]);
     const targetValue = denominator ? (numerator / denominator) * 100 : 0;
@@ -54,7 +72,7 @@ const updateBarValues = (
   // Check whether all bar and target values are equal
   const barTargetReached = allStatTypes.every((statType) => {
     const [numerator, denominator] = sortNumbersAscending([
-      selectedGameStats[statType],
+      athleteStats[statType],
       otherAveragesByStatType[statType]
     ]);
     const targetValue = denominator ? (numerator / denominator) * 100 : 0;

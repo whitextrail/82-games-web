@@ -73,7 +73,7 @@ const GameAthleteStats = memo(({
         otherAveragesCalculated: true,
       });
     } else if (!barValuesUpdated) {
-      setTimeout(() => updateState(updateBarValues(selectedGameStats, state)), 100);
+      setTimeout(() => updateState(updateBarValues(selectedGameStats.athleteStatistics, state)), 100);
     } else if (otherAveragesCalculated && barValuesUpdated && (calculatedGameId !== selectedAthleteGameId)) {
       return updateState({
         ...state,
@@ -110,7 +110,7 @@ const GameAthleteStats = memo(({
           selectedGameStats={selectedGameStats}
         />
       </Card>
-      <GameAthleteStatsComparison />
+      <GameAthleteStatsComparison selectedGameStats={selectedGameStats} />
     </Grid>
   );
 });
