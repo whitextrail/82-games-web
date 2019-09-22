@@ -6,20 +6,23 @@ import {
 
 const ReusableTabs = memo(({
   selectedTabId,
-  inProgress,
   onChange,
   allTabIds,
   tabIcons,
+  tabIndicatorProps,
+  orientation = 'horizontal',
+  style,
 }) => {
-  const indicatorColor = inProgress ? 'primary' : 'secondary';
-
   return (
     <Tabs
       value={selectedTabId}
-      indicatorColor={indicatorColor}
+      indicatorColor="secondary"
       textColor="secondary"
       variant="fullWidth"
+      orientation={orientation}
       onChange={onChange}
+      TabIndicatorProps={tabIndicatorProps}
+      style={style}
     >
       { allTabIds.map(id => <Tab id={id} key={id} icon={tabIcons[id]} value={id} />) }
     </Tabs>

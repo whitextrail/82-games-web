@@ -1,88 +1,107 @@
-import React, { memo } from 'react';
+import React, {
+  memo,
+  useState,
+  useEffect,
+} from 'react';
 import {
   Grid,
-  Paper,
-  Typography,
+  Card,
 } from '@material-ui/core';
-import { Doughnut } from 'react-chartjs-2';
+import GameAthleteStatsProfile from './GameAthleteStatsProfile';
+import GameAthleteStatsBars from './GameAthleteStatsBars';
+import GameAthleteStatsRadar from './GameAthleteStatsRadar';
+
+import {
+  calculateStatAverages,
+  updateBarValues,
+} from '../../../../util/gameStats';
+
+const initialState = {
+  pastAveragesByStatType: {
+    MIN: 0,
+    PTS: 0,
+    REB: 0,
+    AST: 0,
+  },
+  barValuesByStatType: {
+    MIN: 0,
+    PTS: 0,
+    REB: 0,
+    AST: 0,
+  },
+  allStatTypes: ['MIN', 'PTS', 'REB', 'AST'],
+  pastAveragesCalculated: false,
+  barValuesUpdated: false,
+};
 
 const styles = {
   container: {
-    marginTop: 15,
-    height: 175,
-    width: 355,
-    backgroundColor: 'transparent',
-    border: '3px solid #333'
+    height: 565,
+    width: 365,
   },
-  statsContainer: {
-    paddingTop: 10,
-  },
-  athleteName: {
-    fontSize: 14,
-    fontWeight: 600,
-  },
-  chartContainer: {
-    position: 'relative',
-    width: 225,
-    marginTop: 15,
-  },
-};
-
-const populateDoughnutChartData = (PTS, REB, AST) => ({
-	labels: [
-		`PTS: ${PTS}`,
-		`REB: ${REB}`,
-		`AST: ${AST}`,
-	],
-	datasets: [{
-    data: [PTS, REB, AST],
-    borderColor: [
-      'rgba(46,204,113,1)',
-      'rgba(255,59,63,1)',
-      'rgba(52,152,219,1)',
-    ],
-		backgroundColor: [
-		'rgba(46,204,113,0.1)',
-		'rgba(255,59,63,0.1)',
-		'rgba(52,152,219,0.1)'
-		],
-	}]
-});
-
-const doughnutChartOptions = {
-  response: true,
-  legend: {
-    display: true,
-    position: 'right'
+  barsContainer: {
+    height: 150,
+    backgroundColor: '#333333',
   },
 };
 
 const GameAthleteStats = memo(({
-  name,
-  PTS,
-  REB,
-  AST,
-}) => (
-  <Paper
-    component={Grid}
-    container
-    justify="flex-end"
-    alignItems="center"
-    direction="column"
-    style={styles.container}
-  >
-    <Grid container justify="center" alignItems="center" direction="column" style={styles.statsContainer}>
-      <Typography variant="body2" color="secondary" style={styles.athleteName}>
-        {name}
-      </Typography>
-      <Grid container style={styles.chartContainer}>
-        <Doughnut
-          data={populateDoughnutChartData(PTS, REB, AST)}
-          options={doughnutChartOptions}
+  currentGameId,
+  statsByGameId,
+}) => {
+  const {
+    [currentGameId]: currentGameStats,
+    ...pastGamesStats
+  } = statsByGameId;
+  const [state, updateState] = useState(initialState);
+  const {
+    barValuesByStatType,
+    pastAveragesByStatType,
+    pastAveragesCalculated,
+    barValuesUpdated,
+    allStatTypes,
+  } = state;
+
+  useEffect(() => {
+    if (!pastAveragesCalculated) {
+      return updateState({
+        ...state,
+        pastAveragesByStatType: calculateStatAverages(allStatTypes, pastGamesStats),
+        pastAveragesCalculated: true,
+      });
+    } else if (!barValuesUpdated) {
+      setTimeout(() => updateState(updateBarValues(currentGameStats, state)), 100);
+    }
+  }, [
+    state,
+    pastAveragesCalculated,
+    barValuesUpdated,
+    allStatTypes,
+    currentGameStats,
+    pastGamesStats,
+  ]);
+
+  return (
+    <Grid container justify="center" alignItems="center" direction="column" style={styles.container}>
+      <Card
+        raised
+        component={Grid}
+        container
+        justify="center"
+        alignItems="center"
+        style={styles.barsContainer}
+      >
+        <GameAthleteStatsProfile />
+        <GameAthleteStatsBars
+          allStatTypes={allStatTypes}
+          currentGameStats={currentGameStats}
+          pastAveragesByStatType={pastAveragesByStatType}
+          barValuesByStatType={barValuesByStatType}
         />
-      </Grid>
+      </Card>
+      <GameAthleteStatsRadar />
     </Grid>
-  </Paper>
-));
+  );
+});
 
 export default GameAthleteStats;

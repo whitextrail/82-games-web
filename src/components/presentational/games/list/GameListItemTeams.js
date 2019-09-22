@@ -1,99 +1,42 @@
 import React, { memo } from 'react';
 import {
   Grid,
-  Typography,
   CardMedia,
 } from '@material-ui/core';
-import {
-  HomeSharp,
-  AirplanemodeActiveSharp,
-} from '@material-ui/icons';
+import { AllInclusiveSharp } from '@material-ui/icons';
 import * as svg from '../../../../assets/svg/index';
 
 const styles = {
   container: {
-    height: '75%',
+    height: 140,
+  },
+  innerContainer: {
+    height: 110,
   },
   teamImage: {
-    marginBottom: 10,
-    height: 100,
-    width: 100,
+    height: 110,
+    width: 110,
   },
-  textContainer: {
+  icon: {
     width: 50,
-    height: 100,
-  },
-  winningTeamPoints: {
-    color: '#2ECC71',
-  },
-  loserTeamPoints: {
-    color: '#E74C3C',
+    color: '#FFF',
   },
 };
 
-const TeamImage = memo(({
-  team: {
-    id,
-    name,
-    points,
-  },
-  isWinner,
-}) => {
-  const teamImageName = `${name.split(' ').join('_')}_${id}`;
-  const teamPointsStyle = isWinner ? styles.winningTeamPoints : styles.loserTeamPoints;
-
-  return svg[teamImageName] && (
-    <Grid container justify="center" alignItems="center" direction="column">
-      <CardMedia style={styles.teamImage} image={svg[teamImageName]} />
-      <Typography variant="body1" style={teamPointsStyle}>{points}</Typography>
-    </Grid>
-  );
-});
-
-const TeamLocation = memo(({
-  isHome,
-}) => {
-  const headerText = isHome ? 'HOME' : 'AWAY';
-  const icon = isHome
-    ? <HomeSharp />
-    : <AirplanemodeActiveSharp style={{ transform: `rotate(90deg)` }} />;
-
-  return (
-    <Grid
-      container
-      direction="column"
-      justify="space-around"
-      alignItems="center"
-      style={styles.textContainer}
-    >
-      <Typography variant="body2">{headerText}</Typography>
-        {icon}
-      <Typography variant="body2">GAME</Typography>
-    </Grid>
-  );
-});
-
 const GameListItemTeams = memo(({
-  isHome,
   homeTeam,
   awayTeam,
 }) => {
-  const homeWinner = homeTeam.points > awayTeam.points;
-  const awayWinner = homeTeam.points < awayTeam.points;
+  const homeTeamImage = svg[`${homeTeam.name.split(' ').join('_')}_${homeTeam.id}`];
+  const awayTeamImage = svg[`${awayTeam.name.split(' ').join('_')}_${awayTeam.id}`];
 
-  return (
-    <Grid container alignItems="center" style={styles.container}>
-      <TeamImage
-        team={isHome ? homeTeam : awayTeam}
-        isHome={isHome}
-        isWinner={homeWinner}
-      />
-      <TeamLocation isHome={isHome} />
-      <TeamImage
-        team={isHome ? awayTeam : homeTeam}
-        isHome={isHome}
-        isWinner={awayWinner}
-      />
+  return !!(homeTeamImage && awayTeamImage) && (
+    <Grid container justify="center" style={styles.container}>
+      <Grid container justify="center" alignItems="center" style={styles.innerContainer}>
+        <CardMedia style={styles.teamImage} image={homeTeamImage} />
+        <AllInclusiveSharp style={styles.icon} />
+        <CardMedia style={styles.teamImage} image={awayTeamImage} />
+      </Grid>
     </Grid>
   );
 });

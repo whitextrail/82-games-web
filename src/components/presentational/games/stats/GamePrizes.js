@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import {
   Grid,
-  Paper,
+  Card,
   Fab,
   Typography,
   LinearProgress,
@@ -11,40 +11,28 @@ import { prizeImages } from '../../../../assets/img';
 
 const styles = {
   container: {
-    height: 115,
+    height: 80,
     width: 355,
     position: 'relative',
     backgroundColor: 'transparent',
-    borderBottomRightRadius: 0,
-    borderBottomLeftRadius: 0,
   },
   linearProgress: {
     height: '100%',
     width: '100%',
     position: 'absolute',
-    borderTopRightRadius: 5,
-    borderTopLeftRadius: 5,
-  },
-  headerTextContainer: {
-    height: 40,
-    position: 'absolute',
-    top: 0,
-  },
-  headerText: {
-    fontSize: 16,
-    fontWeight: 600
+    borderRadius: 5,
   },
   prizesContainer: {
     position: 'absolute',
-    top: 15,
-    width: 340,
+    width: '100%',
+    paddingTop: 5,
   },
   prizeContainer: {
     height: 65,
     width: 85,
   },
   prizeFab: {
-    height: 36,
+    height: 30,
     width: 70,
   },
   prizeImage: {
@@ -66,10 +54,10 @@ const GamePrizes = memo(({
 }) => {
   const countdownClasses = makeStyles({
     barColorPrimary: {
-      backgroundColor: 'rgba(255,255,255,0.24)',
+      backgroundColor: 'rgba(0,0,0,0.54)',
     },
     colorPrimary: {
-      backgroundColor: '#F1C40F',
+      backgroundColor: '#8E44AD',
     },
   })();
 
@@ -77,7 +65,8 @@ const GamePrizes = memo(({
   const countdownCompletion = 100 - ((remainingGameTime / 2880) * 100);
 
   return (
-    <Paper
+    <Card
+      raised
       component={Grid}
       container
       justify="center"
@@ -88,21 +77,11 @@ const GamePrizes = memo(({
       <LinearProgress
         color="primary"
         variant="determinate"
-        value={countdownCompletion}
+        value={75}
         style={styles.linearProgress}
         classes={countdownClasses}
       />
-      <Grid
-        container
-        justify="center"
-        alignItems="center"
-        style={styles.headerTextContainer}
-      >
-        <Typography variant="body1" color="secondary" style={styles.headerText}>
-          GAME COUNTDOWN
-        </Typography>
-      </Grid>
-      <Grid container alignItems="center" style={styles.prizesContainer}>
+      <Grid container justify="center" alignItems="center" style={styles.prizesContainer}>
         {
           allPeriods.map((period) => {
             const {
@@ -116,7 +95,15 @@ const GamePrizes = memo(({
             // Each game has 4 periods (essentially, quarters) so we can check if a period is over by
             // comparing the countdownCompletion against the period number * 25 (1/4th of 100)
             const periodOver = countdownCompletion >= (periodNumber * 25);
-            const periodStyles = periodOver ? { textDecoration: 'line-through' } : {};
+            const periodStyles = periodOver
+              ? ({
+                  textDecoration: 'line-through',
+                  fontStyle: 'italic',
+                })
+              : ({
+                  color: '#FFF',
+                  fontWeight: 600,
+                });
             const prizeFabStyles = {
               ...styles.prizeFab,
               backgroundColor: periodOver ? '#333' : '#FFF',
@@ -149,7 +136,7 @@ const GamePrizes = memo(({
           })
         }
       </Grid>
-    </Paper>
+    </Card>
   );
 });
 

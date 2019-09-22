@@ -1,18 +1,16 @@
 import React, {
   memo,
   useReducer,
+  useCallback,
 } from 'react';
 import { Grid } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { fetchGameStatisticById } from '../../../state/actions';
-import GamePrediction from './GamePrediction';
 import GameStatsHeader from '../../presentational/games/stats/GameStatsHeader';
-import GamePrizes from '../../presentational/games/stats/GamePrizes';
-import GameTeamStats from '../../presentational/games/stats/GameTeamStats';
 import GameAthleteStats from '../../presentational/games/stats/GameAthleteStats';
 
 const initialState = {
-  byPeriod: {
+  byGamePeriod: {
     '1st': {
       period: 1,
       prize: {
@@ -42,14 +40,28 @@ const initialState = {
       },
     }
   },
-  allPeriods: ['1st', '2nd', '3rd', '4th'],
+  allGamePeriods: ['1st', '2nd', '3rd', '4th'],
+  allStatsTypes: ['player', 'teams'],
+  selectedStatsType: 'player',
   remainingGameTime: 2880,
 };
 
+const actionTypes = {
+  SELECT_STATS_TYPE: 'SELECT_STATS_TYPE',
+};
+
 const reducer = (state, action) => {
-  const { type } = action;
+  const {
+    type,
+    payload,
+  } = action;
 
   switch(type) {
+    case actionTypes.SELECT_STATS_TYPE:
+      return {
+        ...state,
+        selectedStatsType: payload,
+      };
     default:
       return state;
   }
@@ -63,25 +75,56 @@ const styles = {
 };
 
 const GameStats = memo(({
+  history,
+  statusId,
+  game,
+  gamesById,
+  teamGameIds,
   teamsById,
-  game: {
+  athlete,
+  fetchGameStatisticById: fetchGameStatisticByIdAction,
+}) => {
+  // TODO: Use the dispatcher function to update remainingGameTime
+  const [state,dispatch] = useReducer(reducer, initialState);
+  const {
     id: gameId,
-    homeTeamPoints,
-    awayTeamPoints,
     homeTeamStatistics,
     awayTeamStatistics,
     homeTeamId,
     awayTeamId,
-  },
-  athlete: {
-    name: athleteName,
-    performanceStatistics: { PTS, REB, AST },
-  },
-  fetchGameStatisticById: fetchGameStatisticByIdAction,
-}) => {
-  // TODO: Use the dispatcher function to update remainingGameTime
-  const [state,] = useReducer(reducer, initialState);
+  } = game;
   const hasTeamStatistics = homeTeamStatistics && awayTeamStatistics;
+  const homeTeam = teamsById[homeTeamId];
+  const awayTeam = teamsById[awayTeamId];
+  const teamGames = teamGameIds.reduce((accumulator, value) => {
+    const {
+      arena,
+      localGameDateTime,
+    } = gamesById[value];
+
+    return {
+      ...accumulator,
+      [value]: {
+        arena,
+        localGameDateTime,
+        homeTeamName: homeTeam.name,
+        awayTeamName: awayTeam.name,
+      },
+    };
+  }, {});
+  const athletePerformanceStatsByGame = teamGameIds.reduce((accumulator, value) => (
+    athlete.performanceStatisticsByGameId[value]
+    ? ({
+        ...accumulator,
+        [value]: athlete.performanceStatisticsByGameId[value],
+      })
+    : accumulator
+  ), {});
+
+  const selectStatsType = useCallback(
+    ({ currentTarget: { id } }) => dispatch({ type: actionTypes.SELECT_STATS_TYPE, payload: id }),
+    [dispatch]
+  );
 
   if (!hasTeamStatistics) {
     fetchGameStatisticByIdAction(gameId);
@@ -94,22 +137,17 @@ const GameStats = memo(({
       direction="column"
       style={styles.container}
     >
-      <GameStatsHeader />
-      <GamePrizes {...state} />
-      <GamePrediction gameOver={!state.remainingGameTime} />
-      <GameAthleteStats
-        name={athleteName.toUpperCase()}
-        PTS={PTS}
-        AST={AST}
-        REB={REB}
+      <GameStatsHeader
+        navButtonClickHandler={() => history.push(`/games/${statusId}`)}
+        game={game}
+        teamGames={teamGames}
+        allStatsTypes={state.allStatsTypes}
+        selectedStatsType={state.selectedStatsType}
+        selectStatsType={selectStatsType}
       />
-      <GameTeamStats
-        homeTeam={teamsById[homeTeamId]}
-        homeTeamPoints={homeTeamPoints}
-        homeTeamStatistics={homeTeamStatistics}
-        awayTeam={teamsById[awayTeamId]}
-        awayTeamPoints={awayTeamPoints}
-        awayTeamStatistics={awayTeamStatistics}
+      <GameAthleteStats
+        currentGameId={game.id}
+        statsByGameId={athletePerformanceStatsByGame}
       />
     </Grid>
   );

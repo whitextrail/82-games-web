@@ -6,7 +6,7 @@ import {
   Grid,
 } from '@material-ui/core';
 
-const GameStatsPolarChart = memo(({
+const AthleteStatsPolarChart = memo(({
   data
 }) => {
 
@@ -58,4 +58,4 @@ return (
 );
 });
 
-export default GameStatsPolarChart;
+export default AthleteStatsPolarChart;

@@ -41,7 +41,7 @@ const styles = {
   button: {
     height: 40,
     width: 40,
-    backgroundColor: 'rgb(241,196,15)',
+    backgroundColor: '#8E44AD',
     color: '#FFF',
     marginTop: 7.5,
   },

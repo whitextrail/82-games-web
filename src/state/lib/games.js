@@ -1,11 +1,12 @@
 import { normalize, schema } from 'normalizr';
 import moment from 'moment-timezone';
 import { reduce } from 'lodash';
+import { sortNumbersAscending } from '../../util';
 
 const gameSchema = new schema.Entity('games', {}, {
   processStrategy: value => ({
     ...value,
-    localGameDateTime: moment(value.dateTime).tz(Intl.DateTimeFormat().resolvedOptions().timeZone).format('MMMM D [at] h:mm A z'),
+    localGameDateTime: moment(value.dateTime).tz(Intl.DateTimeFormat().resolvedOptions().timeZone).format('MMMM D, YYYY [-] h:mm A z'),
   })
 });
 const gameListSchema = new schema.Array(gameSchema);
@@ -20,6 +21,7 @@ const normalizeGameList = data => {
     entities: {
       ...entities,
       gamesByStatus: segmentGamesByStatus(entities.games),
+      gameIdsByTeam: segmentGameIdsByTeamId(entities.games),
     },
     result,
   };
@@ -69,7 +71,42 @@ const segmentGamesByStatus = gamesById => (
   })
 );
 
+// TODO: Differentiate between "closed" and "live" games
+const segmentGameIdsByTeamId = gamesById => (
+  reduce(gamesById, (accumulator, value) => {
+    const {
+      id,
+      homeTeamId,
+      awayTeamId,
+    } = value;
+    const gameNumber = id > 82 ? (id - 82) : id;
+
+    const gameIdsByTeamId = {
+      ...accumulator,
+    };
+
+    if (homeTeamId !== 1) {
+      if (gameIdsByTeamId[homeTeamId]) {
+        gameIdsByTeamId[homeTeamId].push(gameNumber);
+        sortNumbersAscending(gameIdsByTeamId[homeTeamId]);
+      } else {
+        gameIdsByTeamId[homeTeamId] = [gameNumber];
+      }
+    }
+
+    if (awayTeamId !== 1) {
+      if (gameIdsByTeamId[awayTeamId]) {
+        gameIdsByTeamId[awayTeamId].push(gameNumber);
+        sortNumbersAscending(gameIdsByTeamId[awayTeamId]);
+      } else {
+        gameIdsByTeamId[awayTeamId] = [gameNumber];
+      }
+    }
+
+    return gameIdsByTeamId;
+  }, {})
+);
+
 export {
   normalizeGameList,
-  segmentGamesByStatus,
 };

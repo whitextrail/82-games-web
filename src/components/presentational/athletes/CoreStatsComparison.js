@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { primaryColor } from '../../../styles/constants';
-import GameStatsPolarChart from '../../presentational/games/stats/GameStatsPolarChart';
+import AthleteStatsPolarChart from './AthleteStatsPolarChart';
 
 const styles = {
   paperOne: {
@@ -111,7 +111,7 @@ const AthleteCoreStatsComparison = memo(() => {
           direction="column"
           style={styles.paperOne}
         >
-          <GameStatsPolarChart data={polarStats[currentPolarPosition]} />
+          <AthleteStatsPolarChart data={polarStats[currentPolarPosition]} />
           <Grid container justify="space-between" alignItems="center" style={styles.chartContainer}>
             {
               polarOptions.map((polarOption) => (

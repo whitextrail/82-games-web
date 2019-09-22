@@ -19,10 +19,7 @@ import {
 } from '@material-ui/icons';
 import { NavContext } from '../../container/Nav';
 import NavBar from './NavBar';
-import {
-  primaryColor,
-  secondaryTextColor,
-} from '../../../styles/constants';
+import { secondaryTextColor } from '../../../styles/constants';
 import Link from '../reusable/Link';
 
 const navMenuItems = [{
@@ -45,10 +42,10 @@ const navMenuItems = [{
 const styles = {
   navMenu: {
     height: window.innerHeight - 56,
-    backgroundColor: primaryColor,
+    backgroundColor: '#333333',
   },
   navMenuListItem: {
-    padding: 12,
+    padding: 18,
     height: 40,
     marginBottom: 12,
     color: secondaryTextColor,
@@ -72,7 +69,7 @@ const NavMenu = memo(() => {
 
   return (
     <Collapse in={menuOpen}>
-      <NavBar icon={<CloseSharp />}/>
+      <NavBar icon={<CloseSharp />} styleClasses={{ colorDefault: { backgroundColor: '#333333'} }} />
       <List style={styles.navMenu}>
         { navMenuItems.map((menuItem) => {
           const {

@@ -34,6 +34,7 @@ class GamesContainer extends PureComponent {
       teamsById,
       gamesById,
       gamesByStatusId,
+      gameIdsByTeam,
       allGameStatusIds,
     } = this.props;
     const showProgress = inProgress || !isFetched;
@@ -62,20 +63,25 @@ class GamesContainer extends PureComponent {
                 <Route
                   exact
                   path="/games/:statusId/:gameId"
-                  render={({ match: { params: { gameId } } }) => (
-                    <GameStats
-                      game={gamesById[gameId]}
-                      teamsById={teamsById}
-                      athlete={{
-                        ...athlete,
-                        performanceStatistics: athlete.performanceStatisticsByGameId[gameId] || {
-                          PTS: 0,
-                          REB: 0,
-                          AST: 0,
-                        }
-                      }}
-                    />
-                  )}
+                  render={({ match: { params: { gameId, statusId } }, history }) => {
+                    const game = gamesById[gameId];
+
+                    // Since we already have games from Brooklyn, we just want the game ids they have against
+                    // their opponents
+                    const teamGameIds = gameIdsByTeam[game.homeTeamId] || gameIdsByTeam[game.awayTeamId];
+
+                    return (
+                      <GameStats
+                        history={history}
+                        statusId={statusId}
+                        game={game}
+                        gamesById={gamesById}
+                        teamGameIds={teamGameIds}
+                        teamsById={teamsById}
+                        athlete={athlete}
+                      />
+                    );
+                  }}
                 />
               </Switch>
             )
@@ -97,6 +103,7 @@ const mapStateToProps = ({
     allStatusIds: allGameStatusIds,
     selectedStatusId: selectedGameStatusId,
     inProgress: gamesInProgress,
+    idsByTeam: gameIdsByTeam,
   },
   athletes: {
     byId: athletesById,
@@ -110,6 +117,7 @@ const mapStateToProps = ({
   teamsById,
   gamesById,
   gamesByStatusId,
+  gameIdsByTeam,
   allGameStatusIds,
 });
 
