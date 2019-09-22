@@ -12,6 +12,7 @@ import {
 } from '@material-ui/icons';
 import SwipeableViews from 'react-swipeable-views';
 import { sortNumbersAscending } from '../../../util';
+import { primaryColor } from '../../../styles/constants';
 
 const styles = {
   container: {
@@ -59,7 +60,7 @@ const GamesCarousel = ({
 
   const mobileStepperClasses = makeStyles({
     dotActive: {
-      backgroundColor: '#8E44AD',
+      backgroundColor: primaryColor,
     }
   })();
 

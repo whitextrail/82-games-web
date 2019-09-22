@@ -5,6 +5,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
+import { primaryColor } from '../../../../styles/constants';
 
 const styles = {
   container: {
@@ -40,7 +41,7 @@ const GameAthleteStatsBars = memo(({
 }) => {
   const statsBarClasses = makeStyles({
     barColorPrimary: {
-      backgroundColor: '#8E44AD',
+      backgroundColor: primaryColor,
     },
     colorPrimary: {
       backgroundColor: 'rgba(255,255,255,0.54)',
