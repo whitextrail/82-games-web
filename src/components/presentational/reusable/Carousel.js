@@ -71,11 +71,11 @@ const GamesCarousel = memo(({
     switch(id) {
       case 'left':
         const decremented = athleteGameIdIndex - 1;
-        gameIndex = decremented < 0 ? (athleteGameIds.length - 1) : decremented;
+        gameIndex = decremented >= 0 ? decremented : (athleteGameIds.length - 1);
         break;
       case 'right':
         const incremented = athleteGameIdIndex + 1;
-        gameIndex = incremented < 0 ? (athleteGameIds.length - 1) : incremented;
+        gameIndex = incremented <= (athleteGameIds.length - 1) ? incremented : 0;
         break;
       default:
         break;
