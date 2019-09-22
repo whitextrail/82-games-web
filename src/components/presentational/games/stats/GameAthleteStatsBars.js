@@ -9,53 +9,30 @@ import { makeStyles } from '@material-ui/styles';
 const styles = {
   container: {
     width: 240,
+    paddingTop: 25,
   },
-  legendContainer: {
-    height: 45,
-  },
-  legendColorIndicator: {
-    height: 15,
-    width: 15,
-    borderRadius: 3,
-    marginRight: 7.5,
-  },
-  legendColorIndicatorCurrent: {
-    backgroundColor: '#8E44AD',
-  },
-  legendColorIndicatorPast: {
-    marginLeft: 10,
-    backgroundColor: 'rgba(0,0,0,0.54)',
-  },
-  legendLabel: { color: '#FFF', fontSize: 12 },
   statsBarContainer: {
-    height: 120,
+    height: 115,
     width: 220,
     paddingBottom: 10,
   },
   statsBarInnerContainer: {
-    height: 75,
-    width: 50,
+    paddingTop: 5,
+    height: 85,
+    width: 55,
   },
   statsBarValueLabel: {
     color: '#FFF',
     fontSize: 12,
   },
   statsBar: {
-    height: 20,
-    width: 80,
+    height: 27,
+    width: 85,
     borderRadius: 3,
     transform: 'rotate(-90deg)',
+    border: '5px solid rgba(0,0,0,0.84)',
   },
 };
-
-const StatsBarLegend = memo(() => (
-  <Grid container justify="center" alignItems="center" style={styles.legendContainer}>
-    <Grid style={{ ...styles.legendColorIndicator, ...styles.legendColorIndicatorCurrent }} />
-    <Typography variant="body2" style={styles.legendLabel}>CURRENT</Typography>
-    <Grid style={{ ...styles.legendColorIndicator, ...styles.legendColorIndicatorPast }} />
-    <Typography variant="body2" style={styles.legendLabel}>PAST</Typography>
-  </Grid>
-));
 
 const GameAthleteStatsBars = memo(({
   allStatTypes,
@@ -66,7 +43,7 @@ const GameAthleteStatsBars = memo(({
       backgroundColor: '#8E44AD',
     },
     colorPrimary: {
-      backgroundColor: 'rgba(0,0,0,0.54)',
+      backgroundColor: 'rgba(255,255,255,0.54)',
     },
   })();
 
@@ -77,7 +54,6 @@ const GameAthleteStatsBars = memo(({
 
   return (
     <Grid container justify="center" alignItems="center" direction="column" style={styles.container}>
-      <StatsBarLegend />
       <Grid container justify="space-between" alignItems="flex-end" style={styles.statsBarContainer}>
         {
           allStatTypes.map((statType) => (

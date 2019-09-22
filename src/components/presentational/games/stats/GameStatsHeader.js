@@ -2,6 +2,7 @@ import React, { memo } from 'react';
 import {
   Grid,
   Card,
+  Slide,
 } from '@material-ui/core';
 import {
   FaceSharp,
@@ -70,26 +71,28 @@ const GameStatsHeader = memo(({
       alignItems="center"
       style={styles.controlsContainer}
     >
-      <Card
-        raised
-        component={Grid}
-        container
-        justify="center"
-        alignItems="center"
-        style={styles.tabsContainer}
-      >
-        <Tabs
-          onChange={selectStatsType}
-          selectedTabId={selectedStatsType}
-          allTabIds={allStatsTypes}
-          tabIcons={{
-            player: <FaceSharp />,
-            teams: <SupervisedUserCircleSharp />,
-          }}
-          tabIndicatorProps={tabsIndicatorProps}
-          orientation="vertical"
-        />
-      </Card>
+      <Slide in direction="right" timeout={750}>
+        <Card
+          raised
+          component={Grid}
+          container
+          justify="center"
+          alignItems="center"
+          style={styles.tabsContainer}
+        >
+          <Tabs
+            onChange={selectStatsType}
+            selectedTabId={selectedStatsType}
+            allTabIds={allStatsTypes}
+            tabIcons={{
+              player: <FaceSharp />,
+              teams: <SupervisedUserCircleSharp />,
+            }}
+            tabIndicatorProps={tabsIndicatorProps}
+            orientation="vertical"
+          />
+        </Card>
+      </Slide>
       <Grid
         container
         justify="flex-start"

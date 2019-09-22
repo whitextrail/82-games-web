@@ -9,6 +9,8 @@ import {
 } from '@material-ui/core';
 import GameAthleteStatsProfile from './GameAthleteStatsProfile';
 import GameAthleteStatsBars from './GameAthleteStatsBars';
+import GameAthleteStatsRadar from './GameAthleteStatsRadar';
+
 import {
   calculateStatAverages,
   updateBarValues,
@@ -34,9 +36,11 @@ const initialState = {
 
 const styles = {
   container: {
-    marginTop: 15,
-    height: 165,
+    height: 565,
     width: 365,
+  },
+  barsContainer: {
+    height: 150,
     backgroundColor: '#333333',
   },
 };
@@ -66,7 +70,7 @@ const GameAthleteStats = memo(({
         pastAveragesCalculated: true,
       });
     } else if (!barValuesUpdated) {
-      setTimeout(() => updateState(updateBarValues(currentGameStats, state)), 150);
+      setTimeout(() => updateState(updateBarValues(currentGameStats, state)), 100);
     }
   }, [
     state,
@@ -78,22 +82,25 @@ const GameAthleteStats = memo(({
   ]);
 
   return (
-    <Card
-      raised
-      component={Grid}
-      container
-      justify="center"
-      alignItems="center"
-      style={styles.container}
-    >
-      <GameAthleteStatsProfile />
-      <GameAthleteStatsBars
-        allStatTypes={allStatTypes}
-        currentGameStats={currentGameStats}
-        pastAveragesByStatType={pastAveragesByStatType}
-        barValuesByStatType={barValuesByStatType}
-      />
-    </Card>
+    <Grid container justify="center" alignItems="center" direction="column" style={styles.container}>
+      <Card
+        raised
+        component={Grid}
+        container
+        justify="center"
+        alignItems="center"
+        style={styles.barsContainer}
+      >
+        <GameAthleteStatsProfile />
+        <GameAthleteStatsBars
+          allStatTypes={allStatTypes}
+          currentGameStats={currentGameStats}
+          pastAveragesByStatType={pastAveragesByStatType}
+          barValuesByStatType={barValuesByStatType}
+        />
+      </Card>
+      <GameAthleteStatsRadar />
+    </Grid>
   );
 });
 
