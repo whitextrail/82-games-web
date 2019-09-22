@@ -5,9 +5,11 @@ import React, {
 } from 'react';
 import { Grid } from '@material-ui/core';
 import { connect } from 'react-redux';
+import SwipeableViews from 'react-swipeable-views';
 import { fetchGameStatisticById } from '../../../state/actions';
 import GameStatsHeader from '../../presentational/games/stats/GameStatsHeader';
 import GameAthleteStats from '../../presentational/games/stats/GameAthleteStats';
+import GameTeamStats from '../../presentational/games/stats/GameTeamStats';
 
 const initialState = {
   byGamePeriod: {
@@ -87,6 +89,10 @@ const GameStats = memo(({
   // TODO: Use the dispatcher function to update remainingGameTime
   const [state,dispatch] = useReducer(reducer, initialState);
   const {
+    selectedStatsType,
+    allStatsTypes,
+  } = state;
+  const {
     id: gameId,
     homeTeamStatistics,
     awayTeamStatistics,
@@ -141,14 +147,17 @@ const GameStats = memo(({
         navButtonClickHandler={() => history.push(`/games/${statusId}`)}
         game={game}
         teamGames={teamGames}
-        allStatsTypes={state.allStatsTypes}
-        selectedStatsType={state.selectedStatsType}
+        allStatsTypes={allStatsTypes}
+        selectedStatsType={selectedStatsType}
         selectStatsType={selectStatsType}
       />
-      <GameAthleteStats
-        currentGameId={game.id}
-        statsByGameId={athletePerformanceStatsByGame}
-      />
+      <SwipeableViews index={allStatsTypes.indexOf(selectedStatsType)} style={{ width: '100vw' }}>
+        <GameAthleteStats
+          currentGameId={game.id}
+          statsByGameId={athletePerformanceStatsByGame}
+        />
+        <GameTeamStats />
+      </SwipeableViews>
     </Grid>
   );
 });
