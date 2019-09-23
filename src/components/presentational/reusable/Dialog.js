@@ -69,7 +69,16 @@ export default class ReusableDialog extends PureComponent {
   )
 
   render = () => (
-    <Dialog open fullWidth maxWidth={this.props.maxWidth}>
+    <Dialog
+      open 
+      fullWidth
+      maxWidth={this.props.maxWidth}
+      PaperProps={{
+        style: {
+          backgroundColor: '#333',
+        },
+      }}
+    >
       { this.props.children }
     </Dialog>
   )
