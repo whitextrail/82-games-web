@@ -45,7 +45,7 @@ const initialState = {
   },
   allGamePeriods: ['1st', '2nd', '3rd', '4th'],
   allStatsTypes: ['player', 'teams'],
-  selectedStatsView: 'player',
+  selectedStatsView: 'teams',
   selectedAthleteGameId: 0,
   remainingGameTime: 2880,
   gameStatsFetched: false,
