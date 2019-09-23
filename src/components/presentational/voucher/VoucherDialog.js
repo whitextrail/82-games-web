@@ -14,10 +14,13 @@ import {
   AddCircleOutlineSharp,
 } from '@material-ui/icons';
 import Dialog from '../reusable/Dialog';
-import ProgressSpinner from '../reusable/ProgressSpinner';
 import { primaryColor } from '../../../styles/constants';
+import ProgressSpinner from '../reusable/ProgressSpinner';
 
 const styles = {
+  information: {
+    color: '#FFF',
+  },
   dialogTitle: {
     minHeight: 40,
     height: 40,
@@ -27,11 +30,12 @@ const styles = {
   },
   counterButtonText: {
     fontSize: 36,
-    color: primaryColor,
+    color: '#FFF',
   },
   currentCounterText: {
     fontSize: 28,
     paddingRight: 3,
+    color:'#FFF',
   },
   dialogActions: {
     minHeight: 40,
@@ -42,7 +46,7 @@ const styles = {
 const VoucherDialog = memo(({
   user,
   purchaseVoucher,
-  hideVoucherDialog,
+  hideDialog,
 }) => {
   const {
     address,
@@ -67,7 +71,7 @@ const VoucherDialog = memo(({
           { inProgress && <ProgressSpinner /> }
           { !inProgress && !address && (
             <Grid container direction="row" alignItems="center" justify="center">
-              <Typography variant="subtitle1" align="center">
+              <Typography variant="subtitle1" align="center" style={styles.information}>
                 TronLink account required.
                 <br/>
                 Please install TronLink Chrome Extension and login to proceed.
@@ -75,7 +79,7 @@ const VoucherDialog = memo(({
             </Grid>
           )}
           { !inProgress && address && (
-            <Grid container direction="row" alignItems="center" justify="center">
+            <Grid container direction="row" alignItems="center" justify="center" style={{ backgroundColor: primaryColor, borderRadius: 32 }}>
               <Grid item>
                 <IconButton
                   disabled={selectedVoucherCount <= minCount}
@@ -105,7 +109,7 @@ const VoucherDialog = memo(({
         <Fragment>
           { !inProgress && (
             <Grid justify="center" alignItems="center" container style={styles.dialogActions}>
-              <Dialog.CancelAction text="Close" onClick={() => hideVoucherDialog()} />
+              <Dialog.CancelAction text="Close" onClick={() => hideDialog()} />
               { address && (
                 <Dialog.ConfirmAction text="Buy Vouchers" onClick={() => purchaseVoucher(selectedVoucherCount)} />
               )}
