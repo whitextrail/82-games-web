@@ -134,7 +134,7 @@ const GamesCarousel = memo(({
           steps={athleteGameIds.length}
           position="static"
           activeStep={athleteGameIdIndex}
-          style={{ bottom: 2.5, height: 20, width: 100, position: 'absolute', backgroundColor: 'transparent' }}
+          style={{ bottom: 2.5, height: 20, position: 'absolute', backgroundColor: 'transparent' }}
         />
       </Grid>
     </Grid>
