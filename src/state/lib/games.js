@@ -71,19 +71,24 @@ const segmentGamesByStatus = gamesById => (
   })
 );
 
-// TODO: Differentiate between "closed" and "live" games
 const segmentGameIdsByTeamId = gamesById => (
   reduce(gamesById, (accumulator, value) => {
     const {
       id,
+      dateTime,
       homeTeamId,
       awayTeamId,
     } = value;
+    const isLastSeason = moment(dateTime).isBefore('2019-04-11T00:00:00.001Z');
     const gameNumber = id > 82 ? (id - 82) : id;
 
     const gameIdsByTeamId = {
       ...accumulator,
     };
+
+    if (!isLastSeason) {
+      return gameIdsByTeamId;
+    }
 
     if (homeTeamId !== 1) {
       if (gameIdsByTeamId[homeTeamId]) {
