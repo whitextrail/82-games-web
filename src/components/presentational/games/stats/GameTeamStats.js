@@ -3,19 +3,14 @@ import {
   Grid,
 } from '@material-ui/core';
 import GameTeamStatsBox from './GameTeamStatsBox';
-import GameTeamStatsLineChart from './GameTeamStatsLineChart';
+import GameTeamStatsBoxChart from './GameTeamStatsBoxChart';
+import GameTeamStatsBreakdown from './GameTeamStatsBreakdown';
 
 const styles = {
   container: {
-    height: 595,
+    height: window.innerHeight - 152,
     width: 375,
     marginTop: 15,
-  },
-  barsContainer: {
-    height: 200,
-    width: 355,
-    background: '#333',
-    paddingBottom: 10,
   },
 };
 
@@ -53,16 +48,25 @@ const GameTeamStats = memo(({
   }];
 
   return (
-    <Grid container justify="center" alignItems="center" direction="column" style={styles.container}>
-      <GameTeamStatsBox teamStats={teamStats} />
-      <GameTeamStatsLineChart
-        homeTeamId={homeTeamId}
-        homeTeamName={homeTeamName}
-        awayTeamId={awayTeamId}
-        awayTeamName={awayTeamName}
-        homeTeamStatistics={homeTeamStatistics}
-        awayTeamStatistics={awayTeamStatistics}
-      />
+    <Grid container alignItems="center" direction="column" style={styles.container}>
+      <GameTeamStatsBox teamStats={teamStats}>
+        <GameTeamStatsBoxChart
+          homeTeamId={homeTeamId}
+          homeTeamName={homeTeamName}
+          awayTeamId={awayTeamId}
+          awayTeamName={awayTeamName}
+          homeTeamStatistics={homeTeamStatistics}
+          awayTeamStatistics={awayTeamStatistics}
+        />
+        <GameTeamStatsBreakdown
+          homeTeamId={homeTeamId}
+          homeTeamName={homeTeamName}
+          awayTeamId={awayTeamId}
+          awayTeamName={awayTeamName}
+          homeTeamStatistics={homeTeamStatistics}
+          awayTeamStatistics={awayTeamStatistics}
+        />
+      </GameTeamStatsBox>
     </Grid>
   );
 });

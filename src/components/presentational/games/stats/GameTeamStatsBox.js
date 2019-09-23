@@ -8,17 +8,18 @@ import * as svg from '../../../../assets/svg/index';
 
 const styles = {
   container: {
-    height: 170,
+    maxHeight: '95%',
     width: 355,
-    background: '#333',
+    paddingTop: 10,
     paddingBottom: 10,
+    backgroundColor: 'transparent',
   },
   statsBoxHeaderContainer: {
     height: 40,
-    paddingLeft: 79,
+    paddingLeft: 75,
   },
   statsBoxHeader: {
-    width: 69,
+    width: 50,
     color: '#FFF',
     fontSize: 18,
     textDecoration: 'underline',
@@ -27,31 +28,24 @@ const styles = {
     height: 65,
   },
   teamImageContainer: {
-    width: 79,
-    position: 'relative',
+    width: 75,
   },
   teamImage: {
-    height: 45,
-    right: 5,
-    position: 'absolute',
+    height: 40,
   },
   quarterPoints: {
-    width: 69,
+    width: 50,
     color: '#FFF',
     fontSize: 18,
   },
-  winLoseText: {
-    width: 55,
-  },
 };
 
-const GameTeamStats = memo(({ teamStats }) => {
+const GameTeamStats = memo(({ teamStats, children }) => {
   return (
     <Card
       raised
       component={Grid}
       container
-      justify="center"
       alignItems="center"
       direction="column"
       style={styles.container}
@@ -64,7 +58,7 @@ const GameTeamStats = memo(({ teamStats }) => {
       </Grid>
       {
         teamStats.map(({ teamName, resourceId, Q1, Q2, Q3, Q4 }) => (
-          <Grid container justify="center" alignItems="center" style={styles.statsBoxTeamContainer}>
+          <Grid key={teamName} container justify="center" alignItems="center" style={styles.statsBoxTeamContainer}>
             <Grid container justify="center" alignItems="center" style={styles.teamImageContainer}>
               <img src={svg[resourceId]} alt={teamName} style={styles.teamImage} />
             </Grid>
@@ -75,6 +69,7 @@ const GameTeamStats = memo(({ teamStats }) => {
           </Grid>
         ))
       }
+      {children}
     </Card>
   );
 });

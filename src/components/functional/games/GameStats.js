@@ -45,7 +45,7 @@ const initialState = {
   },
   allGamePeriods: ['1st', '2nd', '3rd', '4th'],
   allStatsTypes: ['player', 'teams'],
-  selectedStatsView: 'teams',
+  selectedStatsView: 'player',
   selectedAthleteGameId: 0,
   remainingGameTime: 2880,
   gameStatsFetched: false,
@@ -185,6 +185,7 @@ const GameStats = memo(({
               Q2: currentHomeTeamStatistics.PTS_QTR2,
               Q3: currentHomeTeamStatistics.PTS_QTR3,
               Q4: currentHomeTeamStatistics.PTS_QTR4,
+              ...currentHomeTeamStatistics,
             },
             awayTeamStatistics: {
               PTS: (
@@ -199,6 +200,7 @@ const GameStats = memo(({
               Q2: currentAwayTeamStatistics.PTS_QTR2,
               Q3: currentAwayTeamStatistics.PTS_QTR3,
               Q4: currentAwayTeamStatistics.PTS_QTR4,
+              ...currentAwayTeamStatistics,
             },
             statsKeys: ['PTS', 'REB', 'AST'],
             athleteStatistics: { ...athlete.performanceStatisticsByGameId[value] },
