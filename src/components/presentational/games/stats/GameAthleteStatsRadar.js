@@ -17,7 +17,8 @@ import {
 
 const styles = {
   container: {
-    marginTop: 15,
+    marginTop: 20,
+    marginBottom: 20,
     height: 325,
     position: 'relative',
   },
@@ -159,7 +160,7 @@ const GameAthleteStatsRadar = memo(({
           margin={{
             left: 30,
             top: 40,
-            bottom: -40,
+            bottom: -20,
             right: 30
           }}
           renderAxesOverPolygons={false}
