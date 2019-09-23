@@ -179,6 +179,10 @@ const GameStats = memo(({
               ),
               REB: currentHomeTeamStatistics.REB,
               AST: currentHomeTeamStatistics.AST,
+              Q1: currentHomeTeamStatistics.PTS_QTR1,
+              Q2: currentHomeTeamStatistics.PTS_QTR2,
+              Q3: currentHomeTeamStatistics.PTS_QTR3,
+              Q4: currentHomeTeamStatistics.PTS_QTR4,
             },
             awayTeamStatistics: {
               PTS: (
@@ -189,6 +193,10 @@ const GameStats = memo(({
               ),
               REB: currentAwayTeamStatistics.REB,
               AST: currentAwayTeamStatistics.AST,
+              Q1: currentAwayTeamStatistics.PTS_QTR1,
+              Q2: currentAwayTeamStatistics.PTS_QTR2,
+              Q3: currentAwayTeamStatistics.PTS_QTR3,
+              Q4: currentAwayTeamStatistics.PTS_QTR4,
             },
             statsKeys: ['PTS', 'REB', 'AST'],
             athleteStatistics: { ...athlete.performanceStatisticsByGameId[value] },
@@ -221,7 +229,22 @@ const GameStats = memo(({
           selectedAthleteGameId={selectedAthleteGameId}
           athleteGames={athleteGames}
         />
-        <GameTeamStats />
+        <GameTeamStats
+          homeTeamName={athleteGames[selectedAthleteGameId].homeTeamName}
+          homeTeamId={homeTeamId}
+          awayTeamName={athleteGames[selectedAthleteGameId].awayTeamName}
+          awayTeamId={awayTeamId}
+          homeTeamPoints={athleteGames[selectedAthleteGameId].homeTeamStatistics.PTS}
+          awayTeamPoints={athleteGames[selectedAthleteGameId].awayTeamStatistics.PTS}
+          homeQ1={athleteGames[selectedAthleteGameId].homeTeamStatistics.Q1}
+          homeQ2={athleteGames[selectedAthleteGameId].homeTeamStatistics.Q2}
+          homeQ3={athleteGames[selectedAthleteGameId].homeTeamStatistics.Q3}
+          homeQ4={athleteGames[selectedAthleteGameId].homeTeamStatistics.Q4}
+          awayQ1={athleteGames[selectedAthleteGameId].awayTeamStatistics.Q1}
+          awayQ2={athleteGames[selectedAthleteGameId].awayTeamStatistics.Q2}
+          awayQ3={athleteGames[selectedAthleteGameId].awayTeamStatistics.Q3}
+          awayQ4={athleteGames[selectedAthleteGameId].awayTeamStatistics.Q4}
+        />
       </SwipeableViews>
     </Grid>
   );

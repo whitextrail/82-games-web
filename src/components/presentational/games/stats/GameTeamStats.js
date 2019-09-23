@@ -158,26 +158,41 @@ const StatsBar = ({
   );
 };
 
-const GameTeamStats = memo(() => {
-  // const homeTeamResourceId = `${homeTeamName}_${homeTeamId}`;
-  // const awayTeamResourceId = `${awayTeamName}_${awayTeamId}`;
-  // const barChartDenominator = (homeTeamPoints > awayTeamPoints)
-  //   ? homeTeamPoints
-  //   : awayTeamPoints;
-  // const homeTeamColors = teamColors[homeTeamResourceId];
-  // const awayTeamColors = teamColors[awayTeamResourceId];
+const GameTeamStats = memo(({
+  homeTeamName,
+  homeTeamId,
+  awayTeamName,
+  awayTeamId,
+  homeTeamPoints,
+  awayTeamPoints,
+  homeQ1,
+  homeQ2,
+  homeQ3,
+  homeQ4,
+  awayQ1,
+  awayQ2,
+  awayQ3,
+  awayQ4,
+}) => {
+  const homeTeamResourceId = `${homeTeamName}_${homeTeamId}`;
+  const awayTeamResourceId = `${awayTeamName}_${awayTeamId}`;
+  const barChartDenominator = (homeTeamPoints > awayTeamPoints)
+    ? homeTeamPoints
+    : awayTeamPoints;
+  const homeTeamColors = teamColors[homeTeamResourceId];
+  const awayTeamColors = teamColors[awayTeamResourceId];
 
-  // const lineChartLabels = [homeTeamName,awayTeamName];
-  // const lineChartData = populateLineChartData(
-  //   homeTeamResourceId,
-  //   awayTeamResourceId,
-  //   [homeQ1,homeQ2,homeQ3,homeQ4],
-  //   [awayQ1,awayQ2,awayQ3,awayQ4],
-  // );
-  // const lineChartOptions = populateLineChartOptions(
-  //   homeTeamName.toUpperCase(),
-  //   awayTeamName.toUpperCase(),
-  // );
+  const lineChartLabels = [homeTeamName,awayTeamName];
+  const lineChartData = populateLineChartData(
+    homeTeamResourceId,
+    awayTeamResourceId,
+    [homeQ1,homeQ2,homeQ3,homeQ4],
+    [awayQ1,awayQ2,awayQ3,awayQ4],
+  );
+  const lineChartOptions = populateLineChartOptions(
+    homeTeamName.toUpperCase(),
+    awayTeamName.toUpperCase(),
+  );
 
   return (
     <Grid
@@ -187,8 +202,7 @@ const GameTeamStats = memo(() => {
       direction="column"
       style={styles.container}
     >
-    Team
-      {/* <Grid container justify="center" style={styles.lineChartContainer}>
+      <Grid container justify="center" style={styles.lineChartContainer}>
         <Line
           data={lineChartData}
           labels={lineChartLabels}
@@ -210,7 +224,7 @@ const GameTeamStats = memo(() => {
           barColor={awayTeamColors.primary.hex}
           barBackgroundColor={awayTeamColors.secondary.rgba(0.75)}
         />
-      </Grid> */}
+      </Grid>
     </Grid>
   );
 });

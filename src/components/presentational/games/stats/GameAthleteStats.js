@@ -107,7 +107,7 @@ const GameAthleteStats = memo(({
         <GameAthleteStatsBars
           allStatTypes={allStatTypes}
           barValuesByStatType={barValuesByStatType}
-          selectedGameStats={selectedGameStats}
+          athleteStatistics={selectedGameStats.athleteStatistics}
         />
       </Card>
       <GameAthleteStatsComparison selectedGameStats={selectedGameStats} />
