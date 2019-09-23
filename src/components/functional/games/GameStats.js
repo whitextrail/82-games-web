@@ -232,20 +232,8 @@ const GameStats = memo(({
           athleteGames={athleteGames}
         />
         <GameTeamStats
-          homeTeamName={athleteGames[selectedAthleteGameId].homeTeamName}
-          homeTeamId={homeTeamId}
-          awayTeamName={athleteGames[selectedAthleteGameId].awayTeamName}
-          awayTeamId={awayTeamId}
-          homeTeamPoints={athleteGames[selectedAthleteGameId].homeTeamStatistics.PTS}
-          awayTeamPoints={athleteGames[selectedAthleteGameId].awayTeamStatistics.PTS}
-          homeQ1={athleteGames[selectedAthleteGameId].homeTeamStatistics.Q1}
-          homeQ2={athleteGames[selectedAthleteGameId].homeTeamStatistics.Q2}
-          homeQ3={athleteGames[selectedAthleteGameId].homeTeamStatistics.Q3}
-          homeQ4={athleteGames[selectedAthleteGameId].homeTeamStatistics.Q4}
-          awayQ1={athleteGames[selectedAthleteGameId].awayTeamStatistics.Q1}
-          awayQ2={athleteGames[selectedAthleteGameId].awayTeamStatistics.Q2}
-          awayQ3={athleteGames[selectedAthleteGameId].awayTeamStatistics.Q3}
-          awayQ4={athleteGames[selectedAthleteGameId].awayTeamStatistics.Q4}
+          selectedAthleteGameId={selectedAthleteGameId}
+          athleteGames={athleteGames}
         />
       </SwipeableViews>
     </Grid>
