@@ -10,7 +10,10 @@ import {
   RadarChart,
   DiscreteColorLegend,
 } from 'react-vis';
-import { primaryColor } from '../../../../styles/constants';
+import {
+  primaryColor,
+  teamColors,
+} from '../../../../styles/constants';
 
 const styles = {
   container: {
@@ -18,19 +21,10 @@ const styles = {
     height: 325,
     position: 'relative',
   },
+  legendItem: {
+    color: '#FFF',
+  },
 };
-
-const legendItems = [
-  <Typography variant="body2" noWrap style={{ color: '#FFF', }}>Brooklyn</Typography>,
-  <Typography variant="body2" noWrap style={{ color: '#FFF', }}>Miami</Typography>,
-  <Typography variant="body2" noWrap style={{ color: '#FFF', }}>Dinwiddie</Typography>
-];
-
-const legendColors = [
-  '#000',
-  '#E74C3C',
-  '#8E44AD',
-];
 
 const GameAthleteStatsRadar = memo(({
   selectedGameStats,
@@ -45,67 +39,76 @@ const GameAthleteStatsRadar = memo(({
     statsKeys,
   } = selectedGameStats;
 
-  let domainPTS = 0;
-  let domainREB = 0;
-  let domainAST = 0;
+  const domain = {
+    PTS: 0,
+    REB: 0,
+    AST: 0,
+  };
 
-  statsKeys.forEach(() => {
-    const {
-      PTS: homePTS,
-      AST: homeAST,
-      REB: homeREB,
-    } = homeTeamStatistics;
-    const {
-      PTS: awayPTS,
-      AST: awayAST,
-      REB: awayREB,
-    } = awayTeamStatistics;
+  const homeTeamColors = teamColors[`${selectedGameStats.homeTeamName}_${selectedGameStats.homeTeamId}`];
+  const awayTeamColors = teamColors[`${selectedGameStats.awayTeamName}_${selectedGameStats.awayTeamId}`];
 
-    if (homePTS > domainPTS) {
-      domainPTS = homePTS;
+  statsKeys.forEach((key) => {
+    if (homeTeamStatistics[key] > domain[key]) {
+      domain[key] = homeTeamStatistics[key];
     }
 
-    if (homeAST > domainAST) {
-      domainAST = homeAST;
-    }
-
-    if (homeREB > domainREB) {
-      domainREB = homeREB;
-    }
-
-    if (awayPTS > domainPTS) {
-      domainPTS = awayPTS;
-    }
-
-    if (awayAST > domainAST) {
-      domainAST = awayAST;
-    }
-
-    if (awayREB > domainREB) {
-      domainREB = awayREB;
+    if (awayTeamStatistics[key] > domain[key]) {
+      domain[key] = awayTeamStatistics[key];
     }
   });
+
+  const scaledAthleteStatistics = () => {
+    return statsKeys.reduce((acc, key) => {
+      return {
+        ...acc,
+        [key]: athleteStatistics[key],
+      };
+    }, {});
+  };
 
   const DATA = [
     {
       name: homeTeamName,
       ...homeTeamStatistics,
-      fill: 'rgba(0,0,0, 0.24)',
-      stroke: '#000',
+      fill: homeTeamColors.primary.rgba(0.84),
+      stroke: homeTeamColors.secondary.rgba(),
     },
     {
       name: awayTeamName,
       ...awayTeamStatistics,
-      fill: 'rgba(231,76,60, 0.24)',
-      stroke: '#E74C3C',
+      fill: awayTeamColors.primary.rgba(0.84),
+      stroke: awayTeamColors.secondary.rgba(),
     },
     {
       name: athleteName,
-      ...athleteStatistics,
-      fill: 'rgba(142,68,173,0.24)',
-      stroke: primaryColor,
+      ...scaledAthleteStatistics(),
+      fill: primaryColor,
+      stroke: 'rgba(142,68,173,0.24)',
       fillOpacity: 1,
     },
+  ].sort((a, b) => {
+    return b.PTS - a.PTS;
+  });
+
+  const legendItems = [(
+    <Typography variant="body2" noWrap style={styles.legendItem}>
+      {homeTeamName}
+    </Typography>
+  ), (
+    <Typography variant="body2" noWrap style={styles.legendItem}>
+      {awayTeamName}
+    </Typography>
+  ), (
+    <Typography variant="body2" noWrap style={styles.legendItem}>
+      {athleteName}
+    </Typography>
+  )];
+
+  const legendColors = [
+    homeTeamColors.primary.hex,
+    awayTeamColors.primary.hex,
+    primaryColor,
   ];
 
   return (
@@ -123,12 +126,12 @@ const GameAthleteStatsRadar = memo(({
           tickFormat={() => {
             return '';
           }}
-          height={325}
-          width={325}
+          height={350}
+          width={350}
           domains={[
-            {name: 'PTS', domain: [0, domainPTS * 1.1], getValue: d => d.PTS},
-            {name: 'REB', domain: [0, domainREB * 1.1], getValue: d => d.REB},
-            {name: 'AST', domain: [0, domainAST * 1.1], getValue: d => d.AST},
+            {name: 'PTS', domain: [0, domain.PTS * 1.2], getValue: d => d.PTS},
+            {name: 'REB', domain: [0, domain.REB * 1.2], getValue: d => d.REB},
+            {name: 'AST', domain: [0, domain.AST * 1.2], getValue: d => d.AST},
           ]}
           style={{
             polygons: {
@@ -144,8 +147,8 @@ const GameAthleteStatsRadar = memo(({
             axes: {
               line: {
                 fillOpacity: 1,
-                strokeWidth: 10,
-                strokeOpacity: 0.54
+                strokeWidth: 20,
+                strokeOpacity: 1
               },
               ticks: {
                 fillOpacity: 0,
@@ -159,7 +162,7 @@ const GameAthleteStatsRadar = memo(({
             bottom: -40,
             right: 30
           }}
-          renderAxesOverPolygons={true}
+          renderAxesOverPolygons={false}
         />
         <DiscreteColorLegend
           items={legendItems}

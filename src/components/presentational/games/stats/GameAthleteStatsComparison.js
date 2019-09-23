@@ -5,6 +5,10 @@ import {
   Typography,
 } from '@material-ui/core';
 import GameAthleteStatsRadar from './GameAthleteStatsRadar';
+import {
+  primaryColor,
+  teamColors,
+} from '../../../../styles/constants';
 
 const styles = {
   container: {
@@ -47,6 +51,11 @@ const GameAthleteStatsComparison = memo(({
   selectedGameStats,
 }) => {
   const comparisonTypes = ['homeTeam', 'awayTeam', 'athlete'];
+  const cardColors = {
+    athlete: primaryColor,
+    homeTeam: teamColors[`${selectedGameStats.homeTeamName}_${selectedGameStats.homeTeamId}`].primary.hex,
+    awayTeam: teamColors[`${selectedGameStats.awayTeamName}_${selectedGameStats.awayTeamId}`].primary.hex,
+  };
 
   return (
     <Grid container justify="center" alignItems="center" direction="column" style={styles.container}>
@@ -64,13 +73,15 @@ const GameAthleteStatsComparison = memo(({
             const comparisonStats = selectedGameStats[`${comparisonType}Statistics`];
             const {
               card,
-              [`${comparisonType}Card`]: comparisonTypeCard,
               cardName,
               statsContainer,
               statValue,
               statType,
             } = styles;
-            const cardStyle = { ...card, ...comparisonTypeCard };
+            const cardStyle = {
+              ...card,
+              backgroundColor: cardColors[comparisonType],
+            };
 
             return (
               <Card

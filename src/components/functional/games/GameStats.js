@@ -167,7 +167,9 @@ const GameStats = memo(({
           [value]: {
             arena,
             localGameDateTime,
+            homeTeamId: homeTeam.id,
             homeTeamName: homeTeam.name,
+            awayTeamId: awayTeam.id,
             awayTeamName: awayTeam.name,
             athleteName: athleteSplitName[athleteSplitName.length - 1],
             homeTeamStatistics: {
