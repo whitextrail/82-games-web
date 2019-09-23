@@ -11,11 +11,13 @@ import {
 import {
   authenticateUser,
   purchaseVoucher,
+  sendPrediction,
   logOutUser,
 } from '../../state/actions';
 import { Nav } from './Nav';
 import NavMenu from '../presentational/nav/NavMenu';
 import VoucherDialog from '../presentational/voucher/VoucherDialog';
+import GamePredictionDialog from '../presentational/games/prediction/GamePredictionDialog';
 import Games from './Games';
 import Athletes from './Athletes';
 import { setupTronWeb } from '../../util/tronweb';
@@ -23,6 +25,7 @@ import { setupTronWeb } from '../../util/tronweb';
 const dialogTypes = {
   NONE: 0,
   VOUCHER_DIALOG: 1,
+  PREDICTION_DIALOG: 2,
 };;
 
 class App extends PureComponent {
@@ -36,15 +39,17 @@ class App extends PureComponent {
   };
 
   showVoucherDialog = () => this.setState({ currentDialogType: dialogTypes.VOUCHER_DIALOG });
-  hideVoucherDialog = () => this.setState({ currentDialogType: dialogTypes.NONE });
+  // showVoucherDialog = () => this.setState({ currentDialogType: dialogTypes.PREDICTION_DIALOG });
+  hideDialog = () => this.setState({ currentDialogType: dialogTypes.NONE });
 
   renderDialog = () => {
     const {
       user,
       purchaseVoucher,
+      sendPrediction,
     } = this.props;
     const { currentDialogType } = this.state;
-    const { VOUCHER_DIALOG } = dialogTypes;
+    const { VOUCHER_DIALOG, PREDICTION_DIALOG } = dialogTypes;
 
     switch (currentDialogType) {
       case VOUCHER_DIALOG:
@@ -52,7 +57,16 @@ class App extends PureComponent {
           <VoucherDialog
             user={user}
             purchaseVoucher={purchaseVoucher}
-            hideVoucherDialog={this.hideVoucherDialog}
+            hideDialog={this.hideDialog}
+          />
+        );
+      case PREDICTION_DIALOG:
+        return (
+          <GamePredictionDialog
+            user={user}
+            gameId={2}
+            sendPrediction={sendPrediction}
+            hideDialog={this.hideDialog}
           />
         );
       default:
@@ -96,5 +110,6 @@ const mapStateToProps = ({
 export default connect(mapStateToProps, {
   authenticateUser,
   purchaseVoucher,
+  sendPrediction,
   logOutUser,
 })(App);
