@@ -64,17 +64,20 @@ class GamesContainer extends PureComponent {
                   exact
                   path="/games/:statusId/:gameId"
                   render={({ match: { params: { gameId, statusId } }, history }) => {
-                    const game = gamesById[gameId];
+                    const {
+                      homeTeamId,
+                      awayTeamId,
+                    } = gamesById[gameId];
 
                     // Since we already have games from Brooklyn, we just want the game ids they have against
                     // their opponents
-                    const teamGameIds = gameIdsByTeam[game.homeTeamId] || gameIdsByTeam[game.awayTeamId];
+                    const teamGameIds = gameIdsByTeam[homeTeamId] || gameIdsByTeam[awayTeamId];
 
                     return (
                       <GameStats
                         history={history}
                         statusId={statusId}
-                        game={game}
+                        gameId={gameId}
                         gamesById={gamesById}
                         teamGameIds={teamGameIds}
                         teamsById={teamsById}

@@ -53,9 +53,9 @@ const navBarStyleClasses = {
 
 const GameStatsHeader = memo(({
   navButtonClickHandler,
-  allStatsTypes,
+  allStatsViews,
   selectedStatsView,
-  selectedAthleteGameId,
+  gameId,
   changeStatsView,
   changeAthleteGameId,
   athleteGames,
@@ -85,7 +85,7 @@ const GameStatsHeader = memo(({
           <Tabs
             onChange={changeStatsView}
             selectedTabId={selectedStatsView}
-            allTabIds={allStatsTypes}
+            allTabIds={allStatsViews}
             tabIcons={{
               player: <FaceSharp />,
               teams: <SupervisedUserCircleSharp />,
@@ -106,7 +106,7 @@ const GameStatsHeader = memo(({
         >
           <Carousel
             athleteGames={athleteGames}
-            selectedAthleteGameId={selectedAthleteGameId}
+            gameId={gameId}
             changeAthleteGameId={changeAthleteGameId}
           />
         </Card>

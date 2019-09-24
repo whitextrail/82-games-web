@@ -13,40 +13,9 @@ import GameAthleteStats from '../../presentational/games/stats/GameAthleteStats'
 import GameTeamStats from '../../presentational/games/stats/GameTeamStats';
 
 const initialState = {
-  byGamePeriod: {
-    '1st': {
-      period: 1,
-      prize: {
-        name: 'wristband',
-        quantity: 50,
-      },
-    },
-    '2nd': {
-      period: 2,
-      prize: {
-        name: 'shirt',
-        quantity: 25,
-      },
-    },
-    '3rd': {
-      period: 3,
-      prize: {
-        name: 'basketball',
-        quantity: 5,
-      },
-    },
-    '4th': {
-      period: 4,
-      prize: {
-        name: 'sneakers',
-        quantity: 1,
-      },
-    }
-  },
-  allGamePeriods: ['1st', '2nd', '3rd', '4th'],
-  allStatsTypes: ['player', 'teams'],
+  allStatsViews: ['player', 'teams'],
   selectedStatsView: 'player',
-  selectedAthleteGameId: 0,
+  gameId: 0,
   remainingGameTime: 2880,
   gameStatsFetched: false,
 };
@@ -77,7 +46,7 @@ const reducer = (state, action) => {
     case CHANGE_ATHLETE_GAME_ID:
       return {
         ...state,
-        selectedAthleteGameId: payload,
+        gameId: payload,
       };
     case UPDATE_GAME_STATS_FETCHED:
       return {
@@ -99,7 +68,7 @@ const styles = {
 const GameStats = memo(({
   history,
   statusId,
-  game,
+  gameId,
   gamesById,
   teamGameIds,
   teamsById,
@@ -107,11 +76,10 @@ const GameStats = memo(({
   fetchGameStatisticById: fetchGameStatisticByIdAction,
 }) => {
   // TODO: Use the dispatcher function to update remainingGameTime
-  const [state,dispatch] = useReducer(reducer, { ...initialState, selectedAthleteGameId: game.id });
+  const [state,dispatch] = useReducer(reducer, { ...initialState });
   const {
     selectedStatsView,
-    allStatsTypes,
-    selectedAthleteGameId,
+    allStatsViews,
     gameStatsFetched,
   } = state;
 
@@ -145,7 +113,7 @@ const GameStats = memo(({
   const {
     homeTeamId,
     awayTeamId,
-  } = gamesById[selectedAthleteGameId];
+  } = gamesById[gameId];
   const homeTeam = teamsById[homeTeamId];
   const awayTeam = teamsById[awayTeamId];
 
@@ -221,20 +189,20 @@ const GameStats = memo(({
     >
       <GameStatsHeader
         navButtonClickHandler={() => history.push(`/games/${statusId}`)}
-        allStatsTypes={allStatsTypes}
+        allStatsViews={allStatsViews}
         selectedStatsView={selectedStatsView}
         changeStatsView={changeStatsView}
-        selectedAthleteGameId={selectedAthleteGameId}
+        gameId={gameId}
         changeAthleteGameId={changeAthleteGameId}
         athleteGames={athleteGames}
       />
-      <SwipeableViews index={allStatsTypes.indexOf(selectedStatsView)} style={{ width: '100vw' }}>
+      <SwipeableViews index={allStatsViews.indexOf(selectedStatsView)} style={{ width: '100vw' }}>
         <GameAthleteStats
-          selectedAthleteGameId={selectedAthleteGameId}
+          gameId={gameId}
           athleteGames={athleteGames}
         />
         <GameTeamStats
-          selectedAthleteGameId={selectedAthleteGameId}
+          gameId={gameId}
           athleteGames={athleteGames}
         />
       </SwipeableViews>

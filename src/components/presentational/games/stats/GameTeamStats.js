@@ -15,11 +15,11 @@ const styles = {
 };
 
 const GameTeamStats = memo(({
-  selectedAthleteGameId,
+  gameId,
   athleteGames,
 }) => {
   const {
-    [selectedAthleteGameId]: selectedGameStats,
+    [gameId]: selectedGameStats,
   } = athleteGames;
   const {
     homeTeamId,

@@ -53,11 +53,11 @@ const styles = {
 
 const GamesCarousel = memo(({
   athleteGames,
-  selectedAthleteGameId,
+  gameId,
   changeAthleteGameId,
 }) => {
   const athleteGameIds = sortNumbersAscending(Object.keys(athleteGames));
-  const athleteGameIdIndex = athleteGameIds.indexOf(`${selectedAthleteGameId}`);
+  const athleteGameIdIndex = athleteGameIds.indexOf(`${gameId}`);
 
   const mobileStepperClasses = makeStyles({
     dotActive: {

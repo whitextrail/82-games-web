@@ -48,11 +48,11 @@ const styles = {
 };
 
 const GameAthleteStats = memo(({
-  selectedAthleteGameId,
+  gameId,
   athleteGames,
 }) => {
   const {
-    [selectedAthleteGameId]: selectedGameStats,
+    [gameId]: selectedGameStats,
     ...otherGameStats
   } = athleteGames;
   const [state, updateState] = useState(initialState);
@@ -68,13 +68,13 @@ const GameAthleteStats = memo(({
     if (!otherAveragesCalculated) {
       return updateState({
         ...state,
-        calculatedGameId: selectedAthleteGameId,
+        calculatedGameId: gameId,
         otherAveragesByStatType: calculateStatAverages(allStatTypes, otherGameStats),
         otherAveragesCalculated: true,
       });
     } else if (!barValuesUpdated) {
       setTimeout(() => updateState(updateBarValues(selectedGameStats.athleteStatistics, state)), 100);
-    } else if (otherAveragesCalculated && barValuesUpdated && (calculatedGameId !== selectedAthleteGameId)) {
+    } else if (otherAveragesCalculated && barValuesUpdated && (calculatedGameId !== gameId)) {
       return updateState({
         ...state,
         calculatedGameId: null,
@@ -90,7 +90,7 @@ const GameAthleteStats = memo(({
     selectedGameStats,
     otherGameStats,
     calculatedGameId,
-    selectedAthleteGameId,
+    gameId,
   ]);
 
   return (
