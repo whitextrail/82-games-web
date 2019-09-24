@@ -2,8 +2,11 @@ import {
   authenticateUser,
   logOutUser,
   purchaseVoucher,
-  sendPrediction,
 } from './user';
+import {
+  sendPrediction,
+  fetchUserPredictions,
+} from './user-predictions';
 import {
   fetchTeams,
 } from './teams';
@@ -21,6 +24,7 @@ export {
   logOutUser,
   purchaseVoucher,
   sendPrediction,
+  fetchUserPredictions,
   fetchGamesByTeamId,
   fetchGameStatisticById,
   filterGamesByStatusId,

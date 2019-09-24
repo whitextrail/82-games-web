@@ -28,8 +28,6 @@ const tronWebInitialized = async (onAccountChanged) => {
     if (address !== currentUserAddress) {
       currentUserAddress = address;
 
-      await getUserPredictions();
-
       return onAccountChanged({
         address,
         balance: balanceInSun,
