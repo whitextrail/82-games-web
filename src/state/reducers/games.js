@@ -1,7 +1,9 @@
 import {
   FETCH_GAMES_BY_TEAM_ID,
   FETCH_GAME_STATISTIC_BY_ID,
-  FILTER_GAMES_BY_STATUS_ID,
+  SELECT_GAME_STATUS_ID,
+  SELECT_GAME_ID,
+  SELECT_GAME_STATS_VIEW,
 } from '../actions/util/types';
 import {
   evalActionPayload,
@@ -9,14 +11,16 @@ import {
 } from '../lib/reducers';
 import { normalizeGameList } from '../lib/games';
 
-const gamesState = initialStateDecorator({
+const gamesStatsState = initialStateDecorator({
   byId: {},
   allIds: [],
   selectedId: null,
   byStatusId: {},
   allStatusIds: [],
   selectedStatusId: null,
-  idsByTeam: {},
+  byTeamId: {},
+  allStatsViews: ['player', 'teams'],
+  selectedStatsView: 'player',
 });
 
 const fetchGamesByTeamIdReducer = (state, { response }) => {
@@ -38,34 +42,38 @@ const fetchGamesByTeamIdReducer = (state, { response }) => {
     byStatusId: gamesByStatus,
     allStatusIds: gamesByStatusKeys,
     selectedStatusId: gamesByStatusKeys[0],
-    idsByTeam: gameIdsByTeam,
+    byTeamId: gameIdsByTeam,
   };
 };
 
 const fetchGameStatisticByIdReducer = (state, { response }) => {
-  const {
-    id,
-    homeTeamStatistics,
-    awayTeamStatistics,
-  } = response;
+  const gamesWithStatistics = response.data.reduce((accumulator, value) => {
+    const { id } = value;
+
+    return {
+      ...accumulator,
+      [id]: {
+        ...state.byId[id],
+        ...value,
+      }
+    };
+  }, {});
 
   return {
     byId: {
       ...state.byId,
-      [id]: {
-        ...state.byId[id],
-        homeTeamStatistics,
-        awayTeamStatistics,
-      }
+      ...gamesWithStatistics,
     },
   };
 };
 
-const filterGamesByStatusIdReducer = (state, { response }) => ({
-  selectedStatusId: response.statusId,
-});
+const selectGameIdReducer = (state, { response }) => ({ selectedId: response });
 
-export default (state = gamesState, action) => {
+const selectGameStatusIdReducer = (state, { response }) => ({ selectedStatusId: response });
+
+const selectGameStatsViewReducer = (state, { response }) => ({ selectedStatsView: response });
+
+export default (state = gamesStatsState, action) => {
   const { type } = action;
 
   switch (type) {
@@ -73,8 +81,12 @@ export default (state = gamesState, action) => {
       return evalActionPayload(state, action, fetchGamesByTeamIdReducer);
     case FETCH_GAME_STATISTIC_BY_ID:
         return evalActionPayload(state, action, fetchGameStatisticByIdReducer);
-    case FILTER_GAMES_BY_STATUS_ID:
-      return evalActionPayload(state, action, filterGamesByStatusIdReducer);
+    case SELECT_GAME_STATUS_ID:
+      return evalActionPayload(state, action, selectGameStatusIdReducer);
+    case SELECT_GAME_ID:
+      return evalActionPayload(state, action, selectGameIdReducer);
+    case SELECT_GAME_STATS_VIEW:
+        return evalActionPayload(state, action, selectGameStatsViewReducer);
     default:
       return state;
   }

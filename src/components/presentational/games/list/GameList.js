@@ -42,20 +42,17 @@ const GameList = memo(({
   teamsById,
   gamesByStatusId,
   allGameStatusIds,
-  match: {
-    params: { statusId }
-  },
-  history,
+  statusId,
+  selectGameStatus,
+  selectGame,
 }) => {
-  const handleTabClick = ({ currentTarget: { id } }) => history.push(`/games/${id}`);
-
   return (
     <Grid container direction="column" style={styles.container}>
       <GameListHeader />
       <List disablePadding style={styles.list}>
         <Tabs
           selectedTabId={statusId}
-          onChange={handleTabClick}
+          onChange={selectGameStatus}
           allTabIds={allGameStatusIds}
           tabIcons={tabIcons}
           tabIndicatorProps={tabIndicatorProps}
@@ -72,6 +69,7 @@ const GameList = memo(({
               statusId={statusId}
               homeTeam={teamsById[homeTeamId]}
               awayTeam={teamsById[awayTeamId]}
+              selectGame={selectGame}
             />
           ))
         }

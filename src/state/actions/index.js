@@ -9,7 +9,9 @@ import {
 import {
   fetchGamesByTeamId,
   fetchGameStatisticById,
-  filterGamesByStatusId,
+  selectGameStatusId,
+  selectGameId,
+  selectGameStatsView,
 } from './games';
 import {
   fetchAthleteProfileById,
@@ -21,7 +23,9 @@ export {
   purchaseVoucher,
   fetchGamesByTeamId,
   fetchGameStatisticById,
-  filterGamesByStatusId,
+  selectGameStatusId,
+  selectGameId,
+  selectGameStatsView,
   fetchTeams,
   fetchAthleteProfileById,
 };
