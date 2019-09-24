@@ -68,7 +68,7 @@ const GameTeamStats = memo(({
       <Grid container justify="space-around" alignItems="flex-start" style={styles.statsRow}>
         {
           topStatsTypes.map(type => (
-            <Grid container justify="space-between" alignItems="center" direction="column" style={styles.topStatsContainer}>
+            <Grid key={type} container justify="space-between" alignItems="center" direction="column" style={styles.topStatsContainer}>
               <Grid container justify="center" alignItems="center" style={styles.statsContainer}>
                 <Typography variant="body2" color="secondary" style={homeStatStyles}>{homeTeamStatistics[type]}</Typography>
                 <Typography variant="body2" color="secondary" style={styles.separator}>-</Typography>
@@ -87,7 +87,7 @@ const GameTeamStats = memo(({
             const formattedType = `${type.split('_')[0]}%`;
 
             return (
-              <Grid container justify="space-between" alignItems="center" direction="column" style={styles.bottomStatsContainer}>
+              <Grid key={type} container justify="space-between" alignItems="center" direction="column" style={styles.bottomStatsContainer}>
                 <Grid container justify="center" alignItems="center" style={styles.statsContainer}>
                   <Typography variant="body2" color="secondary" style={homeStatStyles}>{parsedHomeStat}</Typography>
                   <Typography variant="body2" color="secondary" style={styles.separator}>-</Typography>
