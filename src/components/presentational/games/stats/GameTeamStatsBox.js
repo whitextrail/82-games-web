@@ -57,15 +57,15 @@ const GameTeamStats = memo(({ teamStats, children }) => {
         <Typography variant="body2" align="center" style={styles.statsBoxHeader}>Q4</Typography>
       </Grid>
       {
-        teamStats.map(({ teamName, resourceId, Q1, Q2, Q3, Q4 }) => (
+        teamStats.map(({ teamName, resourceId, PTS_QTR1, PTS_QTR2, PTS_QTR3, PTS_QTR4 }) => (
           <Grid key={teamName} container justify="center" alignItems="center" style={styles.statsBoxTeamContainer}>
             <Grid container justify="center" alignItems="center" style={styles.teamImageContainer}>
               <img src={svg[resourceId]} alt={teamName} style={styles.teamImage} />
             </Grid>
-            <Typography variant="body2" align="center" style={styles.quarterPoints}>{Q1}</Typography>
-            <Typography variant="body2" align="center" style={styles.quarterPoints}>{Q2}</Typography>
-            <Typography variant="body2" align="center" style={styles.quarterPoints}>{Q3}</Typography>
-            <Typography variant="body2" align="center" style={styles.quarterPoints}>{Q4}</Typography>
+            <Typography variant="body2" align="center" style={styles.quarterPoints}>{PTS_QTR1}</Typography>
+            <Typography variant="body2" align="center" style={styles.quarterPoints}>{PTS_QTR2}</Typography>
+            <Typography variant="body2" align="center" style={styles.quarterPoints}>{PTS_QTR3}</Typography>
+            <Typography variant="body2" align="center" style={styles.quarterPoints}>{PTS_QTR4}</Typography>
           </Grid>
         ))
       }

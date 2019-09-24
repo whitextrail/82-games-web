@@ -87,30 +87,30 @@ const GameTeamStatsBoxChart = memo(({
   homeTeamName,
   awayTeamId,
   awayTeamName,
-  homeTeamStatistics: {
-    Q1: homeQ1,
-    Q2: homeQ2,
-    Q3: homeQ3,
-    Q4: homeQ4,
-  },
-  awayTeamStatistics: {
-    Q1: awayQ1,
-    Q2: awayQ2,
-    Q3: awayQ3,
-    Q4: awayQ4,
-  },
+  homeTeamStatistics,
+  awayTeamStatistics,
 }) => {
   const homeTeamResourceId = `${homeTeamName}_${homeTeamId}`;
   const awayTeamResourceId = `${awayTeamName}_${awayTeamId}`;
 
-  const lineChartLabels = [homeTeamName,awayTeamName];
+  const lineChartLabels = [homeTeamName, awayTeamName];
   const lineChartData = populateLineChartData(
     homeTeamName,
     awayTeamName,
     homeTeamResourceId,
     awayTeamResourceId,
-    [homeQ1,homeQ2,homeQ3,homeQ4],
-    [awayQ1,awayQ2,awayQ3,awayQ4],
+    [
+      homeTeamStatistics.PTS_QTR1,
+      homeTeamStatistics.PTS_QTR2,
+      homeTeamStatistics.PTS_QTR3,
+      homeTeamStatistics.PTS_QTR4,
+    ],
+    [
+      awayTeamStatistics.PTS_QTR1,
+      awayTeamStatistics.PTS_QTR2,
+      awayTeamStatistics.PTS_QTR3,
+      awayTeamStatistics.PTS_QTR4,
+    ],
   );
   const lineChartOptions = populateLineChartOptions(
     homeTeamName.toUpperCase(),

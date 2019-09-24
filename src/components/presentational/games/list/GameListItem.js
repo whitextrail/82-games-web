@@ -55,7 +55,7 @@ const GameListItem = memo(({
   },
   homeTeam,
   awayTeam,
-  selectGame,
+  selectGameFromList,
 }) => (
   <Grid container direction="column" style={styles.container}>
     <ListItem disableGutters style={styles.listItem}>
@@ -69,7 +69,7 @@ const GameListItem = memo(({
               variant="contained"
               size="small"
               style={styles.actionButton}
-              onClick={selectGame}
+              onClick={selectGameFromList}
             >
               <MoreHorizSharp />
             </Button>

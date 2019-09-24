@@ -1,62 +1,9 @@
-import React, {
-  memo,
-  useReducer,
-  useCallback,
-  useEffect,
-} from 'react';
+import React, { memo } from 'react';
 import { Grid } from '@material-ui/core';
-import { connect } from 'react-redux';
 import SwipeableViews from 'react-swipeable-views';
-import { fetchGameStatisticById } from '../../../state/actions';
 import GameStatsHeader from '../../presentational/games/stats/GameStatsHeader';
 import GameAthleteStats from '../../presentational/games/stats/GameAthleteStats';
 import GameTeamStats from '../../presentational/games/stats/GameTeamStats';
-
-const initialState = {
-  allStatsViews: ['player', 'teams'],
-  selectedStatsView: 'player',
-  gameId: 0,
-  remainingGameTime: 2880,
-  gameStatsFetched: false,
-};
-
-const actionTypes = {
-  CHANGE_STATS_VIEW: 'CHANGE_STATS_VIEW',
-  CHANGE_ATHLETE_GAME_ID: 'CHANGE_ATHLETE_GAME_ID',
-  UPDATE_GAME_STATS_FETCHED: 'UPDATE_GAME_STATS_FETCHED',
-};
-
-const reducer = (state, action) => {
-  const {
-    type,
-    payload,
-  } = action;
-  const {
-    CHANGE_STATS_VIEW,
-    CHANGE_ATHLETE_GAME_ID,
-    UPDATE_GAME_STATS_FETCHED,
-  } = actionTypes;
-
-  switch(type) {
-    case CHANGE_STATS_VIEW:
-      return {
-        ...state,
-        selectedStatsView: payload,
-      };
-    case CHANGE_ATHLETE_GAME_ID:
-      return {
-        ...state,
-        gameId: payload,
-      };
-    case UPDATE_GAME_STATS_FETCHED:
-      return {
-        ...state,
-        gameStatsFetched: true,
-      };
-    default:
-      return state;
-  }
-};
 
 const styles = {
   container: {
@@ -68,71 +15,48 @@ const styles = {
 const GameStats = memo(({
   history,
   statusId,
-  gameId,
   gamesById,
-  teamGameIds,
+  gameIds,
   teamsById,
   athlete,
-  fetchGameStatisticById: fetchGameStatisticByIdAction,
+  fetchGameStats,
+  allGameStatsViews,
+  selectedGameStatsView,
+  selectGameStatsView,
+  selectGameStatsIndex,
+  selectedGameStatsIndex,
 }) => {
-  // TODO: Use the dispatcher function to update remainingGameTime
-  const [state,dispatch] = useReducer(reducer, { ...initialState });
-  const {
-    selectedStatsView,
-    allStatsViews,
-    gameStatsFetched,
-  } = state;
-
-  const changeStatsView = useCallback(
-    ({ currentTarget: { id } }) => dispatch({ type: actionTypes.CHANGE_STATS_VIEW, payload: id }),
-    [dispatch]
-  );
-
-  const changeAthleteGameId = useCallback(
-    id => dispatch({ type: actionTypes.CHANGE_ATHLETE_GAME_ID, payload: id }),
-    [dispatch]
-  );
-
-  useEffect(() => {
-    if (!gameStatsFetched) {
-      teamGameIds.forEach((id, index) => {
-        const {
-          homeTeamStatistics,
-          awayTeamStatistics,
-        } = gamesById[id];
-
-        if (!homeTeamStatistics || !awayTeamStatistics) {
-          return fetchGameStatisticByIdAction(id);
-        } else if (index === (teamGameIds.length - 1)) {
-          return dispatch({ type: actionTypes.UPDATE_GAME_STATS_FETCHED });
-        }
-      });
-    }
-  });
-
+  const gameWithStatsId = gameIds[selectedGameStatsIndex];
   const {
     homeTeamId,
     awayTeamId,
-  } = gamesById[gameId];
+  } = gamesById[gameWithStatsId];
   const homeTeam = teamsById[homeTeamId];
   const awayTeam = teamsById[awayTeamId];
 
-  let athleteGames;
+  // Check whether the stats for each teams' games against each other have been fetched
+  const hasTeamStats = gameIds.every(gameId => (
+    gamesById[gameId].homeTeamStatistics && gamesById[gameId].awayTeamStatistics
+  ));
 
-  if (gameStatsFetched) {
-    athleteGames = teamGameIds.reduce((accumulator, value) => {
-      if (athlete.performanceStatisticsByGameId[value]) {
-        const athleteSplitName = athlete.name.split(' ');
-        const {
-          arena,
-          localGameDateTime,
-          homeTeamStatistics: currentHomeTeamStatistics,
-          awayTeamStatistics: currentAwayTeamStatistics,
-        } = gamesById[value];
+  let gamesWithStats = {};
 
-        return {
+  if (!hasTeamStats) {
+    fetchGameStats(gameIds);
+  } else {
+    gamesWithStats = gameIds.reduce((accumulator, gameId) => {
+      const athleteSplitName = athlete.name.split(' ');
+      const {
+        arena,
+        localGameDateTime,
+        homeTeamStatistics,
+        awayTeamStatistics,
+      } = gamesById[gameId];
+
+      return athlete.performanceStatisticsByGameId[gameId]
+        ? ({
           ...accumulator,
-          [value]: {
+          [gameId]: {
             arena,
             localGameDateTime,
             homeTeamId: homeTeam.id,
@@ -142,45 +66,31 @@ const GameStats = memo(({
             athleteName: athleteSplitName[athleteSplitName.length - 1],
             homeTeamStatistics: {
               PTS: (
-                currentHomeTeamStatistics.PTS_QTR1 +
-                currentHomeTeamStatistics.PTS_QTR2 +
-                currentHomeTeamStatistics.PTS_QTR3 +
-                currentHomeTeamStatistics.PTS_QTR4
+                homeTeamStatistics.PTS_QTR1 +
+                homeTeamStatistics.PTS_QTR2 +
+                homeTeamStatistics.PTS_QTR3 +
+                homeTeamStatistics.PTS_QTR4
               ),
-              REB: currentHomeTeamStatistics.REB,
-              AST: currentHomeTeamStatistics.AST,
-              Q1: currentHomeTeamStatistics.PTS_QTR1,
-              Q2: currentHomeTeamStatistics.PTS_QTR2,
-              Q3: currentHomeTeamStatistics.PTS_QTR3,
-              Q4: currentHomeTeamStatistics.PTS_QTR4,
-              ...currentHomeTeamStatistics,
+              ...homeTeamStatistics,
             },
             awayTeamStatistics: {
               PTS: (
-                currentAwayTeamStatistics.PTS_QTR1 +
-                currentAwayTeamStatistics.PTS_QTR2 +
-                currentAwayTeamStatistics.PTS_QTR3 +
-                currentAwayTeamStatistics.PTS_QTR4
+                awayTeamStatistics.PTS_QTR1 +
+                awayTeamStatistics.PTS_QTR2 +
+                awayTeamStatistics.PTS_QTR3 +
+                awayTeamStatistics.PTS_QTR4
               ),
-              REB: currentAwayTeamStatistics.REB,
-              AST: currentAwayTeamStatistics.AST,
-              Q1: currentAwayTeamStatistics.PTS_QTR1,
-              Q2: currentAwayTeamStatistics.PTS_QTR2,
-              Q3: currentAwayTeamStatistics.PTS_QTR3,
-              Q4: currentAwayTeamStatistics.PTS_QTR4,
-              ...currentAwayTeamStatistics,
+              ...awayTeamStatistics,
             },
             statsKeys: ['PTS', 'REB', 'AST'],
-            athleteStatistics: { ...athlete.performanceStatisticsByGameId[value] },
+            athleteStatistics: { ...athlete.performanceStatisticsByGameId[gameId] },
           },
-        };
-      }
-
-      return accumulator;
-    }, {});
+        })
+        : accumulator;
+    }, gamesWithStats);
   }
 
-  return gameStatsFetched && (
+  return hasTeamStats && (
     <Grid
       container
       alignItems="center"
@@ -189,27 +99,20 @@ const GameStats = memo(({
     >
       <GameStatsHeader
         navButtonClickHandler={() => history.push(`/games/${statusId}`)}
-        allStatsViews={allStatsViews}
-        selectedStatsView={selectedStatsView}
-        changeStatsView={changeStatsView}
-        gameId={gameId}
-        changeAthleteGameId={changeAthleteGameId}
-        athleteGames={athleteGames}
+        gamesWithStats={gamesWithStats}
+        allGameStatsViews={allGameStatsViews}
+        selectGameStatsView={selectGameStatsView}
+        selectedGameStatsView={selectedGameStatsView}
+        selectGameStatsIndex={selectGameStatsIndex}
+        selectedGameStatsIndex={selectedGameStatsIndex}
+        gameIds={gameIds}
       />
-      <SwipeableViews index={allStatsViews.indexOf(selectedStatsView)} style={{ width: '100vw' }}>
-        <GameAthleteStats
-          gameId={gameId}
-          athleteGames={athleteGames}
-        />
-        <GameTeamStats
-          gameId={gameId}
-          athleteGames={athleteGames}
-        />
+      <SwipeableViews index={allGameStatsViews.indexOf(selectedGameStatsView)} style={{ width: '100vw' }}>
+        <GameAthleteStats gameWithStatsId={gameWithStatsId} gamesWithStats={gamesWithStats} />
+        <GameTeamStats selectedGameWithStats={gamesWithStats[gameWithStatsId]} />
       </SwipeableViews>
     </Grid>
   );
 });
 
-export default connect(null, {
-  fetchGameStatisticById,
-})(GameStats);
+export default GameStats;

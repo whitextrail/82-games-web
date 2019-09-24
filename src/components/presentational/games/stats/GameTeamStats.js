@@ -14,13 +14,7 @@ const styles = {
   },
 };
 
-const GameTeamStats = memo(({
-  gameId,
-  athleteGames,
-}) => {
-  const {
-    [gameId]: selectedGameStats,
-  } = athleteGames;
+const GameTeamStats = memo(({ selectedGameWithStats }) => {
   const {
     homeTeamId,
     homeTeamName,
@@ -28,44 +22,24 @@ const GameTeamStats = memo(({
     awayTeamName,
     homeTeamStatistics,
     awayTeamStatistics,
-  } = selectedGameStats;
+  } = selectedGameWithStats;
   const teamStats = [{
     teamName: homeTeamName,
     resourceId: `${homeTeamName}_${homeTeamId}`,
-    Q1: homeTeamStatistics.Q1,
-    Q2: homeTeamStatistics.Q2,
-    Q3: homeTeamStatistics.Q3,
-    Q4: homeTeamStatistics.Q4,
     wL: homeTeamStatistics.PTS > awayTeamStatistics.PTS ? 'W': 'L',
+    ...homeTeamStatistics,
   }, {
     teamName: awayTeamName,
     resourceId: `${awayTeamName}_${awayTeamId}`,
-    Q1: awayTeamStatistics.Q1,
-    Q2: awayTeamStatistics.Q2,
-    Q3: awayTeamStatistics.Q3,
-    Q4: awayTeamStatistics.Q4,
     wL: homeTeamStatistics.PTS < awayTeamStatistics.PTS ? 'W': 'L',
+    ...awayTeamStatistics,
   }];
 
   return (
     <Grid container alignItems="center" direction="column" style={styles.container}>
       <GameTeamStatsBox teamStats={teamStats}>
-        <GameTeamStatsBoxChart
-          homeTeamId={homeTeamId}
-          homeTeamName={homeTeamName}
-          awayTeamId={awayTeamId}
-          awayTeamName={awayTeamName}
-          homeTeamStatistics={homeTeamStatistics}
-          awayTeamStatistics={awayTeamStatistics}
-        />
-        <GameTeamStatsBreakdown
-          homeTeamId={homeTeamId}
-          homeTeamName={homeTeamName}
-          awayTeamId={awayTeamId}
-          awayTeamName={awayTeamName}
-          homeTeamStatistics={homeTeamStatistics}
-          awayTeamStatistics={awayTeamStatistics}
-        />
+        <GameTeamStatsBoxChart {...selectedGameWithStats} />
+        <GameTeamStatsBreakdown {...selectedGameWithStats} />
       </GameTeamStatsBox>
     </Grid>
   );

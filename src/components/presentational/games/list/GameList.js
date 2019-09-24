@@ -44,7 +44,7 @@ const GameList = memo(({
   allGameStatusIds,
   statusId,
   selectGameStatus,
-  selectGame,
+  selectGameFromList,
 }) => {
   return (
     <Grid container direction="column" style={styles.container}>
@@ -69,7 +69,7 @@ const GameList = memo(({
               statusId={statusId}
               homeTeam={teamsById[homeTeamId]}
               awayTeam={teamsById[awayTeamId]}
-              selectGame={selectGame}
+              selectGameFromList={selectGameFromList}
             />
           ))
         }

@@ -11,7 +11,6 @@ import {
   ArrowRightSharp,
 } from '@material-ui/icons';
 import SwipeableViews from 'react-swipeable-views';
-import { sortNumbersAscending } from '../../../util';
 import { primaryColor } from '../../../styles/constants';
 
 const styles = {
@@ -49,16 +48,20 @@ const styles = {
     fontSize: 30,
     color: '#FFF',
   },
+  carouselStepper: {
+    bottom: 2.5,
+    height: 20,
+    position: 'absolute',
+    backgroundColor: 'transparent',
+  },
 };
 
 const GamesCarousel = memo(({
-  athleteGames,
-  gameId,
-  changeAthleteGameId,
+  gameIds,
+  gamesWithStats,
+  selectGameStatsIndex,
+  selectedGameStatsIndex,
 }) => {
-  const athleteGameIds = sortNumbersAscending(Object.keys(athleteGames));
-  const athleteGameIdIndex = athleteGameIds.indexOf(`${gameId}`);
-
   const mobileStepperClasses = makeStyles({
     dotActive: {
       backgroundColor: primaryColor,
@@ -70,18 +73,18 @@ const GamesCarousel = memo(({
 
     switch(id) {
       case 'left':
-        const decremented = athleteGameIdIndex - 1;
-        gameIndex = decremented >= 0 ? decremented : (athleteGameIds.length - 1);
+        const decremented = selectedGameStatsIndex - 1;
+        gameIndex = decremented >= 0 ? decremented : (gameIds.length - 1);
         break;
       case 'right':
-        const incremented = athleteGameIdIndex + 1;
-        gameIndex = incremented <= (athleteGameIds.length - 1) ? incremented : 0;
+        const incremented = selectedGameStatsIndex + 1;
+        gameIndex = incremented <= (gameIds.length - 1) ? incremented : 0;
         break;
       default:
         break;
     }
 
-    return changeAthleteGameId(athleteGameIds[gameIndex]);
+    return selectGameStatsIndex(gameIndex);
   };
 
   return (
@@ -93,18 +96,18 @@ const GamesCarousel = memo(({
         style={styles.carouselContainer}
       >
         <SwipeableViews
-          index={athleteGameIdIndex}
+          index={selectedGameStatsIndex}
           style={styles.swipe}
           slideStyle={styles.slide}
         >
           {
-            athleteGameIds.map((id) => {
+            gameIds.map((id) => {
               const {
                 homeTeamName,
                 awayTeamName,
                 localGameDateTime,
                 arena,
-              } = athleteGames[id];
+              } = gamesWithStats[id];
 
               return (
                 <Grid key={id} container justify="space-around" alignItems="center" direction="column" style={{ height: 66 }}>
@@ -129,12 +132,12 @@ const GamesCarousel = memo(({
           <ArrowRightSharp id="right" style={styles.swipeIcon} onClick={handleSwipeButtonClick} />
         </Button>
         <MobileStepper
-          classes={mobileStepperClasses}
           variant="dots"
-          steps={athleteGameIds.length}
           position="static"
-          activeStep={athleteGameIdIndex}
-          style={{ bottom: 2.5, height: 20, position: 'absolute', backgroundColor: 'transparent' }}
+          classes={mobileStepperClasses}
+          steps={gameIds.length}
+          activeStep={selectedGameStatsIndex}
+          style={styles.carouselStepper}
         />
       </Grid>
     </Grid>
