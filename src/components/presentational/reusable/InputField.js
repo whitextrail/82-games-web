@@ -4,6 +4,24 @@ import {
   TextField,
   InputAdornment,
 } from '@material-ui/core';
+import {
+  makeStyles,
+} from '@material-ui/styles';
+
+const styles = makeStyles({
+  root: {
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        border: '4px solid #333',
+        borderRadius: 0,
+      },
+      '&:hover fieldset': {
+        border: '4px solid #361840',
+        borderRadius: 0,
+      },
+    },
+  }
+});
 
 const ReusableInputField = React.memo(({
   label,
@@ -31,12 +49,15 @@ const ReusableInputField = React.memo(({
     type={type}
     readOnly={!onChange}
     onChange={onChange}
+    classes={{
+      root: styles().root,
+    }}
     InputProps={{
       inputProps: {
         onClick,
         onFocus,
         onBlur,
-        style: { ...inputStyle },
+        style: { ...inputStyle }
       },
       ...startAdornmentIcon && ({
         startAdornment: <InputAdornment position="start">{ startAdornmentIcon }</InputAdornment>,
