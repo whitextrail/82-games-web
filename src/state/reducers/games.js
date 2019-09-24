@@ -4,6 +4,7 @@ import {
   SELECT_GAME_STATUS_ID,
   SELECT_GAME_ID,
   SELECT_GAME_STATS_VIEW,
+  SELECT_GAME_STATS_INDEX,
 } from '../actions/util/types';
 import {
   evalActionPayload,
@@ -18,9 +19,10 @@ const gamesStatsState = initialStateDecorator({
   byStatusId: {},
   allStatusIds: [],
   selectedStatusId: null,
-  byTeamId: {},
+  idsByTeamId: {},
   allStatsViews: ['player', 'teams'],
   selectedStatsView: 'player',
+  selectedStatsIndex: null,
 });
 
 const fetchGamesByTeamIdReducer = (state, { response }) => {
@@ -42,7 +44,7 @@ const fetchGamesByTeamIdReducer = (state, { response }) => {
     byStatusId: gamesByStatus,
     allStatusIds: gamesByStatusKeys,
     selectedStatusId: gamesByStatusKeys[0],
-    byTeamId: gameIdsByTeam,
+    idsByTeamId: gameIdsByTeam,
   };
 };
 
@@ -73,6 +75,8 @@ const selectGameStatusIdReducer = (state, { response }) => ({ selectedStatusId: 
 
 const selectGameStatsViewReducer = (state, { response }) => ({ selectedStatsView: response });
 
+const selectGameStatsIndexReducer = (state, { response }) => ({ selectedStatsIndex: response });
+
 export default (state = gamesStatsState, action) => {
   const { type } = action;
 
@@ -86,7 +90,9 @@ export default (state = gamesStatsState, action) => {
     case SELECT_GAME_ID:
       return evalActionPayload(state, action, selectGameIdReducer);
     case SELECT_GAME_STATS_VIEW:
-        return evalActionPayload(state, action, selectGameStatsViewReducer);
+      return evalActionPayload(state, action, selectGameStatsViewReducer);
+    case SELECT_GAME_STATS_INDEX:
+        return evalActionPayload(state, action, selectGameStatsIndexReducer);
     default:
       return state;
   }

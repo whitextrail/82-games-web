@@ -6,6 +6,7 @@ import {
   SELECT_GAME_STATUS_ID,
   SELECT_GAME_ID,
   SELECT_GAME_STATS_VIEW,
+  SELECT_GAME_STATS_INDEX,
 } from './util/types';
 import apiEndpoints from './util/apiEndpoints';
 import { actionWrapper } from '../lib/actions';
@@ -53,10 +54,13 @@ const selectGameId = gameId => actionWrapper({ type: SELECT_GAME_ID })({ respons
 
 const selectGameStatsView = statsView => actionWrapper({ type: SELECT_GAME_STATS_VIEW })({ response: statsView });
 
+const selectGameStatsIndex = statsIndex => actionWrapper({ type: SELECT_GAME_STATS_INDEX })({ response: statsIndex });
+
 export {
   fetchGamesByTeamId,
   fetchGameStatisticById,
   selectGameStatusId,
   selectGameId,
   selectGameStatsView,
+  selectGameStatsIndex,
 };

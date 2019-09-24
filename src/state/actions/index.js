@@ -12,6 +12,7 @@ import {
   selectGameStatusId,
   selectGameId,
   selectGameStatsView,
+  selectGameStatsIndex,
 } from './games';
 import {
   fetchAthleteProfileById,
@@ -26,6 +27,7 @@ export {
   selectGameStatusId,
   selectGameId,
   selectGameStatsView,
+  selectGameStatsIndex,
   fetchTeams,
   fetchAthleteProfileById,
 };
