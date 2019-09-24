@@ -48,13 +48,15 @@ const fetchGameStatisticById = (id) => (
   }
 );
 
-const selectGameStatusId = statusId => actionWrapper({ type: SELECT_GAME_STATUS_ID })({ response: statusId });;
+const selectGameStatusId = statusId => actionWrapper({ type: SELECT_GAME_STATUS_ID })({ response: { statusId } });;
 
-const selectGameId = gameId => actionWrapper({ type: SELECT_GAME_ID })({ response: gameId });
+const selectGameId = gameId => actionWrapper({ type: SELECT_GAME_ID })({ response: { gameId } });
 
-const selectGameStatsView = statsView => actionWrapper({ type: SELECT_GAME_STATS_VIEW })({ response: statsView });
+const selectGameStatsView = statsView => actionWrapper({ type: SELECT_GAME_STATS_VIEW })({ response: { statsView } });
 
-const selectGameStatsIndex = statsIndex => actionWrapper({ type: SELECT_GAME_STATS_INDEX })({ response: statsIndex });
+const selectGameStatsIndex = statsIndex => (
+  actionWrapper({ type: SELECT_GAME_STATS_INDEX })({ response: { statsIndex } })
+);
 
 export {
   fetchGamesByTeamId,

@@ -115,22 +115,17 @@ class GamesContainer extends PureComponent {
                     );
                     const parsedRouteGameId = parseInt(routeGameId, 10);
                     const gameIdsIndex = gameIds.indexOf(parsedRouteGameId);
+                    const statsIndexSet = Number.isInteger(selectedGameStatsIndex) && (selectedGameStatsIndex >= 0);
 
                     if (routeGameId !== selectedGameId) {
                       selectGameIdAction(parsedRouteGameId);
                     }
 
-                    if (!selectedGameStatsIndex) {
+                    if (!statsIndexSet) {
                       selectGameStatsIndexAction(gameIdsIndex);
                     }
 
-                    const showStats = !!(
-                      gameIds.length
-                      && selectedGameId
-                      // If selectedGameStatsIndex has not yet been updated, show gameIdsIndex
-                      && (Number.isInteger(selectedGameStatsIndex) || Number.isInteger(gameIdsIndex))
-                      && ((selectedGameStatsIndex >= 0) || (gameIdsIndex >= 0))
-                    );
+                    const showStats = !!(gameIds.length && selectedGameId);
 
                     return showStats && (
                       <GameStats
@@ -145,7 +140,7 @@ class GamesContainer extends PureComponent {
                         selectedGameStatsView={selectedGameStatsView}
                         selectGameStatsIndex={selectGameStatsIndexAction}
                         selectGameStatsView={this.selectGameStatsView}
-                        selectedGameStatsIndex={selectedGameStatsIndex || gameIdsIndex}
+                        selectedGameStatsIndex={statsIndexSet ? selectedGameStatsIndex : gameIdsIndex}
                       />
                     );
                   }}

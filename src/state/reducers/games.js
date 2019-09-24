@@ -69,13 +69,13 @@ const fetchGameStatisticByIdReducer = (state, { response }) => {
   };
 };
 
-const selectGameIdReducer = (state, { response }) => ({ selectedId: response });
+const selectGameIdReducer = (state, { response: { gameId } }) => ({ selectedId: gameId });
 
-const selectGameStatusIdReducer = (state, { response }) => ({ selectedStatusId: response });
+const selectGameStatusIdReducer = (state, { response: { statusId } }) => ({ selectedStatusId: statusId });
 
-const selectGameStatsViewReducer = (state, { response }) => ({ selectedStatsView: response });
+const selectGameStatsViewReducer = (state, { response: statsView }) => ({ selectedStatsView: statsView });
 
-const selectGameStatsIndexReducer = (state, { response }) => ({ selectedStatsIndex: response });
+const selectGameStatsIndexReducer = (state, { response: { statsIndex } }) => ({ selectedStatsIndex: statsIndex });
 
 export default (state = gamesStatsState, action) => {
   const { type } = action;
@@ -92,7 +92,7 @@ export default (state = gamesStatsState, action) => {
     case SELECT_GAME_STATS_VIEW:
       return evalActionPayload(state, action, selectGameStatsViewReducer);
     case SELECT_GAME_STATS_INDEX:
-        return evalActionPayload(state, action, selectGameStatsIndexReducer);
+      return evalActionPayload(state, action, selectGameStatsIndexReducer);
     default:
       return state;
   }
