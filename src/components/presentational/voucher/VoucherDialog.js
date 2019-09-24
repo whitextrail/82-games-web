@@ -28,18 +28,26 @@ const styles = {
   dialogTitleText: {
     marginLeft: 10,
   },
+  counterButton: {
+    backgroundColor: '#661A76',
+  },
   counterButtonText: {
-    fontSize: 36,
+    fontSize: 24,
     color: '#FFF',
+  },
+  currentCounter: {
+    width: '35%',
+    backgroundColor: primaryColor,
+    margin: 0,
   },
   currentCounterText: {
     fontSize: 28,
-    paddingRight: 3,
     color:'#FFF',
   },
   dialogActions: {
     minHeight: 40,
     height: 40,
+    marginBottom: 5,
   },
 };
 
@@ -79,8 +87,8 @@ const VoucherDialog = memo(({
             </Grid>
           )}
           { !inProgress && address && (
-            <Grid container direction="row" alignItems="center" justify="center" style={{ backgroundColor: primaryColor, borderRadius: 32 }}>
-              <Grid item>
+            <Grid container direction="row" alignItems="center" justify="center">
+              <Grid item style={styles.counterButton}>
                 <IconButton
                   disabled={selectedVoucherCount <= minCount}
                   onClick={() => updateSelectedVoucherCount(selectedVoucherCount - 1)}
@@ -88,12 +96,12 @@ const VoucherDialog = memo(({
                   <RemoveCircleOutlineSharp style={styles.counterButtonText} />
                 </IconButton>
               </Grid>
-              <Grid justify="center" alignItems="center" direction="column" container spacing={2} style={{ width: '35%' }}>
+              <Grid justify="center" alignItems="center" direction="column" container spacing={2} style={styles.currentCounter}>
                 <Typography variant="h6" align="center" style={styles.currentCounterText}>
                   {selectedVoucherCount}
                 </Typography>
               </Grid>
-              <Grid item>
+              <Grid item style={styles.counterButton}>
                 <IconButton
                   disabled={selectedVoucherCount >= maxCount}
                   onClick={() => updateSelectedVoucherCount(selectedVoucherCount + 1)}
@@ -109,9 +117,9 @@ const VoucherDialog = memo(({
         <Fragment>
           { !inProgress && (
             <Grid justify="center" alignItems="center" container style={styles.dialogActions}>
-              <Dialog.CancelAction text="Close" onClick={() => hideDialog()} />
+              <Dialog.CancelAction text="CLOSE" onClick={() => hideDialog()} />
               { address && (
-                <Dialog.ConfirmAction text="Buy Vouchers" onClick={() => purchaseVoucher(selectedVoucherCount)} />
+                <Dialog.ConfirmAction text="BUY VOUCHERS" onClick={() => purchaseVoucher(selectedVoucherCount)} />
               )}
             </Grid>
           )}
