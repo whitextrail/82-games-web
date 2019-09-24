@@ -12,6 +12,7 @@ import {
   authenticateUser,
   purchaseVoucher,
   sendPrediction,
+  fetchUserPredictions,
   logOutUser,
 } from '../../state/actions';
 import { Nav } from './Nav';
@@ -33,18 +34,26 @@ class App extends PureComponent {
     currentDialogType: dialogTypes.NONE,
   };
 
-  componentDidMount() {
+  componentDidMount = () => {
     // Initialize TronWeb and hook-up any available provider (ie. TronLink)
     setupTronWeb(this.onAccountChanged);
   };
 
-  showVoucherDialog = () => this.setState({ currentDialogType: dialogTypes.VOUCHER_DIALOG });
-  // showVoucherDialog = () => this.setState({ currentDialogType: dialogTypes.PREDICTION_DIALOG });
+  componentDidUpdate = (prevProps) => {
+    // Check for newly initialized user account and get the user's predictions
+    if (prevProps.user.address !== this.props.user.address) {
+      this.props.fetchUserPredictions();
+    }
+  };
+
+  // showVoucherDialog = () => this.setState({ currentDialogType: dialogTypes.VOUCHER_DIALOG });
+  showVoucherDialog = () => this.setState({ currentDialogType: dialogTypes.PREDICTION_DIALOG });
   hideDialog = () => this.setState({ currentDialogType: dialogTypes.NONE });
 
   renderDialog = () => {
     const {
       user,
+      userPredictions,
       purchaseVoucher,
       sendPrediction,
     } = this.props;
@@ -64,6 +73,7 @@ class App extends PureComponent {
         return (
           <GamePredictionDialog
             user={user}
+            userPredictions={userPredictions}
             gameId={2}
             sendPrediction={sendPrediction}
             hideDialog={this.hideDialog}
@@ -103,13 +113,16 @@ class App extends PureComponent {
 
 const mapStateToProps = ({
   user,
+  userPredictions,
 }) => ({
   user,
+  userPredictions,
 });
 
 export default connect(mapStateToProps, {
   authenticateUser,
   purchaseVoucher,
   sendPrediction,
+  fetchUserPredictions,
   logOutUser,
 })(App);
