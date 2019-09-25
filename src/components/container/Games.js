@@ -53,6 +53,7 @@ class GamesContainer extends PureComponent {
       gamesById,
       gamesByStatusId,
       allGameStatusIds,
+      gameIdsByTeamId,
     } = this.props;
     const showProgress = inProgress || !isFetched;
 
@@ -81,15 +82,18 @@ class GamesContainer extends PureComponent {
                 />
                 <Route
                   exact
-                  path="/games/:statusId/:routeGameId"
-                  render={(routeProps) => (
-                    <GameStats
-                      {...routeProps}
-                      athlete={athlete}
-                      gamesById={gamesById}
-                      teamsById={teamsById}
-                    />
-                  )}
+                  path="/games/:statusId/:gameId"
+                  render={(routeProps) => {
+                    return (
+                      <GameStats
+                        athlete={athlete}
+                        gamesById={gamesById}
+                        teamsById={teamsById}
+                        gameIdsByTeamId={gameIdsByTeamId}
+                        {...routeProps}
+                      />
+                    );
+                  }}
                 />
               </Switch>
             )
@@ -110,6 +114,7 @@ const mapStateToProps = ({
     byStatusId: gamesByStatusId,
     allStatusIds: allGameStatusIds,
     selectedStatusId: selectedGameStatusId,
+    idsByTeamId: gameIdsByTeamId,
     inProgress: gamesInProgress,
   },
   athletes: {
@@ -125,6 +130,7 @@ const mapStateToProps = ({
   gamesById,
   gamesByStatusId,
   allGameStatusIds,
+  gameIdsByTeamId,
 });
 
 export default withRouter(connect(mapStateToProps, {

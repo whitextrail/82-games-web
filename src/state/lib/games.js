@@ -72,9 +72,9 @@ const segmentGamesByStatus = gamesById => (
 const segmentGameIdsByTeamId = gamesById => (
   reduce(gamesById, (accumulator, value) => {
     const {
+      id,
       homeTeamId,
       awayTeamId,
-      gameNumber,
       awayTeamPoints,
       homeTeamPoints,
     } = value;
@@ -93,13 +93,13 @@ const segmentGameIdsByTeamId = gamesById => (
       ...homeTeamId !== 1 && {
         [homeTeamId]: sortNumbersAscending([
           ...accHomeTeamId,
-          gameNumber,
+          id,
         ]),
       },
       ...awayTeamId !== 1 && {
         [awayTeamId]: sortNumbersAscending([
           ...accAwayTeamId,
-          gameNumber,
+          id,
         ]),
       },
     };

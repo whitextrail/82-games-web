@@ -10,7 +10,7 @@ import {
   KeyboardArrowLeftSharp,
 } from '@material-ui/icons';
 import NavBar from '../../nav/NavBar';
-import Carousel from '../../reusable/Carousel';
+import Carousel from './header/Carousel';
 import Tabs from '../../reusable/Tabs';
 import { primaryColor } from '../../../../styles/constants';
 
@@ -52,15 +52,14 @@ const navBarStyleClasses = {
 };
 
 const GameStatsHeader = memo(({
-  // gameIds,
-  // opponentGameIds,
-  // gamesWithStats,
-  // selectGameStatsIndex,
-  // selectedGameStatsIndex,
   goBackRoute,
-  allGameStatsGroups,
   changeGameStatsGroup,
+  gamesById,
+  allGameStatsGroups,
   selectedGameStatsGroup,
+  allGameStatsIds,
+  selectedGameStatsId,
+  changeSelectedGameStatsId,
 }) => (
   <Grid container direction="column" style={styles.container}>
     <NavBar
@@ -97,7 +96,7 @@ const GameStatsHeader = memo(({
           />
         </Card>
       </Slide>
-      {/* <Slide in direction="left" timeout={750}>
+      <Slide in direction="left" timeout={750}>
         <Card
           raised
           component={Grid}
@@ -107,14 +106,13 @@ const GameStatsHeader = memo(({
           style={styles.carouselContainer}
         >
           <Carousel
-            gameIds={gameIds}
-            selectGameStatsIndex={selectGameStatsIndex}
-            selectedGameStatsIndex={selectedGameStatsIndex}
-            gamesWithStats={gamesWithStats}
-            opponentGameIds={opponentGameIds}
+            gamesById={gamesById}
+            allGameStatsIds={allGameStatsIds}
+            selectedGameStatsId={selectedGameStatsId}
+            changeSelectedGameStatsId={changeSelectedGameStatsId}
           />
         </Card>
-      </Slide> */}
+      </Slide>
     </Grid>
   </Grid>
 ));

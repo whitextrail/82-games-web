@@ -3,11 +3,14 @@ import { Grid } from '@material-ui/core';
 import { connect } from 'react-redux';
 import SwipeableViews from 'react-swipeable-views';
 import {
+  fetchGameStats,
   changeGameStatsGroup,
+  changeSelectedGameStatsId,
 } from '../../state/actions';
 import GameStatsHeader from '../presentational/games/stats/GameStatsHeader';
 import GameAthleteStats from '../presentational/games/stats/GameAthleteStats';
 import GameTeamStats from '../presentational/games/stats/GameTeamStats';
+import Progress from '../presentational/reusable/Progress';
 
 const styles = {
   container: {
@@ -19,6 +22,37 @@ const styles = {
 class GameStats extends PureComponent {
   constructor(props) {
     super(props);
+    const {
+      gamesById,
+      gameIdsByTeamId,
+      match: { params },
+    } = props;
+    const {
+      homeTeamId,
+      awayTeamId,
+     } = gamesById[params.gameId];
+
+    props.fetchGameStats(gameIdsByTeamId[awayTeamId] || gameIdsByTeamId[homeTeamId]);
+  }
+
+  componentDidUpdate(prevProps) {
+    const {
+      gameStats: { allGameStatsIds: prevAllGameStatsIds }
+    } = prevProps;
+    const {
+      selectedGameStatsId,
+      match: { params },
+      gameStats: { allGameStatsIds },
+      changeSelectedGameStatsId: changeSelectedGameStatsIdAction,
+    } = this.props;
+
+    if (!prevAllGameStatsIds.length && allGameStatsIds.length) {
+      const parsedRouteGameId = parseInt(params.gameId);
+
+      if (selectedGameStatsId !== parsedRouteGameId) {
+        changeSelectedGameStatsIdAction(parsedRouteGameId);
+      }
+    }
   }
 
   goBackRoute = () => this.props.history.goBack()
@@ -27,9 +61,19 @@ class GameStats extends PureComponent {
 
   render = () => {
     const {
+      gamesById,
+      gameStats,
+      changeSelectedGameStatsId: changeSelectedGameStatsIdAction,
+    } = this.props;
+    const {
       allGameStatsGroups,
       selectedGameStatsGroup,
-    } = this.props.gameStats;
+      allGameStatsIds,
+      selectedGameStatsId,
+      changeSelectedGameStatsId,
+    } = gameStats;
+    const showProgress = !selectedGameStatsId;
+
     // const {
     //   history,
     //   statusId,
@@ -108,30 +152,29 @@ class GameStats extends PureComponent {
     //   }, gamesWithStats);
     // }
 
-    return (
-      <Grid
-        container
-        alignItems="center"
-        direction="column"
-        style={styles.container}
-      >
-        <GameStatsHeader
-          goBackRoute={this.goBackRoute}
-          allGameStatsGroups={allGameStatsGroups}
-          selectedGameStatsGroup={selectedGameStatsGroup}
-          changeGameStatsGroup={this.changeGameStatsGroup}
-          // gamesWithStats={gamesWithStats}
-          // allGameStatsGroups={allGameStatsGroups}
-          // changeGameStatsGroup={changeGameStatsGroup}
-          // selectedGameStatsGroup={selectedGameStatsGroup}
-          // selectGameStatsIndex={selectGameStatsIndex}
-          // selectedGameStatsIndex={selectedGameStatsIndex}
-          // gameIds={gameIds}
-        />
-        {/* <SwipeableViews index={allGameStatsGroups.indexOf(selectedGameStatsGroup)} style={{ width: '100vw' }}>
-          <GameAthleteStats gameWithStatsId={gameWithStatsId} gamesWithStats={gamesWithStats} />
-          <GameTeamStats selectedGameWithStats={gamesWithStats[gameWithStatsId]} />
-        </SwipeableViews> */}
+    return showProgress
+      ? <Progress show />
+      : (
+        <Grid
+          container
+          alignItems="center"
+          direction="column"
+          style={styles.container}
+        >
+          <GameStatsHeader
+            goBackRoute={this.goBackRoute}
+            changeGameStatsGroup={this.changeGameStatsGroup}
+            gamesById={gamesById}
+            allGameStatsGroups={allGameStatsGroups}
+            selectedGameStatsGroup={selectedGameStatsGroup}
+            allGameStatsIds={allGameStatsIds}
+            selectedGameStatsId={selectedGameStatsId}
+            changeSelectedGameStatsId={changeSelectedGameStatsIdAction}
+          />
+          {/* <SwipeableViews index={allGameStatsGroups.indexOf(selectedGameStatsGroup)} style={{ width: '100vw' }}>
+            <GameAthleteStats gameWithStatsId={gameWithStatsId} gamesWithStats={gamesWithStats} />
+            <GameTeamStats selectedGameWithStats={gamesWithStats[gameWithStatsId]} />
+          </SwipeableViews> */}
       </Grid>
     );
   }
@@ -140,5 +183,7 @@ class GameStats extends PureComponent {
 const mapStateToProps = ({ gameStats }) => ({ gameStats });
 
 export default connect(mapStateToProps, {
+  fetchGameStats,
   changeGameStatsGroup,
+  changeSelectedGameStatsId,
 })(GameStats);
