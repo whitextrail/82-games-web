@@ -166,8 +166,10 @@ const mapStateToProps = ({
     selectedStatusId: selectedGameStatusId,
     inProgress: gamesInProgress,
     idsByTeamId: gameIdsByTeamId,
-    allStatsViews: allGameStatsViews,
     selectedId: selectedGameId,
+  },
+  gameStats: {
+    allStatsViews: allGameStatsViews,
     selectedStatsView: selectedGameStatsView,
     selectedStatsIndex: selectedGameStatsIndex,
   },
