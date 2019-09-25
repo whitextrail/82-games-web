@@ -12,7 +12,7 @@ import {
   selectGameStatusId,
   fetchAthleteProfileById,
   selectGameId,
-  fetchGameStatisticById,
+  fetchGameStats,
   selectGameStatsView,
   selectGameStatsIndex,
 } from '../../state/actions';
@@ -104,7 +104,7 @@ class GamesContainer extends PureComponent {
                     const {
                       selectGameId: selectGameIdAction,
                       selectGameStatsIndex: selectGameStatsIndexAction,
-                      fetchGameStatisticById: fetchGameStatisticByIdAction,
+                      fetchGameStats: fetchGameStatsAction,
                     } = this.props;
 
                     // Due to the fact that we're not storing the id of the team used for fetching games,
@@ -135,7 +135,7 @@ class GamesContainer extends PureComponent {
                         athlete={athlete}
                         gamesById={gamesById}
                         teamsById={teamsById}
-                        fetchGameStats={fetchGameStatisticByIdAction}
+                        fetchGameStats={fetchGameStatsAction}
                         allGameStatsViews={allGameStatsViews}
                         selectedGameStatsView={selectedGameStatsView}
                         selectGameStatsIndex={selectGameStatsIndexAction}
@@ -197,7 +197,7 @@ export default withRouter(connect(mapStateToProps, {
   selectGameStatusId,
   fetchAthleteProfileById,
   selectGameId,
-  fetchGameStatisticById,
+  fetchGameStats,
   selectGameStatsView,
   selectGameStatsIndex,
 })(GamesContainer));

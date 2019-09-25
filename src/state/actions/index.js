@@ -8,12 +8,14 @@ import {
 } from './teams';
 import {
   fetchTeamGames,
-  fetchGameStatisticById,
   selectGameStatusId,
   selectGameId,
+} from './games';
+import {
+  fetchGameStats,
   selectGameStatsView,
   selectGameStatsIndex,
-} from './games';
+} from './gameStats';
 import {
   fetchAthleteProfileById,
 } from './athletes';
@@ -22,12 +24,12 @@ export {
   authenticateUser,
   logOutUser,
   purchaseVoucher,
+  fetchTeams,
   fetchTeamGames,
-  fetchGameStatisticById,
   selectGameStatusId,
   selectGameId,
+  fetchGameStats,
   selectGameStatsView,
   selectGameStatsIndex,
-  fetchTeams,
   fetchAthleteProfileById,
 };
