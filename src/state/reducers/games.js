@@ -25,7 +25,7 @@ const gamesStatsState = initialStateDecorator({
   selectedStatsIndex: null,
 });
 
-const fetchGamesByTeamIdReducer = (state, { response }) => {
+const fetchTeamGamesReducer = (state, { response }) => {
   const { data } = response;
   const {
     entities: {
@@ -82,7 +82,7 @@ export default (state = gamesStatsState, action) => {
 
   switch (type) {
     case FETCH_GAMES_BY_TEAM_ID:
-      return evalActionPayload(state, action, fetchGamesByTeamIdReducer);
+      return evalActionPayload(state, action, fetchTeamGamesReducer);
     case FETCH_GAME_STATISTIC_BY_ID:
         return evalActionPayload(state, action, fetchGameStatisticByIdReducer);
     case SELECT_GAME_STATUS_ID:

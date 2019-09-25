@@ -10,19 +10,19 @@ import {
 import apiEndpoints from './util/apiEndpoints';
 import { actionWrapper } from '../lib/actions';
 
-const fetchGamesByTeamIdActionCreator = actionWrapper({ type: FETCH_GAMES_BY_TEAM_ID });
+const fetchTeamGamesActionCreator = actionWrapper({ type: FETCH_GAMES_BY_TEAM_ID });
 const fetchGameStatisticByIdActionCreator = actionWrapper({ type: FETCH_GAME_STATISTIC_BY_ID });
 
-const fetchGamesByTeamId = (id = 1) => (
+const fetchTeamGames = (id = 1) => (
   async (dispatch) => {
-    dispatch(fetchGamesByTeamIdActionCreator());
+    dispatch(fetchTeamGamesActionCreator());
 
     try {
-      const { data } = await get(`${apiEndpoints.fetchGamesByTeamId}/${id}`);
+      const { data } = await get(`${apiEndpoints.fetchTeamGames}/${id}`);
 
-      return dispatch(fetchGamesByTeamIdActionCreator({ response: { data } }));
+      return dispatch(fetchTeamGamesActionCreator({ response: { data } }));
     } catch ({ response: error }) {
-      return dispatch(fetchGamesByTeamIdActionCreator({ error }));
+      return dispatch(fetchTeamGamesActionCreator({ error }));
     }
   }
 );
@@ -52,7 +52,7 @@ const selectGameStatsIndex = statsIndex => (
 );
 
 export {
-  fetchGamesByTeamId,
+  fetchTeamGames,
   fetchGameStatisticById,
   selectGameStatusId,
   selectGameId,
