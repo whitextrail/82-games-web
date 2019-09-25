@@ -7,35 +7,30 @@ import {
   evalActionPayload,
   initialStateDecorator,
 } from '../lib/reducers';
+import { normalizeGameStatsList } from '../lib/gameStats';
 
 const gamesStatsState = initialStateDecorator({
   byId: {},
   allIds: [],
   selectedId: null,
-  byStatsGroup: {},
   allStatsGroups: ['player', 'teams'],
   selectedStatsGroup: 'player',
   selectedStatsIndex: null,
 });
 
-const fetchGameStatsReducer = (state, { response }) => {
-  const gamesWithStatistics = response.data.reduce((accumulator, value) => {
-    const { id } = value;
-
-    return {
-      ...accumulator,
-      [id]: {
-        ...state.byId[id],
-        ...value,
-      }
-    };
-  }, {});
+const fetchGameStatsReducer = (state, { response: { data } }) => {
+  const {
+    entities: { gameStats },
+    result,
+  } = normalizeGameStatsList(data);
 
   return {
     byId: {
       ...state.byId,
-      ...gamesWithStatistics,
+      ...gameStats
     },
+    allIds: [...state.allIds, ...result],
+    selectedId: result[0],
   };
 };
 
