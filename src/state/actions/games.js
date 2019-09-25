@@ -1,5 +1,4 @@
 import { get } from 'axios';
-import * as Promise from "bluebird";
 import {
   FETCH_GAMES_BY_TEAM_ID,
   FETCH_GAME_STATISTIC_BY_ID,
@@ -33,13 +32,7 @@ const fetchGameStatisticById = (id) => (
     dispatch(fetchGameStatisticByIdActionCreator());
 
     try {
-      let data;
-
-      if (Array.isArray(id)) {
-        data = await Promise.map(id, async (gameId) => (await get(`${apiEndpoints.fetchGameStatisticById}/${gameId}`)).data);
-      } else {
-        data = [(await get(`${apiEndpoints.fetchGameStatisticById}/${id}`)).data];
-      }
+      const { data } = await get(`${apiEndpoints.fetchGameStatisticById}/${Array.isArray(id) ? id.join(',') : id}`);
 
       return dispatch(fetchGameStatisticByIdActionCreator({ response: { data } }));
     } catch ({ response: error }) {
