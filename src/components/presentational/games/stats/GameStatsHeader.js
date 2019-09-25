@@ -53,7 +53,7 @@ const navBarStyleClasses = {
 
 const GameStatsHeader = memo(({
   gameIds,
-  navButtonClickHandler,
+  goBackRoute,
   opponentGameIds,
   gamesWithStats,
   allGameStatsGroups,
@@ -67,9 +67,9 @@ const GameStatsHeader = memo(({
       elevation={0}
       icon={<KeyboardArrowLeftSharp styles={iconStyles} />}
       styleClasses={navBarStyleClasses}
-      iconButtonClickHandler={navButtonClickHandler}
+      iconButtonClickHandler={goBackRoute}
     />
-    <Grid
+    {/* <Grid
       container
       justify="space-between"
       alignItems="center"
@@ -115,7 +115,7 @@ const GameStatsHeader = memo(({
           />
         </Card>
       </Slide>
-    </Grid>
+    </Grid> */}
   </Grid>
 ));
 

@@ -15,9 +15,9 @@ const styles = {
 class GameStats extends PureComponent {
   constructor(props) {
     super(props);
-
-    console.log('props', props);
   }
+
+  goBackRoute = () => this.props.history.goBack()
 
   render = () => {
     // const {
@@ -99,28 +99,27 @@ class GameStats extends PureComponent {
     // }
 
     return (
-      <Grid />
-      // <Grid
-      //   container
-      //   alignItems="center"
-      //   direction="column"
-      //   style={styles.container}
-      // >
-      //   <GameStatsHeader
-      //     navButtonClickHandler={() => history.push(`/games/${statusId}`)}
-      //     gamesWithStats={gamesWithStats}
-      //     allGameStatsGroups={allGameStatsGroups}
-      //     selectGameStatsGroup={selectGameStatsGroup}
-      //     selectedGameStatsGroup={selectedGameStatsGroup}
-      //     selectGameStatsIndex={selectGameStatsIndex}
-      //     selectedGameStatsIndex={selectedGameStatsIndex}
-      //     gameIds={gameIds}
-      //   />
-      //   <SwipeableViews index={allGameStatsGroups.indexOf(selectedGameStatsGroup)} style={{ width: '100vw' }}>
-      //     <GameAthleteStats gameWithStatsId={gameWithStatsId} gamesWithStats={gamesWithStats} />
-      //     <GameTeamStats selectedGameWithStats={gamesWithStats[gameWithStatsId]} />
-      //   </SwipeableViews>
-      // </Grid>
+      <Grid
+        container
+        alignItems="center"
+        direction="column"
+        style={styles.container}
+      >
+        <GameStatsHeader
+          goBackRoute={this.goBackRoute}
+          // gamesWithStats={gamesWithStats}
+          // allGameStatsGroups={allGameStatsGroups}
+          // selectGameStatsGroup={selectGameStatsGroup}
+          // selectedGameStatsGroup={selectedGameStatsGroup}
+          // selectGameStatsIndex={selectGameStatsIndex}
+          // selectedGameStatsIndex={selectedGameStatsIndex}
+          // gameIds={gameIds}
+        />
+        {/* <SwipeableViews index={allGameStatsGroups.indexOf(selectedGameStatsGroup)} style={{ width: '100vw' }}>
+          <GameAthleteStats gameWithStatsId={gameWithStatsId} gamesWithStats={gamesWithStats} />
+          <GameTeamStats selectedGameWithStats={gamesWithStats[gameWithStatsId]} />
+        </SwipeableViews> */}
+      </Grid>
     );
   }
 }

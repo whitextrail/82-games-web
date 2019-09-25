@@ -10,17 +10,13 @@ import {
   fetchTeams,
   fetchTeamGames,
   selectGameStatusId,
-  fetchAthleteProfileById,
+  fetchAthlete,
   selectGameId,
-  fetchGameStats,
-  selectGameStatsGroup,
-  selectGameStatsIndex,
 } from '../../state/actions';
 import { Grid } from '@material-ui/core';
 import GameList from '../presentational/games/list/GameList';
-import GameStats from '../functional/games/GameStats';
+import GameStats from './GameStats';
 import Progress from '../presentational/reusable/Progress';
-import { sortNumbersAscending } from '../../util';
 
 class GamesContainer extends PureComponent {
   constructor(props) {
@@ -28,7 +24,7 @@ class GamesContainer extends PureComponent {
 
     props.fetchTeams();
     props.fetchTeamGames();
-    props.fetchAthleteProfileById();
+    props.fetchAthlete();
   }
 
   selectGameStatus = ({ currentTarget: { id } }) => this.props.history.push(`/games/${id}`);
@@ -56,12 +52,7 @@ class GamesContainer extends PureComponent {
       teamsById,
       gamesById,
       gamesByStatusId,
-      gameIdsByTeamId,
       allGameStatusIds,
-      allGameStatsGroups,
-      selectedGameId,
-      selectedGameStatsGroup,
-      selectedGameStatsIndex,
     } = this.props;
     const showProgress = inProgress || !isFetched;
 
@@ -91,59 +82,14 @@ class GamesContainer extends PureComponent {
                 <Route
                   exact
                   path="/games/:statusId/:routeGameId"
-                  render={({ match: { params }, history }) => {
-                    const {
-                      statusId,
-                      routeGameId,
-                    } = params;
-                    const {
-                      gameNumber,
-                      homeTeamId,
-                      awayTeamId,
-                    } = gamesById[routeGameId];
-                    const {
-                      selectGameId: selectGameIdAction,
-                      selectGameStatsIndex: selectGameStatsIndexAction,
-                      fetchGameStats: fetchGameStatsAction,
-                    } = this.props;
-
-                    // Due to the fact that we're not storing the id of the team used for fetching games,
-                    // (e.g. brooklyn's id is 1 so gamesByTeam[1] === undefined), we can use the OR operator
-                    // to grab only the opponent's games
-                    const gameIds = sortNumbersAscending(
-                      gameIdsByTeamId[homeTeamId]
-                      || gameIdsByTeamId[awayTeamId]
-                    );
-                    const gameIdsIndex = gameIds.indexOf(gameNumber);
-                    const statsIndexSet = Number.isInteger(selectedGameStatsIndex) && (selectedGameStatsIndex >= 0);
-
-                    if (routeGameId !== selectedGameId) {
-                      selectGameIdAction(gameNumber);
-                    }
-
-                    if (!statsIndexSet) {
-                      selectGameStatsIndexAction(gameIdsIndex);
-                    }
-
-                    const showStats = !!(gameIds.length && selectedGameId);
-
-                    return showStats && (
-                      <GameStats
-                        history={history}
-                        statusId={statusId}
-                        gameIds={gameIds}
-                        athlete={athlete}
-                        gamesById={gamesById}
-                        teamsById={teamsById}
-                        fetchGameStats={fetchGameStatsAction}
-                        allGameStatsGroups={allGameStatsGroups}
-                        selectedGameStatsGroup={selectedGameStatsGroup}
-                        selectGameStatsIndex={selectGameStatsIndexAction}
-                        selectGameStatsGroup={this.selectGameStatsGroup}
-                        selectedGameStatsIndex={statsIndexSet ? selectedGameStatsIndex : gameIdsIndex}
-                      />
-                    );
-                  }}
+                  render={(routeProps) => (
+                    <GameStats
+                      {...routeProps}
+                      athlete={athlete}
+                      gamesById={gamesById}
+                      teamsById={teamsById}
+                    />
+                  )}
                 />
               </Switch>
             )
@@ -165,13 +111,6 @@ const mapStateToProps = ({
     allStatusIds: allGameStatusIds,
     selectedStatusId: selectedGameStatusId,
     inProgress: gamesInProgress,
-    idsByTeamId: gameIdsByTeamId,
-    selectedId: selectedGameId,
-  },
-  gameStats: {
-    allStatsGroups: allGameStatsGroups,
-    selectedStatsGroup: selectedGameStatsGroup,
-    selectedStatsIndex: selectedGameStatsIndex,
   },
   athletes: {
     byId: athletesById,
@@ -180,26 +119,18 @@ const mapStateToProps = ({
   },
 }) => ({
   inProgress: teamsInProgress || gamesInProgress || athletesInProgress,
-  isFetched: selectedGameId && selectedTeamId && selectedGameStatusId && selectedAthleteId,
+  isFetched: selectedTeamId && selectedGameStatusId && selectedAthleteId,
   athlete: athletesById[selectedAthleteId],
   teamsById,
   gamesById,
   gamesByStatusId,
-  gameIdsByTeamId,
   allGameStatusIds,
-  allGameStatsGroups,
-  selectedGameId,
-  selectedGameStatsGroup,
-  selectedGameStatsIndex,
 });
 
 export default withRouter(connect(mapStateToProps, {
   fetchTeams,
   fetchTeamGames,
   selectGameStatusId,
-  fetchAthleteProfileById,
+  fetchAthlete,
   selectGameId,
-  fetchGameStats,
-  selectGameStatsGroup,
-  selectGameStatsIndex,
 })(GamesContainer));
