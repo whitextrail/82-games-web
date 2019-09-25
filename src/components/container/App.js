@@ -81,9 +81,12 @@ class App extends PureComponent {
   };
 
   render = () => {
-    const { location: { pathname } } = this.props;
+    const {
+      loaded,
+      location: { pathname },
+    } = this.props;
 
-    return (
+    return loaded && (
       <Grid container direction="column">
         <Nav pathname={pathname} showVoucherDialog={this.showVoucherDialog}>
           <CssBaseline />
@@ -99,8 +102,11 @@ class App extends PureComponent {
 
 const mapStateToProps = ({
   user,
+  games,
+  athletes,
 }) => ({
   user,
+  loaded: games.selectedId && athletes.selectedId,
 });
 
 export default connect(mapStateToProps, {

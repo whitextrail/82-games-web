@@ -3,11 +3,14 @@ import {
   Grid,
   Typography,
 } from '@material-ui/core';
+import { connect } from 'react-redux';
 import { KeyboardArrowLeftSharp } from '@material-ui/icons';
+import { fetchAthleteTweets } from '../../state/actions';
 import avatar from '../../assets/img/sdin.png';
 import AthleteCoreStatsComparison from '../presentational/athletes/CoreStatsComparison';
 import AthletePersonalStats from '../presentational/athletes/PersonalStats';
 import AthleteCarousel from '../presentational/athletes/Carousel';
+
 import NavBar from '../presentational/nav/NavBar';
 
 const styles = {
@@ -58,9 +61,23 @@ const navBarStyleClasses = {
 };
 
 class Athletes extends PureComponent {
+  constructor(props) {
+    super(props);
+
+    props.fetchAthleteTweets();
+  }
+
   goBackRoute = () => this.props.history.goBack()
 
   render = () => {
+    const {
+      byId,
+      selectedId,
+    } = this.props;
+    const {
+      name
+    } =byId[selectedId];
+    const [firstName, lastName] = name.split(' ');
 
     return (
       <Grid container direction="column">
@@ -73,11 +90,11 @@ class Athletes extends PureComponent {
           <Grid container style={styles.backgroundContainer}>
             <Grid container direction="column" style={styles.imgTextContainer}>
               <Typography variant="h5" color="secondary" align="left" style={styles.imgText}>#8</Typography>
-              <Typography variant="h5" color="secondary" align="left" style={styles.imgText}>SPENCER</Typography>
-              <Typography variant="h5" color="secondary" align="left" style={styles.imgText}>DINWIDDIE</Typography>
+              <Typography variant="h5" color="secondary" align="left" style={styles.imgText}>{firstName}</Typography>
+              <Typography variant="h5" color="secondary" align="left" style={styles.imgText}>{lastName}</Typography>
             </Grid>
             <Grid container justify="flex-end" style={styles.imgContainer}>
-              <img src={avatar} style={styles.img} alt="Spencer Dinwiddie" />
+              <img src={avatar} style={styles.img} alt={name} />
             </Grid>
           </Grid>
           <Grid container alignItems="center" direction="column" style={styles.statsContainer}>
@@ -91,4 +108,6 @@ class Athletes extends PureComponent {
   }
 }
 
-export default Athletes;
+const mapStateToProps = ({ athletes }) => ({ ...athletes });
+
+export default connect(mapStateToProps, { fetchAthleteTweets })(Athletes);
