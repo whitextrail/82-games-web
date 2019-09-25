@@ -33,7 +33,7 @@ const fetchGameStatsReducer = (state, { response: { data } }) => {
   };
 };
 
-const changeGameStatsGroupReducer = (state, { response: statsGroup }) => ({
+const changeGameStatsGroupReducer = (state, { response: { statsGroup } }) => ({
   selectedGameStatsGroup: statsGroup
 });
 

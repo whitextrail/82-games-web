@@ -1,6 +1,10 @@
 import React, { PureComponent } from 'react';
 import { Grid } from '@material-ui/core';
+import { connect } from 'react-redux';
 import SwipeableViews from 'react-swipeable-views';
+import {
+  changeGameStatsGroup,
+} from '../../state/actions';
 import GameStatsHeader from '../presentational/games/stats/GameStatsHeader';
 import GameAthleteStats from '../presentational/games/stats/GameAthleteStats';
 import GameTeamStats from '../presentational/games/stats/GameTeamStats';
@@ -19,7 +23,13 @@ class GameStats extends PureComponent {
 
   goBackRoute = () => this.props.history.goBack()
 
+  changeGameStatsGroup = ({ currentTarget : { id } }) => this.props.changeGameStatsGroup(id)
+
   render = () => {
+    const {
+      allGameStatsGroups,
+      selectedGameStatsGroup,
+    } = this.props.gameStats;
     // const {
     //   history,
     //   statusId,
@@ -30,7 +40,7 @@ class GameStats extends PureComponent {
     //   fetchGameStats,
     //   allGameStatsGroups,
     //   selectedGameStatsGroup,
-    //   selectGameStatsGroup,
+    //   changeGameStatsGroup,
     //   selectGameStatsIndex,
     //   selectedGameStatsIndex,
     // } = this.props;
@@ -107,9 +117,12 @@ class GameStats extends PureComponent {
       >
         <GameStatsHeader
           goBackRoute={this.goBackRoute}
+          allGameStatsGroups={allGameStatsGroups}
+          selectedGameStatsGroup={selectedGameStatsGroup}
+          changeGameStatsGroup={this.changeGameStatsGroup}
           // gamesWithStats={gamesWithStats}
           // allGameStatsGroups={allGameStatsGroups}
-          // selectGameStatsGroup={selectGameStatsGroup}
+          // changeGameStatsGroup={changeGameStatsGroup}
           // selectedGameStatsGroup={selectedGameStatsGroup}
           // selectGameStatsIndex={selectGameStatsIndex}
           // selectedGameStatsIndex={selectedGameStatsIndex}
@@ -124,4 +137,8 @@ class GameStats extends PureComponent {
   }
 }
 
-export default GameStats;
+const mapStateToProps = ({ gameStats }) => ({ gameStats });
+
+export default connect(mapStateToProps, {
+  changeGameStatsGroup,
+})(GameStats);

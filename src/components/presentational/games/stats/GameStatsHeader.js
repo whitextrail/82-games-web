@@ -52,14 +52,14 @@ const navBarStyleClasses = {
 };
 
 const GameStatsHeader = memo(({
-  gameIds,
+  // gameIds,
+  // opponentGameIds,
+  // gamesWithStats,
+  // selectGameStatsIndex,
+  // selectedGameStatsIndex,
   goBackRoute,
-  opponentGameIds,
-  gamesWithStats,
   allGameStatsGroups,
-  selectGameStatsIndex,
-  selectedGameStatsIndex,
-  selectGameStatsGroup,
+  changeGameStatsGroup,
   selectedGameStatsGroup,
 }) => (
   <Grid container direction="column" style={styles.container}>
@@ -69,7 +69,7 @@ const GameStatsHeader = memo(({
       styleClasses={navBarStyleClasses}
       iconButtonClickHandler={goBackRoute}
     />
-    {/* <Grid
+    <Grid
       container
       justify="space-between"
       alignItems="center"
@@ -85,7 +85,7 @@ const GameStatsHeader = memo(({
           style={styles.tabsContainer}
         >
           <Tabs
-            onChange={selectGameStatsGroup}
+            onChange={changeGameStatsGroup}
             selectedTabId={selectedGameStatsGroup}
             allTabIds={allGameStatsGroups}
             tabIcons={{
@@ -97,7 +97,7 @@ const GameStatsHeader = memo(({
           />
         </Card>
       </Slide>
-      <Slide in direction="left" timeout={750}>
+      {/* <Slide in direction="left" timeout={750}>
         <Card
           raised
           component={Grid}
@@ -114,8 +114,8 @@ const GameStatsHeader = memo(({
             opponentGameIds={opponentGameIds}
           />
         </Card>
-      </Slide>
-    </Grid> */}
+      </Slide> */}
+    </Grid>
   </Grid>
 ));
 
