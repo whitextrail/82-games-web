@@ -9,14 +9,14 @@ import { actionWrapper } from '../lib/actions';
 
 const fetchGameStatsActionCreator = actionWrapper({ type: FETCH_GAME_STATS });
 
-const fetchGameStats = (id) => (
+const fetchGameStats = (id, selectedId) => (
   async (dispatch) => {
     dispatch(fetchGameStatsActionCreator());
 
     try {
       const { data } = await get(`${apiEndpoints.fetchGameStats}/${Array.isArray(id) ? id.join(',') : id}`);
 
-      return dispatch(fetchGameStatsActionCreator({ response: { data } }));
+      return dispatch(fetchGameStatsActionCreator({ response: { data, selectedId } }));
     } catch ({ response: error }) {
       return dispatch(fetchGameStatsActionCreator({ error }));
     }

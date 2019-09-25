@@ -17,7 +17,11 @@ const gamesStatsState = initialStateDecorator({
   selectedGameStatsGroup: 'player',
 });
 
-const fetchGameStatsReducer = (state, { response: { data } }) => {
+const fetchGameStatsReducer = (state, { response }) => {
+  const {
+    data,
+    selectedId,
+  } = response;
   const {
     entities: { gameStats },
     result,
@@ -29,7 +33,7 @@ const fetchGameStatsReducer = (state, { response: { data } }) => {
       ...gameStats
     },
     allGameStatsIds: [...state.allGameStatsIds, ...result],
-    selectedGameStatsId: result[0],
+    selectedGameStatsId: selectedId,
   };
 };
 

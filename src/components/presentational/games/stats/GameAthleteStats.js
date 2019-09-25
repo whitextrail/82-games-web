@@ -48,14 +48,12 @@ const styles = {
 };
 
 const GameAthleteStats = memo(({
-  gameWithStatsId,
-  gamesWithStats,
+  athleteGameStats,
+  selectedAthleteGameStats,
+  otherGameStats,
+  selectedGameStats,
+  selectedGameStatsId,
 }) => {
-  const {
-    [gameWithStatsId]: selectedGameStats,
-    ...otherWithGameStats
-  } = gamesWithStats;
-
   const [state, updateState] = useState(initialState);
   const {
     barValuesByStatType,
@@ -69,13 +67,13 @@ const GameAthleteStats = memo(({
     if (!otherAveragesCalculated) {
       return updateState({
         ...state,
-        calculatedGameId: gameWithStatsId,
-        otherAveragesByStatType: calculateStatAverages(allStatTypes, otherWithGameStats),
+        calculatedGameId: selectedGameStatsId,
+        otherAveragesByStatType: calculateStatAverages(athleteGameStats),
         otherAveragesCalculated: true,
       });
     } else if (!barValuesUpdated) {
-      setTimeout(() => updateState(updateBarValues(selectedGameStats.athleteStatistics, state)), 100);
-    } else if (otherAveragesCalculated && barValuesUpdated && (calculatedGameId !== gameWithStatsId)) {
+      setTimeout(() => updateState(updateBarValues(selectedAthleteGameStats, state)), 100);
+    } else if (otherAveragesCalculated && barValuesUpdated && (calculatedGameId !== selectedGameStatsId)) {
       return updateState({
         ...state,
         calculatedGameId: null,
@@ -89,9 +87,11 @@ const GameAthleteStats = memo(({
     barValuesUpdated,
     allStatTypes,
     selectedGameStats,
-    otherWithGameStats,
+    otherGameStats,
     calculatedGameId,
-    gameWithStatsId,
+    selectedGameStatsId,
+    athleteGameStats,
+    selectedAthleteGameStats,
   ]);
 
   return (
@@ -108,10 +108,10 @@ const GameAthleteStats = memo(({
         <GameAthleteStatsBars
           allStatTypes={allStatTypes}
           barValuesByStatType={barValuesByStatType}
-          athleteStatistics={selectedGameStats.athleteStatistics}
+          selectedAthleteGameStats={selectedAthleteGameStats}
         />
       </Card>
-      <GameAthleteStatsComparison selectedGameStats={selectedGameStats} />
+      {/* <GameAthleteStatsComparison selectedGameStats={selectedGameStats} /> */}
     </Grid>
   );
 });

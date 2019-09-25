@@ -1,17 +1,15 @@
 import { sortNumbersAscending } from './';
 
-const calculateStatAverages = (allStatTypes, statsByGameId) => {
-  const gameIds = Object.keys(statsByGameId);
+const calculateStatAverages = (athleteGameStats) => {
+  const athleteGameIds = Object.keys(athleteGameStats);
 
-  return gameIds.reduce((acc, id, index) => {
+  return athleteGameIds.reduce((acc, id, index) => {
     const {
-      athleteStatistics: {
-        MIN,
-        PTS,
-        REB,
-        AST,
-      }
-    } = statsByGameId[id];
+      MIN,
+      PTS,
+      REB,
+      AST,
+    } = athleteGameStats[id];
     const newAcc = {
       MIN: acc.MIN + MIN,
       PTS: acc.PTS + PTS,
@@ -19,12 +17,12 @@ const calculateStatAverages = (allStatTypes, statsByGameId) => {
       AST: acc.AST + AST,
     };
 
-    if (index === (gameIds.length - 1)) {
+    if (index === (athleteGameIds.length - 1)) {
       // Change totals to average values
-      newAcc.MIN = newAcc.MIN / gameIds.length;
-      newAcc.PTS = newAcc.PTS / gameIds.length;
-      newAcc.REB = newAcc.REB / gameIds.length;
-      newAcc.AST = newAcc.AST / gameIds.length;
+      newAcc.MIN = newAcc.MIN / athleteGameIds.length;
+      newAcc.PTS = newAcc.PTS / athleteGameIds.length;
+      newAcc.REB = newAcc.REB / athleteGameIds.length;
+      newAcc.AST = newAcc.AST / athleteGameIds.length;
     }
 
     return {
@@ -39,7 +37,7 @@ const calculateStatAverages = (allStatTypes, statsByGameId) => {
 };
 
 const updateBarValues = (
-  athleteStats,
+  selectedAthleteGameStats,
   state,
 ) => {
   const {
@@ -50,7 +48,7 @@ const updateBarValues = (
 
   const newBarValues = allStatTypes.reduce((acc, statType) => {
     const [numerator, denominator] = sortNumbersAscending([
-      athleteStats[statType],
+      selectedAthleteGameStats[statType],
       otherAveragesByStatType[statType]
     ]);
     const targetValue = denominator ? (numerator / denominator) * 100 : 0;
@@ -72,7 +70,7 @@ const updateBarValues = (
   // Check whether all bar and target values are equal
   const barTargetReached = allStatTypes.every((statType) => {
     const [numerator, denominator] = sortNumbersAscending([
-      athleteStats[statType],
+      selectedAthleteGameStats[statType],
       otherAveragesByStatType[statType]
     ]);
     const targetValue = denominator ? (numerator / denominator) * 100 : 0;

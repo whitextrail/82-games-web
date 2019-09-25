@@ -17,6 +17,9 @@ const styles = {
     background: 'linear-gradient(180deg, rgba(51,51,51,1) 25%, rgba(25,25,25,1) 100%)',
     height: '100vh',
   },
+  swipeableViews: {
+    width: '100vw',
+  },
 };
 
 class GameStats extends PureComponent {
@@ -27,32 +30,13 @@ class GameStats extends PureComponent {
       gameIdsByTeamId,
       match: { params },
     } = props;
+    const parsedRouteGameId = parseInt(params.gameId, 10);
     const {
       homeTeamId,
       awayTeamId,
-     } = gamesById[params.gameId];
+     } = gamesById[parsedRouteGameId];
 
-    props.fetchGameStats(gameIdsByTeamId[awayTeamId] || gameIdsByTeamId[homeTeamId]);
-  }
-
-  componentDidUpdate(prevProps) {
-    const {
-      gameStats: { allGameStatsIds: prevAllGameStatsIds }
-    } = prevProps;
-    const {
-      selectedGameStatsId,
-      match: { params },
-      gameStats: { allGameStatsIds },
-      changeSelectedGameStatsId: changeSelectedGameStatsIdAction,
-    } = this.props;
-
-    if (!prevAllGameStatsIds.length && allGameStatsIds.length) {
-      const parsedRouteGameId = parseInt(params.gameId);
-
-      if (selectedGameStatsId !== parsedRouteGameId) {
-        changeSelectedGameStatsIdAction(parsedRouteGameId);
-      }
-    }
+    props.fetchGameStats(gameIdsByTeamId[awayTeamId] || gameIdsByTeamId[homeTeamId], parsedRouteGameId);
   }
 
   goBackRoute = () => this.props.history.goBack()
@@ -63,16 +47,27 @@ class GameStats extends PureComponent {
     const {
       gamesById,
       gameStats,
+      athlete,
       changeSelectedGameStatsId: changeSelectedGameStatsIdAction,
     } = this.props;
     const {
+      byGameStatsId,
       allGameStatsGroups,
       selectedGameStatsGroup,
       allGameStatsIds,
       selectedGameStatsId,
-      changeSelectedGameStatsId,
     } = gameStats;
     const showProgress = !selectedGameStatsId;
+    const indexOfGameStatsGroup = allGameStatsGroups.indexOf(selectedGameStatsGroup);
+    const {
+      [selectedGameStatsId]: selectedGameStats,
+      ...otherGameStats
+    } = byGameStatsId;
+    const athleteGameStats = allGameStatsIds.reduce((acc, gameStatId) => ({
+      ...acc,
+      [gameStatId]: { ...athlete.performanceStatistics[gameStatId] }
+    }), {});
+
 
     // const {
     //   history,
@@ -171,10 +166,16 @@ class GameStats extends PureComponent {
             selectedGameStatsId={selectedGameStatsId}
             changeSelectedGameStatsId={changeSelectedGameStatsIdAction}
           />
-          {/* <SwipeableViews index={allGameStatsGroups.indexOf(selectedGameStatsGroup)} style={{ width: '100vw' }}>
-            <GameAthleteStats gameWithStatsId={gameWithStatsId} gamesWithStats={gamesWithStats} />
-            <GameTeamStats selectedGameWithStats={gamesWithStats[gameWithStatsId]} />
-          </SwipeableViews> */}
+          <SwipeableViews index={indexOfGameStatsGroup} style={styles.swipeableViews}>
+            <GameAthleteStats
+              athleteGameStats={athleteGameStats}
+              otherGameStats={otherGameStats}
+              selectedGameStats={selectedGameStats}
+              selectedGameStatsId={selectedGameStatsId}
+              selectedAthleteGameStats={athleteGameStats[selectedGameStatsId]}
+            />
+            {/* <GameTeamStats selectedGameWithStats={gamesWithStats[gameWithStatsId]} /> */}
+          </SwipeableViews>
       </Grid>
     );
   }

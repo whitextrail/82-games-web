@@ -17,14 +17,18 @@ const fetchAthleteReducer = (state, { response }) => {
     result,
   } = normalizeAthlete(response);
   const athleteKeys = Object.keys(athlete);
+  const {
+    performanceStatisticsByGameId: performanceStatistics,
+    ...remainingAthleteProps
+  } = athlete[result];
 
   // Remove games that don't have any stats
-  const perfStatsKeys = Object.keys(athlete[result].performanceStatisticsByGameId);
+  const perfStatsKeys = Object.keys(performanceStatistics);
   const filteredPerfStats = perfStatsKeys.reduce((accumulator, gameId) => (
-    athlete[result].performanceStatisticsByGameId[gameId].WL
+    performanceStatistics[gameId].WL
       ? ({
           ...accumulator,
-          [gameId]: { ...athlete[result].performanceStatisticsByGameId[gameId], }
+          [gameId]: { ...performanceStatistics[gameId], }
         })
       : accumulator
   ), {});
@@ -33,8 +37,8 @@ const fetchAthleteReducer = (state, { response }) => {
     byId: {
       ...state.byId,
       [result]: {
-        ...athlete[result],
-        performanceStatisticsByGameId: filteredPerfStats,
+        ...remainingAthleteProps,
+        performanceStatistics: filteredPerfStats,
       },
     },
     allIds: [
