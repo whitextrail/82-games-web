@@ -14,23 +14,19 @@ const styles = {
   },
 };
 
-const GameTeamStats = memo(({ selectedGameWithStats }) => {
+const GameTeamStats = memo(({ selectedGameStats }) => {
   const {
     homeTeamId,
-    homeTeamName,
     awayTeamId,
-    awayTeamName,
     homeTeamStatistics,
     awayTeamStatistics,
-  } = selectedGameWithStats;
+  } = selectedGameStats;
   const teamStats = [{
-    teamName: homeTeamName,
-    resourceId: `${homeTeamName}_${homeTeamId}`,
+    teamId: homeTeamId,
     wL: homeTeamStatistics.PTS > awayTeamStatistics.PTS ? 'W': 'L',
     ...homeTeamStatistics,
   }, {
-    teamName: awayTeamName,
-    resourceId: `${awayTeamName}_${awayTeamId}`,
+    teamId: awayTeamId,
     wL: homeTeamStatistics.PTS < awayTeamStatistics.PTS ? 'W': 'L',
     ...awayTeamStatistics,
   }];
@@ -38,8 +34,8 @@ const GameTeamStats = memo(({ selectedGameWithStats }) => {
   return (
     <Grid container alignItems="center" direction="column" style={styles.container}>
       <GameTeamStatsBox teamStats={teamStats}>
-        <GameTeamStatsBoxChart {...selectedGameWithStats} />
-        <GameTeamStatsBreakdown {...selectedGameWithStats} />
+        <GameTeamStatsBoxChart {...selectedGameStats} />
+        <GameTeamStatsBreakdown {...selectedGameStats} />
       </GameTeamStatsBox>
     </Grid>
   );

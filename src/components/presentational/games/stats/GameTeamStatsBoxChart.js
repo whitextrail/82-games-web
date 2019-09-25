@@ -12,32 +12,30 @@ const styles = {
 };
 
 const populateLineChartData = (
-  homeTeamName,
-  awayTeamName,
-  homeTeamResourceId,
-  awayTeamResourceId,
+  homeTeamId,
+  awayTeamId,
   homeTeamPointsByQuarter,
   awayTeamPointsByQuarter,
 ) => ({
   labels: ['', 'Q1', 'Q2', 'Q3', 'Q4', ''],
   datasets: [{
     data: [0, ...homeTeamPointsByQuarter, 0],
-    borderColor: teamColors[homeTeamResourceId].primary.rgba(),
-    backgroundColor: teamColors[homeTeamResourceId].secondary.rgba(0.25),
+    borderColor: teamColors[homeTeamId].primary.rgba(),
+    backgroundColor: teamColors[homeTeamId].secondary.rgba(0.25),
     pointRadius: 0,
     fill: true,
-    label: homeTeamName,
+    label: homeTeamId,
   }, {
     data: [0, ...awayTeamPointsByQuarter, 0],
-    borderColor: teamColors[awayTeamResourceId].primary.rgba(),
-    backgroundColor: teamColors[awayTeamResourceId].secondary.rgba(0.25),
+    borderColor: teamColors[awayTeamId].primary.rgba(),
+    backgroundColor: teamColors[awayTeamId].secondary.rgba(0.25),
     pointRadius: 0,
     fill: true,
-    label: awayTeamName,
+    label: awayTeamId,
   }],
 });
 
-const populateLineChartOptions = () => ({
+const lineChartOptions = {
   responsive: true,
   layout: {
     padding: {
@@ -80,25 +78,18 @@ const populateLineChartOptions = () => ({
       }
     }]
   }
-});
+};
 
 const GameTeamStatsBoxChart = memo(({
   homeTeamId,
-  homeTeamName,
   awayTeamId,
-  awayTeamName,
   homeTeamStatistics,
   awayTeamStatistics,
 }) => {
-  const homeTeamResourceId = `${homeTeamName}_${homeTeamId}`;
-  const awayTeamResourceId = `${awayTeamName}_${awayTeamId}`;
-
-  const lineChartLabels = [homeTeamName, awayTeamName];
+  const lineChartLabels = [homeTeamId, awayTeamId];
   const lineChartData = populateLineChartData(
-    homeTeamName,
-    awayTeamName,
-    homeTeamResourceId,
-    awayTeamResourceId,
+    homeTeamId,
+    awayTeamId,
     [
       homeTeamStatistics.PTS_QTR1,
       homeTeamStatistics.PTS_QTR2,
@@ -111,10 +102,6 @@ const GameTeamStatsBoxChart = memo(({
       awayTeamStatistics.PTS_QTR3,
       awayTeamStatistics.PTS_QTR4,
     ],
-  );
-  const lineChartOptions = populateLineChartOptions(
-    homeTeamName.toUpperCase(),
-    awayTeamName.toUpperCase(),
   );
 
   return (

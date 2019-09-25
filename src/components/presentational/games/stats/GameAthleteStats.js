@@ -111,7 +111,11 @@ const GameAthleteStats = memo(({
           selectedAthleteGameStats={selectedAthleteGameStats}
         />
       </Card>
-      {/* <GameAthleteStatsComparison selectedGameStats={selectedGameStats} /> */}
+      <GameAthleteStatsComparison
+        allStatTypes={allStatTypes}
+        selectedGameStats={selectedGameStats}
+        selectedAthleteGameStats={selectedAthleteGameStats}
+      />
     </Grid>
   );
 });

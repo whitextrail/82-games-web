@@ -68,85 +68,6 @@ class GameStats extends PureComponent {
       [gameStatId]: { ...athlete.performanceStatistics[gameStatId] }
     }), {});
 
-
-    // const {
-    //   history,
-    //   statusId,
-    //   gamesById,
-    //   gameIds,
-    //   teamsById,
-    //   athlete,
-    //   fetchGameStats,
-    //   allGameStatsGroups,
-    //   selectedGameStatsGroup,
-    //   changeGameStatsGroup,
-    //   selectGameStatsIndex,
-    //   selectedGameStatsIndex,
-    // } = this.props;
-    // const gameWithStatsId = gameIds[selectedGameStatsIndex];
-    // const {
-    //   homeTeamId,
-    //   awayTeamId,
-    // } = gamesById[gameWithStatsId];
-    // const homeTeam = teamsById[homeTeamId];
-    // const awayTeam = teamsById[awayTeamId];
-
-    // // Check whether the stats for each teams' games against each other have been fetched
-    // const hasTeamStats = gameIds.every(gameId => (
-    //   gamesById[gameId].homeTeamStatistics && gamesById[gameId].awayTeamStatistics
-    // ));
-
-    // let gamesWithStats = {};
-
-    // if (!hasTeamStats) {
-    //   fetchGameStats(gameIds);
-    // } else {
-    //   gamesWithStats = gameIds.reduce((accumulator, gameId) => {
-    //     const athleteSplitName = athlete.name.split(' ');
-    //     const {
-    //       arena,
-    //       localGameDateTime,
-    //       homeTeamStatistics,
-    //       awayTeamStatistics,
-    //     } = gamesById[gameId];
-
-    //     return athlete.performanceStatisticsByGameId[gameId]
-    //       ? ({
-    //         ...accumulator,
-    //         [gameId]: {
-    //           arena,
-    //           localGameDateTime,
-    //           homeTeamId: homeTeam.id,
-    //           homeTeamName: homeTeam.name,
-    //           awayTeamId: awayTeam.id,
-    //           awayTeamName: awayTeam.name,
-    //           athleteName: athleteSplitName[athleteSplitName.length - 1],
-    //           homeTeamStatistics: {
-    //             PTS: (
-    //               homeTeamStatistics.PTS_QTR1 +
-    //               homeTeamStatistics.PTS_QTR2 +
-    //               homeTeamStatistics.PTS_QTR3 +
-    //               homeTeamStatistics.PTS_QTR4
-    //             ),
-    //             ...homeTeamStatistics,
-    //           },
-    //           awayTeamStatistics: {
-    //             PTS: (
-    //               awayTeamStatistics.PTS_QTR1 +
-    //               awayTeamStatistics.PTS_QTR2 +
-    //               awayTeamStatistics.PTS_QTR3 +
-    //               awayTeamStatistics.PTS_QTR4
-    //             ),
-    //             ...awayTeamStatistics,
-    //           },
-    //           statsKeys: ['PTS', 'REB', 'AST'],
-    //           athleteStatistics: { ...athlete.performanceStatisticsByGameId[gameId] },
-    //         },
-    //       })
-    //       : accumulator;
-    //   }, gamesWithStats);
-    // }
-
     return showProgress
       ? <Progress show />
       : (
@@ -174,7 +95,7 @@ class GameStats extends PureComponent {
               selectedGameStatsId={selectedGameStatsId}
               selectedAthleteGameStats={athleteGameStats[selectedGameStatsId]}
             />
-            {/* <GameTeamStats selectedGameWithStats={gamesWithStats[gameWithStatsId]} /> */}
+            <GameTeamStats selectedGameStats={selectedGameStats} />
           </SwipeableViews>
       </Grid>
     );

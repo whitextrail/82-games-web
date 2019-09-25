@@ -47,19 +47,53 @@ const styles = {
   },
 };
 
+const sumUpQuarterlyPoints = teamStats => (
+  ['PTS_QTR1', 'PTS_QTR2', 'PTS_QTR3', 'PTS_QTR4'].reduce((acc, val) => acc + teamStats[val], 0)
+);
+
 const GameAthleteStatsComparison = memo(({
   selectedGameStats,
+  selectedAthleteGameStats,
 }) => {
-  const comparisonTypes = ['homeTeam', 'awayTeam', 'athlete'];
+  const {
+    homeTeamStatistics,
+    awayTeamStatistics,
+  } = selectedGameStats;
+  const homeTeamStats = {
+    PTS: sumUpQuarterlyPoints(homeTeamStatistics),
+    REB: homeTeamStatistics.REB,
+    AST: homeTeamStatistics.AST,
+  };
+  const awayTeamStats = {
+    PTS: sumUpQuarterlyPoints(awayTeamStatistics),
+    REB: awayTeamStatistics.REB,
+    AST: awayTeamStatistics.AST,
+  };
+  const combinedStats = {
+    athlete: selectedAthleteGameStats,
+    homeTeam: homeTeamStats,
+    awayTeam: awayTeamStats,
+  };
+  const combinedStatsKeys = Object.keys(combinedStats);
+  const statsTypes = ['PTS', 'REB', 'AST'];
+  const homeTeamColors = teamColors[selectedGameStats.homeTeamId];
+  const awayTeamColors = teamColors[selectedGameStats.awayTeamId];
   const cardColors = {
     athlete: primaryColor,
-    homeTeam: teamColors[`${selectedGameStats.homeTeamName}_${selectedGameStats.homeTeamId}`].primary.hex,
-    awayTeam: teamColors[`${selectedGameStats.awayTeamName}_${selectedGameStats.awayTeamId}`].primary.hex,
+    homeTeam: homeTeamColors.primary.hex,
+    awayTeam: awayTeamColors.primary.hex,
   };
 
   return (
     <Grid container justify="center" alignItems="center" direction="column" style={styles.container}>
-      <GameAthleteStatsRadar selectedGameStats={selectedGameStats} />
+      <GameAthleteStatsRadar
+        statsTypes={statsTypes}
+        athleteStats={selectedAthleteGameStats}
+        homeTeamStats={homeTeamStats}
+        awayTeamStats={awayTeamStats}
+        homeTeamColors={homeTeamColors}
+        awayTeamColors={awayTeamColors}
+      />
       <Grid
         container
         justify="space-around"
@@ -67,25 +101,22 @@ const GameAthleteStatsComparison = memo(({
         style={{ height: 115 }}
       >
         {
-          comparisonTypes.map((comparisonType) => {
-            const { statsKeys } = selectedGameStats;
-            const name = selectedGameStats[`${comparisonType}Name`].toUpperCase();
-            const comparisonStats = selectedGameStats[`${comparisonType}Statistics`];
+          combinedStatsKeys.map((key) => {
+            const stats = combinedStats[key];
             const {
               card,
-              cardName,
               statsContainer,
               statValue,
               statType,
             } = styles;
             const cardStyle = {
               ...card,
-              backgroundColor: cardColors[comparisonType],
+              backgroundColor: cardColors[key],
             };
 
             return (
               <Card
-                key={comparisonType}
+                key={key}
                 raised
                 component={Grid}
                 container
@@ -94,13 +125,12 @@ const GameAthleteStatsComparison = memo(({
                 direction="column"
                 style={cardStyle}
               >
-                <Typography variant="body2" style={cardName}>{name}</Typography>
                 <Grid container justify="center" alignItems="center" style={statsContainer}>
                   {
-                    statsKeys.map((key) => (
-                      <Grid key={key} container justify="center" alignItems="center" direction="column" style={{ width: 30 }}>
-                        <Typography variant="body2" style={statValue}>{comparisonStats[key]}</Typography>
-                        <Typography variant="body2" style={statType}>{key}</Typography>
+                    statsTypes.map((type) => (
+                      <Grid key={type} container justify="center" alignItems="center" direction="column" style={{ width: 30 }}>
+                        <Typography variant="body2" style={statValue}>{stats[type]}</Typography>
+                        <Typography variant="body2" style={statType}>{type}</Typography>
                       </Grid>
                     ))
                   }

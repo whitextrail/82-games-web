@@ -4,12 +4,8 @@ import React, {
 import {
   Grid,
   Zoom,
-  Typography,
 } from '@material-ui/core';
-import {
-  RadarChart,
-  DiscreteColorLegend,
-} from 'react-vis';
+import { RadarChart } from 'react-vis';
 import {
   primaryColor,
   teamColors,
@@ -28,62 +24,56 @@ const styles = {
 };
 
 const GameAthleteStatsRadar = memo(({
-  selectedGameStats,
+  statsTypes,
+  athleteStats,
+  homeTeamStats,
+  awayTeamStats,
+  homeTeamColors,
+  awayTeamColors,
 }) => {
-  const {
-    athleteName,
-    athleteStatistics,
-    homeTeamName,
-    homeTeamStatistics,
-    awayTeamName,
-    awayTeamStatistics,
-    statsKeys,
-  } = selectedGameStats;
-
   const domain = {
     PTS: 0,
     REB: 0,
     AST: 0,
   };
 
-  const homeTeamColors = teamColors[`${selectedGameStats.homeTeamName}_${selectedGameStats.homeTeamId}`];
-  const awayTeamColors = teamColors[`${selectedGameStats.awayTeamName}_${selectedGameStats.awayTeamId}`];
+  console.log({
+    statsTypes,
+    athleteStats,
+    homeTeamStats,
+    awayTeamStats,
+    homeTeamColors,
+    awayTeamColors,
+  });
 
-  statsKeys.forEach((key) => {
-    if (homeTeamStatistics[key] > domain[key]) {
-      domain[key] = homeTeamStatistics[key];
+  statsTypes.forEach((key) => {
+    if (homeTeamStats[key] > domain[key]) {
+      domain[key] = homeTeamStats[key];
     }
 
-    if (awayTeamStatistics[key] > domain[key]) {
-      domain[key] = awayTeamStatistics[key];
+    if (awayTeamStats[key] > domain[key]) {
+      domain[key] = awayTeamStats[key];
     }
   });
 
-  const scaledAthleteStatistics = () => {
-    return statsKeys.reduce((acc, key) => {
-      return {
-        ...acc,
-        [key]: athleteStatistics[key],
-      };
-    }, {});
-  };
+  const scaledAthleteStatistics = statsTypes.reduce((acc, key) => ({
+    ...acc,
+    [key]: athleteStats[key] * 1.5,
+  }), {});
 
   const DATA = [
     {
-      name: homeTeamName,
-      ...homeTeamStatistics,
+      ...homeTeamStats,
       fill: homeTeamColors.primary.rgba(0.84),
       stroke: homeTeamColors.secondary.rgba(),
     },
     {
-      name: awayTeamName,
-      ...awayTeamStatistics,
+      ...awayTeamStats,
       fill: awayTeamColors.primary.rgba(0.84),
       stroke: awayTeamColors.secondary.rgba(),
     },
     {
-      name: athleteName,
-      ...scaledAthleteStatistics(),
+      ...scaledAthleteStatistics,
       fill: primaryColor,
       stroke: 'rgba(142,68,173,0.24)',
       fillOpacity: 1,
@@ -92,25 +82,7 @@ const GameAthleteStatsRadar = memo(({
     return b.PTS - a.PTS;
   });
 
-  const legendItems = [(
-    <Typography variant="body2" noWrap style={styles.legendItem}>
-      {homeTeamName}
-    </Typography>
-  ), (
-    <Typography variant="body2" noWrap style={styles.legendItem}>
-      {awayTeamName}
-    </Typography>
-  ), (
-    <Typography variant="body2" noWrap style={styles.legendItem}>
-      {athleteName}
-    </Typography>
-  )];
-
-  const legendColors = [
-    homeTeamColors.primary.hex,
-    awayTeamColors.primary.hex,
-    primaryColor,
-  ];
+  console.log('DATA', DATA);
 
   return (
     <Zoom in timeout={2250}>
@@ -164,18 +136,6 @@ const GameAthleteStatsRadar = memo(({
             right: 30
           }}
           renderAxesOverPolygons={false}
-        />
-        <DiscreteColorLegend
-          items={legendItems}
-          colors={legendColors}
-          orientation="vertical"
-          height={200}
-          width={150}
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 10,
-          }}
         />
     </Grid>
   </Zoom>
