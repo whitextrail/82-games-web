@@ -56,11 +56,11 @@ const GameStatsHeader = memo(({
   navButtonClickHandler,
   opponentGameIds,
   gamesWithStats,
-  allGameStatsViews,
+  allGameStatsGroups,
   selectGameStatsIndex,
   selectedGameStatsIndex,
-  selectGameStatsView,
-  selectedGameStatsView,
+  selectGameStatsGroup,
+  selectedGameStatsGroup,
 }) => (
   <Grid container direction="column" style={styles.container}>
     <NavBar
@@ -85,9 +85,9 @@ const GameStatsHeader = memo(({
           style={styles.tabsContainer}
         >
           <Tabs
-            onChange={selectGameStatsView}
-            selectedTabId={selectedGameStatsView}
-            allTabIds={allGameStatsViews}
+            onChange={selectGameStatsGroup}
+            selectedTabId={selectedGameStatsGroup}
+            allTabIds={allGameStatsGroups}
             tabIcons={{
               player: <FaceSharp />,
               teams: <SupervisedUserCircleSharp />,

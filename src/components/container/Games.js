@@ -13,7 +13,7 @@ import {
   fetchAthleteProfileById,
   selectGameId,
   fetchGameStats,
-  selectGameStatsView,
+  selectGameStatsGroup,
   selectGameStatsIndex,
 } from '../../state/actions';
 import { Grid } from '@material-ui/core';
@@ -46,7 +46,7 @@ class GamesContainer extends PureComponent {
     }
   );
 
-  selectGameStatsView = ({ currentTarget: { id } }) => this.props.selectGameStatsView(id)
+  selectGameStatsGroup = ({ currentTarget: { id } }) => this.props.selectGameStatsGroup(id)
 
   render = () => {
     const {
@@ -58,9 +58,9 @@ class GamesContainer extends PureComponent {
       gamesByStatusId,
       gameIdsByTeamId,
       allGameStatusIds,
-      allGameStatsViews,
+      allGameStatsGroups,
       selectedGameId,
-      selectedGameStatsView,
+      selectedGameStatsGroup,
       selectedGameStatsIndex,
     } = this.props;
     const showProgress = inProgress || !isFetched;
@@ -136,10 +136,10 @@ class GamesContainer extends PureComponent {
                         gamesById={gamesById}
                         teamsById={teamsById}
                         fetchGameStats={fetchGameStatsAction}
-                        allGameStatsViews={allGameStatsViews}
-                        selectedGameStatsView={selectedGameStatsView}
+                        allGameStatsGroups={allGameStatsGroups}
+                        selectedGameStatsGroup={selectedGameStatsGroup}
                         selectGameStatsIndex={selectGameStatsIndexAction}
-                        selectGameStatsView={this.selectGameStatsView}
+                        selectGameStatsGroup={this.selectGameStatsGroup}
                         selectedGameStatsIndex={statsIndexSet ? selectedGameStatsIndex : gameIdsIndex}
                       />
                     );
@@ -169,8 +169,8 @@ const mapStateToProps = ({
     selectedId: selectedGameId,
   },
   gameStats: {
-    allStatsViews: allGameStatsViews,
-    selectedStatsView: selectedGameStatsView,
+    allStatsGroups: allGameStatsGroups,
+    selectedStatsGroup: selectedGameStatsGroup,
     selectedStatsIndex: selectedGameStatsIndex,
   },
   athletes: {
@@ -187,9 +187,9 @@ const mapStateToProps = ({
   gamesByStatusId,
   gameIdsByTeamId,
   allGameStatusIds,
-  allGameStatsViews,
+  allGameStatsGroups,
   selectedGameId,
-  selectedGameStatsView,
+  selectedGameStatsGroup,
   selectedGameStatsIndex,
 });
 
@@ -200,6 +200,6 @@ export default withRouter(connect(mapStateToProps, {
   fetchAthleteProfileById,
   selectGameId,
   fetchGameStats,
-  selectGameStatsView,
+  selectGameStatsGroup,
   selectGameStatsIndex,
 })(GamesContainer));

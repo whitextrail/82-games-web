@@ -23,7 +23,9 @@ const fetchGameStats = (id) => (
   }
 );
 
-const selectGameStatsView = statsView => actionWrapper({ type: SELECT_GAME_STATS_VIEW })({ response: { statsView } });
+const selectGameStatsGroup = statsGroup => (
+  actionWrapper({ type: SELECT_GAME_STATS_VIEW })({ response: { statsGroup } })
+);
 
 const selectGameStatsIndex = statsIndex => (
   actionWrapper({ type: SELECT_GAME_STATS_INDEX })({ response: { statsIndex } })
@@ -31,6 +33,6 @@ const selectGameStatsIndex = statsIndex => (
 
 export {
   fetchGameStats,
-  selectGameStatsView,
+  selectGameStatsGroup,
   selectGameStatsIndex,
 };

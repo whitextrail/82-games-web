@@ -20,9 +20,9 @@ const GameStats = memo(({
   teamsById,
   athlete,
   fetchGameStats,
-  allGameStatsViews,
-  selectedGameStatsView,
-  selectGameStatsView,
+  allGameStatsGroups,
+  selectedGameStatsGroup,
+  selectGameStatsGroup,
   selectGameStatsIndex,
   selectedGameStatsIndex,
 }) => {
@@ -100,14 +100,14 @@ const GameStats = memo(({
       <GameStatsHeader
         navButtonClickHandler={() => history.push(`/games/${statusId}`)}
         gamesWithStats={gamesWithStats}
-        allGameStatsViews={allGameStatsViews}
-        selectGameStatsView={selectGameStatsView}
-        selectedGameStatsView={selectedGameStatsView}
+        allGameStatsGroups={allGameStatsGroups}
+        selectGameStatsGroup={selectGameStatsGroup}
+        selectedGameStatsGroup={selectedGameStatsGroup}
         selectGameStatsIndex={selectGameStatsIndex}
         selectedGameStatsIndex={selectedGameStatsIndex}
         gameIds={gameIds}
       />
-      <SwipeableViews index={allGameStatsViews.indexOf(selectedGameStatsView)} style={{ width: '100vw' }}>
+      <SwipeableViews index={allGameStatsGroups.indexOf(selectedGameStatsGroup)} style={{ width: '100vw' }}>
         <GameAthleteStats gameWithStatsId={gameWithStatsId} gamesWithStats={gamesWithStats} />
         <GameTeamStats selectedGameWithStats={gamesWithStats[gameWithStatsId]} />
       </SwipeableViews>

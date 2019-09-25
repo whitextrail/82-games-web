@@ -13,7 +13,7 @@ import {
 } from './games';
 import {
   fetchGameStats,
-  selectGameStatsView,
+  selectGameStatsGroup,
   selectGameStatsIndex,
 } from './gameStats';
 import {
@@ -29,7 +29,7 @@ export {
   selectGameStatusId,
   selectGameId,
   fetchGameStats,
-  selectGameStatsView,
+  selectGameStatsGroup,
   selectGameStatsIndex,
   fetchAthleteProfileById,
 };

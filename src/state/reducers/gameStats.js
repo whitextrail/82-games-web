@@ -12,9 +12,9 @@ const gamesStatsState = initialStateDecorator({
   byId: {},
   allIds: [],
   selectedId: null,
-  byStatsView: {},
-  allStatsViews: ['player', 'teams'],
-  selectedStatsView: 'player',
+  byStatsGroup: {},
+  allStatsGroups: ['player', 'teams'],
+  selectedStatsGroup: 'player',
   selectedStatsIndex: null,
 });
 
@@ -39,7 +39,7 @@ const fetchGameStatsReducer = (state, { response }) => {
   };
 };
 
-const selectGameStatsViewReducer = (state, { response: statsView }) => ({ selectedStatsView: statsView });
+const selectGameStatsGroupReducer = (state, { response: statsGroup }) => ({ selectedStatsGroup: statsGroup });
 
 const selectGameStatsIndexReducer = (state, { response: { statsIndex } }) => ({ selectedStatsIndex: statsIndex });
 
@@ -50,7 +50,7 @@ export default (state = gamesStatsState, action) => {
     case FETCH_GAME_STATS:
         return evalActionPayload(state, action, fetchGameStatsReducer);
     case SELECT_GAME_STATS_VIEW:
-      return evalActionPayload(state, action, selectGameStatsViewReducer);
+      return evalActionPayload(state, action, selectGameStatsGroupReducer);
     case SELECT_GAME_STATS_INDEX:
       return evalActionPayload(state, action, selectGameStatsIndexReducer);
     default:
