@@ -18,6 +18,7 @@ import {
 } from './gameStats';
 import {
   fetchAthlete,
+  fetchAthleteTweets,
 } from './athletes';
 
 export {
@@ -32,4 +33,5 @@ export {
   changeGameStatsGroup,
   changeSelectedGameStatsId,
   fetchAthlete,
+  fetchAthleteTweets,
 };
