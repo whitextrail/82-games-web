@@ -7,7 +7,7 @@ import {
   fetchTeams,
 } from './teams';
 import {
-  fetchGamesByTeamId,
+  fetchTeamGames,
   fetchGameStatisticById,
   selectGameStatusId,
   selectGameId,
@@ -22,7 +22,7 @@ export {
   authenticateUser,
   logOutUser,
   purchaseVoucher,
-  fetchGamesByTeamId,
+  fetchTeamGames,
   fetchGameStatisticById,
   selectGameStatusId,
   selectGameId,

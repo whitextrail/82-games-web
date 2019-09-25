@@ -8,7 +8,7 @@ import {
 } from 'react-router-dom';
 import {
   fetchTeams,
-  fetchGamesByTeamId,
+  fetchTeamGames,
   selectGameStatusId,
   fetchAthleteProfileById,
   selectGameId,
@@ -27,7 +27,7 @@ class GamesContainer extends PureComponent {
     super(props);
 
     props.fetchTeams();
-    props.fetchGamesByTeamId();
+    props.fetchTeamGames();
     props.fetchAthleteProfileById();
   }
 
@@ -193,7 +193,7 @@ const mapStateToProps = ({
 
 export default withRouter(connect(mapStateToProps, {
   fetchTeams,
-  fetchGamesByTeamId,
+  fetchTeamGames,
   selectGameStatusId,
   fetchAthleteProfileById,
   selectGameId,
