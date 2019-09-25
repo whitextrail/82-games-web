@@ -1,7 +1,7 @@
 import {
   FETCH_GAME_STATS,
-  SELECT_GAME_STATS_VIEW,
-  SELECT_GAME_STATS_INDEX,
+  CHANGE_GAME_STATS_GROUP,
+  CHANGE_SELECTED_GAME_STATS_ID,
 } from '../actions/util/types';
 import {
   evalActionPayload,
@@ -10,12 +10,11 @@ import {
 import { normalizeGameStatsList } from '../lib/gameStats';
 
 const gamesStatsState = initialStateDecorator({
-  byId: {},
-  allIds: [],
-  selectedId: null,
-  allStatsGroups: ['player', 'teams'],
-  selectedStatsGroup: 'player',
-  selectedStatsIndex: null,
+  byGameStatsId: {},
+  allGameStatsIds: [],
+  selectedGameStatsId: null,
+  allGameStatsGroups: ['player', 'teams'],
+  selectedGameStatsGroup: 'player',
 });
 
 const fetchGameStatsReducer = (state, { response: { data } }) => {
@@ -25,18 +24,22 @@ const fetchGameStatsReducer = (state, { response: { data } }) => {
   } = normalizeGameStatsList(data);
 
   return {
-    byId: {
-      ...state.byId,
+    byGameStatsId: {
+      ...state.byGameStatsId,
       ...gameStats
     },
-    allIds: [...state.allIds, ...result],
-    selectedId: result[0],
+    allGameStatsIds: [...state.allGameStatsIds, ...result],
+    selectedGameStatsId: result[0],
   };
 };
 
-const selectGameStatsGroupReducer = (state, { response: statsGroup }) => ({ selectedStatsGroup: statsGroup });
+const changeGameStatsGroupReducer = (state, { response: statsGroup }) => ({
+  selectedGameStatsGroup: statsGroup
+});
 
-const selectGameStatsIndexReducer = (state, { response: { statsIndex } }) => ({ selectedStatsIndex: statsIndex });
+const changeSelectedGameStatsIdReducer = (state, { response: { statsId } }) => ({
+  selectedGameStatsId: statsId
+});
 
 export default (state = gamesStatsState, action) => {
   const { type } = action;
@@ -44,10 +47,10 @@ export default (state = gamesStatsState, action) => {
   switch (type) {
     case FETCH_GAME_STATS:
         return evalActionPayload(state, action, fetchGameStatsReducer);
-    case SELECT_GAME_STATS_VIEW:
-      return evalActionPayload(state, action, selectGameStatsGroupReducer);
-    case SELECT_GAME_STATS_INDEX:
-      return evalActionPayload(state, action, selectGameStatsIndexReducer);
+    case CHANGE_GAME_STATS_GROUP:
+      return evalActionPayload(state, action, changeGameStatsGroupReducer);
+    case CHANGE_SELECTED_GAME_STATS_ID:
+      return evalActionPayload(state, action, changeSelectedGameStatsIdReducer);
     default:
       return state;
   }

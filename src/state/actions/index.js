@@ -13,8 +13,8 @@ import {
 } from './games';
 import {
   fetchGameStats,
-  selectGameStatsGroup,
-  selectGameStatsIndex,
+  changeGameStatsGroup,
+  changeSelectedGameStatsId,
 } from './gameStats';
 import {
   fetchAthlete,
@@ -29,7 +29,7 @@ export {
   selectGameStatusId,
   selectGameId,
   fetchGameStats,
-  selectGameStatsGroup,
-  selectGameStatsIndex,
+  changeGameStatsGroup,
+  changeSelectedGameStatsId,
   fetchAthlete,
 };

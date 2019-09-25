@@ -1,8 +1,8 @@
 import { get } from 'axios';
 import {
   FETCH_GAME_STATS,
-  SELECT_GAME_STATS_VIEW,
-  SELECT_GAME_STATS_INDEX,
+  CHANGE_GAME_STATS_GROUP,
+  CHANGE_SELECTED_GAME_STATS_ID,
 } from './util/types';
 import apiEndpoints from './util/apiEndpoints';
 import { actionWrapper } from '../lib/actions';
@@ -23,16 +23,16 @@ const fetchGameStats = (id) => (
   }
 );
 
-const selectGameStatsGroup = statsGroup => (
-  actionWrapper({ type: SELECT_GAME_STATS_VIEW })({ response: { statsGroup } })
+const changeGameStatsGroup = statsGroup => (
+  actionWrapper({ type: CHANGE_GAME_STATS_GROUP })({ response: { statsGroup } })
 );
 
-const selectGameStatsIndex = statsIndex => (
-  actionWrapper({ type: SELECT_GAME_STATS_INDEX })({ response: { statsIndex } })
+const changeSelectedGameStatsId = statsId => (
+  actionWrapper({ type: CHANGE_SELECTED_GAME_STATS_ID })({ response: { statsId } })
 );
 
 export {
   fetchGameStats,
-  selectGameStatsGroup,
-  selectGameStatsIndex,
+  changeGameStatsGroup,
+  changeSelectedGameStatsId,
 };
