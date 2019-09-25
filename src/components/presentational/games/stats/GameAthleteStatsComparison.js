@@ -9,6 +9,7 @@ import {
   primaryColor,
   teamColors,
 } from '../../../../styles/constants';
+import { sumNumbers } from '../../../../util/gameStats';
 
 const styles = {
   container: {
@@ -47,27 +48,38 @@ const styles = {
   },
 };
 
-const sumUpQuarterlyPoints = teamStats => (
-  ['PTS_QTR1', 'PTS_QTR2', 'PTS_QTR3', 'PTS_QTR4'].reduce((acc, val) => acc + teamStats[val], 0)
-);
-
 const GameAthleteStatsComparison = memo(({
   selectedGameStats,
   selectedAthleteGameStats,
 }) => {
   const {
-    homeTeamStatistics,
-    awayTeamStatistics,
+    homeTeamStatistics: {
+      PTS_QTR1: homePTSQ1,
+      PTS_QTR2: homePTSQ2,
+      PTS_QTR3: homePTSQ3,
+      PTS_QTR4: homePTSQ4,
+      REB: homeREB,
+      AST: homeAST,
+    },
+    awayTeamStatistics: {
+      PTS_QTR1: awayPTSQ1,
+      PTS_QTR2: awayPTSQ2,
+      PTS_QTR3: awayPTSQ3,
+      PTS_QTR4: awayPTSQ4,
+      REB: awayREB,
+      AST: awayAST,
+    },
   } = selectedGameStats;
+
   const homeTeamStats = {
-    PTS: sumUpQuarterlyPoints(homeTeamStatistics),
-    REB: homeTeamStatistics.REB,
-    AST: homeTeamStatistics.AST,
+    PTS: sumNumbers(homePTSQ1, homePTSQ2, homePTSQ3, homePTSQ4),
+    REB: homeREB,
+    AST: homeAST,
   };
   const awayTeamStats = {
-    PTS: sumUpQuarterlyPoints(awayTeamStatistics),
-    REB: awayTeamStatistics.REB,
-    AST: awayTeamStatistics.AST,
+    PTS: sumNumbers(awayPTSQ1, awayPTSQ2, awayPTSQ3, awayPTSQ4),
+    REB: awayREB,
+    AST: awayAST,
   };
   const combinedStats = {
     athlete: selectedAthleteGameStats,

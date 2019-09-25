@@ -95,7 +95,7 @@ class GameStats extends PureComponent {
               selectedGameStatsId={selectedGameStatsId}
               selectedAthleteGameStats={athleteGameStats[selectedGameStatsId]}
             />
-            <GameTeamStats selectedGameStats={selectedGameStats} />
+            <GameTeamStats {...selectedGameStats} />
           </SwipeableViews>
       </Grid>
     );

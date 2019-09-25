@@ -85,7 +85,10 @@ const updateBarValues = (
   };
 };
 
+const sumNumbers = (...args) => args.reduce((total, number) => total + number, 0);
+
 export {
   calculateStatAverages,
   updateBarValues,
+  sumNumbers,
 };

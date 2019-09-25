@@ -83,25 +83,15 @@ const lineChartOptions = {
 const GameTeamStatsBoxChart = memo(({
   homeTeamId,
   awayTeamId,
-  homeTeamStatistics,
-  awayTeamStatistics,
+  homeTeamPointsByQuarter,
+  awayTeamPointsByQuarter,
 }) => {
   const lineChartLabels = [homeTeamId, awayTeamId];
   const lineChartData = populateLineChartData(
     homeTeamId,
     awayTeamId,
-    [
-      homeTeamStatistics.PTS_QTR1,
-      homeTeamStatistics.PTS_QTR2,
-      homeTeamStatistics.PTS_QTR3,
-      homeTeamStatistics.PTS_QTR4,
-    ],
-    [
-      awayTeamStatistics.PTS_QTR1,
-      awayTeamStatistics.PTS_QTR2,
-      awayTeamStatistics.PTS_QTR3,
-      awayTeamStatistics.PTS_QTR4,
-    ],
+    homeTeamPointsByQuarter,
+    awayTeamPointsByQuarter,
   );
 
   return (

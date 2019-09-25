@@ -37,15 +37,6 @@ const GameAthleteStatsRadar = memo(({
     AST: 0,
   };
 
-  console.log({
-    statsTypes,
-    athleteStats,
-    homeTeamStats,
-    awayTeamStats,
-    homeTeamColors,
-    awayTeamColors,
-  });
-
   statsTypes.forEach((key) => {
     if (homeTeamStats[key] > domain[key]) {
       domain[key] = homeTeamStats[key];
@@ -81,8 +72,6 @@ const GameAthleteStatsRadar = memo(({
   ].sort((a, b) => {
     return b.PTS - a.PTS;
   });
-
-  console.log('DATA', DATA);
 
   return (
     <Zoom in timeout={2250}>

@@ -41,7 +41,7 @@ const styles = {
   },
 };
 
-const GameTeamStats = memo(({
+const GameTeamStatsBreakdown = memo(({
   homeTeamId,
   awayTeamId,
   homeTeamStatistics,
@@ -99,4 +99,4 @@ const GameTeamStats = memo(({
   );
 });
 
-export default GameTeamStats;
+export default GameTeamStatsBreakdown;
