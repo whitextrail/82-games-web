@@ -12,6 +12,9 @@ import {
   authenticateUser,
   purchaseVoucher,
   logOutUser,
+  fetchTeams,
+  fetchTeamGames,
+  fetchAthlete,
 } from '../../state/actions';
 import { Nav } from './Nav';
 import VoucherDialog from '../presentational/voucher/VoucherDialog';
@@ -25,6 +28,15 @@ const dialogTypes = {
 };;
 
 class App extends PureComponent {
+  constructor(props) {
+    super(props);
+
+    props.fetchTeams();
+    props.fetchTeamGames();
+    props.fetchAthlete();
+  }
+
+
   state = {
     currentDialogType: dialogTypes.NONE,
   };
@@ -95,4 +107,7 @@ export default connect(mapStateToProps, {
   authenticateUser,
   purchaseVoucher,
   logOutUser,
+  fetchTeams,
+  fetchTeamGames,
+  fetchAthlete,
 })(App);

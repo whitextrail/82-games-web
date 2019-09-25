@@ -10,10 +10,7 @@ import {
   Redirect,
 } from 'react-router-dom';
 import {
-  fetchTeams,
-  fetchTeamGames,
   selectGameStatusId,
-  fetchAthlete,
   selectGameId,
 } from '../../state/actions';
 import { Grid } from '@material-ui/core';
@@ -23,14 +20,6 @@ import NavMenu from '../presentational/nav/NavMenu';
 import Progress from '../presentational/reusable/Progress';
 
 class GamesContainer extends PureComponent {
-  constructor(props) {
-    super(props);
-
-    props.fetchTeams();
-    props.fetchTeamGames();
-    props.fetchAthlete();
-  }
-
   selectGameStatus = ({ currentTarget: { id } }) => this.props.history.push(`/games/${id}`);
 
   selectGameFromList = (statusId) => (
@@ -141,9 +130,6 @@ const mapStateToProps = ({
 });
 
 export default withRouter(connect(mapStateToProps, {
-  fetchTeams,
-  fetchTeamGames,
   selectGameStatusId,
-  fetchAthlete,
   selectGameId,
 })(GamesContainer));
