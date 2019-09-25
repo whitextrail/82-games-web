@@ -1,13 +1,14 @@
-import React, { memo } from 'react';
+import React, { PureComponent } from 'react';
 import {
   Grid,
   Typography,
 } from '@material-ui/core';
+import { KeyboardArrowLeftSharp } from '@material-ui/icons';
 import avatar from '../../assets/img/sdin.png';
-import AthletesHeader from '../presentational/athletes/AthletesHeader';
 import AthleteCoreStatsComparison from '../presentational/athletes/CoreStatsComparison';
 import AthletePersonalStats from '../presentational/athletes/PersonalStats';
 import AthleteCarousel from '../presentational/athletes/Carousel';
+import NavBar from '../presentational/nav/NavBar';
 
 const styles = {
   container: {
@@ -49,27 +50,45 @@ const styles = {
   },
 };
 
-const Athletes = memo(() => (
-  <Grid container direction="column">
-    <AthletesHeader />
-    <Grid container direction="column" style={styles.container}>
-      <Grid container style={styles.backgroundContainer}>
-        <Grid container direction="column" style={styles.imgTextContainer}>
-          <Typography variant="h5" color="secondary" align="left" style={styles.imgText}>#8</Typography>
-          <Typography variant="h5" color="secondary" align="left" style={styles.imgText}>SPENCER</Typography>
-          <Typography variant="h5" color="secondary" align="left" style={styles.imgText}>DINWIDDIE</Typography>
-        </Grid>
-        <Grid container justify="flex-end" style={styles.imgContainer}>
-          <img src={avatar} style={styles.img} alt="Spencer Dinwiddie" />
+const navBarStyleClasses = {
+  colorDefault: {
+    backgroundColor: '#000000',
+    color: '#FFF',
+  },
+};
+
+class Athletes extends PureComponent {
+  goBackRoute = () => this.props.history.goBack()
+
+  render = () => {
+
+    return (
+      <Grid container direction="column">
+        <NavBar
+          icon={<KeyboardArrowLeftSharp />}
+          iconButtonClickHandler={this.goBackRoute}
+          styleClasses={navBarStyleClasses}
+        />
+        <Grid container direction="column" style={styles.container}>
+          <Grid container style={styles.backgroundContainer}>
+            <Grid container direction="column" style={styles.imgTextContainer}>
+              <Typography variant="h5" color="secondary" align="left" style={styles.imgText}>#8</Typography>
+              <Typography variant="h5" color="secondary" align="left" style={styles.imgText}>SPENCER</Typography>
+              <Typography variant="h5" color="secondary" align="left" style={styles.imgText}>DINWIDDIE</Typography>
+            </Grid>
+            <Grid container justify="flex-end" style={styles.imgContainer}>
+              <img src={avatar} style={styles.img} alt="Spencer Dinwiddie" />
+            </Grid>
+          </Grid>
+          <Grid container alignItems="center" direction="column" style={styles.statsContainer}>
+            <AthletePersonalStats />
+            <AthleteCarousel />
+            <AthleteCoreStatsComparison />
+          </Grid>
         </Grid>
       </Grid>
-      <Grid container alignItems="center" direction="column" style={styles.statsContainer}>
-        <AthletePersonalStats />
-        <AthleteCarousel />
-        <AthleteCoreStatsComparison />
-      </Grid>
-    </Grid>
-  </Grid>
-));
+    );
+  }
+}
 
 export default Athletes;
