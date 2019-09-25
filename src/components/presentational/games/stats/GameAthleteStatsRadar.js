@@ -6,10 +6,7 @@ import {
   Zoom,
 } from '@material-ui/core';
 import { RadarChart } from 'react-vis';
-import {
-  primaryColor,
-  teamColors,
-} from '../../../../styles/constants';
+import { primaryColor } from '../../../../styles/constants';
 
 const styles = {
   container: {

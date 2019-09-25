@@ -10,7 +10,7 @@ import {
   KeyboardArrowLeftSharp,
 } from '@material-ui/icons';
 import NavBar from '../../nav/NavBar';
-import Carousel from './header/Carousel';
+import GameStatsHeaderCarousel from './GameStatsHeaderCarousel';
 import Tabs from '../../reusable/Tabs';
 import { primaryColor } from '../../../../styles/constants';
 
@@ -105,7 +105,7 @@ const GameStatsHeader = memo(({
           alignItems="center"
           style={styles.carouselContainer}
         >
-          <Carousel
+          <GameStatsHeaderCarousel
             gamesById={gamesById}
             allGameStatsIds={allGameStatsIds}
             selectedGameStatsId={selectedGameStatsId}

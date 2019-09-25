@@ -4,7 +4,6 @@ import {
   Card,
   Typography,
 } from '@material-ui/core';
-import * as svg from '../../../../assets/svg/index';
 
 const styles = {
   container: {

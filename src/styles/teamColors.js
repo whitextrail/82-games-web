@@ -239,7 +239,7 @@ export default {
       rgba: (opacity = 1) => `rgba(229,95,32,${opacity})`,
     },
   },
-  21: {
+  12: {
     primary: {
       hex: '#E03A3E',
       rgba: (opacity = 1) => `rgba(224,58,62,${opacity})`,
