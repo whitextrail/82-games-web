@@ -79,29 +79,30 @@ const segmentGameIdsByTeamId = gamesById => (
       homeTeamPoints,
     } = value;
 
-    const gameIdsByTeamId = {
-      ...accumulator,
-    };
-
     if (!awayTeamPoints && !homeTeamPoints) {
-      return gameIdsByTeamId;
+      return accumulator;
     }
 
-    if (homeTeamId !== 1 && gameIdsByTeamId[homeTeamId]) {
-      gameIdsByTeamId[homeTeamId].push(gameNumber);
-      sortNumbersAscending(gameIdsByTeamId[homeTeamId]);
-    } else if (homeTeamId !== 1 && !gameIdsByTeamId[homeTeamId]) {
-      gameIdsByTeamId[homeTeamId] = [gameNumber];
-    }
+    const {
+      [homeTeamId]: accHomeTeamId = [],
+      [awayTeamId]: accAwayTeamId = [],
+    } = accumulator;
 
-    if (awayTeamId !== 1 && gameIdsByTeamId[awayTeamId]) {
-      gameIdsByTeamId[awayTeamId].push(gameNumber);
-      sortNumbersAscending(gameIdsByTeamId[awayTeamId]);
-    } else if (awayTeamId !== 1 && !gameIdsByTeamId[awayTeamId]) {
-      gameIdsByTeamId[awayTeamId] = [gameNumber];
-    }
-
-    return gameIdsByTeamId;
+    return {
+      ...accumulator,
+      ...homeTeamId !== 1 && {
+        [homeTeamId]: sortNumbersAscending([
+          ...accHomeTeamId,
+          gameNumber,
+        ]),
+      },
+      ...awayTeamId !== 1 && {
+        [awayTeamId]: sortNumbersAscending([
+          ...accAwayTeamId,
+          gameNumber,
+        ]),
+      },
+    };
   }, {})
 );
 
