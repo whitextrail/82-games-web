@@ -78,10 +78,12 @@ const Nav = memo(({
   // useCallback memoizes the functions below and only update them if the
   // dependencies in the function's 2nd arg change. This is necessary,
   // otherwise memoContext will constantly be re-assigned
-  const toggleMenu = useCallback(() => dispatch({
-        type: actionTypes.TOGGLE_MENU,
-        payload: !state.menuOpen,
-      }), [state.menuOpen]);
+  const toggleMenu = useCallback(() => (
+    dispatch({
+      type: actionTypes.TOGGLE_MENU,
+      payload: !state.menuOpen,
+    })
+  ), [state.menuOpen]);
 
   const selectId = useCallback((id => dispatch({
     type: actionTypes.SELECT_ID,

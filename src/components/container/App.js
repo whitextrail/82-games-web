@@ -14,7 +14,6 @@ import {
   logOutUser,
 } from '../../state/actions';
 import { Nav } from './Nav';
-import NavMenu from '../presentational/nav/NavMenu';
 import VoucherDialog from '../presentational/voucher/VoucherDialog';
 import Games from './Games';
 import Athletes from './Athletes';
@@ -74,14 +73,13 @@ class App extends PureComponent {
 
     return (
       <Grid container direction="column">
-        <CssBaseline />
         <Nav pathname={pathname} showVoucherDialog={this.showVoucherDialog}>
-          <NavMenu />
+          <CssBaseline />
           <Route exact path="/" render={() => <Redirect to="/games" /> } />
           <Route path="/games" component={Games} />
           <Route path="/athletes" component={Athletes} />
+          { this.renderDialog() }
         </Nav>
-        { this.renderDialog() }
       </Grid>
     );
   };
