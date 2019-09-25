@@ -1,13 +1,13 @@
 import { get } from 'axios';
 import {
-  FETCH_GAMES_BY_TEAM_ID,
+  FETCH_TEAM_GAMES,
   SELECT_GAME_STATUS_ID,
   SELECT_GAME_ID,
 } from './util/types';
 import apiEndpoints from './util/apiEndpoints';
 import { actionWrapper } from '../lib/actions';
 
-const fetchTeamGamesActionCreator = actionWrapper({ type: FETCH_GAMES_BY_TEAM_ID });
+const fetchTeamGamesActionCreator = actionWrapper({ type: FETCH_TEAM_GAMES });
 
 const fetchTeamGames = (id = 1) => (
   async (dispatch) => {

@@ -1,5 +1,5 @@
 import {
-  FETCH_GAMES_BY_TEAM_ID,
+  FETCH_TEAM_GAMES,
   SELECT_GAME_STATUS_ID,
   SELECT_GAME_ID,
 } from '../actions/util/types';
@@ -50,7 +50,7 @@ export default (state = gamesStatsState, action) => {
   const { type } = action;
 
   switch (type) {
-    case FETCH_GAMES_BY_TEAM_ID:
+    case FETCH_TEAM_GAMES:
       return evalActionPayload(state, action, fetchTeamGamesReducer);
     case SELECT_GAME_STATUS_ID:
       return evalActionPayload(state, action, selectGameStatusIdReducer);
