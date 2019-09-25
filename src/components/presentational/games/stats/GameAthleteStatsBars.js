@@ -9,35 +9,42 @@ import { primaryColor } from '../../../../styles/constants';
 
 const styles = {
   container: {
-    width: 240,
-    paddingTop: 25,
-  },
-  statsBarContainer: {
-    height: 115,
-    width: 220,
-    paddingBottom: 10,
+    width: 230,
   },
   statsBarInnerContainer: {
-    paddingTop: 5,
-    height: 85,
-    width: 55,
+    height: '100%',
+    width: 50,
+    position: 'relative',
   },
-  statsBarValueLabel: {
+  statsLabelContainer: {
+    bottom: 10,
+    position: 'absolute',
+    height: 35,
+  },
+  statsBarTypeLabel: {
     color: '#FFF',
     fontSize: 12,
   },
+  statsBarValueLabel: {
+    color: '#FFF',
+    fontSize: 14,
+    fontWeight: 600,
+  },
   statsBar: {
-    height: 27,
+    height: 25,
     width: 85,
     borderRadius: 3,
     transform: 'rotate(-90deg)',
     border: '5px solid rgba(0,0,0,0.84)',
+    position: 'absolute',
+    top: 40,
   },
 };
 
 const GameAthleteStatsBars = memo(({
   allStatTypes,
   barValuesByStatType,
+  athleteStatistics,
 }) => {
   const statsBarClasses = makeStyles({
     barColorPrimary: {
@@ -54,30 +61,31 @@ const GameAthleteStatsBars = memo(({
   };
 
   return (
-    <Grid container justify="center" alignItems="center" direction="column" style={styles.container}>
-      <Grid container justify="space-between" alignItems="flex-end" style={styles.statsBarContainer}>
-        {
-          allStatTypes.map((statType) => (
-            <Grid
-              key={statType}
-              container
-              justify="space-between"
-              alignItems="center"
-              direction="column"
-              style={styles.statsBarInnerContainer}
-            >
-              <LinearProgress
-                color="primary"
-                classes={statsBarClassStyles}
-                variant="determinate"
-                value={barValuesByStatType[statType]}
-                style={styles.statsBar}
-              />
-              <Typography variant="body2" style={styles.statsBarValueLabel}>{statType}</Typography>
+    <Grid container justify="center" alignItems="center" style={styles.container}>
+      {
+        allStatTypes.map((statType) => (
+          <Grid
+            key={statType}
+            container
+            justify="center"
+            alignItems="center"
+            direction="column"
+            style={styles.statsBarInnerContainer}
+          >
+            <LinearProgress
+              color="primary"
+              classes={statsBarClassStyles}
+              variant="determinate"
+              value={barValuesByStatType[statType]}
+              style={styles.statsBar}
+            />
+            <Grid container alignItems="center" direction="column" style={styles.statsLabelContainer}>
+              <Typography variant="body2" style={styles.statsBarTypeLabel}>{statType}</Typography>
+              <Typography variant="body2" style={styles.statsBarValueLabel}>{athleteStatistics[statType]}</Typography>
             </Grid>
-          ))
-        }
-      </Grid>
+          </Grid>
+        ))
+      }
     </Grid>
   );
 });

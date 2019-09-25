@@ -2,14 +2,16 @@ import { get } from 'axios';
 import {
   FETCH_GAMES_BY_TEAM_ID,
   FETCH_GAME_STATISTIC_BY_ID,
-  FILTER_GAMES_BY_STATUS_ID,
+  SELECT_GAME_STATUS_ID,
+  SELECT_GAME_ID,
+  SELECT_GAME_STATS_VIEW,
+  SELECT_GAME_STATS_INDEX,
 } from './util/types';
 import apiEndpoints from './util/apiEndpoints';
 import { actionWrapper } from '../lib/actions';
 
 const fetchGamesByTeamIdActionCreator = actionWrapper({ type: FETCH_GAMES_BY_TEAM_ID });
 const fetchGameStatisticByIdActionCreator = actionWrapper({ type: FETCH_GAME_STATISTIC_BY_ID });
-const filterGamesByStatusIdActionCreator = actionWrapper({ type: FILTER_GAMES_BY_STATUS_ID });
 
 const fetchGamesByTeamId = (id = 1) => (
   async (dispatch) => {
@@ -30,25 +32,30 @@ const fetchGameStatisticById = (id) => (
     dispatch(fetchGameStatisticByIdActionCreator());
 
     try {
-      const { data } = await get(`${apiEndpoints.fetchGameStatisticById}/${id}`);
+      const { data } = await get(`${apiEndpoints.fetchGameStatisticById}/${Array.isArray(id) ? id.join(',') : id}`);
 
-      return dispatch(fetchGameStatisticByIdActionCreator({ response: { ...data } }));
+      return dispatch(fetchGameStatisticByIdActionCreator({ response: { data } }));
     } catch ({ response: error }) {
       return dispatch(fetchGameStatisticByIdActionCreator({ error }));
     }
   }
 );
 
-const filterGamesByStatusId = statusId => (
-  (dispatch) => {
-    dispatch(filterGamesByStatusIdActionCreator());
+const selectGameStatusId = statusId => actionWrapper({ type: SELECT_GAME_STATUS_ID })({ response: { statusId } });;
 
-    setTimeout(() => dispatch(filterGamesByStatusIdActionCreator({ response: { statusId } })), 1000);
-  }
+const selectGameId = gameId => actionWrapper({ type: SELECT_GAME_ID })({ response: { gameId } });
+
+const selectGameStatsView = statsView => actionWrapper({ type: SELECT_GAME_STATS_VIEW })({ response: { statsView } });
+
+const selectGameStatsIndex = statsIndex => (
+  actionWrapper({ type: SELECT_GAME_STATS_INDEX })({ response: { statsIndex } })
 );
 
 export {
   fetchGamesByTeamId,
   fetchGameStatisticById,
-  filterGamesByStatusId,
+  selectGameStatusId,
+  selectGameId,
+  selectGameStatsView,
+  selectGameStatsIndex,
 };

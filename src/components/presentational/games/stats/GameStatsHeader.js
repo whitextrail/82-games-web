@@ -21,19 +21,19 @@ const styles = {
   controlsContainer: {
     height: 96,
     width: 375,
-    paddingRight: 5,
+    paddingRight: 10,
   },
   tabsContainer: {
     height: 96,
     width: 72,
-    borderRadius: 0,
+    borderTopLeftRadius: 0,
+    borderBottomLeftRadius: 0,
     backgroundColor: primaryColor,
   },
   carouselContainer: {
     height: 96,
-    width: 288,
+    width: 278,
     backgroundColor: 'rgba(0,0,0,0.24)',
-    borderRadius: 2,
   },
 };
 const tabsIndicatorProps = {
@@ -52,12 +52,15 @@ const navBarStyleClasses = {
 };
 
 const GameStatsHeader = memo(({
+  gameIds,
   navButtonClickHandler,
-  game,
-  teamGames,
-  allStatsTypes,
-  selectedStatsType,
-  selectStatsType,
+  opponentGameIds,
+  gamesWithStats,
+  allGameStatsViews,
+  selectGameStatsIndex,
+  selectedGameStatsIndex,
+  selectGameStatsView,
+  selectedGameStatsView,
 }) => (
   <Grid container direction="column" style={styles.container}>
     <NavBar
@@ -82,9 +85,9 @@ const GameStatsHeader = memo(({
           style={styles.tabsContainer}
         >
           <Tabs
-            onChange={selectStatsType}
-            selectedTabId={selectedStatsType}
-            allTabIds={allStatsTypes}
+            onChange={selectGameStatsView}
+            selectedTabId={selectedGameStatsView}
+            allTabIds={allGameStatsViews}
             tabIcons={{
               player: <FaceSharp />,
               teams: <SupervisedUserCircleSharp />,
@@ -94,14 +97,24 @@ const GameStatsHeader = memo(({
           />
         </Card>
       </Slide>
-      <Grid
-        container
-        justify="flex-start"
-        alignItems="center"
-        style={styles.carouselContainer}
-      >
-        <Carousel gameId={game.id} teamGames={teamGames} />
-      </Grid>
+      <Slide in direction="left" timeout={750}>
+        <Card
+          raised
+          component={Grid}
+          container
+          justify="flex-start"
+          alignItems="center"
+          style={styles.carouselContainer}
+        >
+          <Carousel
+            gameIds={gameIds}
+            selectGameStatsIndex={selectGameStatsIndex}
+            selectedGameStatsIndex={selectedGameStatsIndex}
+            gamesWithStats={gamesWithStats}
+            opponentGameIds={opponentGameIds}
+          />
+        </Card>
+      </Slide>
     </Grid>
   </Grid>
 ));

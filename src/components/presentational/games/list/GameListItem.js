@@ -49,12 +49,13 @@ const materialProps = {
 
 const GameListItem = memo(({
   game: {
+    id,
     gameNumber,
     season,
   },
-  statusId,
   homeTeam,
   awayTeam,
+  selectGameFromList,
 }) => (
   <Grid container direction="column" style={styles.container}>
     <ListItem disableGutters style={styles.listItem}>
@@ -64,10 +65,11 @@ const GameListItem = memo(({
           subheader={season}
           action={(
             <Button
+              id={id}
               variant="contained"
               size="small"
               style={styles.actionButton}
-              href={`/games/${statusId}/${gameNumber}`}
+              onClick={selectGameFromList}
             >
               <MoreHorizSharp />
             </Button>
