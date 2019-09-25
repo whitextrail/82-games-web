@@ -17,7 +17,7 @@ import {
   selectGameStatsIndex,
 } from './gameStats';
 import {
-  fetchAthleteProfileById,
+  fetchAthlete,
 } from './athletes';
 
 export {
@@ -31,5 +31,5 @@ export {
   fetchGameStats,
   selectGameStatsGroup,
   selectGameStatsIndex,
-  fetchAthleteProfileById,
+  fetchAthlete,
 };

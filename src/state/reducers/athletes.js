@@ -1,4 +1,4 @@
-import { FETCH_ATHLETE_PROFILE_BY_ID } from '../actions/util/types';
+import { FETCH_ATHLETE } from '../actions/util/types';
 import {
   evalActionPayload,
   initialStateDecorator,
@@ -11,7 +11,7 @@ const athletesState = initialStateDecorator({
   selectedId: null,
 });
 
-const fetchAthleteProfileByIdReducer = (state, { response }) => {
+const fetchAthleteReducer = (state, { response }) => {
   const {
     entities: { athlete },
     result,
@@ -49,8 +49,8 @@ export default (state = athletesState, action) => {
   const { type } = action;
 
   switch (type) {
-    case FETCH_ATHLETE_PROFILE_BY_ID:
-      return evalActionPayload(state, action, fetchAthleteProfileByIdReducer);
+    case FETCH_ATHLETE:
+      return evalActionPayload(state, action, fetchAthleteReducer);
     default:
       return state;
   }
