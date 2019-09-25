@@ -97,6 +97,7 @@ class GamesContainer extends PureComponent {
                       routeGameId,
                     } = params;
                     const {
+                      gameNumber,
                       homeTeamId,
                       awayTeamId,
                     } = gamesById[routeGameId];
@@ -113,12 +114,11 @@ class GamesContainer extends PureComponent {
                       gameIdsByTeamId[homeTeamId]
                       || gameIdsByTeamId[awayTeamId]
                     );
-                    const parsedRouteGameId = parseInt(routeGameId, 10);
-                    const gameIdsIndex = gameIds.indexOf(parsedRouteGameId);
+                    const gameIdsIndex = gameIds.indexOf(gameNumber);
                     const statsIndexSet = Number.isInteger(selectedGameStatsIndex) && (selectedGameStatsIndex >= 0);
 
                     if (routeGameId !== selectedGameId) {
-                      selectGameIdAction(parsedRouteGameId);
+                      selectGameIdAction(gameNumber);
                     }
 
                     if (!statsIndexSet) {

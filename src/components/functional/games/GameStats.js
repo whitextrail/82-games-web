@@ -27,6 +27,8 @@ const GameStats = memo(({
   selectedGameStatsIndex,
 }) => {
   const gameWithStatsId = gameIds[selectedGameStatsIndex];
+  console.log('gameIds', gameIds);
+  console.log('selectedGameStatsIndex', selectedGameStatsIndex);
   const {
     homeTeamId,
     awayTeamId,
