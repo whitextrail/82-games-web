@@ -28,11 +28,8 @@ const fetchGameStatsReducer = (state, { response }) => {
   } = normalizeGameStatsList(data);
 
   return {
-    byGameStatsId: {
-      ...state.byGameStatsId,
-      ...gameStats
-    },
-    allGameStatsIds: [...state.allGameStatsIds, ...result],
+    byGameStatsId: { ...gameStats },
+    allGameStatsIds: [...result],
     selectedGameStatsId: selectedId,
   };
 };

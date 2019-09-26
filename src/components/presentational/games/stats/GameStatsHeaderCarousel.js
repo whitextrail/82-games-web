@@ -1,4 +1,7 @@
-import React, { memo } from 'react';
+import React, {
+  memo,
+  useEffect,
+} from 'react';
 import {
   Grid,
   Button,
@@ -96,13 +99,14 @@ const GameStatsHeaderCarousel = memo(({
             allGameStatsIds.map((id) => {
               const {
                 arena,
+                gameNumber,
                 localGameDateTime,
               } = gamesById[id];
 
               return (
-                <Grid key={id} container justify="space-around" alignItems="center" direction="column" style={{ height: 66 }}>
+                <Grid key={`gameStats-${id}`} container justify="space-around" alignItems="center" direction="column" style={{ height: 66 }}>
                   <Typography variant="body1" color="secondary" style={{ fontSize: 14, fontWeight: 600 }}>
-                    {`Game ${id}`}
+                    {`Game ${gameNumber}`}
                   </Typography>
                   <Typography variant="body2" color="secondary" style={{ fontSize: 12 }}>
                     {localGameDateTime}
