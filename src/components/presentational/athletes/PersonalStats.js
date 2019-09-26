@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import {
   Grid,
-  Paper,
+  Card,
   Typography,
 } from '@material-ui/core';
 import {
@@ -11,20 +11,10 @@ import {
 } from '@material-ui/icons';
 
 const styles = {
-  paper: {
-    height: 40,
+  card: {
+    maxHeight: 40,
     borderRadius: 5,
-    width: window.innerWidth - 20,
-  },
-  heightInnerContainer: {
-    width: 125,
-    height: '60%',
-    borderRight: '1px solid #A9A9A9',
-  },
-  birthdayInnerContainer: {
-    width: 95,
-    height: '60%',
-    borderLeft: '1px solid #A9A9A9',
+    backgroundColor: '#FFF',
   },
   icon: {
     fontSize: 18,
@@ -42,35 +32,34 @@ const styles = {
   statText: {
     fontWeight: 600,
     fontSize: 12,
-    color: 'rgba(0,0,0,0.54)',
+    color: '#333',
   },
 };
 
 const AthletePersonalStats = memo(() => (
-  <Paper
+  <Card
+    raised
     component={Grid}
     container
-    justify="center"
+    item
+    xs={11}
+    justify="space-around"
     alignItems="center"
-    style={styles.paper}
+    style={styles.card}
   >
-    <Grid container justify="center" alignItems="center">
-      <Grid container justify="center" alignItems="center" style={styles.heightInnerContainer}>
-        <AccessibilityNewSharp style={{ ...styles.icon, ...styles.heightIcon }} />
-        <Typography variant="body2" style={styles.statText}>6'6" (198cm)</Typography>
-      </Grid>
+    <Grid container justify="center" alignItems="center" item xs={12}>
+      <AccessibilityNewSharp style={{ ...styles.icon, ...styles.heightIcon }} />
+      <Typography variant="body2" style={styles.statText}>6'6" (198cm)</Typography>
     </Grid>
-    <Grid container justify="center" alignItems="center">
+    <Grid container justify="center" alignItems="center" item xs={12}>
       <FitnessCenterSharp style={{ ...styles.icon, ...styles.weightIcon }} />
       <Typography variant="body2" style={styles.statText}>210lbs (95kg)</Typography>
     </Grid>
-    <Grid container justify="center" alignItems="center">
-      <Grid container justify="center" alignItems="center" style={styles.birthdayInnerContainer}>
-        <CakeSharp style={{ ...styles.icon, ...styles.birthdayIcon }} />
-        <Typography variant="body2" style={styles.statText}>4/6/93</Typography>
-      </Grid>
+    <Grid container justify="center" alignItems="center" item xs={12}>
+      <CakeSharp style={{ ...styles.icon, ...styles.birthdayIcon }} />
+      <Typography variant="body2" style={styles.statText}>4/6/93</Typography>
     </Grid>
-  </Paper>
+  </Card>
 ));
 
 export default AthletePersonalStats;

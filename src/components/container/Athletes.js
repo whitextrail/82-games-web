@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import {
   Grid,
   Typography,
@@ -6,27 +6,19 @@ import {
 import { connect } from 'react-redux';
 import { KeyboardArrowLeftSharp } from '@material-ui/icons';
 import { fetchAthleteTweets } from '../../state/actions';
-import avatar from '../../assets/img/sdin.png';
-import AthleteCoreStatsComparison from '../presentational/athletes/CoreStatsComparison';
 import AthletePersonalStats from '../presentational/athletes/PersonalStats';
-import AthleteCarousel from '../presentational/athletes/Carousel';
-
+import AthleteCover from '../presentational/athletes/AthleteCover';
+import AthleteTweets from '../presentational/athletes/AthleteTweets';
 import NavBar from '../presentational/nav/NavBar';
 
 const styles = {
   container: {
-    top: 56,
-    position: 'absolute',
     backgroundColor: 'black',
-  },
-  backgroundContainer: {
-    backgroundColor: 'black',
-    height: '40%',
+    height: '40vh',
     position: 'relative',
-    top: 0,
   },
   imgTextContainer: {
-    paddingLeft: 26,
+    left: 26,
     width: 125,
     height: 65,
     backgroundColor: 'transparent',
@@ -37,19 +29,13 @@ const styles = {
     fontWeight: 600,
   },
   img: {
-    width: 305,
-    height: 310,
+    height: '40vh',
+    position: 'absolute',
+    right: 0,
   },
   statsContainer: {
-    paddingTop: 45,
+    height: '60vh',
     width: '100%',
-    backgroundColor: 'transparent',
-    position: 'relative',
-    bottom: 0,
-  },
-  paper: {
-    height: 50,
-    borderRadius: 5,
   },
 };
 
@@ -73,37 +59,34 @@ class Athletes extends PureComponent {
     const {
       byId,
       selectedId,
+      byTweetId,
+      allTweetIds,
     } = this.props;
     const {
       name
-    } =byId[selectedId];
+    } = byId[selectedId];
     const [firstName, lastName] = name.split(' ');
 
     return (
-      <Grid container direction="column">
+      <Fragment>
         <NavBar
           icon={<KeyboardArrowLeftSharp />}
           iconButtonClickHandler={this.goBackRoute}
           styleClasses={navBarStyleClasses}
         />
-        <Grid container direction="column" style={styles.container}>
-          <Grid container style={styles.backgroundContainer}>
-            <Grid container direction="column" style={styles.imgTextContainer}>
-              <Typography variant="h5" color="secondary" align="left" style={styles.imgText}>#8</Typography>
-              <Typography variant="h5" color="secondary" align="left" style={styles.imgText}>{firstName}</Typography>
-              <Typography variant="h5" color="secondary" align="left" style={styles.imgText}>{lastName}</Typography>
-            </Grid>
-            <Grid container justify="flex-end" style={styles.imgContainer}>
-              <img src={avatar} style={styles.img} alt={name} />
-            </Grid>
-          </Grid>
-          <Grid container alignItems="center" direction="column" style={styles.statsContainer}>
-            <AthletePersonalStats />
-            <AthleteCarousel />
-            <AthleteCoreStatsComparison />
-          </Grid>
+        <AthleteCover
+          id={selectedId}
+          firstName={firstName}
+          lastName={lastName}
+        />
+        <Grid container justify="space-around" alignItems="center" direction="column" style={styles.statsContainer}>
+          <AthletePersonalStats />
+          <AthleteTweets
+            byTweetId={byTweetId}
+            allTweetIds={allTweetIds}
+          />
         </Grid>
-      </Grid>
+      </Fragment>
     );
   }
 }
