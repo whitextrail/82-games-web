@@ -1,7 +1,4 @@
-import React, {
-  memo,
-  useEffect,
-} from 'react';
+import React, { memo } from 'react';
 import {
   Grid,
   Button,
