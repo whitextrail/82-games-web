@@ -9,7 +9,6 @@ import React, {
 import {
   LocalPlaySharp,
   EqualizerSharp,
-  StarSharp,
 } from '@material-ui/icons';
 
 const initialState = {
@@ -19,18 +18,13 @@ const initialState = {
       routePath: '/games',
       icon: LocalPlaySharp,
     },
-    athletes: {
-      title: 'Athletes',
-      routePath: '/athletes',
-      icon: StarSharp,
-    },
     leaderboard: {
       title: 'Leaderboard',
       routePath: '/leaderboard',
       icon: EqualizerSharp,
     },
   },
-  allIds: ['games', 'athletes', 'leaderboard'],
+  allIds: ['games', 'leaderboard'],
   selectedId: 'games',
   menuOpen: false,
 };

@@ -1,4 +1,7 @@
-import React, { PureComponent } from 'react';
+import React, {
+  PureComponent,
+  Fragment,
+} from 'react';
 import { connect } from 'react-redux';
 import {
   CssBaseline,
@@ -19,8 +22,8 @@ import {
 import { Nav } from './Nav';
 import VoucherDialog from '../presentational/voucher/VoucherDialog';
 import Games from './Games';
-import Athletes from './Athletes';
 import { setupTronWeb } from '../../util/tronweb';
+import Progress from '../presentational/reusable/Progress';
 
 const dialogTypes = {
   NONE: 0,
@@ -86,14 +89,21 @@ class App extends PureComponent {
       location: { pathname },
     } = this.props;
 
-    return loaded && (
+    return (
       <Grid container direction="column">
         <Nav pathname={pathname} showVoucherDialog={this.showVoucherDialog}>
           <CssBaseline />
-          <Route exact path="/" render={() => <Redirect to="/games" /> } />
-          <Route path="/games" component={Games} />
-          <Route path="/athletes" component={Athletes} />
-          { this.renderDialog() }
+          {
+            loaded
+              ? (
+                <Fragment>
+                  <Route exact path="/" render={() => <Redirect to="/games" /> } />
+                  <Route path="/games" component={Games} />
+                  { this.renderDialog() }
+                </Fragment>
+              )
+              : <Progress />
+          }
         </Nav>
       </Grid>
     );
