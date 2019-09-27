@@ -41,25 +41,21 @@ const styles = {
   },
 };
 
-const GameTeamStats = memo(({
+const GameTeamStatsBreakdown = memo(({
   homeTeamId,
-  homeTeamName,
   awayTeamId,
-  awayTeamName,
   homeTeamStatistics,
   awayTeamStatistics,
 }) => {
-  const homeTeamResourceId = `${homeTeamName}_${homeTeamId}`;
-  const awayTeamResourceId = `${awayTeamName}_${awayTeamId}`;
   const topStatsTypes = ['PTS', 'REB', 'AST'];
   const bottomStatsTypes = ['FG_PCT', 'FT_PCT', 'FG3_PCT'];
   const homeStatStyles = {
     ...styles.text,
-    color: teamColors[homeTeamResourceId].primary.hex,
+    color: teamColors[homeTeamId].primary.hex,
   };
   const awayStatStyles = {
     ...styles.text,
-    color: teamColors[awayTeamResourceId].primary.hex,
+    color: teamColors[awayTeamId].primary.hex,
   };
 
   return (
@@ -103,4 +99,4 @@ const GameTeamStats = memo(({
   );
 });
 
-export default GameTeamStats;
+export default GameTeamStatsBreakdown;

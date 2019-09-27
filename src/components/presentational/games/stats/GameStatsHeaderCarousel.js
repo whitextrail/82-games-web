@@ -11,7 +11,7 @@ import {
   ArrowRightSharp,
 } from '@material-ui/icons';
 import SwipeableViews from 'react-swipeable-views';
-import { primaryColor } from '../../../styles/constants';
+import { primaryColor } from '../../../../styles/constants';
 
 const styles = {
   container: {
@@ -31,20 +31,20 @@ const styles = {
   slide: {
     padding: '0px 10px 0px 10px',
   },
-  swipeButton: {
+  navigateButton: {
     width: 40,
     minWidth: 40,
     backgroundColor: 'transparent',
     height: '100%',
     position: 'absolute',
   },
-  leftSwipeIconContainer: {
+  leftNavigateIconContainer: {
     left: 0,
   },
-  rightSwipeIconContainer: {
+  rightNavigateIconContainer: {
     right: 0,
   },
-  swipeIcon: {
+  navigateIcon: {
     fontSize: 30,
     color: '#FFF',
   },
@@ -56,35 +56,27 @@ const styles = {
   },
 };
 
-const GamesCarousel = memo(({
-  gameIds,
-  gamesWithStats,
-  selectGameStatsIndex,
-  selectedGameStatsIndex,
+const GameStatsHeaderCarousel = memo(({
+  gamesById,
+  allGameStatsIds,
+  selectedGameStatsId,
+  changeSelectedGameStatsId,
 }) => {
-  const mobileStepperClasses = makeStyles({
-    dotActive: {
-      backgroundColor: primaryColor,
-    }
-  })();
+  const indexOfSelectedGameStatsId = allGameStatsIds.indexOf(selectedGameStatsId);
+  const mobileStepperClasses = makeStyles({ dotActive: { backgroundColor: primaryColor } })();
 
-  const handleSwipeButtonClick = ({ currentTarget: { id }}) => {
-    let gameIndex;
+  const navigateLeft = () => {
+    const leftItemIndex = indexOfSelectedGameStatsId - 1;
+    const gameStatsId = allGameStatsIds[(leftItemIndex > 0) ? leftItemIndex : allGameStatsIds.length - 1];
 
-    switch(id) {
-      case 'left':
-        const decremented = selectedGameStatsIndex - 1;
-        gameIndex = decremented >= 0 ? decremented : (gameIds.length - 1);
-        break;
-      case 'right':
-        const incremented = selectedGameStatsIndex + 1;
-        gameIndex = incremented <= (gameIds.length - 1) ? incremented : 0;
-        break;
-      default:
-        break;
-    }
+    return changeSelectedGameStatsId(gameStatsId);
+  };
 
-    return selectGameStatsIndex(gameIndex);
+  const navigateRight = () => {
+    const rightItemIndex = indexOfSelectedGameStatsId - 1;
+    const gameStatsId = allGameStatsIds[(rightItemIndex < allGameStatsIds.length) ? rightItemIndex : 0];
+
+    return changeSelectedGameStatsId(gameStatsId);
   };
 
   return (
@@ -96,23 +88,22 @@ const GamesCarousel = memo(({
         style={styles.carouselContainer}
       >
         <SwipeableViews
-          index={selectedGameStatsIndex}
+          index={indexOfSelectedGameStatsId}
           style={styles.swipe}
           slideStyle={styles.slide}
         >
           {
-            gameIds.map((id) => {
+            allGameStatsIds.map((id) => {
               const {
-                homeTeamName,
-                awayTeamName,
-                localGameDateTime,
                 arena,
-              } = gamesWithStats[id];
+                gameNumber,
+                localGameDateTime,
+              } = gamesById[id];
 
               return (
-                <Grid key={id} container justify="space-around" alignItems="center" direction="column" style={{ height: 66 }}>
+                <Grid key={`gameStats-${id}`} container justify="space-around" alignItems="center" direction="column" style={{ height: 66 }}>
                   <Typography variant="body1" color="secondary" style={{ fontSize: 14, fontWeight: 600 }}>
-                    {`Game ${id} - ${homeTeamName} vs. ${awayTeamName}`}
+                    {`Game ${gameNumber}`}
                   </Typography>
                   <Typography variant="body2" color="secondary" style={{ fontSize: 12 }}>
                     {localGameDateTime}
@@ -125,23 +116,24 @@ const GamesCarousel = memo(({
             })
           }
         </SwipeableViews>
-        <Button style={{ ...styles.swipeButton, ...styles.leftSwipeIconContainer}}>
-          <ArrowLeftSharp id="left" style={styles.swipeIcon} onClick={handleSwipeButtonClick} />
+        <Button style={{ ...styles.navigateButton, ...styles.leftNavigateIconContainer}}>
+          <ArrowLeftSharp id="left" style={styles.navigateIcon} onClick={navigateLeft} />
         </Button>
-        <Button style={{ ...styles.swipeButton, ...styles.rightSwipeIconContainer}}>
-          <ArrowRightSharp id="right" style={styles.swipeIcon} onClick={handleSwipeButtonClick} />
+        <Button style={{ ...styles.navigateButton, ...styles.rightNavigateIconContainer}}>
+          <ArrowRightSharp id="right" style={styles.navigateIcon} onClick={navigateRight} />
         </Button>
         <MobileStepper
           variant="dots"
           position="static"
-          classes={mobileStepperClasses}
-          steps={gameIds.length}
-          activeStep={selectedGameStatsIndex}
+          steps={allGameStatsIds.length}
+          activeStep={indexOfSelectedGameStatsId}
           style={styles.carouselStepper}
+          classes={mobileStepperClasses}
         />
       </Grid>
     </Grid>
   );
 });
 
-export default GamesCarousel;
+export default GameStatsHeaderCarousel;
+

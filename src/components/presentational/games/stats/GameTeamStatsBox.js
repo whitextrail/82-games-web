@@ -4,7 +4,6 @@ import {
   Card,
   Typography,
 } from '@material-ui/core';
-import * as svg from '../../../../assets/svg/index';
 
 const styles = {
   container: {
@@ -57,10 +56,10 @@ const GameTeamStats = memo(({ teamStats, children }) => {
         <Typography variant="body2" align="center" style={styles.statsBoxHeader}>Q4</Typography>
       </Grid>
       {
-        teamStats.map(({ teamName, resourceId, PTS_QTR1, PTS_QTR2, PTS_QTR3, PTS_QTR4 }) => (
-          <Grid key={teamName} container justify="center" alignItems="center" style={styles.statsBoxTeamContainer}>
+        teamStats.map(({ teamId, PTS_QTR1, PTS_QTR2, PTS_QTR3, PTS_QTR4 }) => (
+          <Grid key={teamId} container justify="center" alignItems="center" style={styles.statsBoxTeamContainer}>
             <Grid container justify="center" alignItems="center" style={styles.teamImageContainer}>
-              <img src={svg[resourceId]} alt={teamName} style={styles.teamImage} />
+              {/* <img src={svg[teamId]} alt={teamId} style={styles.teamImage} /> */}
             </Grid>
             <Typography variant="body2" align="center" style={styles.quarterPoints}>{PTS_QTR1}</Typography>
             <Typography variant="body2" align="center" style={styles.quarterPoints}>{PTS_QTR2}</Typography>

@@ -1,5 +1,5 @@
 export default {
-  'Atlanta_22': {
+  22: {
     primary: {
       hex: '#E03A3E',
       rgba: (opacity = 1) => `rgba(225,68,52,${opacity})`,
@@ -9,7 +9,7 @@ export default {
       rgba: (opacity = 1) => `rgba(196,214,0,${opacity})`,
     },
   },
-  'Boston_20': {
+  20: {
     primary: {
       hex: '#007A33',
       rgba: (opacity = 1) => `rgba(0,122,51,${opacity})`,
@@ -19,7 +19,7 @@ export default {
       rgba: (opacity = 1) => `rgba(139,111,78,${opacity})`,
     },
   },
-  'Brooklyn_1': {
+  1: {
     primary: {
       hex: '#000000',
       rgba: (opacity = 1) => `rgba(0,0,0,${opacity})`,
@@ -29,7 +29,7 @@ export default {
       rgba: (opacity = 1) => `rgba(255,255,255,${opacity})`,
     },
   },
-  'Charlotte_17': {
+  17: {
     primary: {
       hex: '#1D1160',
       rgba: (opacity = 1) => `rgba(29,17,96,${opacity})`,
@@ -39,7 +39,7 @@ export default {
       rgba: (opacity = 1) => `rgba(0,120,140,${opacity})`,
     },
   },
-  'Chicago_16': {
+  16: {
     primary: {
       hex: '#CE1141',
       rgba: (opacity = 1) => `rgba(206,17,65,${opacity})`,
@@ -49,7 +49,7 @@ export default {
       rgba: (opacity = 1) => `rgba(0,0,0,${opacity})`,
     },
   },
-  'Cleveland_19': {
+  19: {
     primary: {
       hex: '#6F263D',
       rgba: (opacity = 1) => `rgba(111,38,61,${opacity})`,
@@ -59,7 +59,7 @@ export default {
       rgba: (opacity = 1) => `rgba(4,30,66,${opacity})`,
     },
   },
-  'Dallas_25': {
+  25: {
     primary: {
       hex: '#00538C',
       rgba: (opacity = 1) => `rgba(0,83,188,${opacity})`,
@@ -69,7 +69,7 @@ export default {
       rgba: (opacity = 1) => `rgba(187,196,202,${opacity})`,
     },
   },
-  'Denver_15': {
+  15: {
     primary: {
       hex: '#0E2240',
       rgba: (opacity = 1) => `rgba(13,34,64,${opacity})`,
@@ -79,7 +79,7 @@ export default {
       rgba: (opacity = 1) => `rgba(255,198,39,${opacity})`,
     },
   },
-  'Detroit_10': {
+  10: {
     primary: {
       hex: '#C8102E',
       rgba: (opacity = 1) => `rgba(200,16,46,${opacity})`,
@@ -89,7 +89,7 @@ export default {
       rgba: (opacity = 1) => `rgba(29,66,138,${opacity})`,
     },
   },
-  'Franca_2': {
+  2: {
     primary: {
       hex: '#0072bb',
       rgba: (opacity = 1) => `rgba(0,114,187,${opacity})`,
@@ -99,7 +99,7 @@ export default {
       rgba: (opacity = 1) => `rgba(239,65,53,${opacity})`,
     },
   },
-  'Houston_9': {
+  9: {
     primary: {
       hex: '#CE1141',
       rgba: (opacity = 1) => `rgba(206,17,65,${opacity})`,
@@ -109,7 +109,7 @@ export default {
       rgba: (opacity = 1) => `rgba(6,25,34,${opacity})`,
     },
   },
-  'Indiana_8': {
+  8: {
     primary: {
       hex: '#002D62',
       rgba: (opacity = 1) => `rgba(0,45,98,${opacity})`,
@@ -119,7 +119,7 @@ export default {
       rgba: (opacity = 1) => `rgba(253,187,48,${opacity})`,
     },
   },
-  'Los_Angeles_3': {
+  3: {
     primary: {
       hex: '#C8102E',
       rgba: (opacity = 1) => `rgba(200,16,46,${opacity})`,
@@ -129,7 +129,7 @@ export default {
       rgba: (opacity = 1) => `rgba(29,66,148,${opacity})`,
     },
   },
-  'Los_Angeles_31': {
+  31: {
     primary: {
       hex: '#552583',
       rgba: (opacity = 1) => `rgba(85,37,130,${opacity})`,
@@ -139,7 +139,7 @@ export default {
       rgba: (opacity = 1) => `rgba(253,185,39,${opacity})`,
     },
   },
-  'Memphis_7': {
+  7: {
     primary: {
       hex: '#5D76A9',
       rgba: (opacity = 1) => `rgba(93,118,169,${opacity})`,
@@ -149,7 +149,7 @@ export default {
       rgba: (opacity = 1) => `rgba(18,23,63,${opacity})`,
     },
   },
-  'Miami_21': {
+  21: {
     primary: {
       hex: '#98002E',
       rgba: (opacity = 1) => `rgba(152,0,46,${opacity})`,
@@ -159,7 +159,7 @@ export default {
       rgba: (opacity = 1) => `rgba(249,160,27,${opacity})`,
     },
   },
-  'Milwaukee_28': {
+  28: {
     primary: {
       hex: '#00471B',
       rgba: (opacity = 1) => `rgba(0,71,27,${opacity})`,
@@ -169,7 +169,7 @@ export default {
       rgba: (opacity = 1) => `rgba(240,235,210,${opacity})`,
     },
   },
-  'Minnesota_5': {
+  5: {
     primary: {
       hex: '#0C2340',
       rgba: (opacity = 1) => `rgba(12,35,64,${opacity})`,
@@ -179,7 +179,7 @@ export default {
       rgba: (opacity = 1) => `rgba(35,97,146,${opacity})`,
     },
   },
-  'New_Orleans_11': {
+  11: {
     primary: {
       hex: '#0C2340',
       rgba: (opacity = 1) => `rgba(0,22,65,${opacity})`,
@@ -189,7 +189,7 @@ export default {
       rgba: (opacity = 1) => `rgba(225,58,62,${opacity})`,
     },
   },
-  'New_York_6': {
+  6: {
     primary: {
       hex: '#006BB6',
       rgba: (opacity = 1) => `rgba(0,107,182,${opacity})`,
@@ -199,7 +199,7 @@ export default {
       rgba: (opacity = 1) => `rgba(245,132,38,${opacity})`,
     },
   },
-  'Oklahoma_27': {
+  27: {
     primary: {
       hex: '#007AC1',
       rgba: (opacity = 1) => `rgba(0,125,195,${opacity})`,
@@ -209,7 +209,7 @@ export default {
       rgba: (opacity = 1) => `rgba(239,59,36,${opacity})`,
     },
   },
-  'Orlando_26': {
+  26: {
     primary: {
       hex: '#0077C0',
       rgba: (opacity = 1) => `rgba(0,125,197,${opacity})`,
@@ -219,7 +219,7 @@ export default {
       rgba: (opacity = 1) => `rgba(196,206,211,${opacity})`,
     },
   },
-  'Philadelphia_23': {
+  23: {
     primary: {
       hex: '#006BB6',
       rgba: (opacity = 1) => `rgba(0,107,182,${opacity})`,
@@ -229,7 +229,7 @@ export default {
       rgba: (opacity = 1) => `rgba(237,23,76,${opacity})`,
     },
   },
-  'Phoenix_13': {
+  13: {
     primary: {
       hex: '#1D1160',
       rgba: (opacity = 1) => `rgba(29,17,96,${opacity})`,
@@ -239,7 +239,7 @@ export default {
       rgba: (opacity = 1) => `rgba(229,95,32,${opacity})`,
     },
   },
-  'Portland_21': {
+  12: {
     primary: {
       hex: '#E03A3E',
       rgba: (opacity = 1) => `rgba(224,58,62,${opacity})`,
@@ -249,7 +249,7 @@ export default {
       rgba: (opacity = 1) => `rgba(0,0,0,${opacity})`,
     },
   },
-  'Sacramento_18': {
+  18: {
     primary: {
       hex: '#5A2D81',
       rgba: (opacity = 1) => `rgba(91,43,130,${opacity})`,
@@ -259,7 +259,7 @@ export default {
       rgba: (opacity = 1) => `rgba(99,113,122,${opacity})`,
     },
   },
-  'San_Antonio_24': {
+  24: {
     primary: {
       hex: '#C4CED4',
       rgba: (opacity = 1) => `rgba(196,206,211,${opacity})`,
@@ -269,7 +269,7 @@ export default {
       rgba: (opacity = 1) => `rgba(6,25,34,${opacity})`,
     },
   },
-  'San_Francisco_30': {
+  30: {
     primary: {
       hex: '#1D428A',
       rgba: (opacity = 1) => `rgba(29,66,138,${opacity})`,
@@ -279,7 +279,7 @@ export default {
       rgba: (opacity = 1) => `rgba(255,199,44,${opacity})`,
     },
   },
-  'Toronto_4': {
+  4: {
     primary: {
       hex: '#CE1141',
       rgba: (opacity = 1) => `rgba(206,17,65,${opacity})`,
@@ -289,7 +289,7 @@ export default {
       rgba: (opacity = 1) => `rgba(6,25,34,${opacity})`,
     },
   },
-  'Utah_14': {
+  14: {
     primary: {
       hex: '#002B5C',
       rgba: (opacity = 1) => `rgba(0,43,92,${opacity})`,
@@ -299,7 +299,7 @@ export default {
       rgba: (opacity = 1) => `rgba(0,71,27,${opacity})`,
     },
   },
-  'Washington_29': {
+  29: {
     primary: {
       hex: '#002B5C',
       rgba: (opacity = 1) => `rgba(0,43,92,${opacity})`,

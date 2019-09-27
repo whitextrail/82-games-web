@@ -10,7 +10,7 @@ import {
   KeyboardArrowLeftSharp,
 } from '@material-ui/icons';
 import NavBar from '../../nav/NavBar';
-import Carousel from '../../reusable/Carousel';
+import GameStatsHeaderCarousel from './GameStatsHeaderCarousel';
 import Tabs from '../../reusable/Tabs';
 import { primaryColor } from '../../../../styles/constants';
 
@@ -52,22 +52,21 @@ const navBarStyleClasses = {
 };
 
 const GameStatsHeader = memo(({
-  gameIds,
-  navButtonClickHandler,
-  opponentGameIds,
-  gamesWithStats,
-  allGameStatsViews,
-  selectGameStatsIndex,
-  selectedGameStatsIndex,
-  selectGameStatsView,
-  selectedGameStatsView,
+  goBackRoute,
+  changeGameStatsGroup,
+  gamesById,
+  allGameStatsGroups,
+  selectedGameStatsGroup,
+  allGameStatsIds,
+  selectedGameStatsId,
+  changeSelectedGameStatsId,
 }) => (
   <Grid container direction="column" style={styles.container}>
     <NavBar
       elevation={0}
       icon={<KeyboardArrowLeftSharp styles={iconStyles} />}
       styleClasses={navBarStyleClasses}
-      iconButtonClickHandler={navButtonClickHandler}
+      iconButtonClickHandler={goBackRoute}
     />
     <Grid
       container
@@ -85,9 +84,9 @@ const GameStatsHeader = memo(({
           style={styles.tabsContainer}
         >
           <Tabs
-            onChange={selectGameStatsView}
-            selectedTabId={selectedGameStatsView}
-            allTabIds={allGameStatsViews}
+            onChange={changeGameStatsGroup}
+            selectedTabId={selectedGameStatsGroup}
+            allTabIds={allGameStatsGroups}
             tabIcons={{
               player: <FaceSharp />,
               teams: <SupervisedUserCircleSharp />,
@@ -106,12 +105,11 @@ const GameStatsHeader = memo(({
           alignItems="center"
           style={styles.carouselContainer}
         >
-          <Carousel
-            gameIds={gameIds}
-            selectGameStatsIndex={selectGameStatsIndex}
-            selectedGameStatsIndex={selectedGameStatsIndex}
-            gamesWithStats={gamesWithStats}
-            opponentGameIds={opponentGameIds}
+          <GameStatsHeaderCarousel
+            gamesById={gamesById}
+            allGameStatsIds={allGameStatsIds}
+            selectedGameStatsId={selectedGameStatsId}
+            changeSelectedGameStatsId={changeSelectedGameStatsId}
           />
         </Card>
       </Slide>

@@ -1,4 +1,4 @@
-import { FETCH_ATHLETE_PROFILE_BY_ID } from '../actions/util/types';
+import { FETCH_ATHLETE } from '../actions/util/types';
 import {
   evalActionPayload,
   initialStateDecorator,
@@ -11,20 +11,24 @@ const athletesState = initialStateDecorator({
   selectedId: null,
 });
 
-const fetchAthleteProfileByIdReducer = (state, { response }) => {
+const fetchAthleteReducer = (state, { response }) => {
   const {
     entities: { athlete },
     result,
   } = normalizeAthlete(response);
   const athleteKeys = Object.keys(athlete);
+  const {
+    performanceStatisticsByGameId: performanceStatistics,
+    ...remainingAthleteProps
+  } = athlete[result];
 
   // Remove games that don't have any stats
-  const perfStatsKeys = Object.keys(athlete[result].performanceStatisticsByGameId);
+  const perfStatsKeys = Object.keys(performanceStatistics);
   const filteredPerfStats = perfStatsKeys.reduce((accumulator, gameId) => (
-    athlete[result].performanceStatisticsByGameId[gameId].WL
+    performanceStatistics[gameId].WL
       ? ({
           ...accumulator,
-          [gameId]: { ...athlete[result].performanceStatisticsByGameId[gameId], }
+          [gameId]: { ...performanceStatistics[gameId], }
         })
       : accumulator
   ), {});
@@ -33,8 +37,8 @@ const fetchAthleteProfileByIdReducer = (state, { response }) => {
     byId: {
       ...state.byId,
       [result]: {
-        ...athlete[result],
-        performanceStatisticsByGameId: filteredPerfStats,
+        ...remainingAthleteProps,
+        performanceStatistics: filteredPerfStats,
       },
     },
     allIds: [
@@ -49,8 +53,8 @@ export default (state = athletesState, action) => {
   const { type } = action;
 
   switch (type) {
-    case FETCH_ATHLETE_PROFILE_BY_ID:
-      return evalActionPayload(state, action, fetchAthleteProfileByIdReducer);
+    case FETCH_ATHLETE:
+      return evalActionPayload(state, action, fetchAthleteReducer);
     default:
       return state;
   }

@@ -9,6 +9,7 @@ import {
   primaryColor,
   teamColors,
 } from '../../../../styles/constants';
+import { sumNumbers } from '../../../../util/gameStats';
 
 const styles = {
   container: {
@@ -49,17 +50,62 @@ const styles = {
 
 const GameAthleteStatsComparison = memo(({
   selectedGameStats,
+  selectedAthleteGameStats,
 }) => {
-  const comparisonTypes = ['homeTeam', 'awayTeam', 'athlete'];
+  const {
+    homeTeamStatistics: {
+      PTS_QTR1: homePTSQ1,
+      PTS_QTR2: homePTSQ2,
+      PTS_QTR3: homePTSQ3,
+      PTS_QTR4: homePTSQ4,
+      REB: homeREB,
+      AST: homeAST,
+    },
+    awayTeamStatistics: {
+      PTS_QTR1: awayPTSQ1,
+      PTS_QTR2: awayPTSQ2,
+      PTS_QTR3: awayPTSQ3,
+      PTS_QTR4: awayPTSQ4,
+      REB: awayREB,
+      AST: awayAST,
+    },
+  } = selectedGameStats;
+
+  const homeTeamStats = {
+    PTS: sumNumbers(homePTSQ1, homePTSQ2, homePTSQ3, homePTSQ4),
+    REB: homeREB,
+    AST: homeAST,
+  };
+  const awayTeamStats = {
+    PTS: sumNumbers(awayPTSQ1, awayPTSQ2, awayPTSQ3, awayPTSQ4),
+    REB: awayREB,
+    AST: awayAST,
+  };
+  const combinedStats = {
+    athlete: selectedAthleteGameStats,
+    homeTeam: homeTeamStats,
+    awayTeam: awayTeamStats,
+  };
+  const combinedStatsKeys = Object.keys(combinedStats);
+  const statsTypes = ['PTS', 'REB', 'AST'];
+  const homeTeamColors = teamColors[selectedGameStats.homeTeamId];
+  const awayTeamColors = teamColors[selectedGameStats.awayTeamId];
   const cardColors = {
     athlete: primaryColor,
-    homeTeam: teamColors[`${selectedGameStats.homeTeamName}_${selectedGameStats.homeTeamId}`].primary.hex,
-    awayTeam: teamColors[`${selectedGameStats.awayTeamName}_${selectedGameStats.awayTeamId}`].primary.hex,
+    homeTeam: homeTeamColors.primary.hex,
+    awayTeam: awayTeamColors.primary.hex,
   };
 
   return (
     <Grid container justify="center" alignItems="center" direction="column" style={styles.container}>
-      <GameAthleteStatsRadar selectedGameStats={selectedGameStats} />
+      <GameAthleteStatsRadar
+        statsTypes={statsTypes}
+        athleteStats={selectedAthleteGameStats}
+        homeTeamStats={homeTeamStats}
+        awayTeamStats={awayTeamStats}
+        homeTeamColors={homeTeamColors}
+        awayTeamColors={awayTeamColors}
+      />
       <Grid
         container
         justify="space-around"
@@ -67,25 +113,22 @@ const GameAthleteStatsComparison = memo(({
         style={{ height: 115 }}
       >
         {
-          comparisonTypes.map((comparisonType) => {
-            const { statsKeys } = selectedGameStats;
-            const name = selectedGameStats[`${comparisonType}Name`].toUpperCase();
-            const comparisonStats = selectedGameStats[`${comparisonType}Statistics`];
+          combinedStatsKeys.map((key) => {
+            const stats = combinedStats[key];
             const {
               card,
-              cardName,
               statsContainer,
               statValue,
               statType,
             } = styles;
             const cardStyle = {
               ...card,
-              backgroundColor: cardColors[comparisonType],
+              backgroundColor: cardColors[key],
             };
 
             return (
               <Card
-                key={comparisonType}
+                key={key}
                 raised
                 component={Grid}
                 container
@@ -94,13 +137,12 @@ const GameAthleteStatsComparison = memo(({
                 direction="column"
                 style={cardStyle}
               >
-                <Typography variant="body2" style={cardName}>{name}</Typography>
                 <Grid container justify="center" alignItems="center" style={statsContainer}>
                   {
-                    statsKeys.map((key) => (
-                      <Grid key={key} container justify="center" alignItems="center" direction="column" style={{ width: 30 }}>
-                        <Typography variant="body2" style={statValue}>{comparisonStats[key]}</Typography>
-                        <Typography variant="body2" style={statType}>{key}</Typography>
+                    statsTypes.map((type) => (
+                      <Grid key={type} container justify="center" alignItems="center" direction="column" style={{ width: 30 }}>
+                        <Typography variant="body2" style={statValue}>{stats[type]}</Typography>
+                        <Typography variant="body2" style={statType}>{type}</Typography>
                       </Grid>
                     ))
                   }

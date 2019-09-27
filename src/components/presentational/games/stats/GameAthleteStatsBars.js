@@ -44,7 +44,7 @@ const styles = {
 const GameAthleteStatsBars = memo(({
   allStatTypes,
   barValuesByStatType,
-  athleteStatistics,
+  selectedAthleteGameStats,
 }) => {
   const statsBarClasses = makeStyles({
     barColorPrimary: {
@@ -81,7 +81,7 @@ const GameAthleteStatsBars = memo(({
             />
             <Grid container alignItems="center" direction="column" style={styles.statsLabelContainer}>
               <Typography variant="body2" style={styles.statsBarTypeLabel}>{statType}</Typography>
-              <Typography variant="body2" style={styles.statsBarValueLabel}>{athleteStatistics[statType]}</Typography>
+              <Typography variant="body2" style={styles.statsBarValueLabel}>{selectedAthleteGameStats[statType]}</Typography>
             </Grid>
           </Grid>
         ))

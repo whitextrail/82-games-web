@@ -8,26 +8,28 @@ import {
 } from './teams';
 import {
   fetchTeamGames,
-  fetchGameStatisticById,
   selectGameStatusId,
   selectGameId,
-  selectGameStatsView,
-  selectGameStatsIndex,
 } from './games';
 import {
-  fetchAthleteProfileById,
+  fetchGameStats,
+  changeGameStatsGroup,
+  changeSelectedGameStatsId,
+} from './gameStats';
+import {
+  fetchAthlete,
 } from './athletes';
 
 export {
   authenticateUser,
   logOutUser,
   purchaseVoucher,
+  fetchTeams,
   fetchTeamGames,
-  fetchGameStatisticById,
   selectGameStatusId,
   selectGameId,
-  selectGameStatsView,
-  selectGameStatsIndex,
-  fetchTeams,
-  fetchAthleteProfileById,
+  fetchGameStats,
+  changeGameStatsGroup,
+  changeSelectedGameStatsId,
+  fetchAthlete,
 };
