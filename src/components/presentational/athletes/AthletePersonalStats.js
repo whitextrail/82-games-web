@@ -12,6 +12,7 @@ import {
 
 const styles = {
   card: {
+    height: 40,
     maxHeight: 40,
     borderRadius: 5,
     backgroundColor: '#FFF',

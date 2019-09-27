@@ -1,41 +1,17 @@
-import React, { PureComponent, Fragment } from 'react';
-import {
-  Grid,
-  Typography,
-} from '@material-ui/core';
+import React, { PureComponent } from 'react';
+import { Grid } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { KeyboardArrowLeftSharp } from '@material-ui/icons';
 import { fetchAthleteTweets } from '../../state/actions';
-import AthletePersonalStats from '../presentational/athletes/PersonalStats';
+import AthletePersonalStats from '../presentational/athletes/AthletePersonalStats';
 import AthleteCover from '../presentational/athletes/AthleteCover';
 import AthleteTweets from '../presentational/athletes/AthleteTweets';
 import NavBar from '../presentational/nav/NavBar';
 
 const styles = {
   container: {
-    backgroundColor: 'black',
-    height: '40vh',
-    position: 'relative',
-  },
-  imgTextContainer: {
-    left: 26,
-    width: 125,
-    height: 65,
-    backgroundColor: 'transparent',
-    position: 'absolute',
-  },
-  imgText: {
-    fontSize: 24,
-    fontWeight: 600,
-  },
-  img: {
-    height: '40vh',
-    position: 'absolute',
-    right: 0,
-  },
-  statsContainer: {
-    height: '60vh',
-    width: '100%',
+    height: '100vh',
+    backgroundColor: '#000',
   },
 };
 
@@ -63,12 +39,13 @@ class Athletes extends PureComponent {
       allTweetIds,
     } = this.props;
     const {
-      name
+      name,
+      twitterHandle,
     } = byId[selectedId];
     const [firstName, lastName] = name.split(' ');
 
     return (
-      <Fragment>
+      <Grid container alignItems="center" direction="column" style={styles.container}>
         <NavBar
           icon={<KeyboardArrowLeftSharp />}
           iconButtonClickHandler={this.goBackRoute}
@@ -79,14 +56,13 @@ class Athletes extends PureComponent {
           firstName={firstName}
           lastName={lastName}
         />
-        <Grid container justify="space-around" alignItems="center" direction="column" style={styles.statsContainer}>
-          <AthletePersonalStats />
-          <AthleteTweets
-            byTweetId={byTweetId}
-            allTweetIds={allTweetIds}
-          />
-        </Grid>
-      </Fragment>
+        <AthletePersonalStats />
+        <AthleteTweets
+          twitterHandle={twitterHandle}
+          byTweetId={byTweetId}
+          allTweetIds={allTweetIds}
+        />
+      </Grid>
     );
   }
 }
