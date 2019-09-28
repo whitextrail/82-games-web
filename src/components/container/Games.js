@@ -1,4 +1,7 @@
-import React, { PureComponent } from 'react';
+import React, {
+  PureComponent,
+  Fragment,
+} from 'react';
 import { connect } from 'react-redux';
 import {
   withRouter,
@@ -7,26 +10,16 @@ import {
   Redirect,
 } from 'react-router-dom';
 import {
-  fetchTeams,
-  fetchTeamGames,
   selectGameStatusId,
-  fetchAthlete,
   selectGameId,
 } from '../../state/actions';
 import { Grid } from '@material-ui/core';
 import GameList from '../presentational/games/list/GameList';
 import GameStats from './GameStats';
+import NavMenu from '../presentational/nav/NavMenu';
 import Progress from '../presentational/reusable/Progress';
 
 class GamesContainer extends PureComponent {
-  constructor(props) {
-    super(props);
-
-    props.fetchTeams();
-    props.fetchTeamGames();
-    props.fetchAthlete();
-  }
-
   selectGameStatus = ({ currentTarget: { id } }) => this.props.history.push(`/games/${id}`);
 
   selectGameFromList = (statusId) => (
@@ -58,47 +51,50 @@ class GamesContainer extends PureComponent {
     const showProgress = inProgress || !isFetched;
 
     return (
-      <Grid container direction="column">
-        {
-          showProgress
-            ? <Progress show />
-            : (
-              <Switch>
-                <Route exact path="/games" render={() => <Redirect to="/games/previous" />} />
-                <Route
-                  exact
-                  path="/games/:statusId"
-                  render={({ match: { params } }) => (
-                    <GameList
-                      teamsById={teamsById}
-                      gamesByStatusId={gamesByStatusId}
-                      allGameStatusIds={allGameStatusIds}
-                      athlete={athlete}
-                      statusId={params.statusId}
-                      selectGameStatus={this.selectGameStatus}
-                      selectGameFromList={this.selectGameFromList(params.statusId)}
-                    />
-                  )}
-                />
-                <Route
-                  exact
-                  path="/games/:statusId/:gameId"
-                  render={(routeProps) => {
-                    return (
-                      <GameStats
-                        athlete={athlete}
-                        gamesById={gamesById}
+      <Fragment>
+        <NavMenu />
+        <Grid container direction="column">
+          {
+            showProgress
+              ? <Progress show />
+              : (
+                <Switch>
+                  <Route exact path="/games" render={() => <Redirect to="/games/previous" />} />
+                  <Route
+                    exact
+                    path="/games/:statusId"
+                    render={({ match: { params } }) => (
+                      <GameList
                         teamsById={teamsById}
-                        gameIdsByTeamId={gameIdsByTeamId}
-                        {...routeProps}
+                        gamesByStatusId={gamesByStatusId}
+                        allGameStatusIds={allGameStatusIds}
+                        athlete={athlete}
+                        statusId={params.statusId}
+                        selectGameStatus={this.selectGameStatus}
+                        selectGameFromList={this.selectGameFromList(params.statusId)}
                       />
-                    );
-                  }}
-                />
-              </Switch>
-            )
-        }
-      </Grid>
+                    )}
+                  />
+                  <Route
+                    exact
+                    path="/games/:statusId/:gameId"
+                    render={(routeProps) => {
+                      return (
+                        <GameStats
+                          athlete={athlete}
+                          gamesById={gamesById}
+                          teamsById={teamsById}
+                          gameIdsByTeamId={gameIdsByTeamId}
+                          {...routeProps}
+                        />
+                      );
+                    }}
+                  />
+                </Switch>
+              )
+          }
+        </Grid>
+      </Fragment>
     );
   }
 };
@@ -134,9 +130,6 @@ const mapStateToProps = ({
 });
 
 export default withRouter(connect(mapStateToProps, {
-  fetchTeams,
-  fetchTeamGames,
   selectGameStatusId,
-  fetchAthlete,
   selectGameId,
 })(GamesContainer));

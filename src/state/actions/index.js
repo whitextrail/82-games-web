@@ -16,9 +16,7 @@ import {
   changeGameStatsGroup,
   changeSelectedGameStatsId,
 } from './gameStats';
-import {
-  fetchAthlete,
-} from './athletes';
+import { fetchAthlete } from './athletes';
 
 export {
   authenticateUser,

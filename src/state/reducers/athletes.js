@@ -9,6 +9,9 @@ const athletesState = initialStateDecorator({
   byId: {},
   allIds: [],
   selectedId: null,
+  byTweetId: {},
+  allTweetIds: [],
+  selectedTweetId: null,
 });
 
 const fetchAthleteReducer = (state, { response }) => {

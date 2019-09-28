@@ -9,7 +9,6 @@ import React, {
 import {
   LocalPlaySharp,
   EqualizerSharp,
-  StarSharp,
 } from '@material-ui/icons';
 
 const initialState = {
@@ -19,18 +18,13 @@ const initialState = {
       routePath: '/games',
       icon: LocalPlaySharp,
     },
-    athletes: {
-      title: 'Athletes',
-      routePath: '/athletes',
-      icon: StarSharp,
-    },
     leaderboard: {
       title: 'Leaderboard',
       routePath: '/leaderboard',
       icon: EqualizerSharp,
     },
   },
-  allIds: ['games', 'athletes', 'leaderboard'],
+  allIds: ['games', 'leaderboard'],
   selectedId: 'games',
   menuOpen: false,
 };
@@ -78,10 +72,12 @@ const Nav = memo(({
   // useCallback memoizes the functions below and only update them if the
   // dependencies in the function's 2nd arg change. This is necessary,
   // otherwise memoContext will constantly be re-assigned
-  const toggleMenu = useCallback(() => dispatch({
-        type: actionTypes.TOGGLE_MENU,
-        payload: !state.menuOpen,
-      }), [state.menuOpen]);
+  const toggleMenu = useCallback(() => (
+    dispatch({
+      type: actionTypes.TOGGLE_MENU,
+      payload: !state.menuOpen,
+    })
+  ), [state.menuOpen]);
 
   const selectId = useCallback((id => dispatch({
     type: actionTypes.SELECT_ID,

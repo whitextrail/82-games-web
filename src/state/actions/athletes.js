@@ -1,7 +1,5 @@
 import { get } from 'axios';
-import {
-  FETCH_ATHLETE,
-} from './util/types';
+import { FETCH_ATHLETE } from './util/types';
 import apiEndpoints from './util/apiEndpoints';
 import { actionWrapper } from '../lib/actions';
 

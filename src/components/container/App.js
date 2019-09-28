@@ -1,4 +1,7 @@
-import React, { PureComponent } from 'react';
+import React, {
+  PureComponent,
+  Fragment,
+} from 'react';
 import { connect } from 'react-redux';
 import {
   CssBaseline,
@@ -12,13 +15,15 @@ import {
   authenticateUser,
   purchaseVoucher,
   logOutUser,
+  fetchTeams,
+  fetchTeamGames,
+  fetchAthlete,
 } from '../../state/actions';
 import { Nav } from './Nav';
-import NavMenu from '../presentational/nav/NavMenu';
 import VoucherDialog from '../presentational/voucher/VoucherDialog';
 import Games from './Games';
-import Athletes from './Athletes';
 import { setupTronWeb } from '../../util/tronweb';
+import Progress from '../presentational/reusable/Progress';
 
 const dialogTypes = {
   NONE: 0,
@@ -26,6 +31,15 @@ const dialogTypes = {
 };;
 
 class App extends PureComponent {
+  constructor(props) {
+    super(props);
+
+    props.fetchTeams();
+    props.fetchTeamGames();
+    props.fetchAthlete();
+  }
+
+
   state = {
     currentDialogType: dialogTypes.NONE,
   };
@@ -70,18 +84,27 @@ class App extends PureComponent {
   };
 
   render = () => {
-    const { location: { pathname } } = this.props;
+    const {
+      loaded,
+      location: { pathname },
+    } = this.props;
 
     return (
       <Grid container direction="column">
-        <CssBaseline />
         <Nav pathname={pathname} showVoucherDialog={this.showVoucherDialog}>
-          <NavMenu />
-          <Route exact path="/" render={() => <Redirect to="/games" /> } />
-          <Route path="/games" component={Games} />
-          <Route path="/athletes" component={Athletes} />
+          <CssBaseline />
+          {
+            loaded
+              ? (
+                <Fragment>
+                  <Route exact path="/" render={() => <Redirect to="/games" /> } />
+                  <Route path="/games" component={Games} />
+                  { this.renderDialog() }
+                </Fragment>
+              )
+              : <Progress />
+          }
         </Nav>
-        { this.renderDialog() }
       </Grid>
     );
   };
@@ -89,12 +112,18 @@ class App extends PureComponent {
 
 const mapStateToProps = ({
   user,
+  games,
+  athletes,
 }) => ({
   user,
+  loaded: games.selectedId && athletes.selectedId,
 });
 
 export default connect(mapStateToProps, {
   authenticateUser,
   purchaseVoucher,
   logOutUser,
+  fetchTeams,
+  fetchTeamGames,
+  fetchAthlete,
 })(App);
