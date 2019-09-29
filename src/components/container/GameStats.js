@@ -19,14 +19,28 @@ class GameStats extends PureComponent {
     const {
       gamesById,
       gameIdsByTeamId,
-      match: { params },
+      games: { byStatusId },
+      match: {
+        params: {
+          statusId,
+          gameId,
+        },
+      },
+      history,
     } = props;
-    const parsedRouteGameId = parseInt(params.gameId, 10);
+
+    // Check for invalid status id or game id
+    if (!byStatusId[statusId]) {
+      return history.goBack();
+    }
+
+    const parsedRouteGameId = parseInt(gameId, 10);
     const {
       homeTeamId,
       awayTeamId,
-     } = gamesById[parsedRouteGameId];
+    } = gamesById[parsedRouteGameId];
 
+    // We are not storing Brooklyn games so we're relying on the non-Brooklyn team id to give us the game ids
     props.fetchGameStats(gameIdsByTeamId[awayTeamId] || gameIdsByTeamId[homeTeamId], parsedRouteGameId);
   }
 
@@ -48,7 +62,8 @@ class GameStats extends PureComponent {
       allGameStatsIds,
       selectedGameStatsId,
     } = gameStats;
-    const gameStatsFetched = !selectedGameStatsId;
+    const showPreviousGames = selectedGameStatsId && allGameStatsIds.includes(selectedGameStatsId);
+    const showUpcomingGames = selectedGameStatsId && allGameStatsIds.length && !showPreviousGames;
     const gameStatsGroupIndex = allGameStatsGroups.indexOf(selectedGameStatsGroup);
     const {
       [selectedGameStatsId]: selectedGameStats,
@@ -63,48 +78,64 @@ class GameStats extends PureComponent {
       }
     }), {});
 
-    return gameStatsFetched
-      ? <Progress show />
-      : (
-        <Switch>
-          <Route
-            exact
-            path="/games/previous/:gameId"
-            render={() => (
-              <GameStatsPrevious
-                goBackRoute={this.goBackRoute}
-                changeGameStatsGroup={this.changeGameStatsGroup}
-                gamesById={gamesById}
-                allGameStatsGroups={allGameStatsGroups}
-                selectedGameStatsGroup={selectedGameStatsGroup}
-                allGameStatsIds={allGameStatsIds}
-                selectedGameStatsId={selectedGameStatsId}
-                gameStatsGroupIndex={gameStatsGroupIndex}
-                athleteGameStats={athleteGameStats}
-                otherGameStats={otherGameStats}
-                selectedGameStats={selectedGameStats}
-                changeSelectedGameStatsId={changeSelectedGameStatsIdAction}
-              />
-            )}
-          />
-          <Route
-            exact
-            path="/games/upcoming/:gameId"
-            render={({ match: { params }}) => (
-              <GameStatsUpcoming
-                goBackRoute={this.goBackRoute}
-                gameNumber={gamesById[params.gameId].gameNumber}
-                athleteGameStats={athleteGameStats}
-                byGameStatsId={byGameStatsId}
-              />
-            )}
-          />
-        </Switch>
+    return (
+      selectedGameStatsId
+        ? (
+          <Switch>
+            <Route
+              exact
+              path="/games/previous/:gameId"
+              render={() => (
+                !showPreviousGames
+                  ? <Progress show />
+                  : (
+                    <GameStatsPrevious
+                      changeGameStatsGroup={this.changeGameStatsGroup}
+                      gamesById={gamesById}
+                      allGameStatsGroups={allGameStatsGroups}
+                      selectedGameStatsGroup={selectedGameStatsGroup}
+                      allGameStatsIds={allGameStatsIds}
+                      selectedGameStatsId={selectedGameStatsId}
+                      gameStatsGroupIndex={gameStatsGroupIndex}
+                      otherGameStats={otherGameStats}
+                      selectedGameStats={selectedGameStats}
+                      changeSelectedGameStatsId={changeSelectedGameStatsIdAction}
+                      goBackRoute={this.goBackRoute}
+                      athleteGameStats={athleteGameStats}
+                    />
+                  )
+              )}
+            />
+            <Route
+              exact
+              path="/games/upcoming/:gameId"
+              render={({ match: { params }}) => (
+                !showUpcomingGames
+                  ? <Progress show />
+                  : (
+                    <GameStatsUpcoming
+                      goBackRoute={this.goBackRoute}
+                      athleteGameStats={athleteGameStats}
+                      gameNumber={gamesById[params.gameId].gameNumber}
+                      byGameStatsId={byGameStatsId}
+                    />
+                  )
+              )}
+            />
+          </Switch>
+        )
+        : <Progress show />
     );
   }
 }
 
-const mapStateToProps = ({ gameStats }) => ({ gameStats });
+const mapStateToProps = ({
+  games,
+  gameStats,
+}) => ({
+  games,
+  gameStats,
+});
 
 export default connect(mapStateToProps, {
   fetchGameStats,
