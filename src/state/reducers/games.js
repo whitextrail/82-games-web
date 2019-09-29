@@ -1,7 +1,7 @@
 import {
-  FETCH_GAMES_BY_TEAM_ID,
-  FETCH_GAME_STATISTIC_BY_ID,
-  FILTER_GAMES_BY_STATUS_ID,
+  FETCH_TEAM_GAMES,
+  SELECT_GAME_STATUS_ID,
+  SELECT_GAME_ID,
 } from '../actions/util/types';
 import {
   evalActionPayload,
@@ -9,17 +9,17 @@ import {
 } from '../lib/reducers';
 import { normalizeGameList } from '../lib/games';
 
-const gamesState = initialStateDecorator({
+const gamesStatsState = initialStateDecorator({
   byId: {},
   allIds: [],
   selectedId: null,
   byStatusId: {},
   allStatusIds: [],
   selectedStatusId: null,
-  idsByTeam: {},
+  idsByTeamId: {},
 });
 
-const fetchGamesByTeamIdReducer = (state, { response }) => {
+const fetchTeamGamesReducer = (state, { response }) => {
   const { data } = response;
   const {
     entities: {
@@ -38,43 +38,24 @@ const fetchGamesByTeamIdReducer = (state, { response }) => {
     byStatusId: gamesByStatus,
     allStatusIds: gamesByStatusKeys,
     selectedStatusId: gamesByStatusKeys[0],
-    idsByTeam: gameIdsByTeam,
+    idsByTeamId: gameIdsByTeam,
   };
 };
 
-const fetchGameStatisticByIdReducer = (state, { response }) => {
-  const {
-    id,
-    homeTeamStatistics,
-    awayTeamStatistics,
-  } = response;
+const selectGameIdReducer = (state, { response: { gameId } }) => ({ selectedId: gameId });
 
-  return {
-    byId: {
-      ...state.byId,
-      [id]: {
-        ...state.byId[id],
-        homeTeamStatistics,
-        awayTeamStatistics,
-      }
-    },
-  };
-};
+const selectGameStatusIdReducer = (state, { response: { statusId } }) => ({ selectedStatusId: statusId });
 
-const filterGamesByStatusIdReducer = (state, { response }) => ({
-  selectedStatusId: response.statusId,
-});
-
-export default (state = gamesState, action) => {
+export default (state = gamesStatsState, action) => {
   const { type } = action;
 
   switch (type) {
-    case FETCH_GAMES_BY_TEAM_ID:
-      return evalActionPayload(state, action, fetchGamesByTeamIdReducer);
-    case FETCH_GAME_STATISTIC_BY_ID:
-        return evalActionPayload(state, action, fetchGameStatisticByIdReducer);
-    case FILTER_GAMES_BY_STATUS_ID:
-      return evalActionPayload(state, action, filterGamesByStatusIdReducer);
+    case FETCH_TEAM_GAMES:
+      return evalActionPayload(state, action, fetchTeamGamesReducer);
+    case SELECT_GAME_STATUS_ID:
+      return evalActionPayload(state, action, selectGameStatusIdReducer);
+    case SELECT_GAME_ID:
+      return evalActionPayload(state, action, selectGameIdReducer);
     default:
       return state;
   }

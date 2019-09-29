@@ -11,33 +11,11 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@material-ui/core';
-import {
-  SportsBasketballSharp,
-  EqualizerSharp,
-  StarSharp,
-  CloseSharp,
-} from '@material-ui/icons';
+import { CloseSharp } from '@material-ui/icons';
 import { NavContext } from '../../container/Nav';
 import NavBar from './NavBar';
 import { secondaryTextColor } from '../../../styles/constants';
 import Link from '../reusable/Link';
-
-const navMenuItems = [{
-  id: 'games',
-  title: 'Games',
-  routePath: '/games',
-  icon: SportsBasketballSharp,
-}, {
-  id: 'athletes',
-  title: 'Athletes',
-  routePath: '/athletes',
-  icon: StarSharp,
-}, {
-  id: 'leaderboard',
-  title: 'Leaderboard',
-  routePath: '/leaderboard',
-  icon: EqualizerSharp,
-}];
 
 const styles = {
   navMenu: {
@@ -62,22 +40,23 @@ const NavMenu = memo(() => {
   const {
     state: {
       menuOpen,
+      byId,
+      allIds,
       selectedId,
     },
     toggleMenu,
   } = useContext(NavContext);
 
   return (
-    <Collapse in={menuOpen}>
+    <Collapse in={menuOpen} timeout={500}>
       <NavBar icon={<CloseSharp />} styleClasses={{ colorDefault: { backgroundColor: '#333333'} }} />
       <List style={styles.navMenu}>
-        { navMenuItems.map((menuItem) => {
+        { allIds.map((id) => {
           const {
-            id,
             icon,
             title,
             routePath = '',
-          } = menuItem;
+          } = byId[id];
           const isSelected = id === selectedId;
           const iconElement = createElement(icon, { color: 'secondary' });
 

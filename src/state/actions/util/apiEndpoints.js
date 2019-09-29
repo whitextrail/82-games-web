@@ -4,15 +4,17 @@ import { API_URL } from '../../../config';
 const fetchTeams = `${API_URL}/team`;
 
 // Games
-const fetchGamesByTeamId = `${API_URL}/game/team`;
-const fetchGameStatisticById = `${API_URL}/game/statistic`;
+const fetchTeamGames = `${API_URL}/game/athlete`;
+
+// Game Stats
+const fetchGameStats = `${API_URL}/game/statistic`;
 
 // Athletes
-const fetchAthleteProfileById = `${API_URL}/athlete/profile`;
+const fetchAthlete = `${API_URL}/athlete/profile`;
 
 export default {
   fetchTeams,
-  fetchGamesByTeamId,
-  fetchGameStatisticById,
-  fetchAthleteProfileById,
+  fetchTeamGames,
+  fetchGameStats,
+  fetchAthlete,
 };

@@ -1,26 +1,24 @@
 import { get } from 'axios';
-import {
-  FETCH_ATHLETE_PROFILE_BY_ID,
-} from './util/types';
+import { FETCH_ATHLETE } from './util/types';
 import apiEndpoints from './util/apiEndpoints';
 import { actionWrapper } from '../lib/actions';
 
-const fetchAthleteProfileByIdActionCreator = actionWrapper({ type: FETCH_ATHLETE_PROFILE_BY_ID });
+const fetchAthleteActionCreator = actionWrapper({ type: FETCH_ATHLETE });
 
-const fetchAthleteProfileById = (id = 1) => (
+const fetchAthlete = (id = 1) => (
   async (dispatch) => {
-    dispatch(fetchAthleteProfileByIdActionCreator());
+    dispatch(fetchAthleteActionCreator());
 
     try {
-      const { data } = await get(`${apiEndpoints.fetchAthleteProfileById}/${id}`);
+      const { data } = await get(`${apiEndpoints.fetchAthlete}/${id}`);
 
-      return dispatch(fetchAthleteProfileByIdActionCreator({ response: data }));
+      return dispatch(fetchAthleteActionCreator({ response: data }));
     } catch ({ response: error }) {
-      return dispatch(fetchAthleteProfileByIdActionCreator({ error }));
+      return dispatch(fetchAthleteActionCreator({ error }));
     }
   }
 );
 
 export {
-  fetchAthleteProfileById,
+  fetchAthlete,
 };

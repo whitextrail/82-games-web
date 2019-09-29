@@ -1,39 +1,55 @@
 import { sortNumbersAscending } from './';
 
-const calculateStatAverages = (allStatTypes, statsByGameId) => {
-  const gameIds = Object.keys(statsByGameId);
+const calculateStatAverages = (athleteGameStats) => {
+  const athleteGameIds = Object.keys(athleteGameStats);
 
-  return gameIds.reduce((acc, id, index) => {
-    const stats = statsByGameId[id];
+  return athleteGameIds.reduce((acc, id, index) => {
+    const {
+      MIN,
+      PTS,
+      REB,
+      AST,
+    } = athleteGameStats[id];
+    const newAcc = {
+      MIN: acc.MIN + MIN,
+      PTS: acc.PTS + PTS,
+      REB: acc.REB + REB,
+      AST: acc.AST + AST,
+    };
 
-    return allStatTypes.reduce((acc, type) => {
-      const isLast = index < (gameIds.length - 1);
-      const typeValue = !isLast
-        ? (acc[type] || 0) + stats[type]
-        : (acc[type] + stats[type]) / gameIds.length;
+    if (index === (athleteGameIds.length - 1)) {
+      // Change totals to average values
+      newAcc.MIN = newAcc.MIN / athleteGameIds.length;
+      newAcc.PTS = newAcc.PTS / athleteGameIds.length;
+      newAcc.REB = newAcc.REB / athleteGameIds.length;
+      newAcc.AST = newAcc.AST / athleteGameIds.length;
+    }
 
-      return ({
-        ...acc,
-        [type]: typeValue,
-      });
-    }, {});
-  }, {});
+    return {
+      ...newAcc,
+    };
+  }, {
+    MIN: 0,
+    PTS: 0,
+    REB: 0,
+    AST: 0,
+  });
 };
 
 const updateBarValues = (
-  currentGameStats,
+  selectedAthleteGameStats,
   state,
 ) => {
   const {
     allStatTypes,
     barValuesByStatType,
-    pastAveragesByStatType,
+    otherAveragesByStatType,
   } = state;
 
   const newBarValues = allStatTypes.reduce((acc, statType) => {
     const [numerator, denominator] = sortNumbersAscending([
-      currentGameStats[statType],
-      pastAveragesByStatType[statType]
+      selectedAthleteGameStats[statType],
+      otherAveragesByStatType[statType]
     ]);
     const targetValue = denominator ? (numerator / denominator) * 100 : 0;
     const barValue = barValuesByStatType[statType];
@@ -54,8 +70,8 @@ const updateBarValues = (
   // Check whether all bar and target values are equal
   const barTargetReached = allStatTypes.every((statType) => {
     const [numerator, denominator] = sortNumbersAscending([
-      currentGameStats[statType],
-      pastAveragesByStatType[statType]
+      selectedAthleteGameStats[statType],
+      otherAveragesByStatType[statType]
     ]);
     const targetValue = denominator ? (numerator / denominator) * 100 : 0;
 
@@ -69,7 +85,10 @@ const updateBarValues = (
   };
 };
 
+const sumNumbers = (...args) => args.reduce((total, number) => total + number, 0);
+
 export {
   calculateStatAverages,
   updateBarValues,
+  sumNumbers,
 };

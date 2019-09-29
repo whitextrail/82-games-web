@@ -10,7 +10,7 @@ import {
   KeyboardArrowLeftSharp,
 } from '@material-ui/icons';
 import NavBar from '../../nav/NavBar';
-import Carousel from '../../reusable/Carousel';
+import GameStatsHeaderCarousel from './GameStatsHeaderCarousel';
 import Tabs from '../../reusable/Tabs';
 import { primaryColor } from '../../../../styles/constants';
 
@@ -21,19 +21,19 @@ const styles = {
   controlsContainer: {
     height: 96,
     width: 375,
-    paddingRight: 5,
+    paddingRight: 10,
   },
   tabsContainer: {
     height: 96,
     width: 72,
-    borderRadius: 0,
+    borderTopLeftRadius: 0,
+    borderBottomLeftRadius: 0,
     backgroundColor: primaryColor,
   },
   carouselContainer: {
     height: 96,
-    width: 288,
+    width: 278,
     backgroundColor: 'rgba(0,0,0,0.24)',
-    borderRadius: 2,
   },
 };
 const tabsIndicatorProps = {
@@ -52,19 +52,21 @@ const navBarStyleClasses = {
 };
 
 const GameStatsHeader = memo(({
-  navButtonClickHandler,
-  game,
-  teamGames,
-  allStatsTypes,
-  selectedStatsType,
-  selectStatsType,
+  goBackRoute,
+  changeGameStatsGroup,
+  gamesById,
+  allGameStatsGroups,
+  selectedGameStatsGroup,
+  allGameStatsIds,
+  selectedGameStatsId,
+  changeSelectedGameStatsId,
 }) => (
   <Grid container direction="column" style={styles.container}>
     <NavBar
       elevation={0}
       icon={<KeyboardArrowLeftSharp styles={iconStyles} />}
       styleClasses={navBarStyleClasses}
-      iconButtonClickHandler={navButtonClickHandler}
+      iconButtonClickHandler={goBackRoute}
     />
     <Grid
       container
@@ -82,9 +84,9 @@ const GameStatsHeader = memo(({
           style={styles.tabsContainer}
         >
           <Tabs
-            onChange={selectStatsType}
-            selectedTabId={selectedStatsType}
-            allTabIds={allStatsTypes}
+            onChange={changeGameStatsGroup}
+            selectedTabId={selectedGameStatsGroup}
+            allTabIds={allGameStatsGroups}
             tabIcons={{
               player: <FaceSharp />,
               teams: <SupervisedUserCircleSharp />,
@@ -94,14 +96,23 @@ const GameStatsHeader = memo(({
           />
         </Card>
       </Slide>
-      <Grid
-        container
-        justify="flex-start"
-        alignItems="center"
-        style={styles.carouselContainer}
-      >
-        <Carousel gameId={game.id} teamGames={teamGames} />
-      </Grid>
+      <Slide in direction="left" timeout={750}>
+        <Card
+          raised
+          component={Grid}
+          container
+          justify="flex-start"
+          alignItems="center"
+          style={styles.carouselContainer}
+        >
+          <GameStatsHeaderCarousel
+            gamesById={gamesById}
+            allGameStatsIds={allGameStatsIds}
+            selectedGameStatsId={selectedGameStatsId}
+            changeSelectedGameStatsId={changeSelectedGameStatsId}
+          />
+        </Card>
+      </Slide>
     </Grid>
   </Grid>
 ));

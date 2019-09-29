@@ -11,13 +11,16 @@ import {
   fetchTeams,
 } from './teams';
 import {
-  fetchGamesByTeamId,
-  fetchGameStatisticById,
-  filterGamesByStatusId,
+  fetchTeamGames,
+  selectGameStatusId,
+  selectGameId,
 } from './games';
 import {
-  fetchAthleteProfileById,
-} from './athletes';
+  fetchGameStats,
+  changeGameStatsGroup,
+  changeSelectedGameStatsId,
+} from './gameStats';
+import { fetchAthlete } from './athletes';
 
 export {
   authenticateUser,
@@ -25,9 +28,12 @@ export {
   purchaseVoucher,
   sendPrediction,
   fetchUserPredictions,
-  fetchGamesByTeamId,
-  fetchGameStatisticById,
-  filterGamesByStatusId,
   fetchTeams,
-  fetchAthleteProfileById,
+  fetchTeamGames,
+  selectGameStatusId,
+  selectGameId,
+  fetchGameStats,
+  changeGameStatsGroup,
+  changeSelectedGameStatsId,
+  fetchAthlete,
 };

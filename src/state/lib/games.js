@@ -31,38 +31,36 @@ const normalizeGameList = data => {
 const segmentGamesByStatus = gamesById => (
   reduce(gamesById, (accumulator, value) => {
     const {
-      id,
-      dateTime,
+      seasonYears,
+      homeTeamPoints,
+      awayTeamPoints,
     } = value;
+    const season = `S${seasonYears[0]}-${seasonYears[1]}`;
 
-    // Check whether the current time is before the game's date/time
-    const isUpcoming = moment().isBefore(moment(dateTime));
-    const isLastSeason = moment(dateTime).isBefore('2019-04-11T00:00:00.001Z');
-    const season = isLastSeason ? 'S2018-2019' : 'S2019-2020';
-    const gameNumber = id > 82 ? (id - 82) : id;
+    if (!homeTeamPoints && !awayTeamPoints) {
+      const upcoming = [...accumulator.upcoming];
 
-    const game = {
-      ...value,
-      season,
-      gameNumber,
-    };
+      upcoming.push({
+        season,
+        ...value,
+      });
 
-    if (isUpcoming) {
       return {
         ...accumulator,
-        upcoming: [
-          ...accumulator.upcoming,
-          game,
-        ]
+        upcoming,
       };
     }
 
+    const previous = [...accumulator.previous];
+
+    previous.unshift({
+      season,
+      ...value,
+    });
+
     return {
       ...accumulator,
-      previous: [
-        game,
-        ...accumulator.previous,
-      ]
+      previous,
     };
   }, {
     previous: [],
@@ -71,39 +69,40 @@ const segmentGamesByStatus = gamesById => (
   })
 );
 
-// TODO: Differentiate between "closed" and "live" games
 const segmentGameIdsByTeamId = gamesById => (
   reduce(gamesById, (accumulator, value) => {
     const {
       id,
       homeTeamId,
       awayTeamId,
+      awayTeamPoints,
+      homeTeamPoints,
     } = value;
-    const gameNumber = id > 82 ? (id - 82) : id;
 
-    const gameIdsByTeamId = {
+    if (!awayTeamPoints && !homeTeamPoints) {
+      return accumulator;
+    }
+
+    const {
+      [homeTeamId]: accHomeTeamId = [],
+      [awayTeamId]: accAwayTeamId = [],
+    } = accumulator;
+
+    return {
       ...accumulator,
+      ...homeTeamId !== 1 && {
+        [homeTeamId]: sortNumbersAscending([
+          ...accHomeTeamId,
+          id,
+        ]),
+      },
+      ...awayTeamId !== 1 && {
+        [awayTeamId]: sortNumbersAscending([
+          ...accAwayTeamId,
+          id,
+        ]),
+      },
     };
-
-    if (homeTeamId !== 1) {
-      if (gameIdsByTeamId[homeTeamId]) {
-        gameIdsByTeamId[homeTeamId].push(gameNumber);
-        sortNumbersAscending(gameIdsByTeamId[homeTeamId]);
-      } else {
-        gameIdsByTeamId[homeTeamId] = [gameNumber];
-      }
-    }
-
-    if (awayTeamId !== 1) {
-      if (gameIdsByTeamId[awayTeamId]) {
-        gameIdsByTeamId[awayTeamId].push(gameNumber);
-        sortNumbersAscending(gameIdsByTeamId[awayTeamId]);
-      } else {
-        gameIdsByTeamId[awayTeamId] = [gameNumber];
-      }
-    }
-
-    return gameIdsByTeamId;
   }, {})
 );
 
