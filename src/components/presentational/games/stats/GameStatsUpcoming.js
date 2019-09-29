@@ -19,6 +19,7 @@ const GameStatsUpcoming = memo(({
   goBackRoute,
   gameNumber,
   athleteGameStats,
+  byGameStatsId,
 }) => (
   <Grid
     container
@@ -30,6 +31,10 @@ const GameStatsUpcoming = memo(({
     <GameStatsBanner gameNumber={gameNumber} />
     <GameAthleteStats
       athleteGameStats={athleteGameStats}
+    />
+    <GameTeamStats
+      gameNumber={gameNumber}
+      byGameStatsId={byGameStatsId}
     />
   </Grid>
 ));
