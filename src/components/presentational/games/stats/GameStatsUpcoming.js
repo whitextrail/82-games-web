@@ -2,10 +2,12 @@ import React, { memo } from 'react';
 import { Grid } from '@material-ui/core';
 import GameStatsHeader from './upcoming/GameStatsHeader';
 import GameStatsBanner from './upcoming/GameStatsBanner';
+import GameAthleteStats from './upcoming/GameAthleteStats';
+import GameTeamStats from './upcoming/GameTeamStats';
 
 const styles = {
   container: {
-    background: 'linear-gradient(180deg, rgba(51,51,51,1) 25%, rgba(25,25,25,1) 100%)',
+    background: '#333',
     height: '100vh',
   },
   swipeableViews: {
@@ -16,6 +18,7 @@ const styles = {
 const GameStatsUpcoming = memo(({
   goBackRoute,
   gameNumber,
+  athleteGameStats,
 }) => (
   <Grid
     container
@@ -25,6 +28,9 @@ const GameStatsUpcoming = memo(({
   >
     <GameStatsHeader goBackRoute={goBackRoute} />
     <GameStatsBanner gameNumber={gameNumber} />
+    <GameAthleteStats
+      athleteGameStats={athleteGameStats}
+    />
   </Grid>
 ));
 

@@ -56,7 +56,11 @@ class GameStats extends PureComponent {
     } = byGameStatsId;
     const athleteGameStats = allGameStatsIds.reduce((acc, gameStatId) => ({
       ...acc,
-      [gameStatId]: { ...athlete.performanceStatistics[gameStatId] }
+      [gameStatId]: {
+        ...athlete.performanceStatistics[gameStatId],
+        gameNumber: gamesById[gameStatId].gameNumber,
+        seasonYears: gamesById[gameStatId].seasonYears,
+      }
     }), {});
 
     return gameStatsFetched
@@ -90,6 +94,8 @@ class GameStats extends PureComponent {
               <GameStatsUpcoming
                 goBackRoute={this.goBackRoute}
                 gameNumber={gamesById[params.gameId].gameNumber}
+                athleteGameStats={athleteGameStats}
+                byGameStatsId={byGameStatsId}
               />
             )}
           />
