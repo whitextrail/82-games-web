@@ -22,6 +22,10 @@ const styles = {
   dialogActions: {
     paddingBottom: 10,
   },
+  dialogActionButton: {
+    marginLeft: 10,
+    fontWeight: 'bold',
+  },
 };
 
 export default class ReusableDialog extends PureComponent {
@@ -59,11 +63,25 @@ export default class ReusableDialog extends PureComponent {
   )
 
   static CancelAction = ({ text, onClick, dataTestId }) => (
-    <Button onClick={onClick} data-testid={dataTestId} color="secondary" variant="contained">{text}</Button>
+    <Button
+      onClick={onClick}
+      data-testid={dataTestId}
+      color="secondary"
+      variant="contained"
+      style={styles.dialogActionButton}
+    >
+      {text}
+    </Button>
   )
 
   static ConfirmAction = ({ text, onClick, dataTestId }) => (
-    <Button onClick={onClick} data-testid={dataTestId} color="primary" variant="contained" style={{ marginLeft: 10 }}>
+    <Button
+      onClick={onClick}
+      data-testid={dataTestId}
+      color="primary"
+      variant="contained"
+      style={styles.dialogActionButton}
+    >
       {text}
     </Button>
   )
