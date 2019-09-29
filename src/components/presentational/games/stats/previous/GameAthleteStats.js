@@ -13,7 +13,7 @@ import GameAthleteStatsComparison from './GameAthleteStatsComparison';
 import {
   calculateStatAverages,
   updateBarValues,
-} from '../../../../util/gameStats';
+} from '../../../../../util/gameStats';
 
 const initialState = {
   otherAveragesByStatType: {

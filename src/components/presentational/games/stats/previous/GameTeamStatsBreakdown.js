@@ -3,7 +3,7 @@ import {
   Grid,
   Typography,
 } from '@material-ui/core';
-import { teamColors } from '../../../../styles/constants';
+import { teamColors } from '../../../../../styles/constants';
 
 const styles = {
   container: {

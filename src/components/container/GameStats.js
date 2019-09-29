@@ -1,26 +1,16 @@
 import React, { PureComponent } from 'react';
-import { Grid } from '@material-ui/core';
+import {
+  Switch,
+  Route,
+} from 'react-router-dom';
 import { connect } from 'react-redux';
-import SwipeableViews from 'react-swipeable-views';
 import {
   fetchGameStats,
   changeGameStatsGroup,
   changeSelectedGameStatsId,
 } from '../../state/actions';
-import GameStatsHeader from '../presentational/games/stats/GameStatsHeader';
-import GameAthleteStats from '../presentational/games/stats/GameAthleteStats';
-import GameTeamStats from '../presentational/games/stats/GameTeamStats';
+import GameStatsPrevious from '../presentational/games/stats/GameStatsPrevious';
 import Progress from '../presentational/reusable/Progress';
-
-const styles = {
-  container: {
-    background: 'linear-gradient(180deg, rgba(51,51,51,1) 25%, rgba(25,25,25,1) 100%)',
-    height: '100vh',
-  },
-  swipeableViews: {
-    width: '100vw',
-  },
-};
 
 class GameStats extends PureComponent {
   constructor(props) {
@@ -57,8 +47,8 @@ class GameStats extends PureComponent {
       allGameStatsIds,
       selectedGameStatsId,
     } = gameStats;
-    const showProgress = !selectedGameStatsId;
-    const indexOfGameStatsGroup = allGameStatsGroups.indexOf(selectedGameStatsGroup);
+    const gameStatsFetched = !selectedGameStatsId;
+    const gameStatsGroupIndex = allGameStatsGroups.indexOf(selectedGameStatsGroup);
     const {
       [selectedGameStatsId]: selectedGameStats,
       ...otherGameStats
@@ -68,36 +58,38 @@ class GameStats extends PureComponent {
       [gameStatId]: { ...athlete.performanceStatistics[gameStatId] }
     }), {});
 
-    return showProgress
+    return gameStatsFetched
       ? <Progress show />
       : (
-        <Grid
-          container
-          alignItems="center"
-          direction="column"
-          style={styles.container}
-        >
-          <GameStatsHeader
-            goBackRoute={this.goBackRoute}
-            changeGameStatsGroup={this.changeGameStatsGroup}
-            gamesById={gamesById}
-            allGameStatsGroups={allGameStatsGroups}
-            selectedGameStatsGroup={selectedGameStatsGroup}
-            allGameStatsIds={allGameStatsIds}
-            selectedGameStatsId={selectedGameStatsId}
-            changeSelectedGameStatsId={changeSelectedGameStatsIdAction}
+        <Switch>
+          <Route
+            exact
+            path="/games/previous/:gameId"
+            render={() => (
+              <GameStatsPrevious
+                goBackRoute={this.goBackRoute}
+                changeGameStatsGroup={this.changeGameStatsGroup}
+                gamesById={gamesById}
+                allGameStatsGroups={allGameStatsGroups}
+                selectedGameStatsGroup={selectedGameStatsGroup}
+                allGameStatsIds={allGameStatsIds}
+                selectedGameStatsId={selectedGameStatsId}
+                gameStatsGroupIndex={gameStatsGroupIndex}
+                athleteGameStats={athleteGameStats}
+                otherGameStats={otherGameStats}
+                selectedGameStats={selectedGameStats}
+                changeSelectedGameStatsId={changeSelectedGameStatsIdAction}
+              />
+            )}
           />
-          <SwipeableViews index={indexOfGameStatsGroup} style={styles.swipeableViews}>
-            <GameAthleteStats
-              athleteGameStats={athleteGameStats}
-              otherGameStats={otherGameStats}
-              selectedGameStats={selectedGameStats}
-              selectedGameStatsId={selectedGameStatsId}
-              selectedAthleteGameStats={athleteGameStats[selectedGameStatsId]}
-            />
-            <GameTeamStats {...selectedGameStats} />
-          </SwipeableViews>
-      </Grid>
+          <Route
+            exact
+            path="/games/upcoming/:gameId"
+            render={() => (
+              <div>Upcoming</div>
+            )}
+          />
+        </Switch>
     );
   }
 }

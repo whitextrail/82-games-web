@@ -5,7 +5,7 @@ import {
   CardMedia,
   Typography,
 } from '@material-ui/core';
-import spencerDinwiddie from '../../../../assets/img/spencer_dinwiddie.png';
+import spencerDinwiddie from '../../../../../assets/img/spencer_dinwiddie.png';
 
 const styles = {
   container: {
