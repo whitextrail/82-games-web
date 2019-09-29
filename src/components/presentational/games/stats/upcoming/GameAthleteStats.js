@@ -106,6 +106,7 @@ const GameAthleteStats = memo(({
                     {
                       statsTypes.map(type => (
                         <Typography
+                          key={type}
                           variant="body2"
                           align="center"
                           style={styles.athleteStatsSecondaryText}
@@ -129,6 +130,7 @@ const GameAthleteStats = memo(({
                           {
                             statsTypes.map(type => (
                               <Typography
+                                key={type}
                                 variant="body2"
                                 align="center"
                                 style={styles.athleteStatsSecondaryText}

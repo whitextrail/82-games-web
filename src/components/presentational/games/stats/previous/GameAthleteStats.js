@@ -112,7 +112,6 @@ const GameAthleteStats = memo(({
         />
       </Card>
       <GameAthleteStatsComparison
-        allStatTypes={allStatTypes}
         selectedGameStats={selectedGameStats}
         selectedAthleteGameStats={selectedAthleteGameStats}
       />

@@ -119,7 +119,7 @@ const GameTeamStats = memo(({
           const winPercentage = (WIN / numberOfGames) * 100;
 
           return (
-            <Grid container justify="center" alignItems="center" key={key} style={styles.teamStats}>
+            <Grid key={key} container justify="center" alignItems="center" style={styles.teamStats}>
               <Grid item xs={4} container justify="center" alignItems="center" style={{ position: 'relative' }}>
                 <img src={jerseys[teamResourceId]} style={styles.jersey} alt={teamResourceId} />
                 <img src={numbers[`number_white_${gameNumber}`]} style={styles.jerseyNumber} alt={teamResourceId} />
