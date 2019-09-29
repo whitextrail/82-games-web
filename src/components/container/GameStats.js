@@ -10,6 +10,7 @@ import {
   changeSelectedGameStatsId,
 } from '../../state/actions';
 import GameStatsPrevious from '../presentational/games/stats/GameStatsPrevious';
+import GameStatsUpcoming from '../presentational/games/stats/GameStatsUpcoming';
 import Progress from '../presentational/reusable/Progress';
 
 class GameStats extends PureComponent {
@@ -85,8 +86,11 @@ class GameStats extends PureComponent {
           <Route
             exact
             path="/games/upcoming/:gameId"
-            render={() => (
-              <div>Upcoming</div>
+            render={({ match: { params }}) => (
+              <GameStatsUpcoming
+                goBackRoute={this.goBackRoute}
+                gameNumber={gamesById[params.gameId].gameNumber}
+              />
             )}
           />
         </Switch>
