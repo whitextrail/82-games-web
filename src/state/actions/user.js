@@ -48,7 +48,7 @@ const purchaseVoucher = (voucherCount = 1) => (
 const sendPrediction = (prediction) => (
   async (dispatch) => {
     dispatch(sendPredictionAction());
-    console.log('Predic', prediction);
+
     try {
       const response = await submitPrediction(prediction);
 

@@ -6,7 +6,7 @@ import {
   evalActionPayload,
   initialStateDecorator,
 } from '../lib/reducers';
-import { normalizeUserPredictionList } from '../lib/user-predictions';
+import { normalizeUserPredictionList } from '../lib/userPredictions';
 
 const userPredictionsState = initialStateDecorator({
   byId: {},

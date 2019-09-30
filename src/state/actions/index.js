@@ -6,7 +6,7 @@ import {
 import {
   sendPrediction,
   fetchUserPredictions,
-} from './user-predictions';
+} from './userPredictions';
 import {
   fetchTeams,
 } from './teams';

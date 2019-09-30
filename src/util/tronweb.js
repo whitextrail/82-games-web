@@ -1,19 +1,26 @@
 import {
-  getContractABI,
-  getContractAddress,
+  getLogicContractAddress,
+  getTokenContractAddress,
+  getLogicContractABI,
+  getTokenContractABI,
 } from './tron-metadata';
 
 let currentUserAddress = '';
-let contract = null;
+let logicContract = null;
+let tokenContract = null;
 
 // Tron hex addresses always starts by '41' on TronWeb, but it starts by '0x' inside the contract
 // So we remove the '0x' prefix and append '41' to match the format in TronWeb
 const convertToHex = (address) => `41${address.substring(2)}`;
 
 const tronWebInitialized = async (onAccountChanged) => {
-  // Setup the contract handler when needed
-  if (!contract) {
-    contract = window.tronWeb.contract(getContractABI(), getContractAddress());
+  // Setup the contract initializers if not yet initialized
+  if (!logicContract) {
+    logicContract = window.tronWeb.contract(getLogicContractABI(), getLogicContractAddress());
+  }
+
+  if (!tokenContract) {
+    tokenContract = window.tronWeb.contract(getTokenContractABI(), getTokenContractAddress());
   }
 
   try {
@@ -21,8 +28,8 @@ const tronWebInitialized = async (onAccountChanged) => {
     const account = await tronWeb.trx.getAccount();
     const balanceInSun = await tronWeb.trx.getBalance();
     const address = tronWeb.address.fromHex(account.address);
-    const voucherBalance = await contract.balanceOf(address).call();
-    const voucherCount = voucherBalance.balance.toNumber();
+    const voucherBalance = await tokenContract.balanceOf(address).call();
+    const voucherCount = voucherBalance.toNumber();
 
     // Update the user redux state only when changes have been detected
     if (address !== currentUserAddress) {
@@ -58,17 +65,25 @@ const setupTronWeb = async (onAccountChanged) => {
 };
 
 const buyVoucher = async (voucherCount) => {
+  // try {
+  //   await logicContract.setTokenContract(getTokenContractAddress()).send();
+  //   // await tokenContract.setLogicContract(getLogicContractAddress()).send();
+  // } catch (err) {
+  //   console.log(err);
+  // };
+  // return;
   try {
-    await contract.buyVoucher().send({
+    await logicContract.buyVoucher(voucherCount).send({
       callValue: 100000000 * voucherCount, // Rate for 1 voucher is currently hardcoded to 100 TRX
       shouldPollResponse: true,
     });
 
     // Get the latest voucherCount from the network
-    const voucherBalance = await contract.balanceOf(currentUserAddress).call();
-    const currentVoucherCount = voucherBalance.balance.toNumber();
+    const voucherBalance = await tokenContract.balanceOf(currentUserAddress).call();
+    const currentVoucherCount = voucherBalance.toNumber();
     return { voucherCount: currentVoucherCount };
   } catch (err) {
+    console.log(err);
     throw err;
   }
 };
@@ -82,7 +97,7 @@ const submitPrediction = async (prediction) => {
       assists,
     } = prediction;
 
-    await contract.submitPrediction(gameId, points, rebounds, assists).send({
+    await logicContract.submitPrediction(1, gameId, points, rebounds, assists).send({
       shouldPollResponse: true,
     });
 
@@ -97,21 +112,21 @@ const getUserPredictions = async () => {
   const { tronWeb } = window;
 
   try {
-    const allEvents = await tronWeb.getEventResult(getContractAddress(), {
-      eventName: 'LogUserPrediction',
+    const allEvents = await tronWeb.getEventResult(getLogicContractAddress(), {
+      eventName: 'Predict',
     });
   
     const userEvents = [];
   
     allEvents.forEach((row) => {
       const { result } = row;
-      const { userAddress } = result;
+      const { player } = result;
   
-      if (tronWeb.address.fromHex(convertToHex(userAddress)) === currentUserAddress) {
+      if (tronWeb.address.fromHex(convertToHex(player)) === currentUserAddress) {
         userEvents.push(result);
       }
     });
-    console.log(userEvents);
+    console.log('Evt', userEvents);
     return userEvents;
   } catch (err) {
     console.log(err);

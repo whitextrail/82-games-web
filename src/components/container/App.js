@@ -60,8 +60,8 @@ class App extends PureComponent {
     }
   };
 
-  // showVoucherDialog = () => this.setState({ currentDialogType: dialogTypes.VOUCHER_DIALOG });
-  showVoucherDialog = () => this.setState({ currentDialogType: dialogTypes.PREDICTION_DIALOG });
+  showVoucherDialog = () => this.setState({ currentDialogType: dialogTypes.VOUCHER_DIALOG });
+  // showVoucherDialog = () => this.setState({ currentDialogType: dialogTypes.PREDICTION_DIALOG });
   hideDialog = () => this.setState({ currentDialogType: dialogTypes.NONE });
 
   renderDialog = () => {

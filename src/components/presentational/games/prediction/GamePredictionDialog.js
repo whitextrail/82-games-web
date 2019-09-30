@@ -106,7 +106,7 @@ const GamePredictionDialog = memo(({
   const [points, updatePoints] = useState(minCount);
   const [rebounds, updateRebounds] = useState(minCount);
   const [assists, updateAssists] = useState(minCount);
-  console.log(userPredictions.byId);
+
   return (
     <Dialog>
       <Dialog.Title>

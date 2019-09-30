@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import user from './user';
-import userPredictions from './user-predictions';
+import userPredictions from './userPredictions';
 import teams from './teams';
 import games from './games';
 import gameStats from './gameStats';
