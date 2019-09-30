@@ -5,7 +5,7 @@ import {
 import GameTeamStatsBox from './GameTeamStatsBox';
 import GameTeamStatsBoxChart from './GameTeamStatsBoxChart';
 import GameTeamStatsBreakdown from './GameTeamStatsBreakdown';
-import { sumNumbers } from '../../../../util/gameStats';
+import { sumNumbers } from '../../../../../util/gameStats';
 
 const styles = {
   container: {

@@ -11,7 +11,7 @@ import {
   ArrowRightSharp,
 } from '@material-ui/icons';
 import SwipeableViews from 'react-swipeable-views';
-import { primaryColor } from '../../../../styles/constants';
+import { primaryColor } from '../../../../../styles/constants';
 
 const styles = {
   container: {
