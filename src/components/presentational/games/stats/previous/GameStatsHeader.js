@@ -9,10 +9,10 @@ import {
   SupervisedUserCircleSharp,
   KeyboardArrowLeftSharp,
 } from '@material-ui/icons';
-import NavBar from '../../nav/NavBar';
+import NavBar from '../../../nav/NavBar';
 import GameStatsHeaderCarousel from './GameStatsHeaderCarousel';
-import Tabs from '../../reusable/Tabs';
-import { primaryColor } from '../../../../styles/constants';
+import Tabs from '../../../reusable/Tabs';
+import { primaryColor } from '../../../../../styles/constants';
 
 const styles = {
   container: {

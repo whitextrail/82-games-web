@@ -49,6 +49,7 @@ class GamesContainer extends PureComponent {
       gameIdsByTeamId,
     } = this.props;
     const showProgress = inProgress || !isFetched;
+    const fallbackRoute = <Redirect to="/games/previous" />;
 
     return (
       <Fragment>
@@ -59,36 +60,38 @@ class GamesContainer extends PureComponent {
               ? <Progress show />
               : (
                 <Switch>
-                  <Route exact path="/games" render={() => <Redirect to="/games/previous" />} />
+                  <Route exact path="/games" render={() => fallbackRoute} />
                   <Route
                     exact
                     path="/games/:statusId"
                     render={({ match: { params } }) => (
-                      <GameList
-                        teamsById={teamsById}
-                        gamesByStatusId={gamesByStatusId}
-                        allGameStatusIds={allGameStatusIds}
-                        athlete={athlete}
-                        statusId={params.statusId}
-                        selectGameStatus={this.selectGameStatus}
-                        selectGameFromList={this.selectGameFromList(params.statusId)}
-                      />
+                      gamesByStatusId[params.statusId]
+                      ? (
+                        <GameList
+                          teamsById={teamsById}
+                          gamesByStatusId={gamesByStatusId}
+                          allGameStatusIds={allGameStatusIds}
+                          athlete={athlete}
+                          statusId={params.statusId}
+                          selectGameStatus={this.selectGameStatus}
+                          selectGameFromList={this.selectGameFromList(params.statusId)}
+                        />
+                      )
+                      : fallbackRoute
                     )}
                   />
                   <Route
                     exact
                     path="/games/:statusId/:gameId"
-                    render={(routeProps) => {
-                      return (
-                        <GameStats
-                          athlete={athlete}
-                          gamesById={gamesById}
-                          teamsById={teamsById}
-                          gameIdsByTeamId={gameIdsByTeamId}
-                          {...routeProps}
-                        />
-                      );
-                    }}
+                    render={routeProps => (
+                      <GameStats
+                        athlete={athlete}
+                        gamesById={gamesById}
+                        teamsById={teamsById}
+                        gameIdsByTeamId={gameIdsByTeamId}
+                        {...routeProps}
+                      />
+                    )}
                   />
                 </Switch>
               )

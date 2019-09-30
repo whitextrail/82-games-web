@@ -13,7 +13,7 @@ import GameAthleteStatsComparison from './GameAthleteStatsComparison';
 import {
   calculateStatAverages,
   updateBarValues,
-} from '../../../../util/gameStats';
+} from '../../../../../util/gameStats';
 
 const initialState = {
   otherAveragesByStatType: {
@@ -112,7 +112,6 @@ const GameAthleteStats = memo(({
         />
       </Card>
       <GameAthleteStatsComparison
-        allStatTypes={allStatTypes}
         selectedGameStats={selectedGameStats}
         selectedAthleteGameStats={selectedAthleteGameStats}
       />

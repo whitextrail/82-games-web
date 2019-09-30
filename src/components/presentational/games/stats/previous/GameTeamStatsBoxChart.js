@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import { Grid } from '@material-ui/core';
 import { Line } from 'react-chartjs-2';
-import { teamColors } from '../../../../styles/constants';
+import { teamColors } from '../../../../../styles/constants';
 
 const styles = {
   lineChartContainer: {

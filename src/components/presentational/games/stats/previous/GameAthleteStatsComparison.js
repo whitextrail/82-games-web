@@ -8,8 +8,8 @@ import GameAthleteStatsRadar from './GameAthleteStatsRadar';
 import {
   primaryColor,
   teamColors,
-} from '../../../../styles/constants';
-import { sumNumbers } from '../../../../util/gameStats';
+} from '../../../../../styles/constants';
+import { sumNumbers } from '../../../../../util/gameStats';
 
 const styles = {
   container: {

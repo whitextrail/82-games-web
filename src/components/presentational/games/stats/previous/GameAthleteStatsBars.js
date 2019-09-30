@@ -5,7 +5,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import { primaryColor } from '../../../../styles/constants';
+import { primaryColor } from '../../../../../styles/constants';
 
 const styles = {
   container: {
