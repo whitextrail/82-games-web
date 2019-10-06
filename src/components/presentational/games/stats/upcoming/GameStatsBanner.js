@@ -4,7 +4,6 @@ import {
   Button,
   Card,
   Typography,
-  CardActions,
 } from '@material-ui/core';
 import signed_sneakers from '../../../../../assets/prizes/signed_sneakers.svg';
 import { primaryColor } from '../../../../../styles/constants';
